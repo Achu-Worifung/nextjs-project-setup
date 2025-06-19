@@ -1,8 +1,9 @@
 'use client'
 import { useState } from "react"
+import Link from "next/link"
 import ProfileBubble from "@/components/ui/profile-bubble"
 import Image from "next/image"
-import { Menu, X } from "lucide-react" // icons for hamburger
+import { Menu, X } from "lucide-react"
 
 import {
   NavigationMenu,
@@ -40,12 +41,11 @@ export default function Navbar() {
               </NavigationMenuItem>
             ))}
             <NavigationMenuItem>
-              <NavigationMenuLink
-                href="/signin"
-                className="bg-transparent text-black hover:bg-black/10"
-              >
-                Sign In
-              </NavigationMenuLink>
+              <Link href="/loginSignin">
+                <NavigationMenuLink className="bg-transparent text-black hover:bg-black/10">
+                  Sign In
+                </NavigationMenuLink>
+              </Link>
             </NavigationMenuItem>
           </NavigationMenuList>
           <ProfileBubble
@@ -71,9 +71,9 @@ export default function Navbar() {
               {label}
             </div>
           ))}
-          <a href="/signin" className="px-2 py-1 hover:bg-black/10 rounded">
+          <Link href="/loginSignin" className="px-2 py-1 hover:bg-black/10 rounded">
             Sign In
-          </a>
+          </Link>
           <div className="mt-4">
             <ProfileBubble
               name="Alan Rivera"
