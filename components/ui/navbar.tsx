@@ -21,15 +21,12 @@ export default function Navbar() {
   return (
     <NavigationMenu className="w-full bg-gradient-to-r from-cyan-100 to-blue-200 px-4 md:px-8 py-4 pt-8">
       <div className="flex w-full items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center gap-4">
+        <Link href="/" className="flex items-center gap-4 cursor-pointer">
           <Image src="/logo.svg" alt="Logo" width={50} height={50} />
           <div className="text-xl md:text-3xl font-bold font-['Philosopher'] text-black">
             Infosys | Booking
           </div>
-        </div>
-
-        {/* Desktop Menu */}
+        </Link>
         <div className="hidden lg:flex items-center gap-10">
           <NavigationMenuList className="flex gap-15 items-center text-black text-lg font-semibold font-['Lato'] md:gap-8">
             {["Flights", "Hotels", "Cars", "MyBooking"].map((label) => (
@@ -48,14 +45,17 @@ export default function Navbar() {
               </Link>
             </NavigationMenuItem>
           </NavigationMenuList>
-          <ProfileBubble
-            name="Alan Rivera"
-            avatarUrl="/demoprofile.jpg"
-            size={50}
-          />
+          <Link href="/profileSetting" className="ml-4">
+            <button className="p-0 bg-transparent border-none">
+              <ProfileBubble
+                name="Alan Rivera"
+                avatarUrl="/demoprofile.jpg"
+                size={50}
+              />
+            </button>
+          </Link>
         </div>
 
-        {/* Mobile menu button */}
         <div className="lg:hidden flex items-center">
           <button onClick={() => setMobileOpen(!mobileOpen)} className="text-black">
             {mobileOpen ? <X size={30} /> : <Menu size={30} />}
@@ -63,7 +63,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu Content */}
       {mobileOpen && (
         <div className="flex flex-col gap-4 mt-4 lg:hidden text-black text-lg font-['Lato']">
           {["Flights", "Hotels", "Cars", "MyBooking"].map((label) => (
@@ -75,15 +74,18 @@ export default function Navbar() {
             Sign In
           </Link>
           <div className="mt-4">
-            <ProfileBubble
-              name="Alan Rivera"
-              avatarUrl="/demoprofile.jpg"
-              size={50}
-            />
+            <Link href="/profilesetting">
+              <button className="p-0 bg-transparent border-none">
+                <ProfileBubble
+                  name="Alan Rivera"
+                  avatarUrl="/demoprofile.jpg"
+                  size={50}
+                />
+              </button>
+            </Link>
           </div>
         </div>
       )}
-
       <NavigationMenuViewport />
     </NavigationMenu>
   )
