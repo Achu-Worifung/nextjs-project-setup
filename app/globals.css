@@ -120,3 +120,19 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Infinite Scroll Animation */
+@keyframes infinite-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@layer utilities {
+  .animate-infinite-scroll {
+    animation: infinite-scroll 30s linear infinite;
+  }
+}
