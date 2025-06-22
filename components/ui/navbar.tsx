@@ -25,6 +25,7 @@ export default function Navbar() {
   const [active, setActive] = useState("Flights") //higlight active section do it later
   const changeNav = (route: string) =>
   {
+    console.log(active)
     setActive(route)
     document.getElementById(route)?.scrollIntoView({
       behavior: "smooth",

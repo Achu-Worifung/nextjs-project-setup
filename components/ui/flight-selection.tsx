@@ -1,12 +1,9 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "@/components/ui/radio-group";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Popover,
   PopoverContent,
@@ -16,15 +13,16 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 
-import { 
-  Search, 
-  Users, 
-  CalendarDays, 
-  PlaneLanding, 
+import {
+  Search,
+  Users,
+  CalendarDays,
+  PlaneLanding,
   PlaneTakeoff,
   ArrowLeftRight,
-  MapPin 
-} from 'lucide-react';
+  MapPin,
+} from "lucide-react";
+import {useRouter} from 'next/navigation'
 
 export function FlightSelection() {
   const [flightType, setFlightType] = useState("round-trip");
@@ -33,19 +31,36 @@ export function FlightSelection() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [travelers, setTravelers] = useState("1 adult, Economy");
-
+ const router = useRouter()
   const handleSwapLocations = () => {
     const temp = from;
     setFrom(to);
     setTo(temp);
   };
 
+
+
+const handleSearch = () => {
+
+  const params = new URLSearchParams({
+    flightType,
+    departDate: departDate ? format(departDate, 'yyyy-MM-dd') : '',
+    returnDate: returnDate ? format(returnDate, 'yyyy-MM-dd') : '',
+    from,
+    to,
+    travelers: String(travelers), 
+  });
+
+  router.push(`/flight-search?${params.toString()}`);
+};
+
+
   return (
     <div className="w-full max-w-6xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
       {/* Flight Type Selection */}
       <div className="mb-6">
-        <RadioGroup 
-          value={flightType} 
+        <RadioGroup
+          value={flightType}
           onValueChange={setFlightType}
           className="flex items-center justify-center gap-8"
         >
@@ -137,7 +152,9 @@ export function FlightSelection() {
                   )}
                 >
                   <CalendarDays className="mr-2 h-4 w-4" />
-                  {departDate ? format(departDate, "MMM dd, yyyy") : "Select date"}
+                  {departDate
+                    ? format(departDate, "MMM dd, yyyy")
+                    : "Select date"}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
@@ -169,7 +186,9 @@ export function FlightSelection() {
                     )}
                   >
                     <CalendarDays className="mr-2 h-4 w-4" />
-                    {returnDate ? format(returnDate, "MMM dd, yyyy") : "Select date"}
+                    {returnDate
+                      ? format(returnDate, "MMM dd, yyyy")
+                      : "Select date"}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
@@ -186,7 +205,12 @@ export function FlightSelection() {
           )}
 
           {/* Travelers & Class */}
-          <div className={cn("lg:col-span-2", flightType !== "round-trip" && "lg:col-span-4")}>
+          <div
+            className={cn(
+              "lg:col-span-2",
+              flightType !== "round-trip" && "lg:col-span-4"
+            )}
+          >
             <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
               <Users className="h-4 w-4 text-pink-500" />
               Travelers & Class
@@ -208,12 +232,11 @@ export function FlightSelection() {
             </select>
           </div>
 
-            <Button
-              className="cursor-pointer bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white h-auto font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 w-fit "
-            >
-              <Search className="h-5 w-5 mr-2" />
-              Search
-            </Button>
+          <Button className="cursor-pointer bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white h-auto font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 w-fit "
+           onClick={handleSearch}>
+            <Search className="h-5 w-5 mr-2" />
+            Search
+          </Button>
         </div>
       </div>
 
@@ -233,7 +256,8 @@ export function FlightSelection() {
                 {city}
               </button>
             ))}
-          </div>        </div>
+          </div>{" "}
+        </div>
       </div>
     </div>
   );
