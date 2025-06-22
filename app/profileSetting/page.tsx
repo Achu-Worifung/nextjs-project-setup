@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-// import { motion } from "framer-motion";
+ import { motion } from "framer-motion";
 import EditProfileForm from "@/components/ui/editProfileForm";
 import NotificationForm from "@/components/ui/notificationForm";
 import SecurityForm from "@/components/ui/securityform";
