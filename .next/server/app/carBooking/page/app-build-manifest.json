@@ -1,0 +1,28 @@
+{
+  "pages": {
+    "/carBooking/page": [
+      "static/chunks/node_modules_next_dist_1a6ee436._.js",
+      "static/chunks/app_favicon_ico_mjs_659ce808._.js",
+      "static/chunks/[root-of-the-server]__9d126714._.css",
+      "static/chunks/node_modules_4b8dc8ae._.js",
+      "static/chunks/_06a03074._.js",
+      "static/chunks/app_layout_tsx_c0237562._.js",
+      "static/chunks/node_modules_@mui_x-telemetry_esm_runtime_get-context_3f741ca9.js",
+      "static/chunks/node_modules_@mui_system_esm_95f63b09._.js",
+      "static/chunks/node_modules_@mui_material_esm_8f572609._.js",
+      "static/chunks/node_modules_@mui_x-date-pickers_esm_453ca51d._.js",
+      "static/chunks/node_modules_@mui_x-date-pickers-pro_esm_3ca65442._.js",
+      "static/chunks/node_modules_@popperjs_core_lib_229f7621._.js",
+      "static/chunks/node_modules_d9282cd6._.js",
+      "static/chunks/_94781c13._.js",
+      "static/chunks/app_carBooking_page_tsx_3a209616._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_fd44f5a4._.js",
+      "static/chunks/node_modules_next_dist_compiled_2ce9398a._.js",
+      "static/chunks/node_modules_next_dist_client_8f19e6fb._.js",
+      "static/chunks/node_modules_next_dist_2ecbf5fa._.js",
+      "static/chunks/node_modules_@swc_helpers_cjs_00636ac3._.js",
+      "static/chunks/_e69f0d32._.js",
+      "static/chunks/_93808211._.js"
+    ]
+  }
+}
