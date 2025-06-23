@@ -1,7 +1,30 @@
+'use client';
 import { Label } from "@/components/ui/label";
 import { MapPin, Calendar, Users, Building2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export function SelectHotel() {
+
+    const [city, setCity] = useState("");
+    const [startDate, setStartDate] = useState<Date| null>(null);
+    const [endDate, setEndDate] = useState<Date| null>(null);
+    const [guests, setGuests] = useState<number>(1);
+    const [rooms, setRooms] = useState<number>(1);
+
+    const router = useRouter();
+    const handleClick = () =>
+    {
+        const params = new URLSearchParams({
+            city,
+            startDate: startDate ? startDate.toISOString().split('T')[0] : '',
+            endDate: endDate ? endDate.toISOString().split('T')[0] : '',
+            guests: String(guests),
+            rooms: String(rooms),
+        });
+        router.push(`/hotel-search?${params.toString()}`);
+    }
+
     return (
         <div className="w-full max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg">
             <div className="mb-8">
@@ -165,7 +188,12 @@ export function SelectHotel() {
 
             {/* Search Button */}
             <div className="flex justify-center">
-                <button className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
+                <button className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+                    onClick={() => {
+                        handleClick();
+                       
+                    }
+                }>
                     Search Hotels
                 </button>
             </div>

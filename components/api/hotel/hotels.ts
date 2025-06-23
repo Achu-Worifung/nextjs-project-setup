@@ -1,11 +1,11 @@
 import Amadeus from "amadeus";
 
 const amadeus = new Amadeus({
-  clientId: process.env.AMADEUS_CLIENT_ID,
-  clientSecret: process.env.AMADEUS_CLIENT_SECRET,
+    clientId: "34I5uNgLLLsHkuNTF27R1knTcTQGZ1Td",
+    clientSecret: "Ky4NJP1yQswXeFKE",
 });
 
-export default async function getHotels({
+export  async function getHotels({
     hotelId,
     adults = 1,
     checkInDate,
@@ -39,3 +39,37 @@ export default async function getHotels({
     throw error;
   }
 }
+ export async function getHotelList({
+  citycode = "NYC",
+  checkinDate = new Date().toISOString().split('T')[0],
+  checkoutDate = new Date(new Date().setDate(new Date().getDate() + 7)).toISOString().split('T')[0],
+  adults = 1,
+  roomQuantity = 1,
+  currency = "USD",
+}: {
+  citycode?: string;
+  checkinDate?: string;
+  checkoutDate?: string;
+  adults?: number;
+  roomQuantity?: number;
+  currency?: string;
+})
+ {
+  try 
+  {
+    const response = await amadeus.shopping.hotelOffers.get({
+      cityCode: citycode,
+      checkInDate: checkinDate,
+      checkOutDate: checkoutDate,
+      adults: adults,
+      roomQuantity: roomQuantity,
+      currency: currency,
+    });
+    console.log("Hotel list response:", response.data);
+    return response.data;
+  } catch(error) 
+  {
+    console.error("Error fetching hotel list:", error);
+    throw error;
+  }
+ }
