@@ -31,49 +31,45 @@ export default function Navbar() {
         </Link>
         <div className="hidden lg:flex items-center gap-10">
           <NavigationMenuList className="flex gap-15 items-center text-black text-lg font-semibold font-['Lato'] md:gap-8">
-  {["Flights", "Hotels", "Cars", "MyBooking"].map((label) => (
-    <NavigationMenuItem key={label}>
-      {label === "MyBooking" ? (
-        <Link href="/mybookings">
-          <NavigationMenuTrigger className="bg-transparent text-black hover:bg-black/10">
-            {label}
-          </NavigationMenuTrigger>
-        </Link>
-      ) : (
-        <>
-          <NavigationMenuTrigger className="bg-transparent text-black hover:bg-black/10">
-            {label}
-          </NavigationMenuTrigger>
-          <NavigationMenuContent className="p-4">{label} Options</NavigationMenuContent>
-        </>
-      )}
-    </NavigationMenuItem>
-  ))}
-  {!isSignedIn && (
-    <NavigationMenuItem>
-      <Link href="/loginSignin">
-        <NavigationMenuLink className="bg-transparent text-black hover:bg-black/10">
-          Login/Sign Up
-        </NavigationMenuLink>
-      </Link>
-    </NavigationMenuItem>
-  )}
-</NavigationMenuList>
-          {isSignedIn && (
-            <Link href="/profileSetting" className="ml-4">
-              <button className="p-0 bg-transparent border-none">
-                <ProfileBubble
-                  name="Alan Rivera"
-                  avatarUrl="/demoprofile.jpg"
-                  size={50}
-                />
-              </button>
-            </Link>
-          )}
+            {["Flights", "Hotels", "Cars", "MyBooking"].map((label) => (
+              <NavigationMenuItem key={label}>
+                {label === "MyBooking" ? (
+                  <NavigationMenuLink
+                    href="/mybookings"
+                    className="bg-transparent text-black hover:bg-black/10"
+                  >
+                    {label}
+                  </NavigationMenuLink>
+                ) : label === "Cars" ? (
+                  <NavigationMenuLink
+                    href="/carBooking"
+                    className="bg-transparent text-black hover:bg-black/10"
+                  >
+                    {label}
+                  </NavigationMenuLink>
+                ) : (
+                  <>
+                    <NavigationMenuTrigger className="bg-transparent text-black hover:bg-black/10">
+                      {label}
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent className="p-4">{label} Options</NavigationMenuContent>
+                  </>
+                )}
+              </NavigationMenuItem>
+            ))}
+            {!isSignedIn && (
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  href="/loginSignin"
+                  className="bg-transparent text-black hover:bg-black/10"
+                >
+                  Login/Sign Up
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            )}
+          </NavigationMenuList>
         </div>
-
-
-         <div className="lg:hidden flex items-center">
+        <div className="lg:hidden flex items-center">
           <button onClick={() => setMobileOpen(!mobileOpen)} className="text-black">
             {mobileOpen ? <X size={30} /> : <Menu size={30} />}
           </button>
@@ -84,19 +80,27 @@ export default function Navbar() {
   <div className="flex flex-col gap-4 mt-4 lg:hidden text-black text-lg font-['Lato']">
     {["Flights", "Hotels", "Cars", "MyBooking"].map((label) =>
       label === "MyBooking" ? (
-        <Link
-          key={label}
-          href="/mybookings"
-          className="px-2 py-1 hover:bg-black/10 rounded"
-        >
-          {label}
-        </Link>
-      ) : (
-        <div key={label} className="px-2 py-1 hover:bg-black/10 rounded">
-          {label}
-        </div>
-      )
-    )}
+    <Link
+      key={label}
+      href="/mybookings"
+      className="px-2 py-1 hover:bg-black/10 rounded"
+    >
+      {label}
+    </Link>
+  ) : label === "Cars" ? (
+    <Link
+      key={label}
+      href="/carBooking"
+      className="px-2 py-1 hover:bg-black/10 rounded"
+    >
+      {label}
+    </Link>
+  ) : (
+    <div key={label} className="px-2 py-1 hover:bg-black/10 rounded">
+      {label}
+    </div>
+  )
+)}
     {!isSignedIn && (
       <Link href="/loginSignin" className="px-2 py-1 hover:bg-black/10 rounded">
         Sign In
