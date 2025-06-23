@@ -64,10 +64,9 @@ export function SelectVehicle() {
       </div>
 
       {/* Vehicle Selection Section */}
-      <div className="mb-6">
+      {/* <div className="mb-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Select Vehicle Type</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Economy */}
           <div className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 hover:shadow-md transition-all cursor-pointer">
             <div className="text-center">
               <div className="text-2xl mb-2">🚗</div>
@@ -77,7 +76,6 @@ export function SelectVehicle() {
             </div>
           </div>
 
-          {/* SUV */}
           <div className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 hover:shadow-md transition-all cursor-pointer">
             <div className="text-center">
               <div className="text-2xl mb-2">🚙</div>
@@ -87,7 +85,6 @@ export function SelectVehicle() {
             </div>
           </div>
 
-          {/* Luxury */}
           <div className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 hover:shadow-md transition-all cursor-pointer">
             <div className="text-center">
               <div className="text-2xl mb-2">🚘</div>
@@ -97,7 +94,6 @@ export function SelectVehicle() {
             </div>
           </div>
 
-          {/* Van */}
           <div className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 hover:shadow-md transition-all cursor-pointer">
             <div className="text-center">
               <div className="text-2xl mb-2">🚐</div>
@@ -107,7 +103,7 @@ export function SelectVehicle() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Search Button */}
       <div className="flex justify-center">

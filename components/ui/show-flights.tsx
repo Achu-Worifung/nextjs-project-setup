@@ -27,8 +27,7 @@ import {
   CalendarDays,
   ArrowLeftRight,
   PlaneTakeoff,
-  PlaneLanding,
-  Edit3
+  PlaneLanding
 } from 'lucide-react';
 
 // Temporary flight data
@@ -116,9 +115,7 @@ const FlightSearchPage = () => {
   const originalDepartDate = searchParams?.get('departDate') || '';
   const originalReturnDate = searchParams?.get('returnDate') || '';
   const originalTravelers = searchParams?.get('travelers') || '1 adult, Economy';
-  
-  // Editable search state
-  const [isEditingSearch, setIsEditingSearch] = useState(false);
+    // Editable search state (always editable)
   const [editFlightType, setEditFlightType] = useState(originalFlightType);
   const [editFrom, setEditFrom] = useState(originalFrom);
   const [editTo, setEditTo] = useState(originalTo);
@@ -127,8 +124,7 @@ const FlightSearchPage = () => {
   );
   const [editReturnDate, setEditReturnDate] = useState<Date | undefined>(
     originalReturnDate ? new Date(originalReturnDate) : undefined
-  );
-  const [editTravelers, setEditTravelers] = useState(originalTravelers);
+  );  const [editTravelers, setEditTravelers] = useState(originalTravelers);
   
   // Filter states
   const [priceRange, setPriceRange] = useState<number[]>([0, 1000]);
@@ -150,10 +146,8 @@ const FlightSearchPage = () => {
       departDate: editDepartDate ? format(editDepartDate, 'yyyy-MM-dd') : '',
       returnDate: editReturnDate ? format(editReturnDate, 'yyyy-MM-dd') : '',
       travelers: editTravelers,
-    });
-    
+    });    
     router.push(`/flight-search?${params.toString()}`);
-    setIsEditingSearch(false);
   };
 
   // Handle swap locations
@@ -225,222 +219,176 @@ const FlightSearchPage = () => {
       setSelectedClasses(selectedClasses.filter(c => c !== flightClass));
     }
   };return (
-    <div className="min-h-screen bg-gray-50">      {/* Header with Search Summary and Edit Button */}
+    <div className="min-h-screen bg-gray-50">      {/* Header with Search Summary */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-2xl font-bold text-gray-900">Flight Search Results</h1>
-            <div className="flex items-center gap-3">
-              <Badge className="bg-blue-100 text-blue-800">
-                {filteredFlights.length} flights found
-              </Badge>
-              <Button
-                onClick={() => setIsEditingSearch(!isEditingSearch)}
-                variant="outline"
-                size="sm"
-                className="flex items-center gap-2"
-              >
-                <Edit3 className="w-4 h-4" />
-                {isEditingSearch ? 'Cancel' : 'Edit Search'}
-              </Button>
-            </div>          </div>
-          
-          {/* Current Search Parameters Summary */}
-          {!isEditingSearch && (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-              <div className="flex flex-wrap items-center gap-4 text-sm">
-                <div className="flex items-center gap-2">
-                  <span className="font-medium text-blue-700">Route:</span>
-                  <span className="bg-white px-2 py-1 rounded border flex items-center gap-1">
-                    <PlaneTakeoff className="w-4 h-4 text-blue-500" />
-                    {originalFrom}
-                  </span>
-                  <ArrowRight className="w-4 h-4 text-blue-500" />
-                  <span className="bg-white px-2 py-1 rounded border flex items-center gap-1">
-                    <PlaneLanding className="w-4 h-4 text-blue-500" />
-                    {originalTo}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="font-medium text-blue-700">Type:</span>
-                  <span className="bg-white px-2 py-1 rounded border">{originalFlightType}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="font-medium text-blue-700">Departure:</span>
-                  <span className="bg-white px-2 py-1 rounded border">{originalDepartDate || 'Not set'}</span>
-                </div>
-                {originalReturnDate && (
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium text-blue-700">Return:</span>
-                    <span className="bg-white px-2 py-1 rounded border">{originalReturnDate}</span>
-                  </div>
-                )}
-                <div className="flex items-center gap-2">
-                  <span className="font-medium text-blue-700">Travelers:</span>
-                  <span className="bg-white px-2 py-1 rounded border">{originalTravelers}</span>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {/* Editable Search Form */}
-          {isEditingSearch && (
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 items-end">
-                {/* Flight Type */}
-                <div className="lg:col-span-1">
-                  <Label className="text-sm font-medium text-gray-700 mb-2 block">Flight Type</Label>
-                  <RadioGroup value={editFlightType} onValueChange={setEditFlightType}>
-                    <div className="flex items-center space-x-2">
+            <Badge className="bg-blue-100 text-blue-800">
+              {filteredFlights.length} flights found
+            </Badge>
+          </div>
+            {/* Search Form - Always Visible - Single Row */}
+          <div className="p-4 bg-gray-50 rounded-lg mb-4">
+            <div className="flex flex-wrap gap-3 items-end">
+              {/* Flight Type */}
+              <div className="flex-shrink-0">
+                <Label className="text-sm font-medium text-gray-700 mb-2 block">Flight Type</Label>
+                <div className="flex gap-2">
+                  <RadioGroup value={editFlightType} onValueChange={setEditFlightType} className="flex gap-4">
+                    <div className="flex items-center space-x-1">
                       <RadioGroupItem value="one-way" id="edit-one-way" />
-                      <Label htmlFor="edit-one-way" className="text-xs">One Way</Label>
+                      <Label htmlFor="edit-one-way" className="text-xs whitespace-nowrap">One Way</Label>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-1">
                       <RadioGroupItem value="round-trip" id="edit-round-trip" />
-                      <Label htmlFor="edit-round-trip" className="text-xs">Round Trip</Label>
+                      <Label htmlFor="edit-round-trip" className="text-xs whitespace-nowrap">Round Trip</Label>
                     </div>
                   </RadioGroup>
                 </div>
-                
-                {/* From */}
-                <div className="lg:col-span-1">
-                  <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                    <PlaneTakeoff className="h-4 w-4 text-blue-500" />
-                    From
-                  </Label>
-                  <input
-                    type="text"
-                    value={editFrom}
-                    onChange={(e) => setEditFrom(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                    placeholder="Departure city"
-                  />
-                </div>
+              </div>
+              
+              {/* From */}
+              <div className="flex-shrink-0 min-w-[140px]">
+                <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
+                  <PlaneTakeoff className="h-3 w-3 text-blue-500" />
+                  From
+                </Label>
+                <input
+                  type="text"
+                  value={editFrom}
+                  onChange={(e) => setEditFrom(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm h-10"
+                  placeholder="Departure city"
+                />
+              </div>
 
-                {/* Swap Button */}
-                <div className="lg:col-span-1 flex justify-center">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={handleSwapLocations}
-                    className="p-2 rounded-full"
-                  >
-                    <ArrowLeftRight className="h-4 w-4" />
-                  </Button>
-                </div>
+              {/* Swap Button */}
+              <div className="flex-shrink-0">
+                <div className="mb-2 h-5"></div> {/* Spacer for alignment */}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleSwapLocations}
+                  className="p-2 rounded-full h-10 w-10"
+                >
+                  <ArrowLeftRight className="h-4 w-4" />
+                </Button>
+              </div>
 
-                {/* To */}
-                <div className="lg:col-span-1">
-                  <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                    <PlaneLanding className="h-4 w-4 text-blue-500" />
-                    To
-                  </Label>
-                  <input
-                    type="text"
-                    value={editTo}
-                    onChange={(e) => setEditTo(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                    placeholder="Destination city"
-                  />
-                </div>
+              {/* To */}
+              <div className="flex-shrink-0 min-w-[140px]">
+                <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
+                  <PlaneLanding className="h-3 w-3 text-blue-500" />
+                  To
+                </Label>
+                <input
+                  type="text"
+                  value={editTo}
+                  onChange={(e) => setEditTo(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm h-10"
+                  placeholder="Destination city"
+                />
+              </div>
 
-                {/* Depart Date */}
-                <div className="lg:col-span-1">
-                  <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                    <CalendarDays className="h-4 w-4 text-blue-500" />
-                    Depart
+              {/* Depart Date */}
+              <div className="flex-shrink-0 min-w-[140px]">
+                <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
+                  <CalendarDays className="h-3 w-3 text-blue-500" />
+                  Depart
+                </Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start text-left font-normal text-xs h-10",
+                        !editDepartDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarDays className="mr-2 h-3 w-3" />
+                      {editDepartDate ? format(editDepartDate, "MMM dd") : "Select date"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={editDepartDate}
+                      onSelect={setEditDepartDate}
+                      disabled={(date) => date < new Date()}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              {/* Return Date (if round-trip) */}
+              {editFlightType === "round-trip" && (
+                <div className="flex-shrink-0 min-w-[140px]">
+                  <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
+                    <CalendarDays className="h-3 w-3 text-blue-500" />
+                    Return
                   </Label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
                         className={cn(
-                          "w-full justify-start text-left font-normal text-sm h-10",
-                          !editDepartDate && "text-muted-foreground"
+                          "w-full justify-start text-left font-normal text-xs h-10",
+                          !editReturnDate && "text-muted-foreground"
                         )}
                       >
-                        <CalendarDays className="mr-2 h-4 w-4" />
-                        {editDepartDate ? format(editDepartDate, "MMM dd, yyyy") : "Select date"}
+                        <CalendarDays className="mr-2 h-3 w-3" />
+                        {editReturnDate ? format(editReturnDate, "MMM dd") : "Select date"}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        selected={editDepartDate}
-                        onSelect={setEditDepartDate}
-                        disabled={(date) => date < new Date()}
+                        selected={editReturnDate}
+                        onSelect={setEditReturnDate}
+                        disabled={(date) => date < (editDepartDate || new Date())}
                         initialFocus
                       />
                     </PopoverContent>
                   </Popover>
                 </div>
+              )}
 
-                {/* Return Date (if round-trip) */}
-                {editFlightType === "round-trip" && (
-                  <div className="lg:col-span-1">
-                    <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                      <CalendarDays className="h-4 w-4 text-blue-500" />
-                      Return
-                    </Label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full justify-start text-left font-normal text-sm h-10",
-                            !editReturnDate && "text-muted-foreground"
-                          )}
-                        >
-                          <CalendarDays className="mr-2 h-4 w-4" />
-                          {editReturnDate ? format(editReturnDate, "MMM dd, yyyy") : "Select date"}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={editReturnDate}
-                          onSelect={setEditReturnDate}
-                          disabled={(date) => date < (editDepartDate || new Date())}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                )}
+              {/* Travelers */}
+              <div className="flex-shrink-0 min-w-[140px]">
+                <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
+                  <Users className="h-3 w-3 text-blue-500" />
+                  Travelers
+                </Label>
+                <select
+                  value={editTravelers}
+                  onChange={(e) => setEditTravelers(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm h-10"
+                >
+                  <option value="1 adult, Economy">1 Adult, Economy</option>
+                  <option value="1 adult, Business">1 Adult, Business</option>
+                  <option value="2 adults, Economy">2 Adults, Economy</option>
+                  <option value="2 adults, Business">2 Adults, Business</option>
+                  <option value="3 adults, Economy">3 Adults, Economy</option>
+                  <option value="4 adults, Economy">4 Adults, Economy</option>
+                </select>
+              </div>
 
-                {/* Travelers */}
-                <div className="lg:col-span-1">
-                  <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                    <Users className="h-4 w-4 text-blue-500" />
-                    Travelers
-                  </Label>
-                  <select
-                    value={editTravelers}
-                    onChange={(e) => setEditTravelers(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                  >
-                    <option value="1 adult, Economy">1 Adult, Economy</option>
-                    <option value="1 adult, Business">1 Adult, Business</option>
-                    <option value="2 adults, Economy">2 Adults, Economy</option>
-                    <option value="2 adults, Business">2 Adults, Business</option>
-                    <option value="3 adults, Economy">3 Adults, Economy</option>
-                    <option value="4 adults, Economy">4 Adults, Economy</option>
-                  </select>
-                </div>
-
-                {/* Search Button */}
-                <div className="lg:col-span-1">
-                  <Button
-                    onClick={handleNewSearch}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                  >                    <Search className="h-4 w-4 mr-2" />
-                    Search
-                  </Button>
-                </div>
+              {/* Search Button */}
+              <div className="flex-shrink-0">
+                <div className="mb-2 h-5"></div> {/* Spacer for alignment */}
+                <Button
+                  onClick={handleNewSearch}
+                  className="bg-blue-600 hover:bg-blue-700 text-white h-10 px-6"
+                >
+                  <Search className="h-4 w-4 mr-2" />
+                  Search
+                </Button>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
 

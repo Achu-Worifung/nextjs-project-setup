@@ -45,7 +45,7 @@ export default function Navbar() {
         <div className="hidden lg:flex items-center gap-10">
           <NavigationMenuList className="flex gap-15 items-center text-black text-lg font-semibold font-['Lato'] md:gap-8">
             {["Flights", "Hotels", "Vehicles"].map((label) => (
-              <NavigationMenuItem key={label} onClick={() => changeNav(label.toLowerCase())}>
+              <NavigationMenuItem key={label} onClick={() => changeNav(label)}>
                  <NavigationMenuTrigger className="bg-transparent text-black hover:bg-black/10">
                  {label === "Flights" && <Plane className="mr-2" />} {label === "Hotels" && <Building2 className="mr-2" />} {label === "Vehicles" && <Car className="mr-2" />} {label}
                 </NavigationMenuTrigger>

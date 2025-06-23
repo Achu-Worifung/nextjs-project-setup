@@ -133,7 +133,7 @@ export function SelectHotel() {
             </div> */}
 
             {/* Additional Filters */}
-            <div className="mb-6">
+            {/* <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Amenities</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
                     <label className="flex items-center space-x-2 cursor-pointer">
@@ -161,7 +161,7 @@ export function SelectHotel() {
                         <span className="text-sm text-gray-700">Restaurant</span>
                     </label>
                 </div>
-            </div>
+            </div> */}
 
             {/* Search Button */}
             <div className="flex justify-center">
