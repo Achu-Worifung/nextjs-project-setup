@@ -4,7 +4,8 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE SCHEMA UsersandPayments;
 
-CREATE TABLE UsersandPayments. Users ( UserID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+CREATE TABLE UsersandPayments.Users ( 
+UserID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 FirstName VARCHAR(50) NOT NULL,
 MiddleName VARCHAR(50) NULL,
 LastName VARCHAR(50) NOT NULL,
