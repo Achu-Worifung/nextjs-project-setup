@@ -2,108 +2,11 @@
 
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Slider } from '@/components/ui/slider';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Calendar } from '@/components/ui/calendar';
-import { cn } from '@/lib/utils';
-import { format } from 'date-fns';
-import { 
-  Plane, 
-  Clock, 
-  Users, 
-  Filter,
-  ArrowRight,
-  Star,
-  Wifi,
-  Coffee,
-  Luggage,
-  Search,
-  CalendarDays,
-  ArrowLeftRight,
-  PlaneTakeoff,
-  PlaneLanding
-} from 'lucide-react';
-
-// Temporary flight data
-const tempFlightData = [
-  {
-    id: '1',
-    airline: 'SkyWings Airlines',
-    flightNumber: 'SW123',
-    departure: { time: '08:30', airport: 'JFK', city: 'New York' },
-    arrival: { time: '14:45', airport: 'LAX', city: 'Los Angeles' },
-    duration: '6h 15m',
-    price: 299,
-    stops: 0,
-    aircraft: 'Boeing 737',
-    amenities: ['wifi', 'meals', 'entertainment'],
-    rating: 4.5,
-    class: 'Economy'
-  },
-  {
-    id: '2',
-    airline: 'CloudJet',
-    flightNumber: 'CJ456',
-    departure: { time: '12:15', airport: 'JFK', city: 'New York' },
-    arrival: { time: '18:30', airport: 'LAX', city: 'Los Angeles' },
-    duration: '6h 15m',
-    price: 385,
-    stops: 0,
-    aircraft: 'Airbus A320',
-    amenities: ['wifi', 'meals', 'priority boarding'],
-    rating: 4.8,
-    class: 'Premium Economy'
-  },
-  {
-    id: '3',
-    airline: 'AeroConnect',
-    flightNumber: 'AC789',
-    departure: { time: '16:45', airport: 'JFK', city: 'New York' },
-    arrival: { time: '23:00', airport: 'LAX', city: 'Los Angeles' },
-    duration: '6h 15m',
-    price: 245,
-    stops: 1,
-    aircraft: 'Boeing 737',
-    amenities: ['wifi', 'snacks'],
-    rating: 4.2,
-    class: 'Economy'
-  },
-  {
-    id: '4',
-    airline: 'Premium Air',
-    flightNumber: 'PA101',
-    departure: { time: '09:00', airport: 'JFK', city: 'New York' },
-    arrival: { time: '15:15', airport: 'LAX', city: 'Los Angeles' },
-    duration: '6h 15m',
-    price: 750,
-    stops: 0,
-    aircraft: 'Boeing 787',
-    amenities: ['wifi', 'meals', 'lounge access', 'priority boarding'],
-    rating: 4.9,
-    class: 'Business'
-  },
-  {
-    id: '5',
-    airline: 'Budget Wings',
-    flightNumber: 'BW234',
-    departure: { time: '06:00', airport: 'JFK', city: 'New York' },
-    arrival: { time: '14:30', airport: 'LAX', city: 'Los Angeles' },
-    duration: '8h 30m',
-    price: 189,
-    stops: 2,
-    aircraft: 'Boeing 737',
-    amenities: ['wifi'],
-    rating: 3.8,
-    class: 'Economy'
-  }
-];
-
+import FlightSearchFormCompact from './flight-search-form-compact';
+import FlightFilters from './flight-filters';
+import FlightsList from './flights-list';
+import { Flight, tempFlightData } from '@/lib/flight-data';
 const FlightSearchPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -115,7 +18,8 @@ const FlightSearchPage = () => {
   const originalDepartDate = searchParams?.get('departDate') || '';
   const originalReturnDate = searchParams?.get('returnDate') || '';
   const originalTravelers = searchParams?.get('travelers') || '1 adult, Economy';
-    // Editable search state (always editable)
+  
+  // Editable search state (always editable)
   const [editFlightType, setEditFlightType] = useState(originalFlightType);
   const [editFrom, setEditFrom] = useState(originalFrom);
   const [editTo, setEditTo] = useState(originalTo);
@@ -124,15 +28,17 @@ const FlightSearchPage = () => {
   );
   const [editReturnDate, setEditReturnDate] = useState<Date | undefined>(
     originalReturnDate ? new Date(originalReturnDate) : undefined
-  );  const [editTravelers, setEditTravelers] = useState(originalTravelers);
+  );
+  const [editTravelers, setEditTravelers] = useState(originalTravelers);
   
   // Filter states
   const [priceRange, setPriceRange] = useState<number[]>([0, 1000]);
   const [selectedAirlines, setSelectedAirlines] = useState<string[]>([]);
   const [selectedStops, setSelectedStops] = useState<string[]>([]);
   const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
-  const [filteredFlights, setFilteredFlights] = useState(tempFlightData);
+  const [filteredFlights, setFilteredFlights] = useState<Flight[]>(tempFlightData);
   const [sortBy, setSortBy] = useState('price');
+  
   // Get unique values for filters
   const airlines = [...new Set(tempFlightData.map(flight => flight.airline))];
   const classes = [...new Set(tempFlightData.map(flight => flight.class))];
@@ -143,8 +49,8 @@ const FlightSearchPage = () => {
       flightType: editFlightType,
       from: editFrom,
       to: editTo,
-      departDate: editDepartDate ? format(editDepartDate, 'yyyy-MM-dd') : '',
-      returnDate: editReturnDate ? format(editReturnDate, 'yyyy-MM-dd') : '',
+      departDate: editDepartDate ? editDepartDate.toISOString().split('T')[0] : '',
+      returnDate: editReturnDate ? editReturnDate.toISOString().split('T')[0] : '',
       travelers: editTravelers,
     });    
     router.push(`/flight-search?${params.toString()}`);
@@ -156,46 +62,14 @@ const FlightSearchPage = () => {
     setEditFrom(editTo);
     setEditTo(temp);
   };
-  useEffect(() => {
-    console.log('Flight Search Params:', {
-      flightType: originalFlightType,
-      from: originalFrom,
-      to: originalTo,
-      departDate: originalDepartDate,
-      returnDate: originalReturnDate,
-      travelers: originalTravelers,
-    });
-  }, [originalFlightType, originalFrom, originalTo, originalDepartDate, originalReturnDate, originalTravelers]);
-  // Filter flights based on selected criteria
-  useEffect(() => {
-    const filtered = tempFlightData.filter(flight => {
-      const priceInRange = flight.price >= priceRange[0] && flight.price <= priceRange[1];
-      const airlineMatch = selectedAirlines.length === 0 || selectedAirlines.includes(flight.airline);
-      const stopsMatch = selectedStops.length === 0 || selectedStops.includes(flight.stops.toString());
-      const classMatch = selectedClasses.length === 0 || selectedClasses.includes(flight.class);
-      
-      return priceInRange && airlineMatch && stopsMatch && classMatch;
-    });
 
-    // Sort flights
-    switch (sortBy) {
-      case 'price':
-        filtered.sort((a, b) => a.price - b.price);
-        break;
-      case 'duration':
-        filtered.sort((a, b) => a.duration.localeCompare(b.duration));
-        break;
-      case 'rating':
-        filtered.sort((a, b) => b.rating - a.rating);
-        break;
-      case 'departure':
-        filtered.sort((a, b) => a.departure.time.localeCompare(b.departure.time));
-        break;
-    }
+  // Handle flight selection
+  const handleSelectFlight = (flightId: string) => {
+    console.log('Selected flight:', flightId);
+    // Add your flight selection logic here
+  };
 
-    setFilteredFlights(filtered);
-  }, [priceRange, selectedAirlines, selectedStops, selectedClasses, sortBy]);
-
+  // Handle filter changes
   const handleAirlineChange = (airline: string, checked: boolean) => {
     if (checked) {
       setSelectedAirlines([...selectedAirlines, airline]);
@@ -218,8 +92,60 @@ const FlightSearchPage = () => {
     } else {
       setSelectedClasses(selectedClasses.filter(c => c !== flightClass));
     }
-  };return (
-    <div className="min-h-screen bg-gray-50">      {/* Header with Search Summary */}
+  };
+
+  const handleClearFilters = () => {
+    setPriceRange([0, 1000]);
+    setSelectedAirlines([]);
+    setSelectedStops([]);
+    setSelectedClasses([]);
+  };
+
+  useEffect(() => {
+    console.log('Flight Search Params:', {
+      flightType: originalFlightType,
+      from: originalFrom,
+      to: originalTo,
+      departDate: originalDepartDate,
+      returnDate: originalReturnDate,
+      travelers: originalTravelers,
+    });
+  }, [originalFlightType, originalFrom, originalTo, originalDepartDate, originalReturnDate, originalTravelers]);
+
+  // Filter flights based on selected criteria
+  useEffect(() => {
+    const filtered = tempFlightData.filter(flight => {
+      const priceInRange = flight.price >= priceRange[0] && flight.price <= priceRange[1];
+      const airlineMatch = selectedAirlines.length === 0 || selectedAirlines.includes(flight.airline);
+      const stopsMatch = selectedStops.length === 0 || selectedStops.includes(flight.stops.toString());
+      const classMatch = selectedClasses.length === 0 || selectedClasses.includes(flight.class);
+      
+      return priceInRange && airlineMatch && stopsMatch && classMatch;
+    });
+
+    //get the flights from amadeus
+
+
+    // Sort flights
+    switch (sortBy) {
+      case 'price':
+        filtered.sort((a, b) => a.price - b.price);
+        break;
+      case 'duration':
+        filtered.sort((a, b) => a.duration.localeCompare(b.duration));
+        break;
+      case 'rating':
+        filtered.sort((a, b) => b.rating - a.rating);
+        break;
+      case 'departure':
+        filtered.sort((a, b) => a.departure.time.localeCompare(b.departure.time));
+        break;
+    }
+
+    setFilteredFlights(filtered);
+  }, [priceRange, selectedAirlines, selectedStops, selectedClasses, sortBy]);  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header with Search Summary */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between mb-4">
@@ -228,167 +154,23 @@ const FlightSearchPage = () => {
               {filteredFlights.length} flights found
             </Badge>
           </div>
-            {/* Search Form - Always Visible - Single Row */}
-          <div className="p-4 bg-gray-50 rounded-lg mb-4">
-            <div className="flex flex-wrap gap-3 items-end">
-              {/* Flight Type */}
-              <div className="flex-shrink-0">
-                <Label className="text-sm font-medium text-gray-700 mb-2 block">Flight Type</Label>
-                <div className="flex gap-2">
-                  <RadioGroup value={editFlightType} onValueChange={setEditFlightType} className="flex gap-4">
-                    <div className="flex items-center space-x-1">
-                      <RadioGroupItem value="one-way" id="edit-one-way" />
-                      <Label htmlFor="edit-one-way" className="text-xs whitespace-nowrap">One Way</Label>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <RadioGroupItem value="round-trip" id="edit-round-trip" />
-                      <Label htmlFor="edit-round-trip" className="text-xs whitespace-nowrap">Round Trip</Label>
-                    </div>
-                  </RadioGroup>
-                </div>
-              </div>
-              
-              {/* From */}
-              <div className="flex-shrink-0 min-w-[140px]">
-                <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
-                  <PlaneTakeoff className="h-3 w-3 text-blue-500" />
-                  From
-                </Label>
-                <input
-                  type="text"
-                  value={editFrom}
-                  onChange={(e) => setEditFrom(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm h-10"
-                  placeholder="Departure city"
-                />
-              </div>
-
-              {/* Swap Button */}
-              <div className="flex-shrink-0">
-                <div className="mb-2 h-5"></div> {/* Spacer for alignment */}
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={handleSwapLocations}
-                  className="p-2 rounded-full h-10 w-10"
-                >
-                  <ArrowLeftRight className="h-4 w-4" />
-                </Button>
-              </div>
-
-              {/* To */}
-              <div className="flex-shrink-0 min-w-[140px]">
-                <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
-                  <PlaneLanding className="h-3 w-3 text-blue-500" />
-                  To
-                </Label>
-                <input
-                  type="text"
-                  value={editTo}
-                  onChange={(e) => setEditTo(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm h-10"
-                  placeholder="Destination city"
-                />
-              </div>
-
-              {/* Depart Date */}
-              <div className="flex-shrink-0 min-w-[140px]">
-                <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
-                  <CalendarDays className="h-3 w-3 text-blue-500" />
-                  Depart
-                </Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full justify-start text-left font-normal text-xs h-10",
-                        !editDepartDate && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarDays className="mr-2 h-3 w-3" />
-                      {editDepartDate ? format(editDepartDate, "MMM dd") : "Select date"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={editDepartDate}
-                      onSelect={setEditDepartDate}
-                      disabled={(date) => date < new Date()}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-
-              {/* Return Date (if round-trip) */}
-              {editFlightType === "round-trip" && (
-                <div className="flex-shrink-0 min-w-[140px]">
-                  <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
-                    <CalendarDays className="h-3 w-3 text-blue-500" />
-                    Return
-                  </Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className={cn(
-                          "w-full justify-start text-left font-normal text-xs h-10",
-                          !editReturnDate && "text-muted-foreground"
-                        )}
-                      >
-                        <CalendarDays className="mr-2 h-3 w-3" />
-                        {editReturnDate ? format(editReturnDate, "MMM dd") : "Select date"}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={editReturnDate}
-                        onSelect={setEditReturnDate}
-                        disabled={(date) => date < (editDepartDate || new Date())}
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-              )}
-
-              {/* Travelers */}
-              <div className="flex-shrink-0 min-w-[140px]">
-                <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
-                  <Users className="h-3 w-3 text-blue-500" />
-                  Travelers
-                </Label>
-                <select
-                  value={editTravelers}
-                  onChange={(e) => setEditTravelers(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm h-10"
-                >
-                  <option value="1 adult, Economy">1 Adult, Economy</option>
-                  <option value="1 adult, Business">1 Adult, Business</option>
-                  <option value="2 adults, Economy">2 Adults, Economy</option>
-                  <option value="2 adults, Business">2 Adults, Business</option>
-                  <option value="3 adults, Economy">3 Adults, Economy</option>
-                  <option value="4 adults, Economy">4 Adults, Economy</option>
-                </select>
-              </div>
-
-              {/* Search Button */}
-              <div className="flex-shrink-0">
-                <div className="mb-2 h-5"></div> {/* Spacer for alignment */}
-                <Button
-                  onClick={handleNewSearch}
-                  className="bg-blue-600 hover:bg-blue-700 text-white h-10 px-6"
-                >
-                  <Search className="h-4 w-4 mr-2" />
-                  Search
-                </Button>
-              </div>
-            </div>
-          </div>
+            {/* Search Form Component */}
+          <FlightSearchFormCompact
+            flightType={editFlightType}
+            setFlightType={setEditFlightType}
+            from={editFrom}
+            setFrom={setEditFrom}
+            to={editTo}
+            setTo={setEditTo}
+            departDate={editDepartDate}
+            setDepartDate={setEditDepartDate}
+            returnDate={editReturnDate}
+            setReturnDate={setEditReturnDate}
+            travelers={editTravelers}
+            setTravelers={setEditTravelers}
+            onSearch={handleNewSearch}
+            onSwapLocations={handleSwapLocations}
+          />
         </div>
       </div>
 
@@ -396,212 +178,28 @@ const FlightSearchPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Filters Sidebar */}
           <div className="lg:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Filter className="w-5 h-5" />
-                  Filters
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {/* Price Range */}
-                <div>
-                  <h3 className="font-medium mb-3">Price Range</h3>
-                  <Slider
-                    value={priceRange}
-                    onValueChange={setPriceRange}
-                    max={1000}
-                    min={0}
-                    step={10}
-                    className="mb-2"
-                  />
-                  <div className="flex justify-between text-sm text-gray-600">
-                    <span>${priceRange[0]}</span>
-                    <span>${priceRange[1]}</span>
-                  </div>
-                </div>
-
-                {/* Airlines */}
-                <div>
-                  <h3 className="font-medium mb-3">Airlines</h3>
-                  <div className="space-y-2">
-                    {airlines.map((airline) => (
-                      <div key={airline} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={airline}
-                          checked={selectedAirlines.includes(airline)}
-                          onCheckedChange={(checked: boolean) => handleAirlineChange(airline, checked)}
-                        />
-                        <label htmlFor={airline} className="text-sm">{airline}</label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Stops */}
-                <div>
-                  <h3 className="font-medium mb-3">Stops</h3>
-                  <div className="space-y-2">
-                    {['0', '1', '2'].map((stops) => (
-                      <div key={stops} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={`stops-${stops}`}
-                          checked={selectedStops.includes(stops)}
-                          onCheckedChange={(checked: boolean) => handleStopsChange(stops, checked)}
-                        />
-                        <label htmlFor={`stops-${stops}`} className="text-sm">
-                          {stops === '0' ? 'Non-stop' : `${stops} stop${stops === '1' ? '' : 's'}`}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Class */}
-                <div>
-                  <h3 className="font-medium mb-3">Class</h3>
-                  <div className="space-y-2">
-                    {classes.map((flightClass) => (
-                      <div key={flightClass} className="flex items-center space-x-2">
-                        <Checkbox
-                          id={flightClass}
-                          checked={selectedClasses.includes(flightClass)}
-                          onCheckedChange={(checked: boolean) => handleClassChange(flightClass, checked)}
-                        />
-                        <label htmlFor={flightClass} className="text-sm">{flightClass}</label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <FlightFilters
+              priceRange={priceRange}
+              setPriceRange={setPriceRange}
+              selectedAirlines={selectedAirlines}
+              selectedStops={selectedStops}
+              selectedClasses={selectedClasses}
+              airlines={airlines}
+              classes={classes}
+              onAirlineChange={handleAirlineChange}
+              onStopsChange={handleStopsChange}
+              onClassChange={handleClassChange}
+            />
           </div>
 
           {/* Flight Results */}
-          <div className="lg:col-span-3">
-            {/* Sort Options */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <label className="text-sm font-medium">Sort by:</label>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="px-3 py-1 border rounded-md text-sm"
-                >
-                  <option value="price">Price (Low to High)</option>
-                  <option value="duration">Duration</option>
-                  <option value="rating">Rating</option>
-                  <option value="departure">Departure Time</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Flight Cards */}
-            <div className="space-y-4">
-              {filteredFlights.map((flight) => (
-                <Card key={flight.id} className="hover:shadow-lg transition-shadow">
-                  <CardContent className="p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
-                      {/* Flight Info */}
-                      <div className="md:col-span-2">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <Plane className="w-5 h-5 text-blue-600" />
-                            <span className="font-semibold">{flight.airline}</span>
-                            <span className="text-sm text-gray-500">{flight.flightNumber}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                            <span className="text-sm font-medium">{flight.rating}</span>
-                          </div>
-                        </div>
-                        
-                        <div className="flex items-center justify-between">
-                          <div className="text-center">
-                            <div className="text-xl font-bold">{flight.departure.time}</div>
-                            <div className="text-sm text-gray-600">{flight.departure.airport}</div>
-                            <div className="text-xs text-gray-500">{flight.departure.city}</div>
-                          </div>
-                          
-                          <div className="flex-1 mx-4">
-                            <div className="flex items-center justify-center relative">
-                              <div className="w-full h-px bg-gray-300"></div>
-                              <div className="absolute bg-white px-2">
-                                <ArrowRight className="w-4 h-4 text-gray-400" />
-                              </div>
-                            </div>
-                            <div className="text-center mt-1">
-                              <div className="text-sm font-medium">{flight.duration}</div>
-                              <div className="text-xs text-gray-500">
-                                {flight.stops === 0 ? 'Non-stop' : `${flight.stops} stop${flight.stops > 1 ? 's' : ''}`}
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div className="text-center">
-                            <div className="text-xl font-bold">{flight.arrival.time}</div>
-                            <div className="text-sm text-gray-600">{flight.arrival.airport}</div>
-                            <div className="text-xs text-gray-500">{flight.arrival.city}</div>
-                          </div>
-                        </div>
-
-                        {/* Amenities */}
-                        <div className="flex items-center gap-2 mt-3">
-                          {flight.amenities.includes('wifi') && <Wifi className="w-4 h-4 text-blue-600" />}
-                          {flight.amenities.includes('meals') && <Coffee className="w-4 h-4 text-green-600" />}
-                          {flight.amenities.includes('entertainment') && <Clock className="w-4 h-4 text-purple-600" />}
-                          {flight.amenities.includes('lounge access') && <Luggage className="w-4 h-4 text-orange-600" />}
-                        </div>
-                      </div>
-
-                      {/* Price and Class */}
-                      <div className="text-center">
-                        <Badge variant="outline" className="mb-2">
-                          {flight.class}
-                        </Badge>
-                        <div className="text-sm text-gray-600">{flight.aircraft}</div>
-                      </div>
-
-                      {/* Price and Book Button */}
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-blue-600 mb-2">
-                          ${flight.price}
-                        </div>
-                        <div className="text-sm text-gray-600 mb-3">per person</div>
-                        <Button className="w-full">
-                          Select Flight
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            {/* No Results */}
-            {filteredFlights.length === 0 && (
-              <Card className="text-center py-12">
-                <CardContent>
-                  <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No flights found</h3>
-                  <p className="text-gray-600 mb-4">
-                    Try adjusting your filters or search criteria
-                  </p>
-                  <Button 
-                    variant="outline" 
-                    onClick={() => {
-                      setPriceRange([0, 1000]);
-                      setSelectedAirlines([]);
-                      setSelectedStops([]);
-                      setSelectedClasses([]);
-                    }}
-                  >
-                    Clear All Filters
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
-          </div>
+          <FlightsList
+            flights={filteredFlights}
+            sortBy={sortBy}
+            onSortChange={setSortBy}
+            onSelectFlight={handleSelectFlight}
+            onClearFilters={handleClearFilters}
+          />
         </div>
       </div>
     </div>

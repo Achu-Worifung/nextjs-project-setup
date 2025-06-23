@@ -22,7 +22,6 @@ import {
   ArrowLeftRight,
   MapPin,
 } from "lucide-react";
-import {getFlights} from "@/lib/api/flights";
 
 import {useRouter} from 'next/navigation'
 export function FlightSelection() {
@@ -143,7 +142,7 @@ function findAirportWithRanking(query : string) {
               <MapPin className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                
               {(airportSuggestions.length > 0 && from) && (
-                <div className="absolute top-full left-0 w-full z-[9999] bg-white border border-gray-200 rounded-lg shadow-lg mt-1 max-h-60 overflow-y-auto">
+                <div className="absolute top-full left-0 w-full z-[9999] bg-white border border-gray-200 rounded-lg shadow-lg mt-1 max-h-32 overflow-y-auto">
                   {airportSuggestions.map((airport, index) => (
                     <div
                       key={index}
@@ -195,7 +194,7 @@ function findAirportWithRanking(query : string) {
               <MapPin className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                
               {(toAirportSuggestions.length > 0 && to) && (
-                <div className="absolute top-full left-0 w-full z-[9999] bg-white border border-gray-200 rounded-lg shadow-lg mt-1 max-h-60 overflow-y-auto">
+                <div className="absolute top-full left-0 w-full z-[9999] bg-white border border-gray-200 rounded-lg shadow-lg mt-1 max-h-32 overflow-y-auto">
                   {toAirportSuggestions.map((airport, index) => (
                     <div
                       key={index}
