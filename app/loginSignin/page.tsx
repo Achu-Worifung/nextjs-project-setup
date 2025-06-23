@@ -4,11 +4,17 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
 
 export default function LoginPage() {
+  const { setIsSignedIn } = useAuth();
+
   const [isSignUp, setIsSignUp] = useState(false);
 
-  const [signInData, setSignInData] = useState({
+  const TEMP_EMAIL = "demo@email.com";
+  const TEMP_PASSWORD = "Demo1234";
+
+ const [signInData, setSignInData] = useState({
     email: "",
     password: "",
   });
@@ -22,6 +28,8 @@ export default function LoginPage() {
   });
 
   const [signUpError, setSignUpError] = useState("");
+  const [signInError, setSignInError] = useState(""); // Add this line
+
 
   const handleSignInChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -40,15 +48,25 @@ export default function LoginPage() {
     }
   };
 
+ const handleSignInSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (
+      signInData.email === TEMP_EMAIL &&
+      signInData.password === TEMP_PASSWORD
+    ) {
+      setSignInError("");
+      setIsSignedIn(true); // <--- This updates the navbar!
+      // Optionally redirect or show a message
+    } else {
+      setSignInError("Invalid email or password. Try demo@email.com / Demo1234");
+    }
+  };
+
   // Password validation: at least 8 chars, 1 uppercase, 1 number
   const isPasswordValid = (password: string) => {
     return /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
   };
 
-  const handleSignInSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Sign In Data:", signInData);
-  };
 
   const handleSignUpSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -91,7 +109,7 @@ export default function LoginPage() {
               Start Booking Now
             </p>
 
-            <form onSubmit={handleSignInSubmit} className="flex flex-col w-2/3 max-w-sm">
+             <form onSubmit={handleSignInSubmit} className="flex flex-col w-2/3 max-w-sm">
               <input
                 name="email"
                 type="email"
@@ -108,6 +126,9 @@ export default function LoginPage() {
                 onChange={handleSignInChange}
                 className="mb-6 p-2 rounded border border-gray-300 shadow-sm text-gray-600 bg-white"
               />
+              {signInError && (
+                <span className="text-red-500 text-sm mb-2">{signInError}</span>
+              )}
               <Button type="submit" className="bg-sky-500 hover:bg-sky-600 text-white py-2 rounded-full shadow-xl">
                 Sign In
               </Button>
