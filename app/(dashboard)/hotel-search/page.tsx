@@ -20,10 +20,10 @@ export default function HotelSearchPage()
             try {
                 const hotelList = await getHotelList({
                     citycode: city,
-                    checkinDate: startDate,
-                    checkoutDate: endDate,
-                    adults: parseInt(guests, 10),
-                    roomQuantity: parseInt(rooms, 10),
+                    // checkinDate: startDate,
+                    // checkoutDate: endDate,
+                    // adults: parseInt(guests, 10),
+                    // roomQuantity: parseInt(rooms, 10),
                 });
                 setHotels(hotelList);
                 console.log("Fetched hotels:", hotelList);
@@ -33,10 +33,11 @@ export default function HotelSearchPage()
         }
 
         fetchHotels();
-    })
+    }, [])
 
     return (
         <>
+        <p>{JSON.stringify(hotels)}</p>
         </>
     )
 }
