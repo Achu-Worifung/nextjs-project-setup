@@ -19,6 +19,7 @@ import {
   // NavigationMenuLink,
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu"
+import {ModeToggle} from '@/components/mode-to-toggle'
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -58,6 +59,9 @@ export default function Navbar() {
                   MyBooking
                 </NavigationMenuTrigger>
               </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <ModeToggle/>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Link href="/loginSignin">
