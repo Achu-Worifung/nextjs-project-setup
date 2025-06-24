@@ -1,3 +1,4 @@
 #making sure the dependencies are not included in the repository
 # Node.js dependencies#
 node_modules/
+.next/
