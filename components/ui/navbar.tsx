@@ -42,7 +42,7 @@ export default function Navbar() {
    <NavigationMenu className="w-full bg-gradient-to-r  px-4 md:px-8 py-4  relative">
       <div className="flex w-full items-center justify-between">
         <Link href="/" className="flex items-center gap-4 cursor-pointer">
-          <Image src="/logo.svg" alt="Logo" width={50} height={50} />
+          <Image src="/logo.svg" alt="Logo" width={60} height={60} />
           <div className="text-xl md:text-3xl font-bold font-['Philosopher'] text-black">
             Infosys | Booking
           </div>

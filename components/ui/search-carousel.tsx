@@ -19,11 +19,11 @@ export function CarouselDemo() {
       <CarouselItem id="Flights">
         <FlightSelection />
       </CarouselItem>
+      <CarouselItem id="Hotels">
+        <SelectHotel />
+        </CarouselItem>
         <CarouselItem id="Vehicles">
           <SelectVehicle />
-        </CarouselItem>
-        <CarouselItem id="Hotels">
-          <SelectHotel />
         </CarouselItem>
       </CarouselContent>
       {/* <CarouselPrevious /> */}
