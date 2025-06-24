@@ -1,7 +1,3 @@
-CREATE DATABASE BookingWebsite;
-
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
-
 CREATE SCHEMA UsersandPayments;
 
 CREATE TABLE UsersandPayments.Users ( 
@@ -46,7 +42,7 @@ AirportLocation Airport_city_country NOT NULL
 );
 
 CREATE TABLE Flights.FlightRoutes (
-RouteD UUID PRIMARY KEY DEFAULT gen_random_uuid(), 
+RouteID UUID PRIMARY KEY DEFAULT gen_random_uuid(), 
 AirlineID UUID NOT NULL REFERENCES Flights.Airlines(AirlineID), 
 FlightNumber VARCHAR (10) NOT NULL,
 OriginAirportID UUID NOT NULL REFERENCES Flights.Airports(AirportID), 
@@ -66,7 +62,8 @@ CREATE TABLE Flights.FlightInventory (
 InventoryID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 ScheduleID UUID NOT NULL REFERENCES Flights.FlightSchedules (ScheduleID), 
 SeatClass seat_class NOT NULL,
-TotalSeats INTEGER NOT NULL CHECK (TotalSeats › 0), AvailableSeats INTEGER NOT NULL CHECK (AvailableSeats ›= 0 AND AvailableSeats <= TotalSeats),
+TotalSeats INTEGER NOT NULL CHECK (TotalSeats > 0), 
+AvailableSeats INTEGER NOT NULL CHECK (AvailableSeats >= 0 AND AvailableSeats <= TotalSeats),
 UNIQUE (ScheduleID, SeatClass)
 );
 
@@ -137,7 +134,7 @@ CompanyName VARCHAR(100) NOT NULL
 
 CREATE TABLE Cars.RentalLocations (
 LocationID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-CompanyID UUID NOT NULL REFERENCES Cars.RentalCompanies (Company ID), 
+CompanyID UUID NOT NULL REFERENCES Cars.RentalCompanies(CompanyID), 
 LocationName VARCHAR (100) NOT NULL, 
 CompanyAddress VARCHAR (255) NOT NULL,
 CompanyCity VARCHAR(100) NOT NULL, 
@@ -193,4 +190,3 @@ BookingType booking_type NOT NULL,
 BookingStatus booking_status NOT NULL,
 TotalPaid DECIMAL(10,2) NOT NULL
 );
-
