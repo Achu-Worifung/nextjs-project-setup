@@ -3,8 +3,10 @@
 import { ChevronRight, ChevronLeft, Plane } from "lucide-react";
 import { DestinationCard } from "@/components/ui/destination-card";
 import { useState, useRef, useEffect, useCallback } from "react";
+import { useTheme } from "next-themes";
 
 export function TopDestinations() {
+  const { theme } = useTheme();
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -121,7 +123,11 @@ export function TopDestinations() {
               Top Destinations
             </span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+          <h2
+            className={`text-3xl md:text-4xl font-bold leading-tight ${
+              theme === "dark" ? "text-white" : "text-gray-900"
+            }`}
+          >
             Explore top destinations
           </h2>
           <p className="text-gray-600 mt-2 max-w-md">

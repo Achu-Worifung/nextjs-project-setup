@@ -20,9 +20,11 @@ import {
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu"
 import {ModeToggle} from '@/components/mode-to-toggle'
+import { useTheme } from "next-themes";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { theme } = useTheme();
   const [active, setActive] = useState("Flights") //higlight active section do it later
 
   // TODO: Replace this with your actual authentication logic
@@ -43,38 +45,54 @@ export default function Navbar() {
       <div className="flex w-full items-center justify-between">
         <Link href="/" className="flex items-center gap-4 cursor-pointer">
           <Image src="/logo.svg" alt="Logo" width={60} height={60} />
-          <div className="text-xl md:text-3xl font-bold font-['Philosopher'] text-black">
+          <h2 className={`text-xl md:text-3xl font-bold font-['Philosopher'] ${
+              theme === "dark" ? "text-white" : "text-gray-900"
+            }`}>
             Infosys | Booking
-          </div>
+          </h2>
         </Link>
         <div className="hidden lg:flex items-center gap-10">
-          <NavigationMenuList className="flex gap-15 items-center text-black text-lg font-semibold font-['Lato'] md:gap-8">
-            {["Flights", "Hotels", "Vehicles"].map((label) => (
-              <NavigationMenuItem key={label} onClick={() => changeNav(label)}>
-                 <NavigationMenuTrigger className="bg-transparent text-black hover:bg-black/10">
-                 {label === "Flights" && <Plane className="mr-2" />} {label === "Hotels" && <Building2 className="mr-2" />} {label === "Vehicles" && <Car className="mr-2" />} {label}
-                </NavigationMenuTrigger>
-                {/*<NavigationMenuContent className="p-4">{label} Options</NavigationMenuContent> */}
-              </NavigationMenuItem>
-            ))}
-            <NavigationMenuItem>
-              <Link href="/mybookings">
-                <NavigationMenuTrigger className="bg-transparent text-black hover:bg-black/10">
-                  MyBooking
-                </NavigationMenuTrigger>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <ModeToggle/>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/loginSignin">
-                <NavigationMenuTrigger className="bg-transparent text-black hover:bg-black/10">
-                  Sign In
-                </NavigationMenuTrigger>
-              </Link>
-            </NavigationMenuItem>
-          </NavigationMenuList>
+          <NavigationMenuList className={`flex gap-15 items-center text-lg font-semibold font-['Lato'] md:gap-8`}>
+  {["Flights", "Hotels", "Vehicles"].map((label) => (
+    <NavigationMenuItem key={label} onClick={() => changeNav(label)}>
+      <NavigationMenuTrigger
+        className={`bg-transparent hover:bg-black/10 ${
+          theme === "dark" ? "text-white" : "text-gray-900"
+        }`}
+      >
+        {label === "Flights" && <Plane className="mr-2" />} 
+        {label === "Hotels" && <Building2 className="mr-2" />} 
+        {label === "Vehicles" && <Car className="mr-2" />} 
+        {label}
+      </NavigationMenuTrigger>
+    </NavigationMenuItem>
+  ))}
+  <NavigationMenuItem>
+    <Link href="/mybookings">
+      <NavigationMenuTrigger
+        className={`bg-transparent hover:bg-black/10 ${
+          theme === "dark" ? "text-white" : "text-gray-900"
+        }`}
+      >
+        MyBooking
+      </NavigationMenuTrigger>
+    </Link>
+  </NavigationMenuItem>
+  <NavigationMenuItem>
+    <ModeToggle/>
+  </NavigationMenuItem>
+  <NavigationMenuItem>
+    <Link href="/loginSignin">
+      <NavigationMenuTrigger
+        className={`bg-transparent hover:bg-black/10 ${
+          theme === "dark" ? "text-white" : "text-gray-900"
+        }`}
+      >
+        Sign In
+      </NavigationMenuTrigger>
+    </Link>
+  </NavigationMenuItem>
+</NavigationMenuList>
         </div>
         <div className="lg:hidden">
   <button
@@ -114,37 +132,43 @@ export default function Navbar() {
      
     </button>
     {["Flights", "Hotels", "Cars", "MyBooking"].map((label) =>
-      label === "MyBooking" ? (
-        <Link
-          key={label}
-          href="/mybookings"
-          className="px-2 py-1 hover:bg-black/10 rounded"
-          onClick={() => setMobileOpen(false)}
-        >
-          {label}
-        </Link>
-      ) : label === "Cars" ? (
-        <Link
-          key={label}
-          href="/carBooking"
-          className="px-2 py-1 hover:bg-black/10 rounded"
-          onClick={() => setMobileOpen(false)}
-        >
-          {label}
-        </Link>
-      ) : (
-        <div
-          key={label}
-          onClick={() => {
-            changeNav(label);
-            setMobileOpen(false);
-          }}
-          className="px-2 py-1 hover:bg-black/10 rounded cursor-pointer"
-        >
-          {label}
-        </div>
-      )
-    )}
+  label === "MyBooking" ? (
+    <Link
+      key={label}
+      href="/mybookings"
+      className={`px-2 py-1 hover:bg-black/10 rounded ${
+        theme === "dark" ? "text-white" : "text-gray-900"
+      }`}
+      onClick={() => setMobileOpen(false)}
+    >
+      {label}
+    </Link>
+  ) : label === "Cars" ? (
+    <Link
+      key={label}
+      href="/carBooking"
+      className={`px-2 py-1 hover:bg-black/10 rounded ${
+        theme === "dark" ? "text-white" : "text-gray-900"
+      }`}
+      onClick={() => setMobileOpen(false)}
+    >
+      {label}
+    </Link>
+  ) : (
+    <div
+      key={label}
+      onClick={() => {
+        changeNav(label);
+        setMobileOpen(false);
+      }}
+      className={`px-2 py-1 hover:bg-black/10 rounded cursor-pointer ${
+        theme === "dark" ? "text-white" : "text-gray-900"
+      }`}
+    >
+      {label}
+    </div>
+  )
+)}
          {!isSignedIn && (
       <Link
         href="/loginSignin"

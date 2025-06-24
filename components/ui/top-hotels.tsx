@@ -2,12 +2,15 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { ChevronRight, ChevronLeft, Hotel } from "lucide-react";
 import { HotelDestinationCard } from "@/components/ui/hotel-destination-card";
+import { useTheme } from "next-themes";
+
 export function TopHotels() {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const firstItemRef = useRef<HTMLDivElement>(null);
   const lastItemRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
 
   const topHotels = [
     {
@@ -120,7 +123,9 @@ export function TopHotels() {
       <div className="grid grid-cols-2 items-center justify-between w-full mb-4">
         <span>
           <h1 className="text-xl font-bold text-pink-500 flex "><Hotel/>Top Hotels</h1>
-          <h1 className="text-4xl text-black font-bold">Explore top hotels</h1>
+          <h1 className={`text-3xl md:text-4xl font-bold leading-tight ${
+              theme === "dark" ? "text-white" : "text-gray-900"
+            }`}>Explore top hotels</h1>
         </span>        <span className="flex items-end justify-end gap-2">
           <button
             onClick={scrollLeft}

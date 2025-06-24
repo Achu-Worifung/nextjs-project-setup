@@ -1,6 +1,10 @@
+'use client';
+
 import Image from "next/image";
 import { Star } from "lucide-react";
+import { useTheme } from "next-themes";
 export function TravelPoint() {
+    const { theme } = useTheme();
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 items-center py-4  w-11/12 md:w-9/12">
       <div className="relative min-h-[350px] sm:min-h-[400px] ml-5 md:block hidden">
@@ -21,7 +25,9 @@ export function TravelPoint() {
       </div>
       <div className="flex flex-col gap-2">
         <p className="text-xl  text-pink-600">Travel Points</p>
-        <p className="text-3xl font-bold">
+        <p className={`text-3xl md:text-4xl font-bold leading-tight ${
+              theme === "dark" ? "text-white" : "text-gray-900"
+            }`}>
           We help you find your <br /> dream destination
         </p>
         <p className="text-base text-left">
