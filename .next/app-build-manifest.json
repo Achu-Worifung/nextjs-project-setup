@@ -11,7 +11,48 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/page.js"
     ],
+<<<<<<< HEAD
     "/(dashboard)/mybookings/page": [
+=======
+    "/_not-found/page": [
+      "static/chunks/node_modules_next_dist_1a6ee436._.js",
+      "static/chunks/app_favicon_ico_mjs_659ce808._.js",
+      "static/chunks/[root-of-the-server]__9d126714._.css",
+      "static/chunks/node_modules_4b8dc8ae._.js",
+      "static/chunks/_06a03074._.js",
+      "static/chunks/app_layout_tsx_c0237562._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_fd44f5a4._.js",
+      "static/chunks/node_modules_next_dist_compiled_2ce9398a._.js",
+      "static/chunks/node_modules_next_dist_client_8f19e6fb._.js",
+      "static/chunks/node_modules_next_dist_2ecbf5fa._.js",
+      "static/chunks/node_modules_@swc_helpers_cjs_00636ac3._.js",
+      "static/chunks/_e69f0d32._.js",
+      "static/chunks/_93808211._.js"
+    ],
+    "/carBooking/page": [
+      "static/chunks/node_modules_next_dist_1a6ee436._.js",
+      "static/chunks/app_favicon_ico_mjs_659ce808._.js",
+      "static/chunks/[root-of-the-server]__9d126714._.css",
+      "static/chunks/node_modules_4b8dc8ae._.js",
+      "static/chunks/_06a03074._.js",
+      "static/chunks/app_layout_tsx_c0237562._.js",
+      "static/chunks/node_modules_@mui_system_esm_577b4133._.js",
+      "static/chunks/node_modules_@mui_material_esm_0453cf9f._.js",
+      "static/chunks/node_modules_@mui_x-date-pickers_esm_PickersTextField_669dd4d1._.js",
+      "static/chunks/node_modules_@mui_x-date-pickers_esm_internals_365325bb._.js",
+      "static/chunks/node_modules_@mui_x-date-pickers_esm_ec475052._.js",
+      "static/chunks/node_modules_@popperjs_core_lib_229f7621._.js",
+      "static/chunks/node_modules_794f16c6._.js",
+      "static/chunks/_9cfd5c7b._.js",
+      "static/chunks/app_carBooking_page_tsx_3a209616._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_fd44f5a4._.js",
+      "static/chunks/node_modules_next_dist_compiled_2ce9398a._.js",
+      "static/chunks/node_modules_next_dist_client_8f19e6fb._.js",
+      "static/chunks/node_modules_next_dist_2ecbf5fa._.js",
+      "static/chunks/node_modules_@swc_helpers_cjs_00636ac3._.js",
+      "static/chunks/_e69f0d32._.js",
+      "static/chunks/_93808211._.js"
+>>>>>>> e636203acffd047221754c46619f578fa923b35c
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/mybookings/page.js"

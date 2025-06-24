@@ -1,111 +1,118 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { Button } from "./button";
 import { Autocomplete } from "@react-google-maps/api";
 import VehicleCard from "./VehicleCard";
-
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateRangePicker } from '@mui/x-date-pickers-pro';
-import { Dayjs } from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import dayjs, { Dayjs } from "dayjs";
 
-type DateRange<T> = [T | null, T | null];
-
-interface HeaderProps {
-  onSearchResults: (results: any) => void;
+interface LatLng {
+  lat: number;
+  lng: number;
 }
 
-const Header: React.FC<HeaderProps> = ({ onSearchResults }) => {
+const Header: React.FC = () => {
   const pickupRef = useRef<HTMLInputElement>(null);
   const dropoffRef = useRef<HTMLInputElement>(null);
+  const pickupAutocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+const dropoffAutocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const [pickupLatLng, setPickupLatLng] = useState<LatLng | null>(null);
+  const [dropoffLatLng, setDropoffLatLng] = useState<LatLng | null>(null);
+  const [pickupTime, setPickupTime] = useState("");
+const [dropoffTime, setDropoffTime] = useState("");
 
-  const [dateRange, setDateRange] = useState<DateRange<Dayjs>>([null, null]);
-  const [pickupLatLng, setPickupLatLng] = useState<{ lat: number; lng: number } | null>(null);
-  const [dropoffLatLng, setDropoffLatLng] = useState<{ lat: number; lng: number } | null>(null);
-  const [results, setResults] = useState<any>(null);
+  const [pickupDate, setPickupDate] = useState("");
+  const [dropoffDate, setDropoffDate] = useState("");
+   const [pickupDateTime, setPickupDateTime] = useState<Dayjs | null>(null);
+  const [dropoffDateTime, setDropoffDateTime] = useState<Dayjs | null>(null);
+
   const [loading, setLoading] = useState(false);
-  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
-  const [nearbyCars, setNearbyCars] = useState<any[]>([]);
+  const [availableCars, setAvailableCars] = useState<any[]>([]);
 
-  const handlePlaceChanged = (
-    type: "pickup" | "dropoff",
-    autocomplete: google.maps.places.Autocomplete | null
-  ) => {
-    if (!autocomplete) return;
-    const place = autocomplete.getPlace();
-    if (!place.geometry || !place.geometry.location) return;
-    const lat = place.geometry.location.lat();
-    const lng = place.geometry.location.lng();
-    if (type === "pickup") setPickupLatLng({ lat, lng });
-    else setDropoffLatLng({ lat, lng });
-  };
+  const getCoordinatesForLocation = async (locationName: string): Promise<LatLng | null> => {
+    if (!locationName) return null;
 
-  useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setUserLocation({ lat: latitude, lng: longitude });
-          fetchNearbyCars(latitude, longitude);
-        },
-        (error) => {
-          console.warn("User denied geolocation or error occurred:", error);
-        }
-      );
-    } else {
-      console.warn("Geolocation is not supported by this browser.");
-    }
-  }, []);
-
-  const fetchNearbyCars = async (lat: number, lng: number) => {
     try {
-      const response = await fetch(`/api/cars?lat=${lat}&lng=${lng}`);
-      const data = await response.json();
-      setNearbyCars(data);
-    } catch (error) {
-      console.error("Failed to fetch cars:", error);
-    }
-  };
-
-  const handleSearch = async () => {
-    if (!pickupLatLng || !dropoffLatLng || !dateRange[0] || !dateRange[1]) return;
-
-    const pickUpDate = dateRange[0].format("YYYY-MM-DD");
-    const dropOffDate = dateRange[1].format("YYYY-MM-DD");
-
-    const url = `https://booking-com15.p.rapidapi.com/api/v1/cars/searchCarRentals?pick_up_latitude=${pickupLatLng.lat}&pick_up_longitude=${pickupLatLng.lng}&drop_off_latitude=${dropoffLatLng.lat}&drop_off_longitude=${dropoffLatLng.lng}&pick_up_date=${pickUpDate}&drop_off_date=${dropOffDate}&pick_up_time=10:00&drop_off_time=10:00&driver_age=30&currency_code=USD&location=US`;
-
-    const options = {
-      method: 'GET',
-      headers: {
-        'x-rapidapi-host': 'booking-com15.p.rapidapi.com',
-        'x-rapidapi-key': '60adf17008msh63e4a1af385166bp1c2d84jsn4e4c2a9332dc'
+      const response = await fetch(`/api/v1/cars/searchDestination?query=${encodeURIComponent(locationName)}`);
+      if (!response.ok) {
+        console.error("API error:", response.statusText);
+        return null;
       }
-    };
+      const data = await response.json();
 
-    setLoading(true);
-    setResults(null);
-
-    try {
-      const res = await fetch(url, options);
-      const data = await res.json();
-      setResults(data);
-      onSearchResults(data);
-    } catch (err) {
-      console.error("Error fetching rental cars:", err);
-      alert("Failed to fetch rental cars.");
-    } finally {
-      setLoading(false);
+      if (data && data.length > 0) {
+        const loc = data[0];
+        return {
+          lat: loc.coordinates.latitude,
+          lng: loc.coordinates.longitude,
+        };
+      }
+    } catch (error) {
+      console.error("Failed to fetch coordinates:", error);
     }
+    return null;
   };
 
-  useEffect(() => {
-    if (pickupLatLng && dropoffLatLng && dateRange[0] && dateRange[1]) {
-      handleSearch();
+
+const searchAvailableCars = async () => {
+  if (
+    !pickupLatLng ||
+    !dropoffLatLng ||
+    !pickupDateTime ||
+    !dropoffDateTime
+  ) {
+    alert("Please enter all fields, valid locations, and times.");
+    return;
+  }
+
+  setLoading(true);
+
+  const body = {
+    pickup_latitude: pickupLatLng.lat,
+    pickup_longitude: pickupLatLng.lng,
+    dropoff_latitude: dropoffLatLng.lat,
+    dropoff_longitude: dropoffLatLng.lng,
+    pick_up_date: pickupDateTime.format("YYYY-MM-DD"),
+    drop_off_date: dropoffDateTime.format("YYYY-MM-DD"),
+    pick_up_time: pickupDateTime.format("HH:mm"),
+    drop_off_time: dropoffDateTime.format("HH:mm"),
+  };
+
+  console.log("Sending search request with:", body);
+
+  try {
+    const response = await fetch("/api/v1/cars/search", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    console.log("API status:", response.status);
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("API error response:", errorData);
+      alert(`Search failed: ${JSON.stringify(errorData)}`);
+      return;
     }
-  }, [pickupLatLng, dropoffLatLng, dateRange]);
+
+    const json = await response.json();
+console.log("API full response:", JSON.stringify(json, null, 2));
+
+    setAvailableCars(json.cars ?? []);
+  } catch (error) {
+    console.error("Search failed:", error);
+    alert("Failed to search available cars.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="w-[1240px] min-h-48 relative mx-auto">
@@ -113,112 +120,161 @@ const Header: React.FC<HeaderProps> = ({ onSearchResults }) => {
         <div className="w-[1266px] px-12 py-9 bg-white shadow-[0px_4px_10px_0px_rgba(218,6,6,0.10)] flex flex-col justify-center items-center gap-2.5">
           <div className="inline-flex justify-center items-center gap-32">
             <div className="flex justify-start items-center gap-12">
-              {/* Pickup */}
-              <div className="inline-flex flex-col justify-start items-start">
-                <label className="p-2.5 text-neutral-500 text-base font-normal">Pickup</label>
-                <div className="p-2.5 bg-white flex items-center gap-2.5 border border-gray-200 rounded">
-                  <Image src="/location.svg" alt="Location" width={17} height={22} />
-                  <Autocomplete
-                    onPlaceChanged={() => {
-                      const autocomplete = pickupRef.current
-                        ? new google.maps.places.Autocomplete(pickupRef.current)
-                        : null;
-                      handlePlaceChanged("pickup", autocomplete);
-                    }}
-                  >
-                    <input
-                      ref={pickupRef}
-                      type="text"
-                      placeholder="Enter pickup location"
-                      className="outline-none w-48 text-zinc-700 text-base font-normal"
-                    />
-                  </Autocomplete>
-                </div>
-              </div>
 
-              {/* Dropoff */}
-              <div className="inline-flex flex-col justify-start items-start">
-                <label className="p-2.5 text-neutral-500 text-base font-normal">Drop Off</label>
-                <div className="p-2.5 flex items-center gap-2.5 border border-gray-200 rounded">
-                  <Image src="/location.svg" alt="Location" width={17} height={22} />
-                  <Autocomplete
-                    onPlaceChanged={() => {
-                      const autocomplete = dropoffRef.current
-                        ? new google.maps.places.Autocomplete(dropoffRef.current)
-                        : null;
-                      handlePlaceChanged("dropoff", autocomplete);
-                    }}
-                  >
-                    <input
-                      ref={dropoffRef}
-                      type="text"
-                      placeholder="Enter drop-off location"
-                      className="outline-none w-48 text-zinc-700 text-base font-normal"
-                    />
-                  </Autocomplete>
-                </div>
-              </div>
+              {/* Pickup */}
+<div className="inline-flex flex-col justify-start items-start">
+  <label className="block font-semibold mb-1 text-black">Pickup Location</label>
+  <Autocomplete
+  onLoad={(autocomplete) => {
+    pickupAutocompleteRef.current = autocomplete;
+  }}
+  onPlaceChanged={() => {
+    const autocomplete = pickupAutocompleteRef.current;
+    if (autocomplete) {
+      const place = autocomplete.getPlace();
+      if (!place.geometry || !place.geometry.location) {
+        alert("Please select a location from the dropdown suggestions.");
+        return;
+      }
+      setPickupLatLng({
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+      });
+    }
+  }}
+>
+  <input
+    ref={pickupRef}
+    type="text"
+    placeholder="Enter pickup location"
+    className="border rounded px-3 py-2 w-full text-black"
+  />
+</Autocomplete>
+</div>
+{/* Drop-off */}
+<div className="inline-flex flex-col justify-start items-start">
+  <label className="block font-semibold mb-1 text-black">Drop-off Location</label>
+  <Autocomplete
+  onLoad={(autocomplete) => {
+    dropoffAutocompleteRef.current = autocomplete;
+  }}
+  onPlaceChanged={() => {
+    const autocomplete = dropoffAutocompleteRef.current;
+    if (autocomplete) {
+      const place = autocomplete.getPlace();
+      if (!place.geometry || !place.geometry.location) {
+        alert("Please select a location from the dropdown suggestions.");
+        return;
+      }
+      setDropoffLatLng({
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+      });
+    }
+  }}
+>
+  <input
+    ref={dropoffRef}
+    type="text"
+    placeholder="Enter drop-off location"
+    className="border rounded px-3 py-2 w-full text-black"
+  />
+</Autocomplete>
+</div>
 
               {/* Date Picker */}
               <div className="inline-flex flex-col justify-start items-start">
-                <label className="p-2.5 text-neutral-500 text-base font-normal">Date Range</label>
+                <label className="p-2.5 text-black text-base font-normal">Date & Time Range</label>
                 <div className="p-2.5">
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateRangePicker
-                      calendars={1}
-                      value={dateRange}
-                      onChange={(newValue) => setDateRange(newValue)}
-                      slotProps={{
-                        textField: {
-                          size: 'small',
-                          className: "bg-white rounded border border-gray-200",
-                        }
-                      }}
-                    />
-                  </LocalizationProvider>
+                 <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={['DateTimePicker']}>
+            <DateTimePicker
+              label="pickup Date & time"
+              disablePast={true}
+              value={pickupDateTime}
+              onChange={(newValue) => {
+                setPickupDateTime(newValue);
+                if (newValue) {
+                  setPickupDate(newValue.format("YYYY-MM-DD"));
+                  setPickupTime(newValue.format("HH:mm"));
+                } else {
+                  setPickupDate("");
+                  setPickupTime("");
+                }
+              }}
+            />
+          </DemoContainer>
+        </LocalizationProvider>
+<LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={['DateTimePicker']}>
+            <DateTimePicker
+              label="dropoff Date & time"
+              disablePast={true}
+              value={dropoffDateTime}
+              onChange={(newValue) => {
+                setDropoffDateTime(newValue);
+                if (newValue) {
+                  setDropoffDate(newValue.format("YYYY-MM-DD"));
+                  setDropoffTime(newValue.format("HH:mm"));
+                } else {
+                  setDropoffDate("");
+                  setDropoffTime("");
+                }
+              }}
+            />
+          </DemoContainer>
+        </LocalizationProvider>
                 </div>
               </div>
             </div>
 
             {/* Search Button */}
-            <Button
-              onClick={handleSearch}
-              variant="destructive"
-              size="lg"
-              className="font-bold px-8"
-              disabled={loading || !pickupLatLng || !dropoffLatLng || !dateRange[0] || !dateRange[1]}
+            <button
+              onClick={searchAvailableCars}
+              disabled={loading}
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
             >
-              {loading ? "Searching..." : "Search"}
-            </Button>
+              {loading ? "Searching..." : "Search Cars"}
+            </button>
           </div>
         </div>
 
         {/* Results */}
-        <div className="w-full mt-8">
-          {results?.data?.length > 0 ? (
-            <div>
-              <h2 className="text-lg font-bold mb-4">Available Cars</h2>
-              <ul className="space-y-4">
-                {results.data.map((car: any, idx: number) => (
-                  <li key={idx} className="border rounded p-4 flex gap-4 items-center">
-                    {car.photo && (
-                      <img src={car.photo} alt={car.name} className="w-32 h-20 object-cover rounded" />
-                    )}
-                    <div>
-                      <div className="font-semibold">{car.name}</div>
-                      <div className="text-sm text-gray-600">{car.supplier_name}</div>
-                      <div className="text-sm text-gray-800">
-                        ${car.price_total} {car.currency}
-                      </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : results?.data?.length === 0 ? (
-            <div className="text-red-500">No cars found for your search.</div>
-          ) : null}
+        <div className="mt-6">
+          <h3 className="text-xl font-semibold mb-2">Available Cars</h3>
+          {availableCars.length === 0 && <p>No cars found yet.</p>}
+          <ul>
+  {availableCars.map((car, index) => (
+    <li key={index} className="border p-2 mb-2 rounded">
+      <strong>{car.name || "Unnamed Car"}</strong><br />
+      {car.description ?? "No description"}
+    </li>
+  ))}
+</ul>
+
         </div>
+
+        {/* Debug Coordinates Display */}
+        <div className="mt-8 p-4 bg-gray-100 rounded w-full text-black max-h-64 overflow-auto">
+  <h4 className="font-semibold mb-2">Debug Info</h4>
+  <p><strong>Pickup Latitude:</strong> {pickupLatLng?.lat ?? "N/A"}</p>
+  <p><strong>Pickup Longitude:</strong> {pickupLatLng?.lng ?? "N/A"}</p>
+  <p><strong>Drop-off Latitude:</strong> {dropoffLatLng?.lat ?? "N/A"}</p>
+  <p><strong>Drop-off Longitude:</strong> {dropoffLatLng?.lng ?? "N/A"}</p>
+  <p><strong>Pickup Date:</strong> {pickupDate || "N/A"}</p>
+  <p><strong>Pickup Time:</strong> {pickupTime || "N/A"}</p>
+  <p><strong>Drop-off Date:</strong> {dropoffDate || "N/A"}</p>
+  <p><strong>Drop-off Time:</strong> {dropoffTime || "N/A"}</p>
+
+  <h5 className="mt-4 font-semibold text-black">API Response (Available Cars):</h5>
+  {availableCars.length === 0 ? (
+    <p>No cars returned from API yet.</p>
+  ) : (
+    <pre className="whitespace-pre-wrap text-sm bg-white p-2 rounded border max-h-48 overflow-auto">
+      {JSON.stringify(availableCars, null, 2)}
+    </pre>
+  )}
+</div>
       </div>
     </div>
   );
