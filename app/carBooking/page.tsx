@@ -6,7 +6,7 @@ import VehicleCard from "@/components/ui/VehicleCard";
 export default function HomePage() {
   return (
     <main className="bg-blue-100 min-h-screen px-6 py-10">
-      <Header onSearchResults={() => {}} />
+      <Header />
 
       <h2 className="text-3xl font-bold text-center my-10 text-black">
         Select a vehicle group
