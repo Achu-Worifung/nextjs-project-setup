@@ -9,10 +9,7 @@ export function Footer() {
           <p className="font-bold text-2xl">Infosys | Booking</p>
         </span>
         <p className="text-sm/5 text-gray-500 w-10/12">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
-          libero quo ipsa debitis eaque modi. Vitae voluptatibus omnis corporis
-          maxime fugiat dignissimos amet modi sit, facilis aspernatur. Magnam,
-          adipisci excepturi.
+        © 2025 Infosys Booking. All rights reserved.
         </p>
         <span className="[&>button]:bg-white [&>button]:border [&>button]:border-gray-300 [&>button]:rounded-full [&>button]:p-2 [&>button]:hover:bg-gray-100 flex items-center gap-2 mt-4">
           <button>

@@ -92,13 +92,12 @@ function findAirportWithRanking(query : string) {
 }
 
 
-
-
-
   return (
     <div className="w-full max-w-6xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
       {/* Flight Type Selection */}
-      <div className="mb-6">
+        <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Book Cheap Flights</h2>
+        <p className="text-gray-600">Search flights for your next adventure!</p>
         <RadioGroup
           value={flightType}
           onValueChange={setFlightType}
