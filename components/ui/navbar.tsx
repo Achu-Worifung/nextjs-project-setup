@@ -24,6 +24,10 @@ import {ModeToggle} from '@/components/mode-to-toggle'
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [active, setActive] = useState("Flights") //higlight active section do it later
+
+  // TODO: Replace this with your actual authentication logic
+  const isSignedIn = false;
+
   const changeNav = (route: string) =>
   {
     console.log(active)
@@ -35,7 +39,7 @@ export default function Navbar() {
   }
 
   return (
-    <NavigationMenu className="w-full bg-gradient-to-r  px-4 md:px-8 py-4  ">
+   <NavigationMenu className="w-full bg-gradient-to-r  px-4 md:px-8 py-4  relative">
       <div className="flex w-full items-center justify-between">
         <Link href="/" className="flex items-center gap-4 cursor-pointer">
           <Image src="/logo.svg" alt="Logo" width={50} height={50} />
@@ -72,46 +76,87 @@ export default function Navbar() {
             </NavigationMenuItem>
           </NavigationMenuList>
         </div>
-        <div className="lg:hidden flex items-center">
-          <button onClick={() => setMobileOpen(!mobileOpen)} className="text-black">
-            {mobileOpen ? <X size={30} /> : <Menu size={30} />}
-          </button>
-        </div>
+        <div className="lg:hidden">
+  <button
+    onClick={() => setMobileOpen(!mobileOpen)}
+    className="relative w-8 h-6 flex flex-col justify-between items-center z-50 focus:outline-none absolute right-4 top-3"
+    aria-label="Toggle menu"
+    type="button"
+  >
+    <span
+      className={`block h-[3px] w-8 bg-black rounded transition-all duration-300 
+        ${mobileOpen ? "translate-y-[10px] rotate-45" : ""}
+      `}
+    />
+    <span
+      className={`block h-[3px] w-8 bg-black rounded transition-all duration-300 
+        ${mobileOpen ? "opacity-0" : ""}
+      `}
+    />
+    <span
+      className={`block h-[3px] w-8 bg-black rounded transition-all duration-300 
+        ${mobileOpen ? "-translate-y-[13px] -rotate-45" : ""}
+      `}
+    />
+  </button>
+</div>
       </div>
 
-     {mobileOpen && (
-  <div className="flex flex-col gap-4 mt-4 lg:hidden text-black text-lg font-['Lato']">
+      {mobileOpen && (
+  <div
+    className="fixed top-0 left-0 w-full h-full bg-white/95 z-30 flex flex-col gap-4 pt-24 px-6 text-black text-lg font-['Lato'] animate-slide-down transition-all duration-300 ease-in-out lg:hidden"
+  >
+    <button
+      onClick={() => setMobileOpen(false)}
+      className="absolute top-6 right-6 text-black z-40"
+      aria-label="Close menu"
+    >
+     
+    </button>
     {["Flights", "Hotels", "Cars", "MyBooking"].map((label) =>
       label === "MyBooking" ? (
-    <Link
-      key={label}
-      href="/mybookings"
-      className="px-2 py-1 hover:bg-black/10 rounded"
-    >
-      {label}
-    </Link>
-  ) : label === "Cars" ? (
-    <Link
-      key={label}
-      href="/carBooking"
-      className="px-2 py-1 hover:bg-black/10 rounded"
-    >
-      {label}
-    </Link>
-  ) : (
-    <div key={label} className="px-2 py-1 hover:bg-black/10 rounded">
-      {label}
-    </div>
-  )
-)}
-    {!isSignedIn && (
-      <Link href="/loginSignin" className="px-2 py-1 hover:bg-black/10 rounded">
+        <Link
+          key={label}
+          href="/mybookings"
+          className="px-2 py-1 hover:bg-black/10 rounded"
+          onClick={() => setMobileOpen(false)}
+        >
+          {label}
+        </Link>
+      ) : label === "Cars" ? (
+        <Link
+          key={label}
+          href="/carBooking"
+          className="px-2 py-1 hover:bg-black/10 rounded"
+          onClick={() => setMobileOpen(false)}
+        >
+          {label}
+        </Link>
+      ) : (
+        <div
+          key={label}
+          onClick={() => {
+            changeNav(label);
+            setMobileOpen(false);
+          }}
+          className="px-2 py-1 hover:bg-black/10 rounded cursor-pointer"
+        >
+          {label}
+        </div>
+      )
+    )}
+         {!isSignedIn && (
+      <Link
+        href="/loginSignin"
+        className="px-2 py-1 hover:bg-black/10 rounded"
+        onClick={() => setMobileOpen(false)}
+      >
         Sign In
       </Link>
     )}
     {isSignedIn && (
       <div className="mt-4">
-        <Link href="/profileSetting">
+        <Link href="/profileSetting" onClick={() => setMobileOpen(false)}>
           <button className="p-0 bg-transparent border-none">
             <ProfileBubble
               name="Alan Rivera"
@@ -124,6 +169,7 @@ export default function Navbar() {
     )}
   </div>
 )}
+
     </NavigationMenu>
   );
 }
