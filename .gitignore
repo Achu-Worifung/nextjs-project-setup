@@ -1,4 +1,10 @@
 #making sure the dependencies are not included in the repository
 # Node.js dependencies#
+node_modules
+# Ignore dependencies and builds
 node_modules/
+.next/
+out/
+dist/
+
 .next/
