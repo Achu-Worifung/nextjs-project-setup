@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import airports from "@/public/airports.json";
@@ -14,8 +14,8 @@ import {
   Search,
   Users,
   CalendarDays,
-  PlaneLanding,
   PlaneTakeoff,
+  PlaneLanding,
   ArrowLeftRight,
   MapPin,
 } from "lucide-react";
@@ -26,16 +26,27 @@ type Leg = { from: string; to: string; date?: Date };
 export function FlightSelection() {
   const router = useRouter();
 
-  // Global form state
-  const [flightType, setFlightType] =
-    useState<"one-way" | "round-trip" | "multi-city">("round-trip");
+  // Flight type
+  const [flightType, setFlightType] = useState<"one-way" | "round-trip" | "multi-city">(
+    "round-trip"
+  );
+
+  // Single-leg inputs
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-  const [departDate, setDepartDate] = useState<Date>();
-  const [returnDate, setReturnDate] = useState<Date>();
-  const [travelers, setTravelers] = useState("1 Adult");
+  const [departDate, setDepartDate] = useState<Date | undefined>(undefined);
+  const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
 
+  // Passenger counts
+  const [counts, setCounts] = useState({ adults: 2, children: 2 });
+  const inc = (key: "adults" | "children") =>
+    setCounts(c => ({ ...c, [key]: c[key] + 1 }));
+  const dec = (key: "adults" | "children") =>
+    setCounts(c => ({ ...c, [key]: Math.max(0, c[key] - 1) }));
 
+  const [classType, setClassType] = useState("Economy");
+
+  // Autocomplete suggestions
   const [airportSuggestions, setAirportSuggestions] = useState<Airport[]>([]);
   const [toAirportSuggestions, setToAirportSuggestions] = useState<Airport[]>([]);
 
@@ -44,7 +55,7 @@ export function FlightSelection() {
   const [legFromSuggestions, setLegFromSuggestions] = useState<Airport[][]>([[]]);
   const [legToSuggestions, setLegToSuggestions] = useState<Airport[][]>([[]]);
 
-  // Search helper
+  // Helper to score & find airports
   function findAirport(q: string): Airport[] {
     const query = q.toLowerCase();
     return airports
@@ -64,22 +75,24 @@ export function FlightSelection() {
 
   // Single-leg handlers
   const onFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFrom(e.target.value);
-    setAirportSuggestions(findAirport(e.target.value));
+    const v = e.target.value;
+    setFrom(v);
+    setAirportSuggestions(findAirport(v));
   };
   const onToChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTo(e.target.value);
-    setToAirportSuggestions(findAirport(e.target.value));
+    const v = e.target.value;
+    setTo(v);
+    setToAirportSuggestions(findAirport(v));
   };
 
   // Multi-city handlers
-  function updateLeg(idx: number, data: Partial<Leg>) {
-    setLegs((ls) => {
-      const copy = [...ls];
+  const updateLeg = (idx: number, data: Partial<Leg>) => {
+    setLegs((prev) => {
+      const copy = [...prev];
       copy[idx] = { ...copy[idx], ...data };
       return copy;
     });
-  }
+  };
   const onLegFromChange = (idx: number, e: React.ChangeEvent<HTMLInputElement>) => {
     const v = e.target.value;
     updateLeg(idx, { from: v });
@@ -98,27 +111,25 @@ export function FlightSelection() {
       return copy;
     });
   };
-  const onLegDateChange = (idx: number, date?: Date) => {
-    updateLeg(idx, { date });
-  };
+  const onLegDateChange = (idx: number, date?: Date) => updateLeg(idx, { date });
   const addLeg = () => {
-    setLegs((ls) => [...ls, { from: "", to: "", date: undefined }]);
+    setLegs((prev) => [...prev, { from: "", to: "", date: undefined }]);
     setLegFromSuggestions((s) => [...s, []]);
     setLegToSuggestions((s) => [...s, []]);
   };
   const removeLeg = (idx: number) => {
-    setLegs((ls) => ls.filter((_, i) => i !== idx));
+    setLegs((prev) => prev.filter((_, i) => i !== idx));
     setLegFromSuggestions((s) => s.filter((_, i) => i !== idx));
     setLegToSuggestions((s) => s.filter((_, i) => i !== idx));
   };
 
-  // Swap single-leg
+  // Swap for single-leg
   const handleSwap = () => {
     setFrom(to);
     setTo(from);
   };
 
-  // Final search
+  // search
   const handleSearch = () => {
     const params = new URLSearchParams({
       flightType,
@@ -126,7 +137,8 @@ export function FlightSelection() {
       to,
       departDate: departDate ? format(departDate, "yyyy-MM-dd") : "",
       returnDate: returnDate ? format(returnDate, "yyyy-MM-dd") : "",
-      travelers,
+      travelers: `${count} Adult${count > 1 ? "s" : ""}`,
+      classType,
       legs: flightType === "multi-city" ? JSON.stringify(legs) : "",
     });
     router.push(`/flight-search?${params.toString()}`);
@@ -134,7 +146,8 @@ export function FlightSelection() {
 
   return (
     <div className="w-full max-w-6xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-100 p-6 pt-10">
-      {/* Flight Type Selection */}
+
+      {/* Flight Types */}
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Book Cheap Flights</h2>
         <p className="text-gray-600">Search flights for your next adventure!</p>
@@ -156,9 +169,7 @@ export function FlightSelection() {
               onClick={() => setFlightType(val)}
               className={cn(
                 "flex items-center justify-center p-4 border rounded-lg cursor-pointer",
-                flightType === val
-                  ? "border-pink-500 bg-pink-50"
-                  : "border-gray-200"
+                flightType === val ? "border-pink-500 bg-pink-50" : "border-gray-200"
               )}
             >
               <RadioGroupItem value={val} id={val} className="sr-only" />
@@ -169,41 +180,71 @@ export function FlightSelection() {
           ))}
         </RadioGroup>
       </div>
-      
-      <div className="mb-6 flex flex-col sm:flex-row sm:space-x-4">
-  {/* Travelers */}
-  <div className="flex-1">
-    <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-      <Users className="h-4 w-4 text-pink-500" />
-      Travelers
-    </Label>
-    <select
-      value={travelers}
-      onChange={(e) => setTravelers(e.target.value)}
-      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm"
-    >
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-    </select>
-  </div>
 
-  {/* Class */}
-  <div className="flex-1 mt-4 sm:mt-0">
-    <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-      <Users className="h-4 w-4 text-pink-500" />
-      Class
-    </Label>
-    <select
-      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm"
-    >
-      <option>Economy</option>
-      <option>Business</option>
-      <option>First</option>
-    </select>
-  </div>
-</div>
+      {/* Passengers */}
+      <div className="mb-6 flex flex-col sm:flex-row sm:space-x-4">
+        <div className="flex-1">
+          <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+            <Users className="h-4 w-4 text-pink-500" /> Adults
+          </Label>
+          <div className="flex items-center space-x-4">
+            <button
+              type="button"
+              onClick={() => dec("adults")}
+              className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+            >
+              −
+            </button>
+            <span className="w-8 text-center text-sm">{counts.adults}</span>
+            <button
+              type="button"
+              onClick={() => inc("adults")}
+              className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+            >
+              +
+            </button>
+          </div>
+        </div>
+        <div className="flex-1 mt-4 sm:mt-0">
+          <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+            <Users className="h-4 w-4 text-pink-500" /> Children
+          </Label>
+          <div className="flex items-center space-x-4">
+            <button
+              type="button"
+              onClick={() => dec("children")}
+              className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+            >
+              −
+            </button>
+            <span className="w-8 text-center text-sm">{counts.children}</span>
+            <button
+              type="button"
+              onClick={() => inc("children")}
+              className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Class */}
+      <div className="mb-6">
+        <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+          Class
+        </Label>
+        <select
+          value={classType}
+          onChange={e => setClassType(e.target.value)}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm"
+        >
+          <option>Economy</option>
+          <option>Premium Economy</option>
+          <option>Business</option>
+          <option>First</option>
+        </select>
+      </div>
 
       {/* Single-leg / Round-trip */}
       {flightType !== "multi-city" && (
@@ -300,8 +341,8 @@ export function FlightSelection() {
             <Popover>
               <PopoverTrigger asChild>
                 <Button
-                  variant="outline"
-                  className={cn("w-full text-left", !departDate && "text-muted-foreground")}
+                  variant="outline" 
+                  className={cn("w-full text-left", !departDate && "text-muted-foreground")}  
                 >
                   <CalendarDays className="mr-2 h-4 w-4" />
                   {departDate ? format(departDate, "MMM dd, yyyy") : "Select date"}
@@ -348,7 +389,7 @@ export function FlightSelection() {
         </div>
       )}
 
-      {/* Multi-city legs */}
+      {/* Multi-city Legs */}
       {flightType === "multi-city" && (
         <div className="mt-6">
           {legs.map((leg, idx) => (
@@ -393,23 +434,21 @@ export function FlightSelection() {
                   )}
                 </div>
               </div>
-
-              {/* Swap this leg */}
+              {/* Swap leg */}
               <div className="lg:col-span-1 flex justify-center">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => {
-                    const copy = [...legs];
-                    [copy[idx].from, copy[idx].to] = [copy[idx].to, copy[idx].from];
-                    setLegs(copy);
+                    const c = [...legs];
+                    [c[idx].from, c[idx].to] = [c[idx].to, c[idx].from];
+                    setLegs(c);
                   }}
                   className="p-2 rounded-full border-2 border-pink-200 hover:border-pink-500 hover:bg-pink-50"
                 >
                   <ArrowLeftRight className="h-4 w-4 text-pink-500" />
                 </Button>
               </div>
-
               {/* To */}
               <div className="lg:col-span-3 relative overflow-visible">
                 <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
@@ -450,8 +489,7 @@ export function FlightSelection() {
                   )}
                 </div>
               </div>
-
-              {/* Depart this leg */}
+              {/* Depart leg */}
               <div className="lg:col-span-2">
                 <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                   <CalendarDays className="h-4 w-4 text-pink-500" /> Depart
@@ -476,8 +514,7 @@ export function FlightSelection() {
                   </PopoverContent>
                 </Popover>
               </div>
-
-              {/* Remove this leg */}
+              {/* Remove leg */}
               {idx > 0 && (
                 <div className="lg:col-span-1 flex justify-center">
                   <Button
@@ -492,13 +529,12 @@ export function FlightSelection() {
               )}
             </div>
           ))}
-
-          {/* Add another leg */}
+          {/* Add another flight */}
           <div className="lg:col-span-12">
             <button
               type="button"
-              className="text-sm font-medium text-pink-500 hover:underline"
               onClick={addLeg}
+              className="text-sm font-medium text-pink-500 hover:underline"
             >
               + Add Another Flight
             </button>
@@ -506,7 +542,7 @@ export function FlightSelection() {
         </div>
       )}
 
-      {/* Final Search Button */}
+      {/* Search button */}
       <div className="mt-6">
         <Button
           onClick={handleSearch}
