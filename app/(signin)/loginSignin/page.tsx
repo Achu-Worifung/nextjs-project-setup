@@ -4,19 +4,45 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert } from "@/components/ui/alert";
-import { 
-  Eye, 
-  EyeOff, 
-  Mail, 
-  Lock, 
-  User, 
-  AlertCircle, 
-  Plane, 
-  MapPin, 
-  Compass, 
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  User,
+  AlertCircle,
+  Plane,
+  MapPin,
+  Compass,
   Globe,
-  Palmtree
+  Palmtree,
 } from "lucide-react";
+
+import { GoogleLogin } from "@react-oauth/google";
+
+const handleGoogleLogin = async (credentialResponse: any) => {
+  if (credentialResponse.credential) {
+    try {
+      const res = await fetch("/api/verify-google-token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idToken: credentialResponse.credential }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        // data.payload contains the verified user info (email, name, etc.)
+        console.log("Verified Google User:", data.payload);
+        // You can now log the user in, set session, redirect, etc.
+      } else {
+        console.error("Google token verification failed:", data.error);
+      }
+    } catch (err) {
+      console.error("Error verifying Google token:", err);
+    }
+  } else {
+    console.warn("No credential found in response");
+  }
+};
 
 // Add custom animations via CSS-in-JS (could also be in globals.css)
 const styles = `
@@ -33,7 +59,7 @@ const styles = `
 `;
 
 export default function LoginPage() {
- const [isSignUp, setIsSignUp] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -62,7 +88,9 @@ export default function LoginPage() {
     setSignUpData((prev) => ({ ...prev, [name]: value }));
     if (name === "password") {
       if (!isPasswordValid(value)) {
-        setSignUpError("Password must be at least 8 characters, include 1 uppercase letter and 1 number.");
+        setSignUpError(
+          "Password must be at least 8 characters, include 1 uppercase letter and 1 number.",
+        );
       } else {
         setSignUpError("");
       }
@@ -73,6 +101,8 @@ export default function LoginPage() {
   const isPasswordValid = (password: string) => {
     return /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
   };
+
+  
 
   const handleSignInSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -87,7 +117,9 @@ export default function LoginPage() {
   const handleSignUpSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isPasswordValid(signUpData.password)) {
-      setSignUpError("Password must be at least 8 characters, include 1 uppercase letter and 1 number.");
+      setSignUpError(
+        "Password must be at least 8 characters, include 1 uppercase letter and 1 number.",
+      );
       return;
     }
     setSignUpError("");
@@ -95,7 +127,8 @@ export default function LoginPage() {
     // Simulate API call
     setTimeout(() => {
       console.log("Sign Up Data:", signUpData);
-      setIsLoading(false);    }, 1000);
+      setIsLoading(false);
+    }, 1000);
   };
   return (
     <div className="min-h-screen w-full flex flex-col lg:flex-row font-sans relative overflow-hidden">
@@ -108,7 +141,7 @@ export default function LoginPage() {
           <div className="absolute top-10 left-10 w-20 h-12 bg-white/20 rounded-full blur-sm animate-pulse"></div>
           <div className="absolute top-20 right-20 w-32 h-16 bg-white/15 rounded-full blur-sm animate-pulse delay-1000"></div>
           <div className="absolute bottom-32 left-16 w-24 h-14 bg-white/20 rounded-full blur-sm animate-pulse delay-2000"></div>
-          
+
           {/* Travel icons scattered */}
           <div className="absolute top-1/4 left-1/4 text-white/10 animate-float">
             <Plane className="w-12 h-12 rotate-45" />
@@ -122,7 +155,7 @@ export default function LoginPage() {
           <div className="absolute bottom-1/3 left-1/3 text-white/10 animate-float delay-3000">
             <MapPin className="w-8 h-8" />
           </div>
-          
+
           {/* Palm tree silhouettes */}
           <div className="absolute bottom-0 left-8 text-green-800/20">
             <Palmtree className="w-16 h-20" />
@@ -131,7 +164,8 @@ export default function LoginPage() {
             <Palmtree className="w-12 h-16" />
           </div>
         </div>
-      </div>      {/* Left Panel - Login Form */}
+      </div>{" "}
+      {/* Left Panel - Login Form */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 relative z-10">
         <div className="w-full max-w-md">
           {!isSignUp ? (
@@ -143,13 +177,26 @@ export default function LoginPage() {
                       <Mail className="w-8 h-8 text-blue-600" />
                     </div>
                   </div>
-                  <h1 className="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h1>
-                  <p className="text-gray-600 text-lg">Sign in to your account to continue your journey</p>
+                  <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                    Welcome Back
+                  </h1>
+                  <p className="text-gray-600 text-lg">
+                    Sign in to your account to continue your journey
+                  </p>
                 </div>
-                
+
                 <form onSubmit={handleSignInSubmit} className="space-y-6">
+                  <GoogleLogin
+  onSuccess={handleGoogleLogin}
+  onError={() => {
+    console.error("Google Sign-In Failed");
+  }}
+/>
                   <div className="space-y-2">
-                    <label htmlFor="signin-email" className="block text-sm font-medium text-gray-700">
+                    <label
+                      htmlFor="signin-email"
+                      className="block text-sm font-medium text-gray-700"
+                    >
                       Email Address
                     </label>
                     <div className="relative">
@@ -166,9 +213,12 @@ export default function LoginPage() {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
-                    <label htmlFor="signin-password" className="block text-sm font-medium text-gray-700">
+                    <label
+                      htmlFor="signin-password"
+                      className="block text-sm font-medium text-gray-700"
+                    >
                       Password
                     </label>
                     <div className="relative">
@@ -188,13 +238,17 @@ export default function LoginPage() {
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                       >
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        {showPassword ? (
+                          <EyeOff className="w-4 h-4" />
+                        ) : (
+                          <Eye className="w-4 h-4" />
+                        )}
                       </button>
                     </div>
                   </div>
 
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
                     disabled={isLoading}
                   >
@@ -214,7 +268,8 @@ export default function LoginPage() {
                   </p>
                 </div>
               </CardContent>
-            </Card>          ) : (
+            </Card>
+          ) : (
             <div className="text-center">
               <div className="relative p-12 bg-white/20 backdrop-blur-sm rounded-2xl border border-white/30">
                 {/* Travel illustration with icons */}
@@ -229,19 +284,23 @@ export default function LoginPage() {
                     <Compass className="w-8 h-8 text-white" />
                   </div>
                 </div>
-                <h2 className="text-2xl font-bold text-white mb-3">Explore the World</h2>
+                <h2 className="text-2xl font-bold text-white mb-3">
+                  Explore the World
+                </h2>
                 <p className="text-white/90 mb-6">Your next adventure awaits</p>
                 <Button
                   onClick={() => setIsSignUp(false)}
                   size="lg"
                   className="bg-white text-blue-600 hover:bg-white/90 font-bold px-8 py-4 rounded-full shadow-lg"
-                >                  Back to Login
+                >
+                  {" "}
+                  Back to Login
                 </Button>
               </div>
             </div>
           )}
         </div>
-        
+
         {/* Decorative Elements */}
         <div className="absolute top-4 right-4 opacity-30">
           <div className="w-16 h-20 flex flex-col items-center justify-center text-white/40">
@@ -256,9 +315,10 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-
       {/* Right Panel - Sign Up Form */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 relative z-10">        <div className="w-full max-w-md">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 relative z-10">
+        {" "}
+        <div className="w-full max-w-md">
           {isSignUp ? (
             <Card className="shadow-2xl border-0 bg-white/95 backdrop-blur-md">
               <CardContent className="p-8">
@@ -268,14 +328,32 @@ export default function LoginPage() {
                       <User className="w-8 h-8 text-green-600" />
                     </div>
                   </div>
-                  <h1 className="text-3xl font-bold text-gray-800 mb-2">Create Account</h1>
-                  <p className="text-gray-600 text-lg">Join us and start your journey today</p>
+                  <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                    Create Account
+                  </h1>
+                  <p className="text-gray-600 text-lg">
+                    Join us and start your journey today
+                  </p>
                 </div>
-                
+
                 <form onSubmit={handleSignUpSubmit} className="space-y-4">
+                  <GoogleLogin
+                    onSuccess={handleGoogleLogin}
+  onError={() => {
+                        
+                    
+                    }}
+                    useOneTap={false}
+                    theme="outline"
+                    size="large"
+                    text="signup_with"
+                  />
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label htmlFor="signup-firstname" className="block text-sm font-medium text-gray-700">
+                      <label
+                        htmlFor="signup-firstname"
+                        className="block text-sm font-medium text-gray-700"
+                      >
                         First Name
                       </label>
                       <input
@@ -290,7 +368,10 @@ export default function LoginPage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="signup-lastname" className="block text-sm font-medium text-gray-700">
+                      <label
+                        htmlFor="signup-lastname"
+                        className="block text-sm font-medium text-gray-700"
+                      >
                         Last Name
                       </label>
                       <input
@@ -307,8 +388,12 @@ export default function LoginPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="signup-middlename" className="block text-sm font-medium text-gray-700">
-                      Middle Name <span className="text-gray-400">(Optional)</span>
+                    <label
+                      htmlFor="signup-middlename"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Middle Name{" "}
+                      <span className="text-gray-400">(Optional)</span>
                     </label>
                     <input
                       id="signup-middlename"
@@ -322,7 +407,10 @@ export default function LoginPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="signup-email" className="block text-sm font-medium text-gray-700">
+                    <label
+                      htmlFor="signup-email"
+                      className="block text-sm font-medium text-gray-700"
+                    >
                       Email Address
                     </label>
                     <div className="relative">
@@ -341,7 +429,10 @@ export default function LoginPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="signup-password" className="block text-sm font-medium text-gray-700">
+                    <label
+                      htmlFor="signup-password"
+                      className="block text-sm font-medium text-gray-700"
+                    >
                       Password
                     </label>
                     <div className="relative">
@@ -361,7 +452,11 @@ export default function LoginPage() {
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                       >
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        {showPassword ? (
+                          <EyeOff className="w-4 h-4" />
+                        ) : (
+                          <Eye className="w-4 h-4" />
+                        )}
                       </button>
                     </div>
                   </div>
@@ -370,13 +465,15 @@ export default function LoginPage() {
                     <Alert className="border-red-200 bg-red-50 p-4 rounded-lg">
                       <div className="flex items-center">
                         <AlertCircle className="h-4 w-4 text-red-600 mr-2" />
-                        <span className="text-red-700 text-sm">{signUpError}</span>
+                        <span className="text-red-700 text-sm">
+                          {signUpError}
+                        </span>
                       </div>
                     </Alert>
                   )}
 
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors"
                     disabled={isLoading}
                   >
@@ -395,7 +492,8 @@ export default function LoginPage() {
                     </button>
                   </p>
                 </div>
-              </CardContent>            </Card>
+              </CardContent>{" "}
+            </Card>
           ) : (
             <div className="text-center">
               <div className="relative p-12 bg-white/20 backdrop-blur-sm rounded-2xl border border-white/30">
@@ -411,8 +509,12 @@ export default function LoginPage() {
                     <MapPin className="w-8 h-8 text-white" />
                   </div>
                 </div>
-                <h2 className="text-2xl font-bold text-white mb-3">Ready to Travel?</h2>
-                <p className="text-white/90 mb-6">Join our community of travelers</p>
+                <h2 className="text-2xl font-bold text-white mb-3">
+                  Ready to Travel?
+                </h2>
+                <p className="text-white/90 mb-6">
+                  Join our community of travelers
+                </p>
                 <Button
                   onClick={() => setIsSignUp(true)}
                   size="lg"
@@ -424,18 +526,19 @@ export default function LoginPage() {
             </div>
           )}
         </div>
-        
         {/* Decorative Elements */}
         <div className="absolute top-4 right-4 opacity-30">
           <div className="w-16 h-20 flex flex-col items-center justify-center text-white/40">
             <Globe className="w-8 h-8 mb-2" />
-            <div className="w-6 h-6 bg-white/20 rounded-full"></div>          </div>
+            <div className="w-6 h-6 bg-white/20 rounded-full"></div>{" "}
+          </div>
         </div>
         <div className="absolute bottom-4 left-4 opacity-30">
           <div className="w-16 h-20 flex flex-col items-center justify-center text-white/40">
             <Compass className="w-8 h-8 mb-2" />
             <div className="w-6 h-6 bg-white/20 rounded-full"></div>
-          </div>        </div>
+          </div>{" "}
+        </div>
       </div>
     </div>
   );

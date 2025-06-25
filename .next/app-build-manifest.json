@@ -1,5 +1,21 @@
 {
   "pages": {
+    "/(signin)/loginSignin/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(signin)/loginSignin/layout.css",
+      "static/chunks/app/(signin)/loginSignin/layout.js"
+    ],
+    "/(signin)/loginSignin/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(signin)/loginSignin/page.js"
+    ],
+    "/api/verify-google-token/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/verify-google-token/route.js"
+    ],
     "/(dashboard)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -11,10 +27,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/page.js"
     ],
-    "/_not-found/page": [
+    "/(dashboard)/mybookings/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/(dashboard)/mybookings/page.js"
     ]
   }
 }

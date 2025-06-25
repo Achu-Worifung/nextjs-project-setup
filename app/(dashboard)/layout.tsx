@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body>
+      <body className="w-full">
         <AuthProvider>
           <ThemeProvider
             attribute="class"

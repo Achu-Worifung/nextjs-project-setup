@@ -11,7 +11,7 @@ import { Footer } from "@/components/ui/footer";
 import { CarouselDemo } from "@/components/ui/search-carousel";
 export default function Home() {
   return (
-   <div className="flex flex-col items-center ">
+   <div className="w-full flex flex-col items-center justify-center px-6 pt-10">
     <CarouselDemo />
     {/* <SelectHotel /> */}
     {/* <SelectVehicle /> */}

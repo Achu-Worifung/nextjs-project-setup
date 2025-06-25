@@ -113,7 +113,7 @@ export function TopDestinations() {
   }, [canScrollRight]);
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-8">
+    <div className="w-full max-w-7xl mx-auto px-4 py-8 pt-16">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
         <div className="mb-4 md:mb-0">

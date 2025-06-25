@@ -2,7 +2,7 @@ import { Facebook, X, Instagram } from "lucide-react";
 import Image from "next/image";
 export function Footer() {
   return (
-    <div className="grid grid-cols-2 items-start justify-around  w-10/12">
+    <div className="w-full grid grid-cols-2 items-start justify-around pb-10 w-10/12">
       <div className="pl-5 flex flex-col gap-4">
         <span className="flex items-center gap-2 justify-start">
           <Image src="/logo.svg" alt="logo" width={40} height={40} />
