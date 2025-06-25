@@ -1,14 +1,12 @@
 "use client";
 import { hotel_type } from "@/lib/types";
 import { useState, useEffect } from "react";
-// Update the import at the top of the file
 import HotelFilterSidebar, {
   initialFilterState,
   type FilterState,
 } from "@/components/ui/hotel-filter-sidebar";
 import { useSearchParams, useRouter } from "next/navigation";
 import { hotelSearch } from "@/components/api/booking/destinations";
-// import { SelectHotel } from "@/components/ui/select-hotel";
 import { HotelCard } from "@/components/ui/hotel-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,25 +19,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import {
-  CalendarDays,
-  MapPin,
-  Users,
-  Search,
-  // SlidersHorizontal,
-  // Grid3X3,
-  // List,
-  // Star,
-  // Filter,
-  // ArrowUpDown,
-  // Loader2,
-  // AlertCircle,
-  // RefreshCw,
-  // Map as MapIcon,
-  // Heart,
-  // Share2,
-  // Eye
-} from "lucide-react";
+import { CalendarDays, MapPin, Users, Search } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { HotelSortBy } from "@/components/ui/hotel-sort-by";
@@ -49,7 +29,6 @@ export default function HotelSearchPage() {
   const [allHotels, setAllHotels] = useState<hotel_type[] | null>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  // const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
   const [sortBy, setSortBy] = useState<
     "price" | "rating" | "review" | "popularity"
   >("popularity");
@@ -74,6 +53,8 @@ export default function HotelSearchPage() {
   const [searchGuests, setSearchGuests] = useState(
     searchparams?.get("guests") || "1"
   );
+  const [filters, setFilters] = useState<FilterState>(initialFilterState);
+
   const searchRooms = searchparams?.get("rooms") || "1";
 
   // Calculate nights
@@ -84,6 +65,7 @@ export default function HotelSearchPage() {
             (1000 * 60 * 60 * 24)
         )
       : 1;
+
   useEffect(() => {
     const city = searchparams?.get("city") || "";
     const startDate =
@@ -127,18 +109,28 @@ export default function HotelSearchPage() {
   }, [searchparams]);
 
   // Update the state initialization
-  const [filters, setFilters] = useState<FilterState>(initialFilterState);
+  const getNights = (hotel: hotel_type) => {
+    const checkIn = new Date(hotel.property.checkinDate);
+    const checkOut = new Date(hotel.property.checkoutDate);
+    const diffTime = Math.abs(checkOut.getTime() - checkIn.getTime());
+    return Math.max(Math.ceil(diffTime / (1000 * 60 * 60 * 24)), 1); // At least 1 night
+  };
 
+  const getPerNightPrice = (hotel: hotel_type) => {
+    const total =
+      hotel.property.priceBreakdown?.grossPrice?.value ?? 99999999999999;
+    const nights = getNights(hotel);
+    return total / nights;
+  };
   // Apply filters to hotels
   useEffect(() => {
     if (!allHotels) return;
 
     let result = allHotels;
 
-    // ⭐ Star filter
+    // Star filter
     if (filters.starRating.length > 0) {
       result = result.filter((hotel) => {
-        // Use propertyClass, qualityClass, or accuratePropertyClass for star rating
         const stars =
           hotel.property.propertyClass ||
           hotel.property.qualityClass ||
@@ -148,18 +140,17 @@ export default function HotelSearchPage() {
       });
     }
 
-    // 💰 Price filter - only filter if range is not default [0, 1000]
+    // Price filter - only filter if range is not default [0, 1000]
     if (filters.priceRange[0] > 0 || filters.priceRange[1] < 1000) {
       result = result.filter((hotel) => {
-        const price = hotel.property.priceBreakdown.grossPrice.value;
+        const price = getPerNightPrice(hotel);
         return price >= filters.priceRange[0] && price <= filters.priceRange[1];
       });
     }
 
-    // 📍 Distance filter - only if not at maximum (20km)
+    // Distance filter - only if not at maximum (20km)
     if (filters.distanceFromCenter < 20) {
       result = result.filter((hotel) => {
-        // Extract distance from accessibilityLabel or use a default
         const distanceMatch = hotel.accessibilityLabel?.match(/([\d.]+)\s*km/i);
         if (!distanceMatch) return true; // If no distance info, include it
 
@@ -168,7 +159,7 @@ export default function HotelSearchPage() {
       });
     }
 
-    // 🏨 Property type filter
+    // Property type filter
     if (filters.propertyType.length > 0) {
       result = result.filter((hotel) => {
         const hotelName = hotel.property.name.toLowerCase();
@@ -223,7 +214,7 @@ export default function HotelSearchPage() {
       });
     }
 
-    // 🌟 Review score filter
+    // Review score filter
     if (filters.reviewScore > 0) {
       result = result.filter((hotel) => {
         const score = hotel.property.reviewScore || 0;
@@ -231,58 +222,16 @@ export default function HotelSearchPage() {
       });
     }
 
-    // 🚀 Instant book filter
-    if (filters.instantBook) {
-      // Since we don't have explicit instant booking data in the hotel structure,
-      // we'll assume all hotels support instant booking for now
-      // In a real application, you would check for specific booking properties
-      result = result.filter(() => {
-        return true; // Allow all hotels to pass through when instant book is enabled
-      });
-    }
-
-    // 📋 Amenities filter
-    if (filters.amenities.length > 0) {
-      result = result.filter((hotel) => {
-        const hotelName = hotel.property.name.toLowerCase();
-        const accessibilityLabel =
-          hotel.accessibilityLabel?.toLowerCase() || "";
-
-        return filters.amenities.some((amenity) => {
-          const amenityToCheck = amenity.toLowerCase();
-          return (
-            hotelName.includes(amenityToCheck) ||
-            accessibilityLabel.includes(amenityToCheck)
-          );
-        });
-      });
-    }
-    const getNights = (hotel) => {
-      const checkIn = new Date(hotel.property.checkinDate);
-      const checkOut = new Date(hotel.property.checkoutDate);
-      const diffTime = Math.abs(checkOut.getTime() - checkIn.getTime());
-      return Math.max(Math.ceil(diffTime / (1000 * 60 * 60 * 24)), 1); // At least 1 night
-    };
-
-    const getPerNightPrice = (hotel: hotel_type) => {
-      const total = 
-        hotel.property.priceBreakdown?.grossPrice?.value ?? 99999999999999;
-      const nights = getNights(hotel);
-      return total / nights;
-    };
     // Apply sorting to the filtered results
     const sortedResult = [...result].sort((a, b) => {
       switch (sortBy) {
         case "price":
           return getPerNightPrice(a) - getPerNightPrice(b);
         case "rating":
-          // Sort by review score (higher is better)
           return (b.property.reviewScore || 0) - (a.property.reviewScore || 0);
         case "review":
-          // Sort by review count (higher is better)
           return (b.property.reviewCount || 0) - (a.property.reviewCount || 0);
         case "popularity":
-          // Sort by ranking position (lower position number is better)
           return (
             (a.property.rankingPosition || 999) -
             (b.property.rankingPosition || 999)
@@ -302,8 +251,6 @@ export default function HotelSearchPage() {
 
     setFilteredHotels(sortedResult);
   }, [allHotels, filters, sortBy]);
-
-  // Remove the old sorting useEffect since it's now handled above
 
   //change sorting function
   const sortByfunction = (value: string) => {
