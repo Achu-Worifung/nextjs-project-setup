@@ -57,7 +57,7 @@ export type hotel_type = {
         value: number;
         currency: string;
       };
-      taxExceptions: any[]; // Same here
+      taxExceptions: unknown[]; 
     };
   };
 };

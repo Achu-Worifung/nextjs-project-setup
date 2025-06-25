@@ -1,10 +1,9 @@
 "use client";
-import { ChevronsLeft, ChevronsRight } from "lucide-react";
+// import { ChevronsLeft, ChevronsRight } from "lucide-react";
 import { useState } from "react";
 
 import { hotel_type } from "@/lib/types";
 export function HotelCard({ hotel }: { hotel: hotel_type }) {
-  const [currIndex, setCurrIndex] = useState<number>(0);
 
   //getting the difference between the days
   const checkinDate = new Date(hotel.property.checkinDate);
@@ -13,55 +12,19 @@ export function HotelCard({ hotel }: { hotel: hotel_type }) {
   const diffTime = Math.abs(checkoutDate.getTime() - checkinDate.getTime());
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-  const changeRight = () => {
-    if (currIndex < hotel.property.photoUrls.length - 1) {
-      setCurrIndex(currIndex + 1);
-    } else {
-      setCurrIndex(0);
-    }
-  };
-  const changeLeft = () => {
-    if (currIndex > 0) {
-      setCurrIndex(currIndex - 1);
-    } else {
-      setCurrIndex(hotel.property.photoUrls.length - 1);
-    }
-  };
+
 
   return (
     <div className="flex max-w-4xl w-full bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden mb-4 hover:shadow-lg transition-shadow">
       {/* Hotel Image Section */}
       <div className="relative flex items-center justify-center w-60 h-48 overflow-hidden flex-shrink-0">
-        <button
-          className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 hover:bg-white rounded-full p-1"
-          onClick={changeLeft}
-        >
-          <ChevronsLeft
-            className="w-5 h-5 text-gray-700 cursor-pointer"
-            onClick={() =>
-              setCurrIndex(
-                (currIndex - 1 + hotel.property.photoUrls.length) %
-                  hotel.property.photoUrls.length
-              )
-            }
-          />
-        </button>
+        
         <img
-          src={hotel.property.photoUrls[currIndex]}
+          src={hotel.property.photoUrls[hotel.property.photoUrls.length - 1] || 0}
           alt={hotel.property.name}
           className="w-full h-full object-cover"
         />
-        <button
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 hover:bg-white rounded-full p-1"
-          onClick={changeRight}
-        >
-          <ChevronsRight
-            className="w-5 h-5 text-gray-700 cursor-pointer"
-            onClick={() =>
-              setCurrIndex((currIndex + 1) % hotel.property.photoUrls.length)
-            }
-          />
-        </button>
+        
       </div>
 
       {/* Hotel Info Section */}
