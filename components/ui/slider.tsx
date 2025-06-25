@@ -36,16 +36,7 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             onChange={handleChange}
             className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
           />
-          <input
-            type="range"
-            name="max"
-            min={min}
-            max={max}
-            step={step}
-            value={value[1]}
-            onChange={handleChange}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-          />
+          
         </div>
       </div>
     )

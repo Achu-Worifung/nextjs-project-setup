@@ -1,0 +1,2303 @@
+[
+    {
+        "hotel_id": 56927,
+        "accessibilityLabel": "Hotel Beacon.\n4 out of 5 stars.\nThis is a Preferred property.\n8.8 Excellent 2941 reviews.\n‎Upper West Side‬ • ‎1.4 km from downtown‬.\nMobile-only price.\n Private suite – 60 m² : 2 beds • 1 bedroom • 1 living room • 1 bathroom.\nOriginal price 24489 USD. Current price 15869 USD..\n+2573 USD taxes and charges.",
+        "property": {
+            "reviewScore": 8.8,
+            "checkoutDate": "2025-07-25",
+            "checkinDate": "2025-06-24",
+            "accuratePropertyClass": 4,
+            "wishlistName": "New York",
+            "optOutFromGalleryChanges": 1,
+            "priceBreakdown": {
+                "grossPrice": {
+                    "currency": "USD",
+                    "value": 15868.87
+                },
+                "strikethroughPrice": {
+                    "currency": "USD",
+                    "value": 24489
+                },
+                "benefitBadges": [
+                    {
+                        "explanation": "Mobile-only price",
+                        "variant": "constructive",
+                        "identifier": "Mobile Rate",
+                        "text": "Mobile-only price"
+                    }
+                ],
+                "excludedPrice": {
+                    "currency": "USD",
+                    "value": 2573.1583
+                },
+                "taxExceptions": []
+            },
+            "position": 0,
+            "ufi": 20088325,
+            "id": 56927,
+            "rankingPosition": 0,
+            "checkin": {
+                "untilTime": "00:00",
+                "fromTime": "15:00"
+            },
+            "checkout": {
+                "untilTime": "12:00",
+                "fromTime": "00:00"
+            },
+            "propertyClass": 4,
+            "isFirstPage": true,
+            "isPreferred": true,
+            "name": "Hotel Beacon",
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/288687993.jpg?k=972be50d42de4b2cc81ee66de6c3484a1bcfbc9eae22726c21366f17e9daf810&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/288687993.jpg?k=972be50d42de4b2cc81ee66de6c3484a1bcfbc9eae22726c21366f17e9daf810&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/288687993.jpg?k=972be50d42de4b2cc81ee66de6c3484a1bcfbc9eae22726c21366f17e9daf810&o="
+            ],
+            "mainPhotoId": 288687993,
+            "countryCode": "us",
+            "reviewScoreWord": "Excellent",
+            "blockIds": [
+                "5692703_95461013_0_2_0"
+            ],
+            "reviewCount": 2941,
+            "qualityClass": 0,
+            "currency": "USD",
+            "latitude": 40.7807079748045,
+            "longitude": -73.9812295138836
+        }
+    },
+    {
+        "hotel_id": 56048,
+        "accessibilityLabel": "Murray Hill East Suites - Extended Stay.\n3 out of 5 stars.\n8.7 Excellent 67 reviews.\n‎Murray Hill‬ • ‎2.1 km from downtown‬.\n Private suite : 2 beds.\n6510 USD.\n+580 USD taxes and charges.",
+        "property": {
+            "countryCode": "us",
+            "mainPhotoId": 84564452,
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/84564452.jpg?k=29f4bf65af1688fc2a2afc0f7d447a302a2fd3000a299962b9dcb590972b241b&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/84564452.jpg?k=29f4bf65af1688fc2a2afc0f7d447a302a2fd3000a299962b9dcb590972b241b&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/84564452.jpg?k=29f4bf65af1688fc2a2afc0f7d447a302a2fd3000a299962b9dcb590972b241b&o="
+            ],
+            "longitude": -73.9763955026865,
+            "latitude": 40.7492087003701,
+            "currency": "USD",
+            "reviewCount": 67,
+            "qualityClass": 0,
+            "reviewScoreWord": "Excellent",
+            "blockIds": [
+                "5604810_204869446_1_0_0"
+            ],
+            "propertyClass": 3,
+            "checkout": {
+                "fromTime": "11:30",
+                "untilTime": "12:30"
+            },
+            "name": "Murray Hill East Suites - Extended Stay",
+            "isFirstPage": true,
+            "ufi": 20088325,
+            "checkin": {
+                "fromTime": "14:00",
+                "untilTime": "00:00"
+            },
+            "rankingPosition": 1,
+            "id": 56048,
+            "wishlistName": "New York",
+            "accuratePropertyClass": 3,
+            "checkoutDate": "2025-07-25",
+            "checkinDate": "2025-06-24",
+            "reviewScore": 8.7,
+            "optOutFromGalleryChanges": 0,
+            "position": 1,
+            "priceBreakdown": {
+                "grossPrice": {
+                    "currency": "USD",
+                    "value": 6510
+                },
+                "excludedPrice": {
+                    "value": 579.7248,
+                    "currency": "USD"
+                },
+                "benefitBadges": [],
+                "taxExceptions": []
+            }
+        }
+    },
+    {
+        "hotel_id": 13931656,
+        "accessibilityLabel": "XL Prime Tribeca Furnished Loft.\n‎Tribeca‬ • ‎6.3 km from downtown‬.\nMobile-only price\nNew to Booking.com.\n Entire apartment – 186 m² : 4 beds • 4 bedrooms • 1 bathroom.\nOriginal price 16492 USD. Current price 14843 USD..\n+350 USD taxes and charges.",
+        "property": {
+            "mainPhotoId": 670108384,
+            "countryCode": "us",
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/670108384.jpg?k=12e0c1c6093456ef9e9c5ac5557618bc6c8ec2524afe0d5b143bead55d67d88c&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/670108384.jpg?k=12e0c1c6093456ef9e9c5ac5557618bc6c8ec2524afe0d5b143bead55d67d88c&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/670108384.jpg?k=12e0c1c6093456ef9e9c5ac5557618bc6c8ec2524afe0d5b143bead55d67d88c&o="
+            ],
+            "currency": "USD",
+            "longitude": -74.0091142,
+            "latitude": 40.7152655,
+            "reviewScoreWord": "",
+            "blockIds": [
+                "1393165602_411252503_8_0_0"
+            ],
+            "reviewCount": 0,
+            "qualityClass": 0,
+            "propertyClass": 0,
+            "checkout": {
+                "untilTime": "11:00",
+                "fromTime": "00:00"
+            },
+            "name": "XL Prime Tribeca Furnished Loft",
+            "isFirstPage": true,
+            "ufi": 20088325,
+            "rankingPosition": 2,
+            "checkin": {
+                "fromTime": "16:00",
+                "untilTime": "00:00"
+            },
+            "id": 13931656,
+            "accuratePropertyClass": 0,
+            "wishlistName": "New York",
+            "reviewScore": 0,
+            "checkoutDate": "2025-07-25",
+            "checkinDate": "2025-06-24",
+            "optOutFromGalleryChanges": 0,
+            "position": 2,
+            "priceBreakdown": {
+                "taxExceptions": [],
+                "grossPrice": {
+                    "value": 14842.8,
+                    "currency": "USD"
+                },
+                "strikethroughPrice": {
+                    "currency": "USD",
+                    "value": 16492
+                },
+                "benefitBadges": [
+                    {
+                        "explanation": "Mobile-only price",
+                        "text": "Mobile-only price",
+                        "identifier": "Mobile Rate",
+                        "variant": "constructive"
+                    }
+                ],
+                "excludedPrice": {
+                    "currency": "USD",
+                    "value": 350
+                }
+            }
+        }
+    },
+    {
+        "hotel_id": 267962,
+        "accessibilityLabel": "The Mark New York.\n5 out of 5 stars.\nThis is a Preferred property.\n9.5 Exceptional 29 reviews.\n‎Upper East Side‬ • ‎1.8 km from downtown‬.\nMobile-only price.\n Hotel room : 1 bed.\nOriginal price 41520 USD. Current price 37368 USD..\n+5620 USD taxes and charges.",
+        "property": {
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/568964875.jpg?k=398ffd6282090aa5a6cc080f1b56d9532a5a60c2d4bb206c8eeade7318367003&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/568964875.jpg?k=398ffd6282090aa5a6cc080f1b56d9532a5a60c2d4bb206c8eeade7318367003&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/568964875.jpg?k=398ffd6282090aa5a6cc080f1b56d9532a5a60c2d4bb206c8eeade7318367003&o="
+            ],
+            "countryCode": "us",
+            "mainPhotoId": 568964875,
+            "reviewCount": 29,
+            "qualityClass": 0,
+            "blockIds": [
+                "26796203_106541840_3_2_0"
+            ],
+            "reviewScoreWord": "Exceptional",
+            "latitude": 40.7753326920934,
+            "longitude": -73.9634317159653,
+            "currency": "USD",
+            "checkout": {
+                "fromTime": "00:00",
+                "untilTime": "12:00"
+            },
+            "propertyClass": 5,
+            "isFirstPage": true,
+            "name": "The Mark New York",
+            "isPreferred": true,
+            "ufi": 20088325,
+            "id": 267962,
+            "checkin": {
+                "untilTime": "00:00",
+                "fromTime": "15:00"
+            },
+            "rankingPosition": 3,
+            "checkinDate": "2025-06-24",
+            "checkoutDate": "2025-07-25",
+            "reviewScore": 9.5,
+            "accuratePropertyClass": 5,
+            "wishlistName": "New York",
+            "priceBreakdown": {
+                "excludedPrice": {
+                    "value": 5620.28,
+                    "currency": "USD"
+                },
+                "strikethroughPrice": {
+                    "currency": "USD",
+                    "value": 41520
+                },
+                "benefitBadges": [
+                    {
+                        "identifier": "Mobile Rate",
+                        "variant": "constructive",
+                        "text": "Mobile-only price",
+                        "explanation": "Mobile-only price"
+                    }
+                ],
+                "grossPrice": {
+                    "value": 37368,
+                    "currency": "USD"
+                },
+                "taxExceptions": []
+            },
+            "position": 3,
+            "optOutFromGalleryChanges": 1
+        }
+    },
+    {
+        "hotel_id": 13931655,
+        "accessibilityLabel": "Midtown West Furnished Apartment 3BR Perfect Share.\n‎Hell's Kitchen‬ • ‎1.1 km from downtown‬.\nMobile-only price\nNew to Booking.com.\n Entire apartment – 70 m² : 3 beds • 3 bedrooms • 1 bathroom.\nOriginal price 11253 USD. Current price 10128 USD..\n+350 USD taxes and charges.",
+        "property": {
+            "ufi": 20088325,
+            "id": 13931655,
+            "checkin": {
+                "untilTime": "00:00",
+                "fromTime": "16:00"
+            },
+            "rankingPosition": 4,
+            "checkoutDate": "2025-07-25",
+            "checkinDate": "2025-06-24",
+            "reviewScore": 0,
+            "wishlistName": "New York",
+            "accuratePropertyClass": 0,
+            "optOutFromGalleryChanges": 0,
+            "priceBreakdown": {
+                "taxExceptions": [],
+                "benefitBadges": [
+                    {
+                        "explanation": "Mobile-only price",
+                        "text": "Mobile-only price",
+                        "variant": "constructive",
+                        "identifier": "Mobile Rate"
+                    }
+                ],
+                "strikethroughPrice": {
+                    "value": 11253,
+                    "currency": "USD"
+                },
+                "excludedPrice": {
+                    "currency": "USD",
+                    "value": 350
+                },
+                "grossPrice": {
+                    "value": 10127.7,
+                    "currency": "USD"
+                }
+            },
+            "position": 4,
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/670108355.jpg?k=b7fa2d7ce22be69e5aa74da4d2eb9f13e7f35f2525bb88e5d4e8e232537b362f&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/670108355.jpg?k=b7fa2d7ce22be69e5aa74da4d2eb9f13e7f35f2525bb88e5d4e8e232537b362f&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/670108355.jpg?k=b7fa2d7ce22be69e5aa74da4d2eb9f13e7f35f2525bb88e5d4e8e232537b362f&o="
+            ],
+            "countryCode": "us",
+            "mainPhotoId": 670108355,
+            "qualityClass": 0,
+            "reviewCount": 0,
+            "reviewScoreWord": "",
+            "blockIds": [
+                "1393165502_411252501_6_0_0"
+            ],
+            "longitude": -73.9918623,
+            "latitude": 40.7612729,
+            "currency": "USD",
+            "checkout": {
+                "fromTime": "00:00",
+                "untilTime": "10:00"
+            },
+            "propertyClass": 0,
+            "isFirstPage": true,
+            "name": "Midtown West Furnished Apartment 3BR Perfect Share"
+        }
+    },
+    {
+        "hotel_id": 13931603,
+        "accessibilityLabel": "Midtown West Furnished 3 Bedroom Apartment.\n‎Hell's Kitchen‬ • ‎1.1 km from downtown‬.\nMobile-only price\nNew to Booking.com.\n Entire apartment – 84 m² : 1 bedroom • 1 bathroom.\nOriginal price 13485 USD. Current price 12137 USD..\n+350 USD taxes and charges.",
+        "property": {
+            "rankingPosition": 5,
+            "checkin": {
+                "untilTime": "00:00",
+                "fromTime": "16:00"
+            },
+            "id": 13931603,
+            "ufi": 20088325,
+            "optOutFromGalleryChanges": 0,
+            "priceBreakdown": {
+                "taxExceptions": [],
+                "grossPrice": {
+                    "currency": "USD",
+                    "value": 12136.5
+                },
+                "benefitBadges": [
+                    {
+                        "variant": "constructive",
+                        "identifier": "Mobile Rate",
+                        "text": "Mobile-only price",
+                        "explanation": "Mobile-only price"
+                    }
+                ],
+                "strikethroughPrice": {
+                    "value": 13485,
+                    "currency": "USD"
+                },
+                "excludedPrice": {
+                    "currency": "USD",
+                    "value": 350
+                }
+            },
+            "position": 5,
+            "wishlistName": "New York",
+            "accuratePropertyClass": 0,
+            "reviewScore": 0,
+            "checkoutDate": "2025-07-25",
+            "checkinDate": "2025-06-24",
+            "currency": "USD",
+            "longitude": -73.9918864,
+            "latitude": 40.7611006,
+            "reviewScoreWord": "",
+            "blockIds": [
+                "1393160302_411252334_6_0_0"
+            ],
+            "reviewCount": 0,
+            "qualityClass": 0,
+            "mainPhotoId": 670106413,
+            "countryCode": "us",
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/670106413.jpg?k=60a50046ff741e457a669d39943020bc25fbe97e566a07e5fd8d0b52a9f32872&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/670106413.jpg?k=60a50046ff741e457a669d39943020bc25fbe97e566a07e5fd8d0b52a9f32872&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/670106413.jpg?k=60a50046ff741e457a669d39943020bc25fbe97e566a07e5fd8d0b52a9f32872&o="
+            ],
+            "name": "Midtown West Furnished 3 Bedroom Apartment",
+            "isFirstPage": true,
+            "propertyClass": 0,
+            "checkout": {
+                "untilTime": "10:00",
+                "fromTime": "00:00"
+            }
+        }
+    },
+    {
+        "hotel_id": 14251879,
+        "accessibilityLabel": "Fifty West New York.\n‎Hell's Kitchen‬ • ‎1 km from downtown‬.\nNew to Booking.com.\n2 beds • 1 bedroom • 1 living room • 1 bathroom.\n7310 USD.\n+1366 USD taxes and charges.",
+        "property": {
+            "propertyClass": 0,
+            "checkout": {
+                "fromTime": "10:00",
+                "untilTime": "11:00"
+            },
+            "name": "Fifty West New York",
+            "isFirstPage": true,
+            "mainPhotoId": 692603727,
+            "countryCode": "us",
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/692603727.jpg?k=83011b4416de3b46264735abf11549ba1491622a7fc59a2fca31d7659f5402ce&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/692603727.jpg?k=83011b4416de3b46264735abf11549ba1491622a7fc59a2fca31d7659f5402ce&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/692603727.jpg?k=83011b4416de3b46264735abf11549ba1491622a7fc59a2fca31d7659f5402ce&o="
+            ],
+            "currency": "USD",
+            "longitude": -73.9932742,
+            "latitude": 40.7651446,
+            "reviewScoreWord": "",
+            "blockIds": [
+                "1425187901_414122914_3_0_0"
+            ],
+            "reviewCount": 0,
+            "qualityClass": 0,
+            "accuratePropertyClass": 0,
+            "wishlistName": "New York",
+            "reviewScore": 0,
+            "checkoutDate": "2025-07-25",
+            "checkinDate": "2025-06-24",
+            "optOutFromGalleryChanges": 0,
+            "position": 6,
+            "priceBreakdown": {
+                "taxExceptions": [],
+                "excludedPrice": {
+                    "currency": "USD",
+                    "value": 1366.2738
+                },
+                "benefitBadges": [],
+                "grossPrice": {
+                    "value": 7310.25,
+                    "currency": "USD"
+                }
+            },
+            "ufi": 20088325,
+            "rankingPosition": 6,
+            "checkin": {
+                "fromTime": "16:00",
+                "untilTime": "00:00"
+            },
+            "id": 14251879
+        }
+    },
+    {
+        "hotel_id": 12895770,
+        "accessibilityLabel": "Stylish Duplex Penthouse with large Outdoor Space.\n4 out of 5 for property rating.\n6.8 Pleasant 4 reviews.\n‎Hell's Kitchen‬ • ‎2.3 km from downtown‬.\n Entire apartment – 130 m² : 3 beds • 2 bedrooms • 1 living room • 1 bathroom.\nOriginal price 31000 USD. Current price 15500 USD..\n+2601 USD taxes and charges.",
+        "property": {
+            "rankingPosition": 7,
+            "checkin": {
+                "untilTime": "00:00",
+                "fromTime": "15:00"
+            },
+            "id": 12895770,
+            "ufi": 20088325,
+            "optOutFromGalleryChanges": 1,
+            "priceBreakdown": {
+                "taxExceptions": [],
+                "excludedPrice": {
+                    "currency": "USD",
+                    "value": 2600.7325
+                },
+                "benefitBadges": [],
+                "strikethroughPrice": {
+                    "value": 31000,
+                    "currency": "USD"
+                },
+                "grossPrice": {
+                    "value": 15500,
+                    "currency": "USD"
+                }
+            },
+            "position": 7,
+            "wishlistName": "New York",
+            "accuratePropertyClass": 0,
+            "reviewScore": 6.8,
+            "checkoutDate": "2025-07-25",
+            "checkinDate": "2025-06-24",
+            "currency": "USD",
+            "longitude": -73.995864,
+            "latitude": 40.7500954,
+            "reviewScoreWord": "Pleasant",
+            "blockIds": [
+                "1289577001_402032918_8_0_0"
+            ],
+            "reviewCount": 4,
+            "qualityClass": 4,
+            "mainPhotoId": 602346333,
+            "countryCode": "us",
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/602346333.jpg?k=c8c36fc8d5560f88c7216efc5c47090f39e02b6ea85ec5516c51a1e246f27b16&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/602346333.jpg?k=c8c36fc8d5560f88c7216efc5c47090f39e02b6ea85ec5516c51a1e246f27b16&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/602346333.jpg?k=c8c36fc8d5560f88c7216efc5c47090f39e02b6ea85ec5516c51a1e246f27b16&o="
+            ],
+            "name": "Stylish Duplex Penthouse with large Outdoor Space",
+            "isFirstPage": true,
+            "propertyClass": 0,
+            "checkout": {
+                "fromTime": "11:00",
+                "untilTime": "11:00"
+            }
+        }
+    },
+    {
+        "hotel_id": 13033902,
+        "accessibilityLabel": "Monthly Lower East Side two Bedroom.\n4 out of 5 stars.\n‎Lower East Side‬ • ‎5.6 km from downtown‬.\nNew to Booking.com.\n Hotel room : 2 beds.\nOriginal price 155000 USD. Current price 124000 USD..\n+18089 USD taxes and charges.",
+        "property": {
+            "id": 13033902,
+            "checkin": {
+                "untilTime": "20:00",
+                "fromTime": "15:00"
+            },
+            "rankingPosition": 8,
+            "ufi": 20088325,
+            "priceBreakdown": {
+                "benefitBadges": [],
+                "strikethroughPrice": {
+                    "value": 155000,
+                    "currency": "USD"
+                },
+                "excludedPrice": {
+                    "currency": "USD",
+                    "value": 18088.5
+                },
+                "grossPrice": {
+                    "currency": "USD",
+                    "value": 124000
+                },
+                "taxExceptions": []
+            },
+            "position": 8,
+            "optOutFromGalleryChanges": 0,
+            "checkinDate": "2025-06-24",
+            "checkoutDate": "2025-07-25",
+            "reviewScore": 0,
+            "accuratePropertyClass": 4,
+            "wishlistName": "New York",
+            "reviewCount": 0,
+            "qualityClass": 0,
+            "blockIds": [
+                "1303390201_403197817_3_0_0"
+            ],
+            "reviewScoreWord": "",
+            "latitude": 40.7180685,
+            "longitude": -73.990611,
+            "currency": "USD",
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/609645058.jpg?k=fdc41824a0faa89860f41c7b4741b4b22e268be5f9a7ba149943aac235534e82&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/609645058.jpg?k=fdc41824a0faa89860f41c7b4741b4b22e268be5f9a7ba149943aac235534e82&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/609645058.jpg?k=fdc41824a0faa89860f41c7b4741b4b22e268be5f9a7ba149943aac235534e82&o="
+            ],
+            "countryCode": "us",
+            "mainPhotoId": 609645058,
+            "isFirstPage": true,
+            "name": "Monthly Lower East Side two Bedroom",
+            "checkout": {
+                "fromTime": "08:00",
+                "untilTime": "11:00"
+            },
+            "propertyClass": 4
+        }
+    },
+    {
+        "hotel_id": 14411948,
+        "accessibilityLabel": "Modern West Village 1BR Garden steps to subway.\n‎Greenwich Village‬ • ‎4.4 km from downtown‬.\nNew to Booking.com.\n 65 m² : 2 beds • 1 bedroom • 1 living room • 1 bathroom.\nOriginal price 16468 USD. Current price 13998 USD..\n+2332 USD taxes and charges.",
+        "property": {
+            "ufi": 20088325,
+            "id": 14411948,
+            "checkin": {
+                "fromTime": "16:00",
+                "untilTime": "00:00"
+            },
+            "rankingPosition": 9,
+            "checkinDate": "2025-06-24",
+            "checkoutDate": "2025-07-25",
+            "reviewScore": 0,
+            "accuratePropertyClass": 0,
+            "wishlistName": "New York",
+            "priceBreakdown": {
+                "grossPrice": {
+                    "value": 13997.8,
+                    "currency": "USD"
+                },
+                "excludedPrice": {
+                    "value": 2331.6964,
+                    "currency": "USD"
+                },
+                "benefitBadges": [],
+                "strikethroughPrice": {
+                    "value": 16468,
+                    "currency": "USD"
+                },
+                "taxExceptions": []
+            },
+            "position": 9,
+            "optOutFromGalleryChanges": 1,
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/702073470.jpg?k=8e8c52198acc965c88b34ee5fe60ebc56682418252f77bd972573759d9c0f783&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/702073470.jpg?k=8e8c52198acc965c88b34ee5fe60ebc56682418252f77bd972573759d9c0f783&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/702073470.jpg?k=8e8c52198acc965c88b34ee5fe60ebc56682418252f77bd972573759d9c0f783&o="
+            ],
+            "countryCode": "us",
+            "mainPhotoId": 702073470,
+            "reviewCount": 0,
+            "qualityClass": 0,
+            "blockIds": [
+                "1441194802_415563716_4_0_0"
+            ],
+            "reviewScoreWord": "",
+            "latitude": 40.7330332,
+            "longitude": -74.0055679,
+            "currency": "USD",
+            "checkout": {
+                "untilTime": "11:00",
+                "fromTime": "00:00"
+            },
+            "propertyClass": 0,
+            "isFirstPage": true,
+            "name": "Modern West Village 1BR Garden steps to subway"
+        }
+    },
+    {
+        "hotel_id": 358311,
+        "accessibilityLabel": "The Box House Hotel.\n4 out of 5 stars.\nThis is a Preferred Plus property.\n8.5 Very Good 3273 reviews.\n‎Greenpoint, Brooklyn‬ • ‎4.2 km from New York‬.\n Private suite – 51 m² : 2 beds • 1 bedroom • 1 living room • 1 bathroom.\n13463 USD.\n+3285 USD taxes and charges.",
+        "property": {
+            "isFirstPage": true,
+            "name": "The Box House Hotel",
+            "isPreferred": true,
+            "checkout": {
+                "untilTime": "11:00",
+                "fromTime": "00:00"
+            },
+            "propertyClass": 4,
+            "qualityClass": 0,
+            "reviewCount": 3273,
+            "blockIds": [
+                "35831103_334789250_0_2_0_220972"
+            ],
+            "reviewScoreWord": "Very Good",
+            "longitude": -73.9534512162209,
+            "latitude": 40.7375959836588,
+            "currency": "USD",
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/21855457.jpg?k=7eb8d4a9706ab1086b0e89603761bb379e26883e53a8085d451858cddd503ea6&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/21855457.jpg?k=7eb8d4a9706ab1086b0e89603761bb379e26883e53a8085d451858cddd503ea6&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/21855457.jpg?k=7eb8d4a9706ab1086b0e89603761bb379e26883e53a8085d451858cddd503ea6&o="
+            ],
+            "countryCode": "us",
+            "isPreferredPlus": true,
+            "mainPhotoId": 21855457,
+            "position": 10,
+            "isExtended": true,
+            "priceBreakdown": {
+                "grossPrice": {
+                    "currency": "USD",
+                    "value": 13463.1
+                },
+                "excludedPrice": {
+                    "currency": "USD",
+                    "value": 3285.4823
+                },
+                "benefitBadges": [],
+                "taxExceptions": []
+            },
+            "optOutFromGalleryChanges": 0,
+            "checkinDate": "2025-06-24",
+            "checkoutDate": "2025-07-25",
+            "reviewScore": 8.5,
+            "accuratePropertyClass": 4,
+            "wishlistName": "Brooklyn",
+            "id": 358311,
+            "checkin": {
+                "untilTime": "00:00",
+                "fromTime": "15:00"
+            },
+            "rankingPosition": 10,
+            "ufi": 20085207
+        }
+    },
+    {
+        "hotel_id": 7674517,
+        "accessibilityLabel": "Capital Hotel Long Island City.\n4 out of 5 stars.\nThis is a Preferred property.\n6.1 Pleasant 453 reviews.\n‎Queens‬ • ‎3.5 km from New York‬.\n Hotel room : 2 beds.\n5566 USD.\n+1084 USD taxes and charges.",
+        "property": {
+            "mainPhotoId": 318264129,
+            "countryCode": "us",
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/318264129.jpg?k=1fe821415357a776b7d67cfca248c4f21047e9c91e306d42f9c810515ba21c28&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/318264129.jpg?k=1fe821415357a776b7d67cfca248c4f21047e9c91e306d42f9c810515ba21c28&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/318264129.jpg?k=1fe821415357a776b7d67cfca248c4f21047e9c91e306d42f9c810515ba21c28&o="
+            ],
+            "currency": "USD",
+            "latitude": 40.757996102288,
+            "longitude": -73.9424495079346,
+            "reviewScoreWord": "Pleasant",
+            "blockIds": [
+                "767451702_360704462_3_0_0"
+            ],
+            "qualityClass": 0,
+            "reviewCount": 453,
+            "propertyClass": 4,
+            "checkout": {
+                "untilTime": "11:00",
+                "fromTime": "00:00"
+            },
+            "isPreferred": true,
+            "name": "Capital Hotel Long Island City",
+            "isFirstPage": true,
+            "ufi": 20089077,
+            "rankingPosition": 11,
+            "checkin": {
+                "untilTime": "00:00",
+                "fromTime": "15:00"
+            },
+            "id": 7674517,
+            "wishlistName": "Queens",
+            "accuratePropertyClass": 4,
+            "reviewScore": 6.1,
+            "checkoutDate": "2025-07-25",
+            "checkinDate": "2025-06-24",
+            "optOutFromGalleryChanges": 0,
+            "priceBreakdown": {
+                "taxExceptions": [],
+                "benefitBadges": [],
+                "excludedPrice": {
+                    "value": 1084.485,
+                    "currency": "USD"
+                },
+                "grossPrice": {
+                    "value": 5566,
+                    "currency": "USD"
+                }
+            },
+            "position": 11,
+            "isExtended": true
+        }
+    },
+    {
+        "hotel_id": 8934640,
+        "accessibilityLabel": "Dharma Home Suites Hoboken.\n3 out of 5 stars.\n8.8 Excellent 86 reviews.\n‎Hoboken‬ • ‎4.4 km from New York‬.\nMobile-only price.\n Entire apartment – 92 m² : 4 beds • 2 bedrooms • 1 living room • 2 bathrooms.\nOriginal price 22339 USD. Current price 15079 USD..\n+1943 USD taxes and charges.",
+        "property": {
+            "mainPhotoId": 428901435,
+            "countryCode": "us",
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/428901435.jpg?k=183abb8ec2d4fdee2a44ddfd7be63e586fad0729c04e9d0ace43c67c0d3226ae&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/428901435.jpg?k=183abb8ec2d4fdee2a44ddfd7be63e586fad0729c04e9d0ace43c67c0d3226ae&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/428901435.jpg?k=183abb8ec2d4fdee2a44ddfd7be63e586fad0729c04e9d0ace43c67c0d3226ae&o="
+            ],
+            "currency": "USD",
+            "longitude": -74.031624,
+            "latitude": 40.754926,
+            "blockIds": [
+                "893464005_368944958_4_0_0"
+            ],
+            "reviewScoreWord": "Excellent",
+            "reviewCount": 86,
+            "qualityClass": 0,
+            "propertyClass": 3,
+            "checkout": {
+                "untilTime": "11:00",
+                "fromTime": "01:00"
+            },
+            "name": "Dharma Home Suites Hoboken",
+            "isFirstPage": true,
+            "ufi": 20081434,
+            "rankingPosition": 12,
+            "checkin": {
+                "fromTime": "16:00",
+                "untilTime": "00:00"
+            },
+            "id": 8934640,
+            "wishlistName": "Hoboken",
+            "accuratePropertyClass": 3,
+            "reviewScore": 8.8,
+            "checkinDate": "2025-06-24",
+            "checkoutDate": "2025-07-25",
+            "position": 12,
+            "priceBreakdown": {
+                "taxExceptions": [],
+                "grossPrice": {
+                    "value": 15078.65,
+                    "currency": "USD"
+                },
+                "strikethroughPrice": {
+                    "value": 22338.75,
+                    "currency": "USD"
+                },
+                "benefitBadges": [
+                    {
+                        "explanation": "Mobile-only price",
+                        "variant": "constructive",
+                        "identifier": "Mobile Rate",
+                        "text": "Mobile-only price"
+                    }
+                ],
+                "excludedPrice": {
+                    "currency": "USD",
+                    "value": 1943.418
+                }
+            },
+            "isExtended": true,
+            "optOutFromGalleryChanges": 0
+        }
+    },
+    {
+        "hotel_id": 12353946,
+        "accessibilityLabel": "FANCY APT SUBWAY CROSSING STREET - Best Location.\n4 out of 5 for property rating.\n‎Long Island City‬ • ‎3.6 km from New York‬.\nMobile-only price.\n 80 m² : 4 beds • 2 bedrooms • 1 living room • 1 bathroom.\nOriginal price 7839 USD. Current price 7055 USD..\n+1285 USD taxes and charges.",
+        "property": {
+            "ufi": 20087749,
+            "id": 12353946,
+            "rankingPosition": 13,
+            "checkin": {
+                "fromTime": "15:00",
+                "untilTime": "23:00"
+            },
+            "reviewScore": 0,
+            "checkinDate": "2025-06-24",
+            "checkoutDate": "2025-07-25",
+            "wishlistName": "Long Island City",
+            "accuratePropertyClass": 0,
+            "position": 13,
+            "isExtended": true,
+            "priceBreakdown": {
+                "taxExceptions": [],
+                "strikethroughPrice": {
+                    "currency": "USD",
+                    "value": 7839.28
+                },
+                "benefitBadges": [
+                    {
+                        "text": "Mobile-only price",
+                        "variant": "constructive",
+                        "identifier": "Mobile Rate",
+                        "explanation": "Mobile-only price"
+                    }
+                ],
+                "excludedPrice": {
+                    "currency": "USD",
+                    "value": 1284.6583
+                },
+                "grossPrice": {
+                    "currency": "USD",
+                    "value": 7055.35
+                }
+            },
+            "optOutFromGalleryChanges": 0,
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/574505340.jpg?k=7d9d2a0a7393bf928e5e36b42cbbfe16813f5f5d0641b321090121b9fb46a01b&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/574505340.jpg?k=7d9d2a0a7393bf928e5e36b42cbbfe16813f5f5d0641b321090121b9fb46a01b&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/574505340.jpg?k=7d9d2a0a7393bf928e5e36b42cbbfe16813f5f5d0641b321090121b9fb46a01b&o="
+            ],
+            "mainPhotoId": 574505340,
+            "countryCode": "us",
+            "blockIds": [
+                "1235394601_396500762_3_0_0"
+            ],
+            "reviewScoreWord": "",
+            "qualityClass": 4,
+            "reviewCount": 0,
+            "currency": "USD",
+            "longitude": -73.9484832,
+            "latitude": 40.7480818,
+            "checkout": {
+                "fromTime": "07:00",
+                "untilTime": "10:00"
+            },
+            "propertyClass": 0,
+            "isFirstPage": true,
+            "name": "FANCY APT SUBWAY CROSSING STREET - Best Location"
+        }
+    },
+    {
+        "hotel_id": 14258512,
+        "accessibilityLabel": "Modern Apartment 3BR 1BD West New York 15 minutes to NYC.\n4 out of 5 for property rating.\n‎West New York‬ • ‎4.2 km from New York‬.\nNew to Booking.com.\n 790 m² : 2 beds • 1 bedroom • 1 living room • 1 bathroom.\n16834 USD.\n+2441 USD taxes and charges.",
+        "property": {
+            "countryCode": "us",
+            "mainPhotoId": 689679895,
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/689679895.jpg?k=435587478bebde7845b6274376c6a9aaf1470da0f02050d55af43260ace8992a&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/689679895.jpg?k=435587478bebde7845b6274376c6a9aaf1470da0f02050d55af43260ace8992a&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/689679895.jpg?k=435587478bebde7845b6274376c6a9aaf1470da0f02050d55af43260ace8992a&o="
+            ],
+            "longitude": -74.0193556,
+            "latitude": 40.7924959,
+            "currency": "USD",
+            "qualityClass": 4,
+            "reviewCount": 0,
+            "blockIds": [
+                "1425851201_414178221_3_0_0"
+            ],
+            "reviewScoreWord": "",
+            "propertyClass": 0,
+            "checkout": {
+                "fromTime": "08:00",
+                "untilTime": "11:00"
+            },
+            "name": "Modern Apartment 3BR 1BD West New York 15 minutes to NYC",
+            "isFirstPage": true,
+            "ufi": 20082850,
+            "checkin": {
+                "untilTime": "18:00",
+                "fromTime": "15:00"
+            },
+            "rankingPosition": 14,
+            "id": 14258512,
+            "wishlistName": "West New York",
+            "accuratePropertyClass": 0,
+            "checkinDate": "2025-06-24",
+            "checkoutDate": "2025-07-25",
+            "reviewScore": 0,
+            "isExtended": true,
+            "position": 14,
+            "priceBreakdown": {
+                "excludedPrice": {
+                    "currency": "USD",
+                    "value": 2440.9663
+                },
+                "benefitBadges": [],
+                "grossPrice": {
+                    "currency": "USD",
+                    "value": 16834.25
+                },
+                "taxExceptions": []
+            },
+            "optOutFromGalleryChanges": 0
+        }
+    },
+    {
+        "hotel_id": 13215944,
+        "accessibilityLabel": "Casa De Paz II - Min from NYC The Heights.\n4 out of 5 for property rating.\n10 Exceptional 2 reviews.\n‎North Bergen‬ • ‎4.9 km from New York‬.\n Entire vacation home – 102 m² : 3 beds • 2 bedrooms • 1 living room • 1 bathroom.\n8464 USD.\n+4107 USD taxes and charges.",
+        "property": {
+            "ufi": 20081980,
+            "id": 13215944,
+            "checkin": {
+                "fromTime": "16:00",
+                "untilTime": "00:00"
+            },
+            "rankingPosition": 15,
+            "checkinDate": "2025-06-24",
+            "checkoutDate": "2025-07-25",
+            "reviewScore": 10,
+            "accuratePropertyClass": 0,
+            "wishlistName": "North Bergen",
+            "priceBreakdown": {
+                "excludedPrice": {
+                    "value": 4107.0712,
+                    "currency": "USD"
+                },
+                "benefitBadges": [],
+                "grossPrice": {
+                    "currency": "USD",
+                    "value": 8463.55
+                },
+                "taxExceptions": []
+            },
+            "isExtended": true,
+            "position": 15,
+            "optOutFromGalleryChanges": 0,
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/666294883.jpg?k=2f9b7f61f8daa1c2fc649d1414ab8027e7dba4f3cbb8eb4604617e17f2fa0b51&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/666294883.jpg?k=2f9b7f61f8daa1c2fc649d1414ab8027e7dba4f3cbb8eb4604617e17f2fa0b51&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/666294883.jpg?k=2f9b7f61f8daa1c2fc649d1414ab8027e7dba4f3cbb8eb4604617e17f2fa0b51&o="
+            ],
+            "countryCode": "us",
+            "mainPhotoId": 666294883,
+            "reviewCount": 2,
+            "qualityClass": 4,
+            "blockIds": [
+                "1321594401_408964706_0_0_0_870652"
+            ],
+            "reviewScoreWord": "Exceptional",
+            "longitude": -74.0059899,
+            "latitude": 40.8079295,
+            "currency": "USD",
+            "checkout": {
+                "fromTime": "00:00",
+                "untilTime": "10:30"
+            },
+            "propertyClass": 0,
+            "isFirstPage": true,
+            "name": "Casa De Paz II - Min from NYC The Heights"
+        }
+    },
+    {
+        "hotel_id": 334812,
+        "accessibilityLabel": "Holland Hotel Free Parking Jersey City.\n3 out of 5 stars.\nThis is a Preferred property.\n8.5 Very Good 1935 reviews.\n‎6.5 km from downtown‬.\nBreakfast included.\n Hotel room : 2 beds.\n7144 USD.\n+1188 USD taxes and charges.\nNo prepayment needed.",
+        "property": {
+            "checkin": {
+                "fromTime": "15:00",
+                "untilTime": "00:00"
+            },
+            "rankingPosition": 16,
+            "id": 334812,
+            "ufi": 20081509,
+            "optOutFromGalleryChanges": 0,
+            "priceBreakdown": {
+                "excludedPrice": {
+                    "value": 1188.0472,
+                    "currency": "USD"
+                },
+                "benefitBadges": [],
+                "grossPrice": {
+                    "currency": "USD",
+                    "value": 7144
+                },
+                "taxExceptions": []
+            },
+            "position": 16,
+            "accuratePropertyClass": 3,
+            "wishlistName": "Jersey City",
+            "checkoutDate": "2025-07-25",
+            "checkinDate": "2025-06-24",
+            "reviewScore": 8.5,
+            "longitude": -74.0402381122112,
+            "latitude": 40.7296186234162,
+            "currency": "USD",
+            "reviewCount": 1935,
+            "qualityClass": 0,
+            "reviewScoreWord": "Very Good",
+            "blockIds": [
+                "33481203_388736559_0_1_0"
+            ],
+            "countryCode": "us",
+            "mainPhotoId": 113043355,
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/113043355.jpg?k=3dd90689465179459fb43d9a6260f6d2d4e8f4d5a7d6888f9d77de6730502de2&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/113043355.jpg?k=3dd90689465179459fb43d9a6260f6d2d4e8f4d5a7d6888f9d77de6730502de2&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/113043355.jpg?k=3dd90689465179459fb43d9a6260f6d2d4e8f4d5a7d6888f9d77de6730502de2&o="
+            ],
+            "name": "Holland Hotel Free Parking Jersey City",
+            "isPreferred": true,
+            "isFirstPage": true,
+            "propertyClass": 3,
+            "checkout": {
+                "fromTime": "00:00",
+                "untilTime": "12:00"
+            }
+        }
+    },
+    {
+        "hotel_id": 1457823,
+        "accessibilityLabel": "Bklyn House Hotel New York Brooklyn.\n3 out of 5 stars.\nThis is a Preferred property.\n7.3 Good 275 reviews.\n‎Bushwick, Brooklyn‬ • ‎8.3 km from New York‬.\n Hotel room : 2 beds.\n7009 USD.\n+1676 USD taxes and charges.",
+        "property": {
+            "rankingPosition": 17,
+            "checkin": {
+                "untilTime": "00:00",
+                "fromTime": "15:00"
+            },
+            "id": 1457823,
+            "ufi": 20085207,
+            "priceBreakdown": {
+                "benefitBadges": [],
+                "excludedPrice": {
+                    "currency": "USD",
+                    "value": 1675.915
+                },
+                "grossPrice": {
+                    "value": 7009,
+                    "currency": "USD"
+                },
+                "taxExceptions": []
+            },
+            "position": 17,
+            "isExtended": true,
+            "optOutFromGalleryChanges": 0,
+            "wishlistName": "Brooklyn",
+            "accuratePropertyClass": 3,
+            "reviewScore": 7.3,
+            "checkinDate": "2025-06-24",
+            "checkoutDate": "2025-07-25",
+            "currency": "USD",
+            "latitude": 40.700744,
+            "longitude": -73.939257,
+            "blockIds": [
+                "145782305_412243106_4_0_0_1108696"
+            ],
+            "reviewScoreWord": "Good",
+            "qualityClass": 0,
+            "reviewCount": 275,
+            "mainPhotoId": 112801466,
+            "countryCode": "us",
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/112801466.jpg?k=80ac43c1dd15b871e2a4d3caa68c16f6509737959154e6bbad4260aecd4e7f00&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/112801466.jpg?k=80ac43c1dd15b871e2a4d3caa68c16f6509737959154e6bbad4260aecd4e7f00&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/112801466.jpg?k=80ac43c1dd15b871e2a4d3caa68c16f6509737959154e6bbad4260aecd4e7f00&o="
+            ],
+            "isPreferred": true,
+            "name": "Bklyn House Hotel New York Brooklyn",
+            "isFirstPage": true,
+            "propertyClass": 3,
+            "checkout": {
+                "untilTime": "12:00",
+                "fromTime": "05:00"
+            }
+        }
+    },
+    {
+        "hotel_id": 10453389,
+        "accessibilityLabel": "Pipo’s perfect place.\nThis is a Preferred property.\n8.4 Very Good 70 reviews.\n‎Jersey City‬ • ‎5.9 km from New York‬.\nMobile-only price.\n Entire apartment : 3 beds • 2 bedrooms • 1 living room • 1 bathroom.\nOriginal price 10160 USD. Current price 6858 USD..\n+1109 USD taxes and charges.",
+        "property": {
+            "countryCode": "us",
+            "mainPhotoId": 477907263,
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/477907263.jpg?k=0af7174710c8bbf481ebfc1e20e4a0f009b4257e132eb6560b4849d0edcd3869&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/477907263.jpg?k=0af7174710c8bbf481ebfc1e20e4a0f009b4257e132eb6560b4849d0edcd3869&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/477907263.jpg?k=0af7174710c8bbf481ebfc1e20e4a0f009b4257e132eb6560b4849d0edcd3869&o="
+            ],
+            "latitude": 40.7582477,
+            "longitude": -74.0505542,
+            "currency": "USD",
+            "qualityClass": 0,
+            "reviewCount": 70,
+            "reviewScoreWord": "Very Good",
+            "blockIds": [
+                "1045338903_376867952_0_0_0"
+            ],
+            "propertyClass": 0,
+            "checkout": {
+                "untilTime": "11:00",
+                "fromTime": "08:00"
+            },
+            "name": "Pipo’s perfect place",
+            "isPreferred": true,
+            "isFirstPage": true,
+            "ufi": 20081509,
+            "checkin": {
+                "untilTime": "18:00",
+                "fromTime": "16:00"
+            },
+            "rankingPosition": 18,
+            "id": 10453389,
+            "accuratePropertyClass": 0,
+            "wishlistName": "Jersey City",
+            "checkoutDate": "2025-07-25",
+            "checkinDate": "2025-06-24",
+            "reviewScore": 8.4,
+            "optOutFromGalleryChanges": 0,
+            "isExtended": true,
+            "position": 18,
+            "priceBreakdown": {
+                "strikethroughPrice": {
+                    "currency": "USD",
+                    "value": 10160
+                },
+                "benefitBadges": [
+                    {
+                        "variant": "constructive",
+                        "identifier": "Mobile Rate",
+                        "text": "Mobile-only price",
+                        "explanation": "Mobile-only price"
+                    }
+                ],
+                "excludedPrice": {
+                    "currency": "USD",
+                    "value": 1108.91
+                },
+                "grossPrice": {
+                    "value": 6858,
+                    "currency": "USD"
+                },
+                "taxExceptions": []
+            }
+        }
+    },
+    {
+        "hotel_id": 1196977,
+        "accessibilityLabel": "Gabriel's Luxury Suite.\n1 out of 5 stars.\nThis is a Preferred property.\n6.9 Pleasant 106 reviews.\n‎Bed-Stuy, Brooklyn‬ • ‎9.9 km from New York‬.\n Private suite – 118 m² : 4 beds • 3 bedrooms • 1 living room • 1 bathroom.\nOriginal price 108965 USD. Current price 68820 USD..\n+10436 USD taxes and charges.",
+        "property": {
+            "checkoutDate": "2025-07-25",
+            "checkinDate": "2025-06-24",
+            "reviewScore": 6.9,
+            "wishlistName": "Brooklyn",
+            "accuratePropertyClass": 1,
+            "optOutFromGalleryChanges": 0,
+            "position": 19,
+            "isExtended": true,
+            "priceBreakdown": {
+                "taxExceptions": [],
+                "grossPrice": {
+                    "currency": "USD",
+                    "value": 68820
+                },
+                "excludedPrice": {
+                    "currency": "USD",
+                    "value": 10436.1038
+                },
+                "strikethroughPrice": {
+                    "value": 108965,
+                    "currency": "USD"
+                },
+                "benefitBadges": []
+            },
+            "ufi": 20085207,
+            "id": 1196977,
+            "checkin": {
+                "fromTime": "15:30",
+                "untilTime": "20:00"
+            },
+            "rankingPosition": 19,
+            "checkout": {
+                "fromTime": "11:00",
+                "untilTime": "11:30"
+            },
+            "propertyClass": 1,
+            "isFirstPage": true,
+            "name": "Gabriel's Luxury Suite",
+            "isPreferred": true,
+            "photoUrls": [
+                "https://cf.bstatic.com/xdata/images/hotel/square500/100956084.jpg?k=3dac23b780d121f8b95023959ace4dac6ff635523a6433dd154de824c652eb56&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square1024/100956084.jpg?k=3dac23b780d121f8b95023959ace4dac6ff635523a6433dd154de824c652eb56&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/square2000/100956084.jpg?k=3dac23b780d121f8b95023959ace4dac6ff635523a6433dd154de824c652eb56&o="
+            ],
+            "countryCode": "us",
+            "mainPhotoId": 100956084,
+            "qualityClass": 0,
+            "reviewCount": 106,
+            "reviewScoreWord": "Pleasant",
+            "blockIds": [
+                "119697703_332101348_8_0_0"
+            ],
+            "latitude": 40.6860536272922,
+            "longitude": -73.9376177288361,
+            "currency": "USD"
+        }
+    }
+,
+    {
+      "hotel_id": 26976,
+      "accessibilityLabel": "Millennium Downtown New York - Newly Renovated.\n4 out of 5 stars.\nThis is a Preferred property.\n7.4 Good 4982 reviews.\n‎5.6 km from downtown‬.\n Private suite – 57 m² : 2 beds • 1 bedroom • 1 living room • 2 bathrooms.\nOriginal price 18711 AED. Current price 15904 AED..\n+3148 AED taxes and charges.",
+      "property": {
+        "optOutFromGalleryChanges": 1,
+        "blockIds": [
+          "2697639_411753299_2_0_0"
+        ],
+        "position": 0,
+        "rankingPosition": 0,
+        "checkin": {
+          "fromTime": "16:00",
+          "untilTime": "00:00"
+        },
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/655137349.jpg?k=419d8cca269626ee5e5da211c0c94741b062521849037ef724129714af282afc&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/655137349.jpg?k=419d8cca269626ee5e5da211c0c94741b062521849037ef724129714af282afc&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/655137349.jpg?k=419d8cca269626ee5e5da211c0c94741b062521849037ef724129714af282afc&o="
+        ],
+        "latitude": 40.7111969220929,
+        "longitude": -74.0104582160711,
+        "isFirstPage": true,
+        "reviewCount": 4982,
+        "currency": "USD",
+        "reviewScore": 7.4,
+        "ufi": 20088325,
+        "checkoutDate": "2025-06-30",
+        "name": "Millennium Downtown New York - Newly Renovated",
+        "countryCode": "us",
+        "accuratePropertyClass": 4,
+        "checkout": {
+          "fromTime": "00:00",
+          "untilTime": "11:00"
+        },
+        "id": 26976,
+        "reviewScoreWord": "Good",
+        "wishlistName": "New York",
+        "priceBreakdown": {
+          "taxExceptions": [],
+          "strikethroughPrice": {
+            "value": 18710.8780334741,
+            "currency": "AED"
+          },
+          "excludedPrice": {
+            "value": 3147.60706807113,
+            "currency": "AED"
+          },
+          "benefitBadges": [],
+          "grossPrice": {
+            "value": 15904.246328453,
+            "currency": "AED"
+          }
+        },
+        "qualityClass": 0,
+        "mainPhotoId": 655137349,
+        "checkinDate": "2025-06-25",
+        "isPreferred": true,
+        "propertyClass": 4
+      }
+    },
+    {
+      "hotel_id": 4918055,
+      "accessibilityLabel": "The Beekman Tower, Trademark Collection by Wyndham.\n4 out of 5 stars.\nThis is a Preferred property.\n8.4 Very Good 1769 reviews.\n‎1.3 km from downtown‬.\n Hotel room : 3 beds • 2 bathrooms.\n13779 AED.\n+2554 AED taxes and charges.",
+      "property": {
+        "checkout": {
+          "fromTime": "00:00",
+          "untilTime": "11:00"
+        },
+        "accuratePropertyClass": 4,
+        "name": "The Beekman Tower, Trademark Collection by Wyndham",
+        "countryCode": "us",
+        "checkoutDate": "2025-06-30",
+        "propertyClass": 4,
+        "checkinDate": "2025-06-25",
+        "isPreferred": true,
+        "wishlistName": "New York",
+        "priceBreakdown": {
+          "excludedPrice": {
+            "value": 2554.32864356974,
+            "currency": "AED"
+          },
+          "grossPrice": {
+            "currency": "AED",
+            "value": 13778.8448246506
+          },
+          "benefitBadges": [],
+          "taxExceptions": []
+        },
+        "mainPhotoId": 211998971,
+        "qualityClass": 0,
+        "reviewScoreWord": "Very Good",
+        "id": 4918055,
+        "longitude": -73.966174,
+        "latitude": 40.753401,
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/211998971.jpg?k=4f167ca97338a4c284ede80882c333e0ae266dc6d0ca7055e8831d35e32cf8c3&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/211998971.jpg?k=4f167ca97338a4c284ede80882c333e0ae266dc6d0ca7055e8831d35e32cf8c3&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/211998971.jpg?k=4f167ca97338a4c284ede80882c333e0ae266dc6d0ca7055e8831d35e32cf8c3&o="
+        ],
+        "rankingPosition": 1,
+        "position": 1,
+        "blockIds": [
+          "491805516_264310392_7_0_0"
+        ],
+        "checkin": {
+          "fromTime": "16:00",
+          "untilTime": "00:00"
+        },
+        "optOutFromGalleryChanges": 0,
+        "ufi": 20088325,
+        "reviewScore": 8.4,
+        "reviewCount": 1769,
+        "currency": "USD",
+        "isFirstPage": true
+      }
+    },
+    {
+      "hotel_id": 5218600,
+      "accessibilityLabel": "Hyatt Place New York City - Times Square.\n4 out of 5 stars.\nThis is a Preferred property.\n7.8 Good 21491 reviews.\n‎1.1 km from downtown‬.\nBreakfast included.\n Hotel room : 2 beds.\n7514 AED.\n+1173 AED taxes and charges.\nNo prepayment needed.",
+      "property": {
+        "reviewScore": 7.8,
+        "ufi": 20088325,
+        "isFirstPage": true,
+        "currency": "USD",
+        "reviewCount": 21491,
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/535073146.jpg?k=10c717871b485d48829f95d871d64c73d3ace64a3bed63619ae829bffe6dd58a&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/535073146.jpg?k=10c717871b485d48829f95d871d64c73d3ace64a3bed63619ae829bffe6dd58a&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/535073146.jpg?k=10c717871b485d48829f95d871d64c73d3ace64a3bed63619ae829bffe6dd58a&o="
+        ],
+        "longitude": -73.993703,
+        "latitude": 40.755967,
+        "optOutFromGalleryChanges": 1,
+        "checkin": {
+          "fromTime": "15:00",
+          "untilTime": "00:00"
+        },
+        "rankingPosition": 2,
+        "position": 2,
+        "blockIds": [
+          "521860007_410584896_2_1_0"
+        ],
+        "isPreferred": true,
+        "checkinDate": "2025-06-25",
+        "propertyClass": 4,
+        "reviewScoreWord": "Good",
+        "id": 5218600,
+        "wishlistName": "New York",
+        "qualityClass": 0,
+        "priceBreakdown": {
+          "excludedPrice": {
+            "currency": "AED",
+            "value": 1172.5422360977
+          },
+          "benefitBadges": [],
+          "grossPrice": {
+            "currency": "AED",
+            "value": 7513.7304134422
+          },
+          "taxExceptions": []
+        },
+        "mainPhotoId": 535073146,
+        "accuratePropertyClass": 4,
+        "checkout": {
+          "fromTime": "00:00",
+          "untilTime": "11:00"
+        },
+        "checkoutDate": "2025-06-30",
+        "countryCode": "us",
+        "name": "Hyatt Place New York City - Times Square"
+      }
+    },
+    {
+      "hotel_id": 2219519,
+      "accessibilityLabel": "MOXY NYC Times Square.\n4 out of 5 stars.\nThis is a Preferred property.\n8.1 Very Good 5822 reviews.\n‎0.8 km from downtown‬.\n Hotel room : 2 beds.\n6041 AED.\n+1693 AED taxes and charges.\nNo prepayment needed.",
+      "property": {
+        "isFirstPage": true,
+        "reviewCount": 5822,
+        "currency": "USD",
+        "ufi": 20088325,
+        "reviewScore": 8.1,
+        "optOutFromGalleryChanges": 1,
+        "blockIds": [
+          "221951905_367034274_0_42_0"
+        ],
+        "rankingPosition": 3,
+        "position": 3,
+        "checkin": {
+          "fromTime": "16:00",
+          "untilTime": "00:00"
+        },
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/439518194.jpg?k=8a6500d830e0b77a182bdb4054b53941d655304c904a1b1a84eebfa306d48eb6&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/439518194.jpg?k=8a6500d830e0b77a182bdb4054b53941d655304c904a1b1a84eebfa306d48eb6&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/439518194.jpg?k=8a6500d830e0b77a182bdb4054b53941d655304c904a1b1a84eebfa306d48eb6&o="
+        ],
+        "longitude": -73.989375,
+        "latitude": 40.752419,
+        "id": 2219519,
+        "reviewScoreWord": "Very Good",
+        "wishlistName": "New York",
+        "mainPhotoId": 439518194,
+        "priceBreakdown": {
+          "benefitBadges": [],
+          "grossPrice": {
+            "currency": "AED",
+            "value": 6041.09801080763
+          },
+          "excludedPrice": {
+            "value": 1692.79278302844,
+            "currency": "AED"
+          },
+          "taxExceptions": []
+        },
+        "qualityClass": 0,
+        "isPreferred": true,
+        "checkinDate": "2025-06-25",
+        "propertyClass": 4,
+        "checkoutDate": "2025-06-30",
+        "name": "MOXY NYC Times Square",
+        "countryCode": "us",
+        "accuratePropertyClass": 4,
+        "checkout": {
+          "fromTime": "00:00",
+          "untilTime": "12:00"
+        }
+      }
+    },
+    {
+      "hotel_id": 5988607,
+      "accessibilityLabel": "Hotel 57.\n4 out of 5 stars.\nThis is a Preferred property.\n7.0 Good 5388 reviews.\n‎1.1 km from downtown‬.\nMobile-only price.\n Private suite : 1 bed.\nOriginal price 6629 AED. Current price 5071 AED..\n+1655 AED taxes and charges.",
+      "property": {
+        "name": "Hotel 57",
+        "countryCode": "us",
+        "checkoutDate": "2025-06-30",
+        "checkout": {
+          "untilTime": "12:00",
+          "fromTime": "00:00"
+        },
+        "accuratePropertyClass": 4,
+        "mainPhotoId": 693420903,
+        "wishlistName": "New York",
+        "priceBreakdown": {
+          "taxExceptions": [],
+          "strikethroughPrice": {
+            "currency": "AED",
+            "value": 6628.68201185883
+          },
+          "excludedPrice": {
+            "value": 1655.04932472091,
+            "currency": "AED"
+          },
+          "grossPrice": {
+            "value": 5070.96010107204,
+            "currency": "AED"
+          },
+          "benefitBadges": [
+            {
+              "identifier": "Mobile Rate",
+              "variant": "constructive",
+              "text": "Mobile-only price",
+              "explanation": "Mobile-only price"
+            }
+          ]
+        },
+        "qualityClass": 0,
+        "reviewScoreWord": "Good",
+        "id": 5988607,
+        "propertyClass": 4,
+        "isPreferred": true,
+        "checkinDate": "2025-06-25",
+        "rankingPosition": 4,
+        "position": 4,
+        "blockIds": [
+          "598860716_412800687_2_0_0_704540"
+        ],
+        "checkin": {
+          "untilTime": "00:00",
+          "fromTime": "16:00"
+        },
+        "optOutFromGalleryChanges": 1,
+        "latitude": 40.760844,
+        "longitude": -73.969387,
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/693420903.jpg?k=e3478e241c7d036b50f9eed21295d765e017dd9842d69132968eabbf1020cb85&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/693420903.jpg?k=e3478e241c7d036b50f9eed21295d765e017dd9842d69132968eabbf1020cb85&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/693420903.jpg?k=e3478e241c7d036b50f9eed21295d765e017dd9842d69132968eabbf1020cb85&o="
+        ],
+        "reviewCount": 5388,
+        "currency": "USD",
+        "isFirstPage": true,
+        "ufi": 20088325,
+        "reviewScore": 7
+      }
+    },
+    {
+      "hotel_id": 56700,
+      "accessibilityLabel": "Sheraton New York Times Square Hotel.\n4 out of 5 stars.\nThis is a Preferred property.\n6.3 Pleasant 2166 reviews.\n‎0.7 km from downtown‬.\n Hotel room : 2 beds.\n5931 AED.\n+1713 AED taxes and charges.\nNo prepayment needed.",
+      "property": {
+        "reviewScoreWord": "Pleasant",
+        "id": 56700,
+        "wishlistName": "New York",
+        "mainPhotoId": 430226615,
+        "priceBreakdown": {
+          "benefitBadges": [],
+          "grossPrice": {
+            "value": 5930.92601061053,
+            "currency": "AED"
+          },
+          "excludedPrice": {
+            "currency": "AED",
+            "value": 1713.26641306506
+          },
+          "taxExceptions": []
+        },
+        "qualityClass": 0,
+        "checkinDate": "2025-06-25",
+        "isPreferred": true,
+        "propertyClass": 4,
+        "checkoutDate": "2025-06-30",
+        "countryCode": "us",
+        "name": "Sheraton New York Times Square Hotel",
+        "accuratePropertyClass": 4,
+        "checkout": {
+          "untilTime": "12:00",
+          "fromTime": "00:00"
+        },
+        "isFirstPage": true,
+        "currency": "USD",
+        "reviewCount": 2166,
+        "ufi": 20088325,
+        "reviewScore": 6.3,
+        "optOutFromGalleryChanges": 0,
+        "checkin": {
+          "fromTime": "16:00",
+          "untilTime": "00:00"
+        },
+        "rankingPosition": 5,
+        "position": 5,
+        "blockIds": [
+          "5670044_274565701_0_0_0"
+        ],
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/430226615.jpg?k=08b34be770e5490fa59cb76cdec19edf6a65fd9a36e4544c091e0996fe6d3fac&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/430226615.jpg?k=08b34be770e5490fa59cb76cdec19edf6a65fd9a36e4544c091e0996fe6d3fac&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/430226615.jpg?k=08b34be770e5490fa59cb76cdec19edf6a65fd9a36e4544c091e0996fe6d3fac&o="
+        ],
+        "longitude": -73.9818906784058,
+        "latitude": 40.7626559458167
+      }
+    },
+    {
+      "hotel_id": 7695414,
+      "accessibilityLabel": "The Cloud One New York-Downtown, by the Motel One Group.\n4 out of 5 stars.\nThis is a Preferred property.\n8.7 Excellent 7221 reviews.\n‎5.8 km from downtown‬.\n Hotel room : 2 beds.\n8131 AED.\n+1264 AED taxes and charges.\nNo prepayment needed.",
+      "property": {
+        "countryCode": "us",
+        "name": "The Cloud One New York-Downtown, by the Motel One Group",
+        "checkoutDate": "2025-06-30",
+        "checkout": {
+          "fromTime": "00:00",
+          "untilTime": "12:00"
+        },
+        "accuratePropertyClass": 4,
+        "wishlistName": "New York",
+        "qualityClass": 0,
+        "priceBreakdown": {
+          "grossPrice": {
+            "value": 8130.69361454596,
+            "currency": "AED"
+          },
+          "benefitBadges": [],
+          "excludedPrice": {
+            "currency": "AED",
+            "value": 1263.5443082605
+          },
+          "taxExceptions": []
+        },
+        "mainPhotoId": 482037917,
+        "reviewScoreWord": "Excellent",
+        "id": 7695414,
+        "propertyClass": 4,
+        "checkinDate": "2025-06-25",
+        "isPreferred": true,
+        "checkin": {
+          "untilTime": "00:00",
+          "fromTime": "15:00"
+        },
+        "rankingPosition": 6,
+        "position": 6,
+        "blockIds": [
+          "769541402_413138868_4_2_0_220939"
+        ],
+        "optOutFromGalleryChanges": 0,
+        "longitude": -74.012706,
+        "latitude": 40.709386,
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/482037917.jpg?k=8212b26a87d056f0b956e48205e440298a8435b48af1bd41aaaf52b4f746a62e&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/482037917.jpg?k=8212b26a87d056f0b956e48205e440298a8435b48af1bd41aaaf52b4f746a62e&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/482037917.jpg?k=8212b26a87d056f0b956e48205e440298a8435b48af1bd41aaaf52b4f746a62e&o="
+        ],
+        "currency": "USD",
+        "reviewCount": 7221,
+        "isFirstPage": true,
+        "reviewScore": 8.7,
+        "ufi": 20088325
+      }
+    },
+    {
+      "hotel_id": 182326,
+      "accessibilityLabel": "Holiday Inn Express - Times Square by IHG.\n3 out of 5 stars.\nThis is a Preferred property.\n7.1 Good 2029 reviews.\n‎1 km from downtown‬.\nMobile-only price.\nBreakfast included.\n Hotel room : 2 beds.\nOriginal price 7639 AED. Current price 6875 AED..\n+1394 AED taxes and charges.\nNo prepayment needed.",
+      "property": {
+        "latitude": 40.7562709513263,
+        "longitude": -73.9931857958437,
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/244174920.jpg?k=7663e8b24214c2f6a1e01381ad65fb50a5b68704d33617100a865ed1cf366b78&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/244174920.jpg?k=7663e8b24214c2f6a1e01381ad65fb50a5b68704d33617100a865ed1cf366b78&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/244174920.jpg?k=7663e8b24214c2f6a1e01381ad65fb50a5b68704d33617100a865ed1cf366b78&o="
+        ],
+        "checkin": {
+          "fromTime": "16:00",
+          "untilTime": "00:00"
+        },
+        "rankingPosition": 7,
+        "position": 7,
+        "blockIds": [
+          "18232607_246083998_4_1_0"
+        ],
+        "optOutFromGalleryChanges": 0,
+        "reviewScore": 7.1,
+        "ufi": 20088325,
+        "currency": "USD",
+        "reviewCount": 2029,
+        "isFirstPage": true,
+        "checkout": {
+          "untilTime": "11:00",
+          "fromTime": "00:00"
+        },
+        "accuratePropertyClass": 3,
+        "countryCode": "us",
+        "name": "Holiday Inn Express - Times Square by IHG",
+        "checkoutDate": "2025-06-30",
+        "propertyClass": 3,
+        "checkinDate": "2025-06-25",
+        "isPreferred": true,
+        "mainPhotoId": 244174920,
+        "wishlistName": "New York",
+        "priceBreakdown": {
+          "taxExceptions": [],
+          "strikethroughPrice": {
+            "value": 7638.59201366558,
+            "currency": "AED"
+          },
+          "excludedPrice": {
+            "currency": "AED",
+            "value": 1394.34601549451
+          },
+          "benefitBadges": [
+            {
+              "variant": "constructive",
+              "text": "Mobile-only price",
+              "explanation": "Mobile-only price",
+              "identifier": "Mobile Rate"
+            }
+          ],
+          "grossPrice": {
+            "value": 6874.73281229902,
+            "currency": "AED"
+          }
+        },
+        "qualityClass": 0,
+        "reviewScoreWord": "Good",
+        "id": 182326
+      }
+    },
+    {
+      "hotel_id": 436827,
+      "accessibilityLabel": "The Manhattan at Times Square.\n4 out of 5 stars.\nThis is a Preferred property.\n5.5 Fair 7337 reviews.\n‎0.7 km from downtown‬.\n Hotel room : 2 beds.\n5307 AED.\n+1690 AED taxes and charges.",
+      "property": {
+        "blockIds": [
+          "43682719_410588543_2_2_0"
+        ],
+        "rankingPosition": 8,
+        "position": 8,
+        "checkin": {
+          "fromTime": "16:00",
+          "untilTime": "00:00"
+        },
+        "optOutFromGalleryChanges": 1,
+        "longitude": -73.9830559,
+        "latitude": 40.7621722,
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/524488985.jpg?k=a346b260c7b1a625bcc7174e2a2ffd8167bd95fa3e47c341edd4e956e58bff11&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/524488985.jpg?k=a346b260c7b1a625bcc7174e2a2ffd8167bd95fa3e47c341edd4e956e58bff11&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/524488985.jpg?k=a346b260c7b1a625bcc7174e2a2ffd8167bd95fa3e47c341edd4e956e58bff11&o="
+        ],
+        "reviewCount": 7337,
+        "currency": "USD",
+        "isFirstPage": true,
+        "ufi": 20088325,
+        "reviewScore": 5.5,
+        "name": "The Manhattan at Times Square",
+        "countryCode": "us",
+        "checkoutDate": "2025-06-30",
+        "checkout": {
+          "untilTime": "12:00",
+          "fromTime": "00:00"
+        },
+        "accuratePropertyClass": 4,
+        "priceBreakdown": {
+          "taxExceptions": [],
+          "benefitBadges": [],
+          "grossPrice": {
+            "value": 5306.61800949363,
+            "currency": "AED"
+          },
+          "excludedPrice": {
+            "value": 1689.8089580231,
+            "currency": "AED"
+          }
+        },
+        "wishlistName": "New York",
+        "mainPhotoId": 524488985,
+        "qualityClass": 0,
+        "id": 436827,
+        "reviewScoreWord": "Fair",
+        "propertyClass": 4,
+        "isPreferred": true,
+        "checkinDate": "2025-06-25"
+      }
+    },
+    {
+      "hotel_id": 22296,
+      "accessibilityLabel": "W New York - Times Square.\n4 out of 5 stars.\nThis is a Preferred property.\n8.0 Very Good 1327 reviews.\n‎0.5 km from downtown‬.\n Hotel room : 2 beds.\n7420 AED.\n+2002 AED taxes and charges.\nNo prepayment needed.",
+      "property": {
+        "isFirstPage": true,
+        "reviewCount": 1327,
+        "currency": "USD",
+        "ufi": 20088325,
+        "reviewScore": 8,
+        "optOutFromGalleryChanges": 0,
+        "blockIds": [
+          "2229627_244918324_4_2_0"
+        ],
+        "rankingPosition": 9,
+        "position": 9,
+        "checkin": {
+          "fromTime": "16:00",
+          "untilTime": "00:00"
+        },
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/517854699.jpg?k=c0ef01d58a6a104b403beaf3e1bab479fa1ac7f606a5fb5318fbc0386df96f40&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/517854699.jpg?k=c0ef01d58a6a104b403beaf3e1bab479fa1ac7f606a5fb5318fbc0386df96f40&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/517854699.jpg?k=c0ef01d58a6a104b403beaf3e1bab479fa1ac7f606a5fb5318fbc0386df96f40&o="
+        ],
+        "latitude": 40.7593809890602,
+        "longitude": -73.985327258706,
+        "id": 22296,
+        "reviewScoreWord": "Very Good",
+        "priceBreakdown": {
+          "taxExceptions": [],
+          "excludedPrice": {
+            "value": 2001.5454067008,
+            "currency": "AED"
+          },
+          "grossPrice": {
+            "currency": "AED",
+            "value": 7420.08421327466
+          },
+          "benefitBadges": []
+        },
+        "wishlistName": "New York",
+        "mainPhotoId": 517854699,
+        "qualityClass": 0,
+        "checkinDate": "2025-06-25",
+        "isPreferred": true,
+        "propertyClass": 4,
+        "checkoutDate": "2025-06-30",
+        "name": "W New York - Times Square",
+        "countryCode": "us",
+        "accuratePropertyClass": 4,
+        "checkout": {
+          "untilTime": "12:00",
+          "fromTime": "00:00"
+        }
+      }
+    },
+    {
+      "hotel_id": 1498530,
+      "accessibilityLabel": "Renaissance New York Midtown Hotel.\n4 out of 5 stars.\nThis is a Preferred property.\n8.8 Excellent 1594 reviews.\n‎1 km from downtown‬.\n Hotel room : 2 beds.\n9713 AED.\n+1497 AED taxes and charges.\nNo prepayment needed.",
+      "property": {
+        "checkout": {
+          "fromTime": "00:00",
+          "untilTime": "12:00"
+        },
+        "accuratePropertyClass": 4,
+        "name": "Renaissance New York Midtown Hotel",
+        "countryCode": "us",
+        "checkoutDate": "2025-06-30",
+        "propertyClass": 4,
+        "isPreferred": true,
+        "checkinDate": "2025-06-25",
+        "wishlistName": "New York",
+        "priceBreakdown": {
+          "taxExceptions": [],
+          "benefitBadges": [],
+          "grossPrice": {
+            "value": 9713.49801737762,
+            "currency": "AED"
+          },
+          "excludedPrice": {
+            "currency": "AED",
+            "value": 1497.00795767817
+          }
+        },
+        "mainPhotoId": 461830185,
+        "qualityClass": 0,
+        "reviewScoreWord": "Excellent",
+        "id": 1498530,
+        "longitude": -73.991259,
+        "latitude": 40.751629,
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/461830185.jpg?k=e4597bfa553e466f0a8324e9f013ebe12c7213cad1146f77d912fbd0f79f138b&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/461830185.jpg?k=e4597bfa553e466f0a8324e9f013ebe12c7213cad1146f77d912fbd0f79f138b&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/461830185.jpg?k=e4597bfa553e466f0a8324e9f013ebe12c7213cad1146f77d912fbd0f79f138b&o="
+        ],
+        "rankingPosition": 10,
+        "position": 10,
+        "blockIds": [
+          "149853005_274565699_2_0_0"
+        ],
+        "checkin": {
+          "untilTime": "00:00",
+          "fromTime": "16:00"
+        },
+        "optOutFromGalleryChanges": 0,
+        "ufi": 20088325,
+        "reviewScore": 8.8,
+        "reviewCount": 1594,
+        "currency": "USD",
+        "isFirstPage": true
+      }
+    },
+    {
+      "hotel_id": 55861,
+      "accessibilityLabel": "Shoreham Hotel.\n4 out of 5 stars.\nThis is a Preferred property.\n7.3 Good 3503 reviews.\n‎0.8 km from downtown‬.\nGetaway Deal.\n Private suite – 39 m² : 2 beds • 1 bedroom • 1 living room • 1 bathroom.\nOriginal price 8245 AED. Current price 7008 AED..\n+1941 AED taxes and charges.",
+      "property": {
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/46393891.jpg?k=af05d38fe7796e49c97c057ea3db36d1a0efd4720a88b406145a45be174502d9&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/46393891.jpg?k=af05d38fe7796e49c97c057ea3db36d1a0efd4720a88b406145a45be174502d9&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/46393891.jpg?k=af05d38fe7796e49c97c057ea3db36d1a0efd4720a88b406145a45be174502d9&o="
+        ],
+        "longitude": -73.9763680100441,
+        "latitude": 40.7624213001252,
+        "optOutFromGalleryChanges": 1,
+        "checkin": {
+          "fromTime": "15:00",
+          "untilTime": "00:00"
+        },
+        "rankingPosition": 11,
+        "position": 11,
+        "blockIds": [
+          "5586102_403422209_3_0_0_684005"
+        ],
+        "ufi": 20088325,
+        "reviewScore": 7.3,
+        "isFirstPage": true,
+        "currency": "USD",
+        "reviewCount": 3503,
+        "accuratePropertyClass": 4,
+        "checkout": {
+          "fromTime": "00:00",
+          "untilTime": "11:00"
+        },
+        "checkoutDate": "2025-06-30",
+        "countryCode": "us",
+        "name": "Shoreham Hotel",
+        "isPreferred": true,
+        "checkinDate": "2025-06-25",
+        "propertyClass": 4,
+        "reviewScoreWord": "Good",
+        "id": 55861,
+        "wishlistName": "New York",
+        "mainPhotoId": 46393891,
+        "priceBreakdown": {
+          "taxExceptions": [],
+          "grossPrice": {
+            "value": 7007.85731253718,
+            "currency": "AED"
+          },
+          "benefitBadges": [
+            {
+              "identifier": "Getaway 2021 Deals",
+              "variant": "constructive",
+              "explanation": "Getaway Deal",
+              "text": "Getaway Deal"
+            }
+          ],
+          "strikethroughPrice": {
+            "currency": "AED",
+            "value": 8244.53801474963
+          },
+          "excludedPrice": {
+            "currency": "AED",
+            "value": 1940.74184703202
+          }
+        },
+        "qualityClass": 0
+      }
+    },
+    {
+      "hotel_id": 4323829,
+      "accessibilityLabel": "Renaissance New York Chelsea Hotel.\n4 out of 5 stars.\nThis is a Preferred property.\n8.3 Very Good 1298 reviews.\n‎1.6 km from downtown‬.\n Hotel room : 2 beds.\n6415 AED.\n+1643 AED taxes and charges.\nNo prepayment needed.",
+      "property": {
+        "reviewScore": 8.3,
+        "ufi": 20088325,
+        "isFirstPage": true,
+        "currency": "USD",
+        "reviewCount": 1298,
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/439499048.jpg?k=61380c3e30b2f5a04ea2777545a221aa9145222c26c9f37e0baa23648ae92170&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/439499048.jpg?k=61380c3e30b2f5a04ea2777545a221aa9145222c26c9f37e0baa23648ae92170&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/439499048.jpg?k=61380c3e30b2f5a04ea2777545a221aa9145222c26c9f37e0baa23648ae92170&o="
+        ],
+        "longitude": -73.992686,
+        "latitude": 40.744286,
+        "optOutFromGalleryChanges": 0,
+        "checkin": {
+          "fromTime": "16:00",
+          "untilTime": "00:00"
+        },
+        "blockIds": [
+          "432382903_245101149_4_2_0"
+        ],
+        "rankingPosition": 12,
+        "position": 12,
+        "isPreferred": true,
+        "checkinDate": "2025-06-25",
+        "propertyClass": 4,
+        "id": 4323829,
+        "reviewScoreWord": "Very Good",
+        "wishlistName": "New York",
+        "mainPhotoId": 439499048,
+        "priceBreakdown": {
+          "grossPrice": {
+            "value": 6415.49919147744,
+            "currency": "AED"
+          },
+          "benefitBadges": [],
+          "excludedPrice": {
+            "value": 1642.66489017876,
+            "currency": "AED"
+          },
+          "taxExceptions": []
+        },
+        "qualityClass": 0,
+        "accuratePropertyClass": 4,
+        "checkout": {
+          "untilTime": "12:00",
+          "fromTime": "00:00"
+        },
+        "checkoutDate": "2025-06-30",
+        "countryCode": "us",
+        "name": "Renaissance New York Chelsea Hotel"
+      }
+    },
+    {
+      "hotel_id": 182478,
+      "accessibilityLabel": "Candlewood Suites NYC -Times Square by IHG.\n3 out of 5 stars.\nThis is a Preferred property.\n8.3 Very Good 2079 reviews.\n‎1 km from downtown‬.\nMobile-only price.\n Private suite : 2 beds.\nOriginal price 12486 AED. Current price 11238 AED..\n+2075 AED taxes and charges.\nNo prepayment needed.",
+      "property": {
+        "isFirstPage": true,
+        "currency": "USD",
+        "reviewCount": 2079,
+        "ufi": 20088325,
+        "reviewScore": 8.3,
+        "optOutFromGalleryChanges": 0,
+        "checkin": {
+          "fromTime": "15:00",
+          "untilTime": "00:00"
+        },
+        "rankingPosition": 13,
+        "position": 13,
+        "blockIds": [
+          "18247808_244944535_4_0_0"
+        ],
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/247999108.jpg?k=c15cb51c844fd914d959d7802da52f8b9344a8f0e0a0671c4f396490636764b3&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/247999108.jpg?k=c15cb51c844fd914d959d7802da52f8b9344a8f0e0a0671c4f396490636764b3&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/247999108.jpg?k=c15cb51c844fd914d959d7802da52f8b9344a8f0e0a0671c4f396490636764b3&o="
+        ],
+        "longitude": -73.9930352568626,
+        "latitude": 40.7561871413388,
+        "reviewScoreWord": "Very Good",
+        "id": 182478,
+        "wishlistName": "New York",
+        "mainPhotoId": 247999108,
+        "priceBreakdown": {
+          "grossPrice": {
+            "value": 11237.5440201042,
+            "currency": "AED"
+          },
+          "benefitBadges": [
+            {
+              "identifier": "Mobile Rate",
+              "text": "Mobile-only price",
+              "explanation": "Mobile-only price",
+              "variant": "constructive"
+            }
+          ],
+          "excludedPrice": {
+            "currency": "AED",
+            "value": 2074.58466871147
+          },
+          "strikethroughPrice": {
+            "value": 12486.160022338,
+            "currency": "AED"
+          },
+          "taxExceptions": []
+        },
+        "qualityClass": 0,
+        "isPreferred": true,
+        "checkinDate": "2025-06-25",
+        "propertyClass": 3,
+        "checkoutDate": "2025-06-30",
+        "countryCode": "us",
+        "name": "Candlewood Suites NYC -Times Square by IHG",
+        "accuratePropertyClass": 3,
+        "checkout": {
+          "untilTime": "12:00",
+          "fromTime": "00:00"
+        }
+      }
+    },
+    {
+      "hotel_id": 9057624,
+      "accessibilityLabel": "Hilton New York Times Square.\n4 out of 5 stars.\nThis is a Preferred property.\n7.3 Good 1317 reviews.\n‎0.7 km from downtown‬.\n 34 m² : 2 beds • 1 bedroom.\n8612 AED.\n+1335 AED taxes and charges.\nNo prepayment needed.",
+      "property": {
+        "reviewScore": 7.3,
+        "ufi": 20088325,
+        "currency": "USD",
+        "reviewCount": 1317,
+        "isFirstPage": true,
+        "longitude": -73.98891034,
+        "latitude": 40.75671594,
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/484129670.jpg?k=2ec40c98569ed0f39d8ac4aa32373ea49b4e786cd7d858d4dd204dc4ce721029&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/484129670.jpg?k=2ec40c98569ed0f39d8ac4aa32373ea49b4e786cd7d858d4dd204dc4ce721029&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/484129670.jpg?k=2ec40c98569ed0f39d8ac4aa32373ea49b4e786cd7d858d4dd204dc4ce721029&o="
+        ],
+        "checkin": {
+          "untilTime": "00:00",
+          "fromTime": "16:00"
+        },
+        "blockIds": [
+          "905762417_365571407_2_2_0"
+        ],
+        "rankingPosition": 14,
+        "position": 14,
+        "optOutFromGalleryChanges": 0,
+        "propertyClass": 4,
+        "isPreferred": true,
+        "checkinDate": "2025-06-25",
+        "wishlistName": "New York",
+        "mainPhotoId": 484129670,
+        "priceBreakdown": {
+          "taxExceptions": [],
+          "excludedPrice": {
+            "currency": "AED",
+            "value": 1335.36543518899
+          },
+          "grossPrice": {
+            "value": 8611.77801540663,
+            "currency": "AED"
+          },
+          "benefitBadges": []
+        },
+        "qualityClass": 0,
+        "id": 9057624,
+        "reviewScoreWord": "Good",
+        "checkout": {
+          "fromTime": "00:00",
+          "untilTime": "11:00"
+        },
+        "accuratePropertyClass": 4,
+        "countryCode": "us",
+        "name": "Hilton New York Times Square",
+        "checkoutDate": "2025-06-30"
+      }
+    },
+    {
+      "hotel_id": 2380425,
+      "accessibilityLabel": "YOTEL New York Times Square.\n4 out of 5 stars.\nThis is a Preferred property.\n7.7 Good 6643 reviews.\n‎1.3 km from downtown‬.\nMobile-only price.\n Hotel room : 2 beds.\nOriginal price 6867 AED. Current price 6181 AED..\n+1861 AED taxes and charges.",
+      "property": {
+        "ufi": 20088325,
+        "reviewScore": 7.7,
+        "isFirstPage": true,
+        "currency": "USD",
+        "reviewCount": 6643,
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/341654551.jpg?k=cffdc699c514b4afe52de9e0a5556118e7f63d1e7bddf59189bd10301b661b69&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/341654551.jpg?k=cffdc699c514b4afe52de9e0a5556118e7f63d1e7bddf59189bd10301b661b69&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/341654551.jpg?k=cffdc699c514b4afe52de9e0a5556118e7f63d1e7bddf59189bd10301b661b69&o="
+        ],
+        "longitude": -73.9954561,
+        "latitude": 40.7591568,
+        "optOutFromGalleryChanges": 0,
+        "checkin": {
+          "untilTime": "00:00",
+          "fromTime": "15:00"
+        },
+        "rankingPosition": 15,
+        "position": 15,
+        "blockIds": [
+          "238042502_101289241_0_2_0"
+        ],
+        "checkinDate": "2025-06-25",
+        "isPreferred": true,
+        "propertyClass": 4,
+        "reviewScoreWord": "Good",
+        "id": 2380425,
+        "wishlistName": "New York",
+        "priceBreakdown": {
+          "taxExceptions": [],
+          "excludedPrice": {
+            "value": 1860.86935032913,
+            "currency": "AED"
+          },
+          "strikethroughPrice": {
+            "value": 6867.38801228588,
+            "currency": "AED"
+          },
+          "benefitBadges": [
+            {
+              "variant": "constructive",
+              "text": "Mobile-only price",
+              "explanation": "Mobile-only price",
+              "identifier": "Mobile Rate"
+            }
+          ],
+          "grossPrice": {
+            "value": 6180.64921105729,
+            "currency": "AED"
+          }
+        },
+        "mainPhotoId": 341654551,
+        "qualityClass": 0,
+        "accuratePropertyClass": 4,
+        "checkout": {
+          "fromTime": "00:00",
+          "untilTime": "11:00"
+        },
+        "checkoutDate": "2025-06-30",
+        "countryCode": "us",
+        "name": "YOTEL New York Times Square"
+      }
+    },
+    {
+      "hotel_id": 56025,
+      "accessibilityLabel": "The Fifty Sonesta Hotel New York.\n4 out of 5 stars.\nThis is a Preferred property.\n8.0 Very Good 1799 reviews.\n‎0.8 km from downtown‬.\n Private suite : 2 beds.\n6702 AED.\n+1911 AED taxes and charges.\nNo prepayment needed.",
+      "property": {
+        "accuratePropertyClass": 4,
+        "checkout": {
+          "fromTime": "00:00",
+          "untilTime": "11:00"
+        },
+        "checkoutDate": "2025-06-30",
+        "countryCode": "us",
+        "name": "The Fifty Sonesta Hotel New York",
+        "checkinDate": "2025-06-25",
+        "isPreferred": true,
+        "propertyClass": 4,
+        "id": 56025,
+        "reviewScoreWord": "Very Good",
+        "wishlistName": "New York",
+        "mainPhotoId": 156569095,
+        "priceBreakdown": {
+          "grossPrice": {
+            "currency": "AED",
+            "value": 6701.50570398911
+          },
+          "benefitBadges": [],
+          "excludedPrice": {
+            "value": 1911.20840617919,
+            "currency": "AED"
+          },
+          "taxExceptions": []
+        },
+        "qualityClass": 0,
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/156569095.jpg?k=afcbcc020b88c535f7ddba19f716a6113f5f41ae53b3ad7a40a8b41857402513&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/156569095.jpg?k=afcbcc020b88c535f7ddba19f716a6113f5f41ae53b3ad7a40a8b41857402513&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/156569095.jpg?k=afcbcc020b88c535f7ddba19f716a6113f5f41ae53b3ad7a40a8b41857402513&o="
+        ],
+        "latitude": 40.756066251595,
+        "longitude": -73.9710961282253,
+        "optOutFromGalleryChanges": 0,
+        "checkin": {
+          "untilTime": "00:00",
+          "fromTime": "16:00"
+        },
+        "blockIds": [
+          "5602517_240173680_2_2_0"
+        ],
+        "rankingPosition": 16,
+        "position": 16,
+        "ufi": 20088325,
+        "reviewScore": 8,
+        "isFirstPage": true,
+        "currency": "USD",
+        "reviewCount": 1799
+      }
+    },
+    {
+      "hotel_id": 56927,
+      "accessibilityLabel": "Hotel Beacon.\n4 out of 5 stars.\nThis is a Preferred property.\n8.8 Excellent 2941 reviews.\n‎2.7 km from downtown‬.\nMobile-only price.\n Private suite – 60 m² : 2 beds • 1 bedroom • 1 living room • 1 bathroom.\nOriginal price 15659 AED. Current price 10147 AED..\n+1634 AED taxes and charges.",
+      "property": {
+        "longitude": -73.9812295138836,
+        "latitude": 40.7807079748045,
+        "photoUrls": [
+          "https://cf.bstatic.com/xdata/images/hotel/square500/288687993.jpg?k=972be50d42de4b2cc81ee66de6c3484a1bcfbc9eae22726c21366f17e9daf810&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square1024/288687993.jpg?k=972be50d42de4b2cc81ee66de6c3484a1bcfbc9eae22726c21366f17e9daf810&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/square2000/288687993.jpg?k=972be50d42de4b2cc81ee66de6c3484a1bcfbc9eae22726c21366f17e9daf810&o="
+        ],
+        "checkin": {
+          "untilTime": "00:00",
+          "fromTime": "15:00"
+        },
+        "blockIds": [
+          "5692703_95461013_0_2_0"
+        ],
+        "rankingPosition": 17,
+        "position": 17,
+        "optOutFromGalleryChanges": 1,
+        "ufi": 20088325,
+        "reviewScore": 8.8,
+        "currency": "USD",
+        "reviewCount": 2941,
+        "isFirstPage": true,
+        "checkout": {
+          "fromTime": "00:00",
+          "untilTime": "12:00"
+        },
+        "accuratePropertyClass": 4,
+        "countryCode": "us",
+        "name": "Hotel Beacon",
+        "checkoutDate": "2025-06-30",
+        "propertyClass": 4,
+        "isPreferred": true,
+        "checkinDate": "2025-06-25",
+        "wishlistName": "New York",
+        "mainPhotoId": 288687993,
+        "qualityClass": 0,
+        "priceBreakdown": {
+          "benefitBadges": [
+            {
+              "text": "Mobile-only price",
+              "explanation": "Mobile-only price",
+              "variant": "constructive",
+              "identifier": "Mobile Rate"
+            }
+          ],
+          "grossPrice": {
+            "value": 10147.0982861533,
+            "currency": "AED"
+          },
+          "excludedPrice": {
+            "value": 1634.41190564399,
+            "currency": "AED"
+          },
+          "strikethroughPrice": {
+            "value": 15659.1136280144,
+            "currency": "AED"
+          },
+          "taxExceptions": []
+        },
+        "id": 56927,
+        "reviewScoreWord": "Excellent"
+      }
+    }
+  ]
