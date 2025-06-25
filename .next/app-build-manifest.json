@@ -10,11 +10,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/page.js"
-    ],
-    "/(dashboard)/hotel-search/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/hotel-search/page.js"
     ]
   }
 }
