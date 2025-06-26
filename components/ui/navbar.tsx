@@ -3,7 +3,7 @@ import { useState } from "react"
 import Link from "next/link"
 import ProfileBubble from "@/components/ui/profile-bubble"
 import Image from "next/image"
-import { Menu, X } from "lucide-react"
+import {useAuth} from "@/context/AuthContext"
 import { 
   Plane, 
   Car, 
@@ -21,14 +21,19 @@ import {
 } from "@/components/ui/navigation-menu"
 import {ModeToggle} from '@/components/mode-to-toggle'
 import { useTheme } from "next-themes";
+import jwt from 'jsonwebtoken';
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const { theme } = useTheme();
   const [active, setActive] = useState("Flights") //higlight active section do it later
+  const {token, isSignedIn} = useAuth();
 
-  // TODO: Replace this with your actual authentication logic
-  const isSignedIn = false;
+  const router = useRouter();
+
+  // // TODO: Replace this with your actual authentication logic
+  // const isSignedIn = false;
 
   const changeNav = (route: string) =>
   {
@@ -38,6 +43,35 @@ export default function Navbar() {
       behavior: "smooth",
         block: 'nearest',   // Prevents vertical scroll
     });
+  }
+
+  //this will return the signed in user or button 
+  const renderAuthButton = () => {
+    if (isSignedIn) {
+      const decode = jwt.decode(token);
+      console.log(decode);
+      return (
+        <div>
+          <Link href="/profileSetting">
+            <button className="p-0 bg-transparent border-none cursor-pointer" onClick={() => router.push('/profileSetting')}>
+              <ProfileBubble
+                name={decode?.firstName}
+                
+                size={35}
+              />
+            </button>
+          </Link>
+        </div>
+      );
+    } else {
+      return (
+        <Link href="/login">
+          <button className="p-0 bg-transparent border-none">
+            Login
+          </button>
+        </Link>
+      );
+    }
   }
 
   return (
@@ -81,17 +115,7 @@ export default function Navbar() {
   <NavigationMenuItem>
     <ModeToggle/>
   </NavigationMenuItem>
-  <NavigationMenuItem>
-    <Link href="/loginSignin">
-      <NavigationMenuTrigger
-        className={`bg-transparent hover:bg-black/10 ${
-          theme === "dark" ? "text-white" : "text-gray-900"
-        }`}
-      >
-        Sign In
-      </NavigationMenuTrigger>
-    </Link>
-  </NavigationMenuItem>
+  {renderAuthButton()}
 </NavigationMenuList>
         </div>
         <div className="lg:hidden">

@@ -4,7 +4,6 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/ui/navbar";
 import { AuthProvider } from "@/context/AuthContext";
-import dynamic from "next/dynamic";
 import GoogleMapsProvider from "@/components/providers/GoogleMapsProvider";
 
 

@@ -61,3 +61,11 @@ export type hotel_type = {
     };
   };
 };
+
+
+export type authContextType = 
+{
+  token: string | null;
+  setToken: (token: string | null) => void;
+  isSignedIn: boolean;
+}
