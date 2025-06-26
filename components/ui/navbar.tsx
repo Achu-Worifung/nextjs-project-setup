@@ -75,7 +75,9 @@ export default function Navbar() {
   }
 
   return (
-   <NavigationMenu className="w-full bg-gradient-to-r  px-4 md:px-8 py-4  relative">
+
+    <NavigationMenu className="w-full bg-gradient-to-r  px-4 md:px-8 py-4">
+
       <div className="flex w-full items-center justify-between">
         <Link href="/" className="flex items-center gap-4 cursor-pointer">
           <Image src="/logo.svg" alt="Logo" width={60} height={60} />
