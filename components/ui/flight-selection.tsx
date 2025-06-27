@@ -38,7 +38,7 @@ export function FlightSelection() {
   const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
 
   // Passenger counts
-  const [counts, setCounts] = useState({ adults: 2, children: 2 });
+  const [counts, setCounts] = useState({ adults: 0, children: 0 });
   const inc = (key: "adults" | "children") =>
     setCounts(c => ({ ...c, [key]: c[key] + 1 }));
   const dec = (key: "adults" | "children") =>
@@ -137,7 +137,7 @@ export function FlightSelection() {
       to,
       departDate: departDate ? format(departDate, "yyyy-MM-dd") : "",
       returnDate: returnDate ? format(returnDate, "yyyy-MM-dd") : "",
-      travelers: `${count} Adult${count > 1 ? "s" : ""}`,
+      travelers: `${counts} Adult${counts > 1 ? "s" : ""}`,
       classType,
       legs: flightType === "multi-city" ? JSON.stringify(legs) : "",
     });
@@ -181,74 +181,78 @@ export function FlightSelection() {
         </RadioGroup>
       </div>
 
-      {/* Passengers */}
-      <div className="mb-6 flex flex-col sm:flex-row sm:space-x-4">
-        <div className="flex-1">
-          <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-            <Users className="h-4 w-4 text-pink-500" /> Adults
-          </Label>
-          <div className="flex items-center space-x-4">
-            <button
-              type="button"
-              onClick={() => dec("adults")}
-              className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
-            >
-              −
-            </button>
-            <span className="w-8 text-center text-sm">{counts.adults}</span>
-            <button
-              type="button"
-              onClick={() => inc("adults")}
-              className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
-            >
-              +
-            </button>
-          </div>
-        </div>
-        <div className="flex-1 mt-4 sm:mt-0">
-          <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-            <Users className="h-4 w-4 text-pink-500" /> Children
-          </Label>
-          <div className="flex items-center space-x-4">
-            <button
-              type="button"
-              onClick={() => dec("children")}
-              className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
-            >
-              −
-            </button>
-            <span className="w-8 text-center text-sm">{counts.children}</span>
-            <button
-              type="button"
-              onClick={() => inc("children")}
-              className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
-            >
-              +
-            </button>
-          </div>
-        </div>
-      </div>
+ 
+<div className="mb-6 flex items-end space-x-4 w-full">
+  {/* Adults */}
+  <div>
+    <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+      <Users className="h-4 w-4 text-pink-500" /> Adults
+    </Label>
+    <div className="flex items-center space-x-4">
+      <button
+        type="button"
+        onClick={() => dec("adults")}
+        className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+      >
+        −
+      </button>
+      <span className="w-8 text-center text-sm">{counts.adults}</span>
+      <button
+        type="button"
+        onClick={() => inc("adults")}
+        className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+      >
+        +
+      </button>
+    </div>
+  </div>
 
-      {/* Class */}
-      <div className="mb-6">
-        <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-          Class
-        </Label>
-        <select
-          value={classType}
-          onChange={e => setClassType(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm"
-        >
-          <option>Economy</option>
-          <option>Premium Economy</option>
-          <option>Business</option>
-          <option>First</option>
-        </select>
-      </div>
+  {/* Children */}
+  <div>
+    <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+      <Users className="h-4 w-4 text-pink-500" /> Children
+    </Label>
+    <div className="flex items-center space-x-4">
+      <button
+        type="button"
+        onClick={() => dec("children")}
+        className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+      >
+        −
+      </button>
+      <span className="w-8 text-center text-sm">{counts.children}</span>
+      <button
+        type="button"
+        onClick={() => inc("children")}
+        className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+      >
+        +
+      </button>
+    </div>
+  </div>
+
+  {/* Class */}
+  <div className="flex-1">
+    <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+      Class
+    </Label>
+    <select
+      value={classType}
+      onChange={e => setClassType(e.target.value)}
+      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm"
+    >
+      <option>Economy</option>
+      <option>Premium Economy</option>
+      <option>Business</option>
+      <option>First</option>
+    </select>
+  </div>
+</div>
 
       {/* Single-leg / Round-trip */}
       {flightType !== "multi-city" && (
         <div className="border-t border-gray-200 pt-6 grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
+          
           {/* From */}
           <div className="lg:col-span-3 relative overflow-visible">
             <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
@@ -389,6 +393,7 @@ export function FlightSelection() {
         </div>
       )}
 
+      
       {/* Multi-city Legs */}
       {flightType === "multi-city" && (
         <div className="mt-6">
@@ -434,6 +439,7 @@ export function FlightSelection() {
                   )}
                 </div>
               </div>
+              
               {/* Swap leg */}
               <div className="lg:col-span-1 flex justify-center">
                 <Button
@@ -514,6 +520,7 @@ export function FlightSelection() {
                   </PopoverContent>
                 </Popover>
               </div>
+
               {/* Remove leg */}
               {idx > 0 && (
                 <div className="lg:col-span-1 flex justify-center">
@@ -521,7 +528,7 @@ export function FlightSelection() {
                     variant="outline"
                     size="sm"
                     onClick={() => removeLeg(idx)}
-                    className="p-2 rounded-full text-red-500 hover:bg-red-50"
+                    className="w-10 h-10 p-2 rounded-full text-red-500 hover:bg-red-50 flex items-center justify-center z-10"
                   >
                     ✕
                   </Button>
@@ -529,18 +536,20 @@ export function FlightSelection() {
               )}
             </div>
           ))}
-          {/* Add another flight */}
-          <div className="lg:col-span-12">
-            <button
-              type="button"
-              onClick={addLeg}
-              className="text-sm font-medium text-pink-500 hover:underline"
-            >
-              + Add Another Flight
-            </button>
-          </div>
-        </div>
-      )}
+
+          {/* + Add Another Flight */}
+    <div className="lg:col-span-2 self-start flex justify-end whitespace-nowrap relative top-[-45px]">
+      <button
+        type="button"
+        onClick={addLeg}
+        className="text-pink-500 text-sm font-medium hover:underline"
+      >
+        + Add Another Flight
+      </button>
+    </div>
+    
+  </div>
+)}
 
       {/* Search button */}
       <div className="mt-6">

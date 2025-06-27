@@ -6,6 +6,8 @@ import Navbar from "@/components/ui/navbar";
 import { AuthProvider } from "@/context/AuthContext";
 import dynamic from "next/dynamic";
 import GoogleMapsProvider from "@/components/providers/GoogleMapsProvider";
+import ChatWidget from "@/components/chat/chatwidget";
+
 
 
 // const geistSans = Geist({
@@ -42,6 +44,7 @@ export default function RootLayout({
             <GoogleMapsProvider>
               <Navbar />
               {children}
+              <ChatWidget />
             </GoogleMapsProvider>
           </ThemeProvider>
         </AuthProvider>
