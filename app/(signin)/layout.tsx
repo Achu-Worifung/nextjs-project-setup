@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import Navbar from "@/components/ui/navbar";
+import { AuthProvider } from "@/context/AuthContext";
 
 // Replace with your actual Google Client ID
-const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,6 +20,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head />
       <body>
+        <AuthProvider>
         <GoogleOAuthProvider clientId="281289914284-t1lih3lvf41mp64k702geovgn2cqngpj.apps.googleusercontent.com">
           <ThemeProvider
             attribute="class"
@@ -28,10 +28,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Navbar />
             {children}
           </ThemeProvider>
         </GoogleOAuthProvider>
+        </AuthProvider>
       </body>
     </html>
   );
