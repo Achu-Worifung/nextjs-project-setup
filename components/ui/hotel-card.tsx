@@ -1,21 +1,30 @@
 "use client";
 // import { ChevronsLeft, ChevronsRight } from "lucide-react";
-import { useState } from "react";
+
+import { useRouter } from "next/navigation";
 
 import { hotel_type } from "@/lib/types";
 export function HotelCard({ hotel }: { hotel: hotel_type }) {
-
+  const router = useRouter();
   //getting the difference between the days
   const checkinDate = new Date(hotel.property.checkinDate);
   const checkoutDate = new Date(hotel.property.checkoutDate);
 
   const diffTime = Math.abs(checkoutDate.getTime() - checkinDate.getTime());
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  // console.log('checking date:', checkinDate, checkoutDate); 
+  const handleClick = () =>
+  {
+    router.push(
+      `/hotel?hotel_id=${hotel.hotel_id}&start_date=${hotel.property.checkinDate}&end_date=${hotel.property.checkoutDate}&room_qty=1&adults=1` //room quantity and adults are hardcoded for now
+    );
+  };
 
 
 
   return (
-    <div className="flex max-w-4xl w-full bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden mb-4 hover:shadow-lg transition-shadow">
+    <div className="flex max-w-4xl w-full bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden mb-4 hover:shadow-lg transition-shadow"
+      onClick={handleClick}>
       {/* Hotel Image Section */}
       <div className="relative flex items-center justify-center w-60 h-48 overflow-hidden flex-shrink-0">
         

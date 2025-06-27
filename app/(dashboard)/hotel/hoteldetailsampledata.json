@@ -1,0 +1,280 @@
+{
+    "ufi": 20088325,
+    "hotel_id": 56048,
+    "hotel_name": "Murray Hill East Suites - Extended Stay",
+    "url": "https://www.booking.com/hotel/us/murray-hill-east-manhattan.html",
+    "hotel_name_trans": "",
+    "review_nr": 69,
+    "arrival_date": "2025-07-01",
+    "departure_date": "2025-07-10",
+    "price_transparency_mode": "transparent",
+    "accommodation_type_name": "Apartments",
+    "latitude": 40.7492087003701,
+    "longitude": -73.9763955026865,
+    "address": "149 East 39th Street",
+    "address_trans": "",
+    "city": "New York (New York)",
+    "city_trans": "New York",
+    "city_in_trans": "in New York",
+    "city_name_en": "New York",
+    "district": null,
+    "countrycode": "us",
+    "distance_to_cc": 2.14826936907696,
+    "default_language": "en-gb",
+    "country_trans": "United States",
+    "currency_code": "USD",
+    "zip": "NY 10016",
+    "timezone": "America/New_York",
+    "soldout": 1,
+    "available_rooms": 0,
+    "max_rooms_in_reservation": 10,
+    "average_room_size_for_ufi_m2": "12.18",
+    "is_family_friendly": 0,
+    "is_closed": 0,
+    "is_crimea": 0,
+    "is_hotel_ctrip": 0,
+    "is_price_transparent": 0,
+    "is_genius_deal": 0,
+    "qualifies_for_no_cc_reservation": 0,
+    "hotel_include_breakfast": 0,
+    "cc1": "us",
+    "family_facilities": [
+        "Family rooms",
+        "Soundproof rooms"
+    ],
+    "property_highlight_strip": [
+        {
+            "context": 1,
+            "name": "Free Wifi",
+            "icon_list": [
+                {
+                    "icon": "wifi",
+                    "size": 1
+                }
+            ]
+        }
+    ],
+    "facilities_block": {
+        "type": "popular",
+        "facilities": [
+            {
+                "icon": "nosmoking",
+                "name": "Non-smoking rooms"
+            },
+            {
+                "name": "Fitness center",
+                "icon": "fitness"
+            },
+            {
+                "icon": "wifi",
+                "name": "Wifi in all areas"
+            },
+            {
+                "icon": "family",
+                "name": "Family rooms"
+            },
+            {
+                "name": "Free Wifi",
+                "icon": "wifi"
+            }
+        ],
+        "name": "Most Popular Facilities"
+    },
+    "top_ufi_benefits": [
+        {
+            "icon": "wifi",
+            "translated_name": "Wifi"
+        },
+        {
+            "translated_name": "Family rooms",
+            "icon": "family"
+        },
+        {
+            "icon": "nosmoking",
+            "translated_name": "Non-smoking rooms"
+        },
+        {
+            "translated_name": "Fitness center",
+            "icon": "fitness"
+        },
+        {
+            "translated_name": "24-hour front desk",
+            "icon": "frontdesk"
+        },
+        {
+            "translated_name": "Elevator",
+            "icon": "elevator"
+        }
+    ],
+    "languages_spoken": {
+        "languagecode": [
+            "pl",
+            "en-gb"
+        ]
+    },
+    "spoken_languages": [
+        "pl",
+        "en-gb"
+    ],
+    "breakfast_review_score": {
+        "review_count": 0,
+        "review_score": 0,
+        "review_score_word": "",
+        "review_number": 0,
+        "review_snippet": "",
+        "rating": 0
+    },
+    "wifi_review_score": {
+        "rating": 8.6
+    },
+    "min_room_distribution": {
+        "children": [],
+        "adults": 1
+    },
+    "booking_home": {
+        "is_vacation_rental": 1,
+        "group": "apartment_like",
+        "is_aparthotel": 0,
+        "quality_class": null,
+        "is_single_unit_property": 0,
+        "is_booking_home": 1,
+        "segment": 1,
+        "house_rules": [
+            {
+                "icon": "smoking",
+                "title": "Smoking",
+                "type": "POLICY_SMOKING",
+                "description": "No smoking"
+            },
+            {
+                "title": "Pets",
+                "icon": "petfriendly",
+                "type": "POLICY_HOTEL_PETS",
+                "description": "Pets are not allowed"
+            }
+        ],
+        "keycollection_how_to_collect": "unknown",
+        "checkin_methods": [
+            {
+                "updated_by_script": null,
+                "external_references": [],
+                "stream_variation_name": "primary_checkin_method",
+                "unit_id": 56048,
+                "updated_at": "2020-12-21 15:46:42",
+                "checkin_method": "unknown_deprecated",
+                "stream_name": "hotel",
+                "created_at": "2018-10-01 18:46:50",
+                "additional_info": {
+                    "location": {
+                        "off_location": 0
+                    }
+                }
+            }
+        ],
+        "is_single_type_property": 0
+    },
+    "aggregated_data": {
+        "common_kitchen_fac": [],
+        "has_seating": 0,
+        "has_refundable": 0,
+        "has_nonrefundable": 0,
+        "has_kitchen": 1
+    },
+    "last_reservation": {
+        "countrycode": null,
+        "time": "",
+        "country": null
+    },
+    "free_facilities_cancel_breakfast": [
+        {
+            "facility_id": 105
+        },
+        {
+            "facility_id": 106
+        }
+    ],
+    "hotel_text": {},
+    "districts": [
+        929,
+        970,
+        1834,
+        2306,
+        10734
+    ],
+    "preferences": [],
+    "hotel_important_information_with_codes": [
+        {
+            "phrase": "In response to the coronavirus (COVID-19), additional safety and sanitation measures are in effect at this property.",
+            "executing_phase": 0,
+            "sentence_id": 50
+        },
+        {
+            "sentence_id": 54,
+            "phrase": "Due to the coronavirus (COVID-19), this property is taking steps to protect the safety of guests and staff. Certain services and amenities may be reduced or unavailable as a result.",
+            "executing_phase": 0
+        },
+        {
+            "sentence_id": 58,
+            "phrase": "Due to coronavirus (COVID-19), this property adheres to strict physical distancing measures.",
+            "executing_phase": 0
+        },
+        {
+            "phrase": "Guests are required to show a photo ID and credit card upon check-in. Please note that all Special Requests are subject to availability and additional charges may apply.",
+            "executing_phase": 0,
+            "sentence_id": 3
+        },
+        {
+            "phrase": "Guests will receive a rental agreement which must be signed and returned to the property prior to arrival. If guests don't receive the agreement on time, they should contact the property management company at the number on the booking confirmation.",
+            "executing_phase": 0,
+            "sentence_id": 79
+        },
+        {
+            "phrase": "Guests under the age of 18 can only check in with a parent or official guardian.",
+            "executing_phase": 0,
+            "sentence_id": 80
+        },
+        {
+            "executing_phase": 0,
+            "phrase": "A damage deposit of USD 750 is required. The host charges this 14 days before arrival. This will be collected by credit card. You should be reimbursed within 7 days of check-out. Your deposit will be refunded in full via credit card, subject to an inspection of the property.",
+            "sentence_id": 8
+        }
+    ],
+    "block": [],
+    "rawData": {
+        "currency": "",
+        "wishlistName": "New York",
+        "isSoldout": true,
+        "checkoutDate": "2025-06-29",
+        "reviewScoreWord": "Fabulous",
+        "latitude": 40.7492087003701,
+        "isHighlightedHotel": true,
+        "rankingPosition": 0,
+        "mainPhotoId": 84564452,
+        "ufi": 20088325,
+        "photoUrls": [
+            "https://cf.bstatic.com/xdata/images/hotel/square60/84564452.jpg?k=29f4bf65af1688fc2a2afc0f7d447a302a2fd3000a299962b9dcb590972b241b&o="
+        ],
+        "name": "Murray Hill East Suites - Extended Stay",
+        "reviewCount": 69,
+        "propertyClass": 3,
+        "optOutFromGalleryChanges": 0,
+        "reviewScore": 8.7,
+        "qualityClass": 0,
+        "countryCode": "us",
+        "checkin": {
+            "untilTime": "00:00",
+            "fromTime": "14:00"
+        },
+        "checkout": {
+            "untilTime": "12:30",
+            "fromTime": "11:30"
+        },
+        "isFirstPage": true,
+        "longitude": -73.9763955026865,
+        "id": 56048,
+        "checkinDate": "2025-06-28",
+        "position": 0,
+        "blockIds": [],
+        "accuratePropertyClass": 3
+    }
+}
