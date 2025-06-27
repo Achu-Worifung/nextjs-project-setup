@@ -66,7 +66,7 @@ export default function Navbar() {
     } else {
       return (
         <NavigationMenuItem className="cursor-pointer">
-          <Link href="/login">
+          <Link href="/signin">
             <NavigationMenuTrigger className="p-2 bg-transparent border-none">
               Login
             </NavigationMenuTrigger>

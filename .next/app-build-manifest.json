@@ -11,15 +11,21 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/page.js"
     ],
-    "/(dashboard)/hotel-search/page": [
+    "/(signin)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/hotel-search/page.js"
+      "static/css/app/(signin)/layout.css",
+      "static/chunks/app/(signin)/layout.js"
     ],
-    "/(dashboard)/profileSetting/page": [
+    "/(signin)/signin/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/profileSetting/page.js"
+      "static/chunks/app/(signin)/signin/page.js"
+    ],
+    "/(signin)/signup/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(signin)/signup/page.js"
     ],
     "/(dashboard)/mybookings/page": [
       "static/chunks/webpack.js",
