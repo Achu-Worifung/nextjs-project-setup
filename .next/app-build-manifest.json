@@ -11,10 +11,20 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/page.js"
     ],
-    "/_not-found/page": [
+    "/(dashboard)/hotel-search/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/(dashboard)/hotel-search/page.js"
+    ],
+    "/(dashboard)/profileSetting/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(dashboard)/profileSetting/page.js"
+    ],
+    "/(dashboard)/mybookings/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(dashboard)/mybookings/page.js"
     ]
   }
 }

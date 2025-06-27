@@ -20,44 +20,67 @@ export default function ProfileSettingPage() {
   const [activeTab, setActiveTab] = useState("edit");
 
   return (
-    <div className="flex min-h-screen text-black font-sans" style={{ backgroundColor: "#BAE4F0" }}>
-      {/* Sidebar */}
-      <aside className="w-64 border-r border-black flex flex-col items-center relative">
-        <h2 className="text-xl pt-10 font-bold mb-15">Settings</h2>
-        <ul className="w-full relative">
-          {sidebarOptions.map((option) => (
-            <li key={option.key} className="relative w-full">
-              <button
-                className={`w-full flex items-center gap-2 px-6 py-3 rounded-md transition-colors
-                  ${activeTab === option.key
-                    ? "bg-sky-100 text-black font-semibold"
-                    : "text-gray-600 hover:bg-sky-50"}
-                `}
-                onClick={() => setActiveTab(option.key)}
-                style={{ position: "relative", zIndex: 1 }}
-              >
-                <img src={option.icon} alt={option.label} className="w-6 h-6" />
-                {option.label}
-              </button>
-              {activeTab === option.key && (
-                <motion.div
-                  layoutId="sidebar-indicator"
-                  className="absolute left-0 top-0 h-full w-1 bg-sky-500 rounded-r"
-                  style={{ zIndex: 2 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                />
-              )}
-            </li>
-          ))}
-        </ul>
-      </aside>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+      <div className="flex max-w-7xl mx-auto">
+        {/* Sidebar */}
+        <aside className="w-80 bg-white shadow-lg rounded-r-2xl flex flex-col min-h-screen">
+          {/* Header */}
+          <div className="p-8 border-b border-gray-200">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Settings</h2>
+            <p className="text-gray-600">Manage your account preferences</p>
+          </div>
+          
+          {/* Navigation */}
+          <nav className="flex-1 p-6">
+            <ul className="space-y-2">
+              {sidebarOptions.map((option) => (
+                <li key={option.key} className="relative">
+                  <button
+                    className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group
+                      ${activeTab === option.key
+                        ? "bg-blue-50 text-blue-700 shadow-sm border border-blue-200"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"}
+                    `}
+                    onClick={() => setActiveTab(option.key)}
+                  >
+                    <div className={`p-2 rounded-lg transition-colors ${
+                      activeTab === option.key 
+                        ? "bg-blue-100" 
+                        : "bg-gray-100 group-hover:bg-gray-200"
+                    }`}>
+                      <img 
+                        src={option.icon} 
+                        alt={option.label} 
+                        className="w-5 h-5"
+                      />
+                    </div>
+                    <span className="font-medium">{option.label}</span>
+                  </button>
+                  {activeTab === option.key && (
+                    <motion.div
+                      layoutId="sidebar-indicator"
+                      className="absolute left-0 top-0 h-full w-1 bg-blue-500 rounded-r-full"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
 
-      <div className="flex-1 items-center justify-center p-10">
-        {activeTab === "edit" && <EditProfileForm />}
-        {activeTab === "notification" && <NotificationForm />}
-        {activeTab === "security" && <SecurityForm />}
-        {activeTab === "appearance" && <AppearanceForm />}
-        {activeTab === "help" && <HelpForm />}
+        {/* Main Content */}
+        <main className="flex-1 p-8">
+          <div className="bg-white rounded-2xl shadow-lg min-h-[600px]">
+            <div className="p-8">
+              {activeTab === "edit" && <EditProfileForm />}
+              {activeTab === "notification" && <NotificationForm />}
+              {activeTab === "security" && <SecurityForm />}
+              {activeTab === "appearance" && <AppearanceForm />}
+              {activeTab === "help" && <HelpForm />}
+            </div>
+          </div>
+        </main>
       </div>
     </div>
   );
