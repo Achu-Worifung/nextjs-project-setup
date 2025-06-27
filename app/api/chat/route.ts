@@ -1,37 +1,51 @@
+
 import { NextResponse } from "next/server";
+
+const GENAI_API_KEY = process.env.GENAI_API_KEY;
+if (!GENAI_API_KEY) throw new Error("Missing GENAI_API_KEY");
 
 export async function POST(request: Request) {
   try {
     const { messages } = await request.json();
-    const last = messages[messages.length - 1]?.content ?? "";
 
     const history = messages
-    .map((m) => {
-        const speaker = m.role === "user" ? "User" : "Assistant";
-        return `${speaker}: ${m.content}`;
-    })
-    .join("\n");
+      .map(m => `${m.role === "user" ? "User" : "Assistant"}: ${m.content}`)
+      .join("\n");
 
-    const prompt = "You are a helpful travel agent. Help me find hotels, cars, and flights and market the ones on the travel booking website.";
+    const systemPrompt = "You are a helpful travel agent.";
+    const fullPrompt = `${systemPrompt}\n\n${history}`;
 
-    const ollamaRes = await fetch("http://localhost:11434/api/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "llama3",
-        prompt,
-        stream: false,
-      }),
-    });
-    if (!ollamaRes.ok) {
-      throw new Error(`Ollama error ${ollamaRes.status}`);
+    const payload = {
+      contents: [
+        {
+          parts: [{ text: fullPrompt }],
+        },
+      ],
+    };
+
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GENAI_API_KEY}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    if (!res.ok) {
+      const err = await res.text();
+      console.error("Gemini error:", err);
+      throw new Error(`Gemini API error ${res.status}: ${err}`);
     }
-    const ollamaData = await ollamaRes.json();
-    const reply = ollamaData.response;
 
-    return NextResponse.json({ message: reply });
+    const { candidates } = await res.json();
+    const message = (candidates?.[0]?.content?.parts ?? [])
+      .map((p: any) => p.text)
+      .join("");
+
+    return NextResponse.json({ message });
   } catch (err: any) {
-    console.error("API /chat error:", err);
+    console.error(err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
