@@ -65,11 +65,13 @@ export default function Navbar() {
       );
     } else {
       return (
-        <Link href="/login">
-          <button className="p-0 bg-transparent border-none">
-            Login
-          </button>
+        <NavigationMenuItem className="cursor-pointer">
+          <Link href="/signin">
+            <NavigationMenuTrigger className="p-2 bg-transparent border-none">
+              Login
+            </NavigationMenuTrigger>
         </Link>
+        </NavigationMenuItem>
       );
     }
   }
@@ -104,7 +106,7 @@ export default function Navbar() {
     </NavigationMenuItem>
   ))}
   <NavigationMenuItem>
-    <Link href="/mybookings">
+    <Link href={token ? "/mybookings" : "/signin"}>
       <NavigationMenuTrigger
         className={`bg-transparent hover:bg-black/10 ${
           theme === "dark" ? "text-white" : "text-gray-900"
