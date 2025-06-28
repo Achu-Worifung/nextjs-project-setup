@@ -9,7 +9,18 @@ import {
   Star, 
   X, 
   Filter, 
-  RotateCcw, 
+  RotateCcw,
+  Wifi,
+  Car,
+  Waves,
+  Dumbbell,
+  Coffee,
+  Shield,
+  Users,
+  Heart,
+  Utensils,
+  CarTaxiFront,
+  Building2
 } from "lucide-react";
 
 // Define the filter state type
@@ -19,11 +30,13 @@ export const initialFilterState = {
   reviewScore: 0,
   amenities: [] as string[],
   sortBy: 'price' as string,
-  propertyType: [] as string[],
-  mealPlan: [] as string[],
+  vendors: [] as string[],
+  accessibilityFeatures: [] as string[],
   cancellationPolicy: 'any' as string,
   distanceFromCenter: 20,
-  instantBook: false
+  instantBook: false,
+  petsAllowed: false,
+  breakfastIncluded: false
 };
 
 export type FilterState = typeof initialFilterState;
@@ -44,11 +57,13 @@ export default function HotelFilterSidebar({
       reviewScore: 0,
       amenities: [],
       sortBy: 'price',
-      propertyType: [],
-      mealPlan: [],
+      vendors: [],
+      accessibilityFeatures: [],
       cancellationPolicy: 'any',
       distanceFromCenter: 20,
-      instantBook: false
+      instantBook: false,
+      petsAllowed: false,
+      breakfastIncluded: false
     });
   };
 
@@ -57,10 +72,12 @@ export default function HotelFilterSidebar({
     if (filters.starRating.length > 0) count++;
     if (filters.amenities.length > 0) count++;
     if (filters.reviewScore > 0) count++;
-    if (filters.propertyType.length > 0) count++;
-    if (filters.mealPlan.length > 0) count++;
+    if (filters.vendors.length > 0) count++;
+    if (filters.accessibilityFeatures.length > 0) count++;
     if (filters.cancellationPolicy !== 'any') count++;
     if (filters.instantBook) count++;
+    if (filters.petsAllowed) count++;
+    if (filters.breakfastIncluded) count++;
     if (filters.priceRange[0] > 0 || filters.priceRange[1] < 1000) count++;
     return count;
   }, [filters]);
@@ -156,36 +173,158 @@ export default function HotelFilterSidebar({
           </div>
         </div>
 
-        {/* Property Type Filter */}
+        {/* Hotel Vendors Filter */}
         <div className="mb-6">
-          <Label className="text-sm font-semibold text-gray-700 mb-3 block">Property Type</Label>
-          <div className="grid grid-cols-2 gap-2">
-            {['Hotel', 'Private Suite', 'Apartment', 'Villa', 'Hostel', 'B&B'].map((type) => (
-              <Button
-                key={type}
-                variant={filters.propertyType.includes(type) ? "default" : "outline"}
-                size="sm"
-                onClick={() => {
-                  if (filters.propertyType.includes(type)) {
-                    setFilters(prev => ({ 
-                      ...prev, 
-                      propertyType: prev.propertyType.filter(t => t !== type) 
-                    }));
-                  } else {
-                    setFilters(prev => ({ 
-                      ...prev, 
-                      propertyType: [...prev.propertyType, type] 
-                    }));
-                  }
+          <Label className="text-sm font-semibold text-gray-700 mb-3 block">Hotel Chain</Label>
+          <div className="space-y-2 max-h-48 overflow-y-auto">
+            {['Hilton', 'Marriott', 'Hyatt', 'Wyndham', 'Choice Hotels', 'InterContinental', 'Best Western Hotels & Resorts', 'IHG Hotels & Resorts'].map((vendor) => (
+              <div key={vendor} className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                <Checkbox
+                  id={`vendor-${vendor}`}
+                  checked={filters.vendors.includes(vendor)}
+                  onCheckedChange={(checked) => {
+                    if (checked) {
+                      setFilters(prev => ({ 
+                        ...prev, 
+                        vendors: [...prev.vendors, vendor] 
+                      }));
+                    } else {
+                      setFilters(prev => ({ 
+                        ...prev, 
+                        vendors: prev.vendors.filter(v => v !== vendor) 
+                      }));
+                    }
+                  }}
+                  className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                />
+                <label htmlFor={`vendor-${vendor}`} className="text-sm cursor-pointer flex-1 font-medium">
+                  <Building2 className="w-4 h-4 inline-block mr-2 text-gray-500" />
+                  {vendor}
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Amenities Filter */}
+        <div className="mb-6">
+          <Label className="text-sm font-semibold text-gray-700 mb-3 block">Amenities</Label>
+          <div className="space-y-2">
+            {[
+              { name: 'Free WiFi', icon: Wifi },
+              { name: 'Free Parking', icon: Car },
+              { name: 'Swimming Pool', icon: Waves },
+              { name: 'Fitness Center', icon: Dumbbell },
+              { name: 'Restaurant', icon: Utensils },
+              { name: 'Coffee Maker', icon: Coffee },
+              { name: 'Airport Shuttle', icon: CarTaxiFront }
+            ].map(({ name, icon: Icon }) => (
+              <div key={name} className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                <Checkbox
+                  id={`amenity-${name}`}
+                  checked={filters.amenities.includes(name)}
+                  onCheckedChange={(checked) => {
+                    if (checked) {
+                      setFilters(prev => ({ 
+                        ...prev, 
+                        amenities: [...prev.amenities, name] 
+                      }));
+                    } else {
+                      setFilters(prev => ({ 
+                        ...prev, 
+                        amenities: prev.amenities.filter(a => a !== name) 
+                      }));
+                    }
+                  }}
+                  className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                />
+                <label htmlFor={`amenity-${name}`} className="text-sm cursor-pointer flex-1 font-medium">
+                  <Icon className="w-4 h-4 inline-block mr-2 text-gray-500" />
+                  {name}
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Special Features Filter */}
+        <div className="mb-6">
+          <Label className="text-sm font-semibold text-gray-700 mb-3 block">Special Features</Label>
+          <div className="space-y-3">
+            <div className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+              <Checkbox
+                id="pets-allowed"
+                checked={filters.petsAllowed}
+                onCheckedChange={(checked) => {
+                  setFilters(prev => ({ ...prev, petsAllowed: checked as boolean }));
                 }}
-                className={`h-9 text-xs ${
-                  filters.propertyType.includes(type) 
-                    ? "bg-blue-600 hover:bg-blue-700" 
-                    : "hover:bg-gray-100"
-                }`}
-              >
-                {type}
-              </Button>
+                className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+              />
+              <label htmlFor="pets-allowed" className="text-sm cursor-pointer flex-1 font-medium">
+                <Heart className="w-4 h-4 inline-block mr-2 text-gray-500" />
+                Pet Friendly
+              </label>
+            </div>
+            <div className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+              <Checkbox
+                id="breakfast-included"
+                checked={filters.breakfastIncluded}
+                onCheckedChange={(checked) => {
+                  setFilters(prev => ({ ...prev, breakfastIncluded: checked as boolean }));
+                }}
+                className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+              />
+              <label htmlFor="breakfast-included" className="text-sm cursor-pointer flex-1 font-medium">
+                <Coffee className="w-4 h-4 inline-block mr-2 text-gray-500" />
+                Free Breakfast
+              </label>
+            </div>
+            <div className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+              <Checkbox
+                id="instant-book"
+                checked={filters.instantBook}
+                onCheckedChange={(checked) => {
+                  setFilters(prev => ({ ...prev, instantBook: checked as boolean }));
+                }}
+                className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+              />
+              <label htmlFor="instant-book" className="text-sm cursor-pointer flex-1 font-medium">
+                <Shield className="w-4 h-4 inline-block mr-2 text-gray-500" />
+                Instant Booking
+              </label>
+            </div>
+          </div>
+        </div>
+
+        {/* Accessibility Features Filter */}
+        <div className="mb-6">
+          <Label className="text-sm font-semibold text-gray-700 mb-3 block">Accessibility</Label>
+          <div className="space-y-2">
+            {['Wheelchair Accessible', 'Elevator Access', 'Roll-in Showers', 'Accessible Parking', 'Visual Alarms', 'Grab Bars'].map((feature) => (
+              <div key={feature} className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                <Checkbox
+                  id={`accessibility-${feature}`}
+                  checked={filters.accessibilityFeatures.includes(feature)}
+                  onCheckedChange={(checked) => {
+                    if (checked) {
+                      setFilters(prev => ({ 
+                        ...prev, 
+                        accessibilityFeatures: [...prev.accessibilityFeatures, feature] 
+                      }));
+                    } else {
+                      setFilters(prev => ({ 
+                        ...prev, 
+                        accessibilityFeatures: prev.accessibilityFeatures.filter(f => f !== feature) 
+                      }));
+                    }
+                  }}
+                  className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                />
+                <label htmlFor={`accessibility-${feature}`} className="text-sm cursor-pointer flex-1 font-medium">
+                  <Users className="w-4 h-4 inline-block mr-2 text-gray-500" />
+                  {feature}
+                </label>
+              </div>
             ))}
           </div>
         </div>
@@ -247,14 +386,14 @@ export default function HotelFilterSidebar({
                   />
                 </Badge>
               ))}
-              {filters.propertyType.map((type) => (
-                <Badge key={`type-${type}`} variant="secondary" className="flex items-center gap-1 bg-green-100 text-green-700 hover:bg-green-200">
-                  {type}
+              {filters.vendors.map((vendor) => (
+                <Badge key={`vendor-${vendor}`} variant="secondary" className="flex items-center gap-1 bg-green-100 text-green-700 hover:bg-green-200">
+                  {vendor}
                   <X 
                     className="w-3 h-3 cursor-pointer hover:text-green-900" 
                     onClick={() => setFilters(prev => ({ 
                       ...prev, 
-                      propertyType: prev.propertyType.filter(t => t !== type) 
+                      vendors: prev.vendors.filter(v => v !== vendor) 
                     }))}
                   />
                 </Badge>
@@ -273,7 +412,24 @@ export default function HotelFilterSidebar({
               ))}
               {filters.amenities.length > 3 && (
                 <Badge variant="secondary" className="bg-gray-100 text-gray-600">
-                  +{filters.amenities.length - 3} more
+                  +{filters.amenities.length - 3} more amenities
+                </Badge>
+              )}
+              {filters.accessibilityFeatures.slice(0, 2).map((feature) => (
+                <Badge key={`access-${feature}`} variant="secondary" className="flex items-center gap-1 bg-indigo-100 text-indigo-700 hover:bg-indigo-200">
+                  {feature}
+                  <X 
+                    className="w-3 h-3 cursor-pointer hover:text-indigo-900" 
+                    onClick={() => setFilters(prev => ({ 
+                      ...prev, 
+                      accessibilityFeatures: prev.accessibilityFeatures.filter(f => f !== feature) 
+                    }))}
+                  />
+                </Badge>
+              ))}
+              {filters.accessibilityFeatures.length > 2 && (
+                <Badge variant="secondary" className="bg-gray-100 text-gray-600">
+                  +{filters.accessibilityFeatures.length - 2} more accessibility
                 </Badge>
               )}
               {filters.reviewScore > 0 && (
@@ -282,6 +438,24 @@ export default function HotelFilterSidebar({
                   <X 
                     className="w-3 h-3 cursor-pointer hover:text-orange-900" 
                     onClick={() => setFilters(prev => ({ ...prev, reviewScore: 0 }))}
+                  />
+                </Badge>
+              )}
+              {filters.petsAllowed && (
+                <Badge variant="secondary" className="flex items-center gap-1 bg-pink-100 text-pink-700 hover:bg-pink-200">
+                  Pet Friendly
+                  <X 
+                    className="w-3 h-3 cursor-pointer hover:text-pink-900" 
+                    onClick={() => setFilters(prev => ({ ...prev, petsAllowed: false }))}
+                  />
+                </Badge>
+              )}
+              {filters.breakfastIncluded && (
+                <Badge variant="secondary" className="flex items-center gap-1 bg-yellow-100 text-yellow-700 hover:bg-yellow-200">
+                  Free Breakfast
+                  <X 
+                    className="w-3 h-3 cursor-pointer hover:text-yellow-900" 
+                    onClick={() => setFilters(prev => ({ ...prev, breakfastIncluded: false }))}
                   />
                 </Badge>
               )}

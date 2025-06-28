@@ -279,7 +279,7 @@ export interface HotelDetails {
   block: any[];
   rawData: RawData;
 }
-//-----------------------------------------------------------------------------------
+//--------------------------------------------------FLIGHT GENERATOR TYPES---------------------------------
 
 export type FlightClass = 'Economy' | 'Business' | 'First';
 
@@ -308,4 +308,88 @@ export interface Flight {
   availableSeats: Record<FlightClass, number>;
   prices: Record<FlightClass, number>;
   bookingUrl: string;
+}
+// ----------------------------------------------------------------------------------------------------------------------
+
+// ---------------------------------------HOTEL GENERATOR TYPES-----------------------------
+export type Vendor = 'Hilton' | 'Marriott' | 'Hyatt' | 'Wyndham' | 'Choice Hotels' | 'InterContinental' | 'Accor' | 'Radisson Hotel Group' | 'Best Western Hotels & Resorts' | 'IHG Hotels & Resorts' | 'Rosewood Hotel Group' | 'Four Seasons Hotels and Resorts' | 'MGM Resorts International' | 'Shangri-La Hotels and Resorts' | 'Minor Hotels' | 'NH Hotel Group' | 'Banyan Tree Group';
+
+export interface RoomDetails {
+  type: string;
+  pricePerNight: number;
+  originalPrice?: number; // for strike-through savings
+  includes: {
+    breakfast: boolean;
+    lunch: boolean;
+  };
+  mostPopular?: boolean;
+  accessibleFeatures: string[];
+  cancellationPolicy: string;
+  availableRooms: number;
+  bedCount: number;
+}
+
+export interface Attraction {
+  name: string;
+  type: 'Beach' | 'Restaurant' | 'Downtown' | 'Museum' | 'Ocean View' | 'Washer/Dryer' | 'Market' | 'Park' | 'Landmark' | 'Family Attraction' | 'Shopping' | 'Transit' | 'Sport' | 'Entertainment' | 'Nature' | 'Walking Area' | 'Attraction' | 'Business' | 'Education';
+  distanceKm: number;
+}
+
+export interface Review {
+  username: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
+
+export interface HotelPolicy {
+  checkIn: {
+    startTime: string;
+    endTime: string;
+    contactless: boolean;
+    express: boolean;
+    minAge: number;
+  };
+  checkOut: {
+    time: string;
+    contactless: boolean;
+    express: boolean;
+    lateFeeApplicable: boolean;
+  };
+  petsAllowed: boolean;
+  childrenPolicy: string;
+  extraBeds: string;
+  cribAvailability: string;
+  accessMethods: string[];
+  safetyFeatures: string[];
+  housekeepingPolicy: string;
+}
+
+export interface FeeInfo {
+  depositPerNight: number;
+  resortFeePerNight: number;
+  breakfastFeeRange: [number, number];
+  parkingFeePerDay: number;
+  lateCheckoutFee: number;
+}
+
+export interface HotelData {
+  id: number;
+  vendor: Vendor;
+  name: string;
+  address: string;
+  description: string;
+  rooms: RoomDetails[];
+  attractionsNearby: Attraction[];
+  accessibilityLabel: string;
+  reviewSummary: {
+    averageRating: number;
+    totalReviews: number;
+    breakdown: Record<'cleanliness' | 'location' | 'comfort' | 'staff' | 'value', number>;
+  };
+  reviews: Review[];
+  policies: HotelPolicy;
+  fees: FeeInfo;
+  finePrint: string;
+  faqs: { question: string; answer: string }[];
 }
