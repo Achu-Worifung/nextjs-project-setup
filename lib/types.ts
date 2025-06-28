@@ -280,3 +280,32 @@ export interface HotelDetails {
   rawData: RawData;
 }
 //-----------------------------------------------------------------------------------
+
+export type FlightClass = 'Economy' | 'Business' | 'First';
+
+export interface StopDetail {
+  airport: string;
+  arrivalTime: string;
+  departureTime: string;
+  layoverDuration: string;
+}
+
+export interface Flight {
+  airline: string;
+  flightNumber: string;
+  departureAirport: string;
+  destinationAirport: string;
+  departureTime: string;
+  arrivalTime: string;
+  duration: string;
+  numberOfStops: number;
+  stops: StopDetail[];
+  status: 'On Time' | 'Delayed' | 'Cancelled';
+  aircraft: string;
+  gate: string;
+  terminal: string;
+  meal: boolean;
+  availableSeats: Record<FlightClass, number>;
+  prices: Record<FlightClass, number>;
+  bookingUrl: string;
+}

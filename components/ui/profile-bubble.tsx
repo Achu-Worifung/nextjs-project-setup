@@ -7,11 +7,7 @@ interface ProfileBubbleProps {
 }
 
 const getInitials = (name: string) =>
-  name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase();
+  name.charAt(0).toUpperCase() || "U";
 
 export const ProfileBubble: React.FC<ProfileBubbleProps> = ({
   name,

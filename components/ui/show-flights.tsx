@@ -20,98 +20,37 @@ import { format } from "date-fns";
 import {
   Users,
   Filter,
-  ArrowRight,
-  Wifi,
-  Coffee,
-  Luggage,
   Search,
   CalendarDays,
   ArrowLeftRight,
   PlaneTakeoff,
   PlaneLanding,
 } from "lucide-react";
-import { FlightOffer } from "@/types/flight";
-import { AirlineLogo } from "@/lib/airline-logos";
-import test from "@/public/test.json";
+import { generateFakeFlights } from "@/lib/flight-generator";
+import { Flight } from "@/lib/types";
+import { FlightCards } from "@/components/ui/flight-cards";
 
-// Cast the imported JSON data to the correct type
-const flightData: FlightOffer[] = test as FlightOffer[];
 
-// Utility function to parse duration (PT22H20M -> 22h 20m)
-const parseDuration = (duration: string) => {
-  const matches = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?/);
-  if (!matches) return '0h 0m';
-  
-  const hours = matches[1] ? `${matches[1]}h` : '';
-  const minutes = matches[2] ? `${matches[2]}m` : '';
-  
-  return `${hours} ${minutes}`.trim();
-};
-
-// Utility to format date/time (2025-06-24T23:45:00 -> 23:45)
-const formatTime = (datetime: string) => {
-  return new Date(datetime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-};
-
-// Utility to get the first segment's cabin class
-const getCabinClass = (offer: FlightOffer) => {
-  return offer.travelerPricings?.[0]?.fareDetailsBySegment?.[0]?.cabin || 'ECONOMY';
-};
-
-// Utility to get amenities
-const getAmenities = (offer: FlightOffer) => {
-  const amenities = new Set<string>();
-  
-  offer.travelerPricings[0]?.fareDetailsBySegment.forEach(segment => {
-    // Check if amenities array exists and is an array
-    if (segment.amenities && Array.isArray(segment.amenities)) {
-      segment.amenities.forEach(amenity => {
-        if (!amenity.isChargeable) {
-          amenities.add(amenity.amenityType);
-        }
-      });
-    }
-  });
-  
-  return Array.from(amenities);
-};
 
 // Get unique airlines from the flight data
-const getUniqueAirlines = (flights: FlightOffer[]) => {
+const getUniqueAirlines = (flights: Flight[]) => {
   const airlines = new Set<string>();
-  flights.forEach(flight => {
-    // Add validating airline codes
-    if (flight.validatingAirlineCodes && Array.isArray(flight.validatingAirlineCodes)) {
-      flight.validatingAirlineCodes.forEach(code => airlines.add(code));
-    }
-    
-    // Add carrier codes from segments
-    if (flight.itineraries && flight.itineraries[0] && flight.itineraries[0].segments) {
-      flight.itineraries[0].segments.forEach(segment => {
-        if (segment.carrierCode) {
-          airlines.add(segment.carrierCode);
-        }
-        if (segment.operating?.carrierCode) {
-          airlines.add(segment.operating.carrierCode);
-        }
-      });
-    }
+  flights.forEach((flight) => {
+    airlines.add(flight.airline);
   });
   return Array.from(airlines);
 };
 
 // Get unique classes from the flight data
-const getUniqueClasses = (flights: FlightOffer[]) => {
+const getUniqueClasses = (flights: Flight[]) => {
   const classes = new Set<string>();
-  flights.forEach(flight => {
-    try {
-      const cabinClass = getCabinClass(flight);
-      if (cabinClass) {
-        classes.add(cabinClass);
+  flights.forEach((flight) => {
+    // Add all class types that have available seats > 0
+    Object.entries(flight.availableSeats).forEach(([classType, seats]) => {
+      if (seats > 0) {
+        classes.add(classType);
       }
-    } catch (error) {
-      console.warn('Error getting cabin class for flight:', flight.id, error);
-    }
+    });
   });
   return Array.from(classes);
 };
@@ -138,13 +77,22 @@ const FlightSearchPage = () => {
   const [editReturnDate, setEditReturnDate] = useState<Date | undefined>(
     originalReturnDate ? new Date(originalReturnDate) : undefined
   );
-  const [editTravelers, setEditTravelers] = useState(originalTravelers);  // Filter states
+  const [editTravelers, setEditTravelers] = useState(originalTravelers); 
+  
+  // Generate flight data based on search parameters
+  const [flightData] = useState<Flight[]>(() => {
+    const departDate = originalDepartDate || format(new Date(), "yyyy-MM-dd");
+    return generateFakeFlights(departDate, 10);
+  });
+  
+  // Filter states
   const [priceRange, setPriceRange] = useState<number[]>([0, 5000]); // Increased range to show all flights
   const [selectedAirlines, setSelectedAirlines] = useState<string[]>([]);
   const [selectedStops, setSelectedStops] = useState<string[]>([]);
   const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
-  const [filteredFlights, setFilteredFlights] = useState<FlightOffer[]>(flightData);
+  const [filteredFlights, setFilteredFlights] = useState<Flight[]>(flightData);
   const [sortBy, setSortBy] = useState("price");
+  
   // Get unique values for filters
   const airlines = getUniqueAirlines(flightData);
   const classes = getUniqueClasses(flightData);
@@ -184,53 +132,40 @@ const FlightSearchPage = () => {
     originalDepartDate,
     originalReturnDate,
     originalTravelers,
-  ]);  // Update your useEffect for filtering
+  ]); 
+  
+  // Update your useEffect for filtering
   useEffect(() => {
-    // Start with all flights from test.json (no pre-filtering)
+    // Start with all flights
     let filtered = [...flightData];
-      // Apply client-side filters only
+    
+    // Apply client-side filters
     if (priceRange[0] > 0 || priceRange[1] < 5000) {
-      filtered = filtered.filter(flight => {
-        const price = parseFloat(flight.price?.total || '0');
-        return price >= priceRange[0] && price <= priceRange[1];
+      filtered = filtered.filter((flight) => {
+        // Get the lowest price from all classes
+        const lowestPrice = Math.min(...Object.values(flight.prices));
+        return lowestPrice >= priceRange[0] && lowestPrice <= priceRange[1];
       });
     }
-    
+
     if (selectedAirlines.length > 0) {
-      filtered = filtered.filter(flight => {
-        const flightAirlines: string[] = [];
-        
-        // Add validating airline codes
-        if (flight.validatingAirlineCodes && Array.isArray(flight.validatingAirlineCodes)) {
-          flightAirlines.push(...flight.validatingAirlineCodes);
-        }
-        
-        // Add carrier codes from segments
-        if (flight.itineraries?.[0]?.segments) {
-          flight.itineraries[0].segments.forEach(segment => {
-            if (segment.carrierCode) {
-              flightAirlines.push(segment.carrierCode);
-            }
-            if (segment.operating?.carrierCode) {
-              flightAirlines.push(segment.operating.carrierCode);
-            }
-          });
-        }
-        
-        return selectedAirlines.some(airline => flightAirlines.includes(airline));
+      filtered = filtered.filter((flight) => {
+        return selectedAirlines.includes(flight.airline);
       });
     }
-    
+
     if (selectedStops.length > 0) {
-      filtered = filtered.filter(flight => {
-        const segmentCount = flight.itineraries?.[0]?.segments?.length || 1;
-        return selectedStops.includes((segmentCount - 1).toString());
+      filtered = filtered.filter((flight) => {
+        return selectedStops.includes(flight.numberOfStops.toString());
       });
     }
-    
+
     if (selectedClasses.length > 0) {
-      filtered = filtered.filter(flight => {
-        return selectedClasses.includes(getCabinClass(flight));
+      filtered = filtered.filter((flight) => {
+        // Check if any of the selected classes have available seats
+        return selectedClasses.some((selectedClass) => 
+          flight.availableSeats[selectedClass as keyof typeof flight.availableSeats] > 0
+        );
       });
     }
 
@@ -238,31 +173,41 @@ const FlightSearchPage = () => {
     const sortedFiltered = [...filtered];
     try {
       switch (sortBy) {
-        case 'price':
+        case "price":
           sortedFiltered.sort((a, b) => {
-            const priceA = parseFloat(a.price?.total || '0');
-            const priceB = parseFloat(b.price?.total || '0');
+            const priceA = Math.min(...Object.values(a.prices));
+            const priceB = Math.min(...Object.values(b.prices));
             return priceA - priceB;
           });
           break;
-        case 'duration':
-          sortedFiltered.sort((a, b) => 
-            (a.itineraries?.[0]?.duration || '').localeCompare(b.itineraries?.[0]?.duration || ''));
+        case "duration":
+          sortedFiltered.sort((a, b) => {
+            // Convert duration string to minutes for comparison
+            const getDurationMinutes = (duration: string) => {
+              const matches = duration.match(/(\d+)h\s*(\d+)m/);
+              if (!matches) return 0;
+              const hours = parseInt(matches[1]) || 0;
+              const minutes = parseInt(matches[2]) || 0;
+              return hours * 60 + minutes;
+            };
+            return getDurationMinutes(a.duration) - getDurationMinutes(b.duration);
+          });
           break;
-        case 'departure':
+        case "departure":
           sortedFiltered.sort((a, b) => 
-            (a.itineraries?.[0]?.segments?.[0]?.departure?.at || '').localeCompare(
-              b.itineraries?.[0]?.segments?.[0]?.departure?.at || ''
-            ));
+            a.departureTime.localeCompare(b.departureTime)
+          );
           break;
       }
     } catch (error) {
-      console.warn('Error sorting flights:', error);
-    }    // Debug info
-    console.log('Total flights from test.json:', flightData.length);
-    console.log('Flights after filtering:', sortedFiltered.length);
+      console.warn("Error sorting flights:", error);
+    }
+    
+    // Debug info
+    console.log("Total flights generated:", flightData.length);
+    console.log("Flights after filtering:", sortedFiltered.length);
     setFilteredFlights(sortedFiltered);
-  }, [priceRange, selectedAirlines, selectedStops, selectedClasses, sortBy]);
+  }, [flightData, priceRange, selectedAirlines, selectedStops, selectedClasses, sortBy]);
 
   const handleAirlineChange = (airline: string, checked: boolean) => {
     if (checked) {
@@ -501,7 +446,8 @@ const FlightSearchPage = () => {
               <CardContent className="space-y-6">
                 {/* Price Range */}
                 <div>
-                  <h3 className="font-medium mb-3">Price Range</h3>                  <Slider
+                  <h3 className="font-medium mb-3">Price Range</h3>{" "}
+                  <Slider
                     value={priceRange}
                     onValueChange={setPriceRange}
                     max={5000}
@@ -517,7 +463,8 @@ const FlightSearchPage = () => {
 
                 {/* Airlines */}
                 <div>
-                  <h3 className="font-medium mb-3">Airlines</h3>                  <div className="space-y-2">
+                  <h3 className="font-medium mb-3">Airlines</h3>{" "}
+                  <div className="space-y-2">
                     {airlines.map((airline) => (
                       <div
                         key={airline}
@@ -530,12 +477,14 @@ const FlightSearchPage = () => {
                             handleAirlineChange(airline, checked)
                           }
                         />
-                        <label htmlFor={airline} className="flex items-center gap-2 text-sm cursor-pointer">
-                          <AirlineLogo 
-                            airlineCode={airline}
-                            className="w-5 h-5"
-                            showName={true}
-                          />
+                        <label
+                          htmlFor={airline}
+                          className="flex items-center gap-2 text-sm cursor-pointer"
+                        >
+                          <span className="w-5 h-5 bg-blue-100 rounded text-xs flex items-center justify-center">
+                            {airline.substring(0, 2)}
+                          </span>
+                          {airline}
                         </label>
                       </div>
                     ))}
@@ -609,121 +558,13 @@ const FlightSearchPage = () => {
                   <option value="departure">Departure Time</option>
                 </select>
               </div>
-            </div>            {/* Flight Cards */}
+            </div>{" "}
+            {/* Flight Cards */}
             <div className="space-y-6">
-{filteredFlights.map((flight) => {
-  // Safety checks for required data
-  if (!flight.itineraries?.[0]?.segments?.length) {
-    return null; // Skip flights with no segments
-  }
-  
-  const segments = flight.itineraries[0].segments;
-  const firstSegment = segments[0];
-  const lastSegment = segments[segments.length - 1];
-  const totalStops = segments.length - 1;
-  const cabinClass = getCabinClass(flight);
-  const amenities = getAmenities(flight);
-  
-  return (
-    <Card key={flight.id} className="hover:shadow-lg transition-shadow border-l-4 border-l-blue-500">
-      <CardContent className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
-          {/* Flight Info */}
-          <div className="md:col-span-2">            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-3">
-                <AirlineLogo 
-                  airlineCode={firstSegment.operating?.carrierCode || firstSegment.carrierCode}
-                  className="w-8 h-8"
-                />
-                <div className="flex flex-col">
-                  <span className="font-semibold text-sm">
-                    {firstSegment.operating?.carrierCode || firstSegment.carrierCode} {firstSegment.number}
-                  </span>
-                  <span className="text-xs text-gray-500">
-                    {firstSegment.aircraft?.code}
-                  </span>
-                </div>
-              </div>
-              <div className="text-sm text-gray-500">
-                {flight.numberOfBookableSeats} seats left
-              </div>
+              {filteredFlights.map((flight) => (
+                <FlightCards key={`${flight.airline}-${flight.flightNumber}`} flight={flight} />
+              ))}
             </div>
-              <div className="flex items-center justify-between">
-              <div className="text-center">
-                <div className="text-xl font-bold">
-                  {formatTime(firstSegment.departure.at)}
-                </div>
-                <div className="text-sm text-gray-600">
-                  {firstSegment.departure.iataCode}
-                </div>
-                <div className="text-xs text-gray-500">
-                  {firstSegment.departure.terminal && `Terminal ${firstSegment.departure.terminal}`}
-                </div>
-              </div>
-              
-              <div className="flex-1 mx-4">
-                <div className="flex items-center justify-center relative">
-                  <div className="w-full h-px bg-gray-300"></div>
-                  <div className="absolute bg-white px-2">
-                    <ArrowRight className="w-4 h-4 text-gray-400" />
-                  </div>
-                </div>
-                <div className="text-center mt-1">
-                  <div className="text-sm font-medium">
-                    {parseDuration(flight.itineraries[0].duration)}
-                  </div>
-                  <div className="text-xs text-gray-500">
-                    {totalStops === 0 ? 'Non-stop' : `${totalStops} stop${totalStops > 1 ? 's' : ''}`}
-                  </div>
-                </div>
-              </div>
-              
-              <div className="text-center">
-                <div className="text-xl font-bold">
-                  {formatTime(lastSegment.arrival.at)}
-                </div>
-                <div className="text-sm text-gray-600">
-                  {lastSegment.arrival.iataCode}
-                </div>
-                <div className="text-xs text-gray-500">
-                  {lastSegment.arrival.terminal && `Terminal ${lastSegment.arrival.terminal}`}
-                </div>
-              </div>
-            </div>
-
-            {/* Amenities */}
-            <div className="flex items-center gap-2 mt-3">
-              {amenities.includes('MEAL') && <Coffee className="w-4 h-4 text-green-600" />}
-              {amenities.includes('BAGGAGE') && <Luggage className="w-4 h-4 text-blue-600" />}
-              {amenities.includes('PRE_RESERVED_SEAT') && <Wifi className="w-4 h-4 text-purple-600" />}
-            </div>
-          </div>          {/* Price and Class */}
-          <div className="text-center">
-            <Badge variant="outline" className="mb-2">
-              {cabinClass}
-            </Badge>
-            <div className="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded">
-              {firstSegment.aircraft?.code || 'N/A'}
-            </div>
-          </div>
-
-          {/* Price and Book Button */}
-          <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600 mb-2">
-              ${flight.price.total}
-            </div>
-            <div className="text-sm text-gray-600 mb-3">per person</div>
-            <Button className="w-full">
-              Select Flight
-            </Button>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-})}
-            </div>
-
             {/* No Results */}
             {filteredFlights.length === 0 && (
               <Card className="text-center py-12">
@@ -734,7 +575,8 @@ const FlightSearchPage = () => {
                   </h3>
                   <p className="text-gray-600 mb-4">
                     Try adjusting your filters or search criteria
-                  </p>                  <Button
+                  </p>{" "}
+                  <Button
                     variant="outline"
                     onClick={() => {
                       setPriceRange([0, 5000]);
