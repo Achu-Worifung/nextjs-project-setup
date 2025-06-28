@@ -1,12 +1,15 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { hotel_type } from "@/lib/types";
 import { Star, MapPin, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-export function HotelCard({ hotel }: { hotel: hotel_type }) {
-  const router = useRouter();
+interface HotelCardProps {
+  hotel: hotel_type;
+  onHotelClick?: (hotel: hotel_type) => void;
+}
+
+export function HotelCard({ hotel, onHotelClick }: HotelCardProps) {
   
   //getting the difference between the days
   const checkinDate = new Date(hotel.property.checkinDate);
@@ -15,9 +18,9 @@ export function HotelCard({ hotel }: { hotel: hotel_type }) {
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   
   const handleClick = () => {
-    router.push(
-      `/hotel?hotel_id=${hotel.hotel_id}&start_date=${hotel.property.checkinDate}&end_date=${hotel.property.checkoutDate}&room_qty=1&adults=1`
-    );
+    if (onHotelClick) {
+      onHotelClick(hotel);
+    }
   };
 
   const renderStars = (rating: number) => {

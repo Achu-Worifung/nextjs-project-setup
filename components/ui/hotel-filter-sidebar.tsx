@@ -176,7 +176,7 @@ export default function HotelFilterSidebar({
         {/* Hotel Vendors Filter */}
         <div className="mb-6">
           <Label className="text-sm font-semibold text-gray-700 mb-3 block">Hotel Chain</Label>
-          <div className="space-y-2 max-h-48 overflow-y-auto">
+          <div className="space-y-2  overflow-y-auto">
             {['Hilton', 'Marriott', 'Hyatt', 'Wyndham', 'Choice Hotels', 'InterContinental', 'Best Western Hotels & Resorts', 'IHG Hotels & Resorts'].map((vendor) => (
               <div key={vendor} className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
                 <Checkbox
@@ -349,25 +349,7 @@ export default function HotelFilterSidebar({
           </div>
         </div>
 
-        {/* Review Score Filter */}
-        <div className="mb-6">
-          <Label className="text-sm font-semibold text-gray-700 mb-3 block">Guest Review Score</Label>
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <Slider
-              value={[filters.reviewScore]}
-              onValueChange={(value) => setFilters(prev => ({ ...prev, reviewScore: value[0] }))}
-              max={10}
-              min={0}
-              step={0.5}
-              className="w-full"
-            />
-            <div className="text-center mt-3">
-              <div className="bg-white px-3 py-1 rounded-md border inline-block font-medium text-sm">
-                {filters.reviewScore === 0 ? 'Any rating' : `${filters.reviewScore}+ rating`}
-              </div>
-            </div>
-          </div>
-        </div>
+       
 
         {/* Active Filters */}
         {activeFiltersCount > 0 && (

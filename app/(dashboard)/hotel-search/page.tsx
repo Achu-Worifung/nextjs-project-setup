@@ -9,6 +9,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { generateHotels } from "@/lib/hotel-generator";
 import { mapHotelDataToHotelType } from "@/lib/hotel-mapper";
 import { HotelCard } from "@/components/ui/hotel-card-v3";
+import { HotelDetailsDrawer } from "@/components/ui/hotel-details-drawer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,6 +34,10 @@ export default function HotelSearchPage() {
   const [sortBy, setSortBy] = useState<
     "price" | "rating" | "review" | "popularity"
   >("popularity");
+
+  // Hotel details drawer state
+  const [selectedHotel, setSelectedHotel] = useState<hotel_type | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const searchparams = useSearchParams();
   const router = useRouter();
@@ -625,7 +630,14 @@ export default function HotelSearchPage() {
               {filteredHotels && filteredHotels.length > 0 ? (
                 <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                   {filteredHotels.map((hotel, idx) => (
-                    <HotelCard key={idx} hotel={hotel} />
+                    <HotelCard 
+                      key={idx} 
+                      hotel={hotel} 
+                      onHotelClick={(selectedHotel) => {
+                        setSelectedHotel(selectedHotel);
+                        setIsDrawerOpen(true);
+                      }}
+                    />
                   ))}
                 </div>
               ) : (
@@ -640,6 +652,19 @@ export default function HotelSearchPage() {
             </div>
           </div>
         </div>
+
+        {/* Hotel Details Drawer */}
+        <HotelDetailsDrawer
+          hotel={selectedHotel}
+          isOpen={isDrawerOpen}
+          onClose={() => {
+            setIsDrawerOpen(false);
+            setSelectedHotel(null);
+          }}
+          checkInDate={checkInDate}
+          checkOutDate={checkOutDate}
+          guests={parseInt(searchGuests)}
+        />
       </div>
     </div>
   );
