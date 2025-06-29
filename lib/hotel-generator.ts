@@ -170,7 +170,7 @@ export function generateHotel(): HotelData {
     { name: 'University Campus', type: 'Education' as const, distanceKm: 4.8 },
   ].filter(() => Math.random() < 0.8);
 
-  const reviews: Review[] = Array.from({ length: 10 }, () => {
+  const reviews: Review[] = Array.from({ length: getRandomInt(5, 20) }, () => {
     const reviewData = getRandom(reviewsPool);
     return {
       username: `Guest${getRandomInt(1000, 9999)}`,
@@ -178,6 +178,38 @@ export function generateHotel(): HotelData {
       comment: reviewData.text,
       date: new Date(Date.now() - getRandomInt(1, 100) * 86400000).toISOString().split('T')[0],
     };
+  });
+  const faqs: Array<{ question: string; answer: string }> = [
+      { question: 'Is breakfast included?', answer: 'Depends on the room; please check your specific room details or package for breakfast inclusions.' },
+      { question: 'Can I check out late?', answer: 'Yes, late checkout is often available for an additional fee and is subject to hotel availability. Please inquire at the front desk on your departure day.' },
+      { question: 'Are pets allowed?', answer: 'Only service animals are permitted. We unfortunately do not allow other pets on the premises.' },
+      { question: 'Is there parking available?', answer: 'Yes, we offer complimentary on-site parking for all registered guests. Valet parking may be available for an additional fee.' },
+      { question: 'Do you have a pool?', answer: 'Yes, we feature both an indoor heated pool and an outdoor seasonal pool for guest enjoyment. Hours are posted poolside.' },
+      { question: 'Is there Wi-Fi access?', answer: 'Yes, complimentary high-speed Wi-Fi is available throughout the entire hotel, including all guest rooms and common areas.' },
+      { question: 'What are the check-in and check-out times?', answer: 'Standard check-in is at 3:00 PM, and check-out is at 11:00 AM. Early check-in may be possible based on availability.' },
+      { question: 'Do you have a fitness center?', answer: 'Yes, our 24-hour fitness center is fully equipped with modern cardio machines, strength training equipment, and free weights.' },
+      { question: 'Is there a restaurant on site?', answer: 'Yes, our hotel features a full-service restaurant, offering breakfast, lunch, and dinner. Room service is also available.' },
+      { question: 'Can I store my luggage before check-in or after check-out?', answer: 'Yes, we offer complimentary luggage storage services at the front desk for your convenience.' },
+      { question: 'Do you offer airport shuttle service?', answer: 'Yes, we provide a complimentary shuttle service to and from the nearest airport. Please contact the front desk to arrange your pick-up or drop-off time.' },
+      { question: 'Are there accessible rooms available?', answer: 'Yes, we offer a variety of accessible rooms designed for guests with disabilities, featuring amenities like roll-in showers, grab bars, and wider doorways. Please specify your needs when booking.' },
+      { question: 'Is laundry service available?', answer: 'Yes, we have both self-service coin-operated laundry facilities and professional laundry/dry cleaning services available for a fee.' },
+      { question: 'Can I modify or cancel my reservation?', answer: 'Reservation modification and cancellation policies vary by booking type and rate. Please refer to your confirmation email for specific terms, or contact our reservations team for assistance.' },
+      { question: 'Do you have meeting or event spaces?', answer: 'Yes, we offer versatile meeting rooms and event spaces suitable for conferences, weddings, and social gatherings. Our events team can assist with planning.' },
+      { question: 'Is there a spa or wellness center?', answer: 'Some of our hotels feature a full-service spa offering massages, facials, and other treatments. Please check specific hotel amenities.' },
+      { question: 'What payment methods do you accept?', answer: 'We accept all major credit cards (Visa, MasterCard, American Express, Discover) and debit cards. Cash payments may require a deposit.' },
+      { question: 'Do rooms have coffee makers and mini-fridges?', answer: 'Most of our guest rooms include a coffee maker and a mini-fridge for your convenience. Please check your room type for specific amenities.' },
+      { question: 'Is smoking allowed in rooms or on property?', answer: 'Our hotel is 100% smoke-free. Smoking is prohibited in all indoor areas and may be restricted in designated outdoor areas.' },
+      { question: 'Can I request an extra bed or crib?', answer: 'Yes, extra beds (rollaways) and cribs are available upon request and are subject to availability and a possible nightly fee. Please arrange this in advance.' },
+      { question: 'Is there a gift shop or convenience store on site?', answer: 'Yes, we have a small gift shop/convenience store located in the lobby, offering snacks, drinks, and essential travel items.' },
+      { question: 'Do you offer a loyalty program?', answer: 'Yes, we participate in our hotel brand loyalty program. Members can earn points and enjoy exclusive benefits during their stay.' },
+      { question: 'What security measures are in place?', answer: 'Our hotel features 24/7 security cameras, key card access to guest floors, and on-site security personnel for your safety and peace of mind.' },
+      { question: 'Are there connecting rooms available?', answer: 'Connecting rooms can be requested but are subject to availability. Please note this preference when making your reservation.' },
+      { question: 'Do you have an ATM on site?', answer: 'Yes, there is an ATM conveniently located in the hotel lobby for guest use.' },
+      { question: 'Can I have packages delivered to the hotel?', answer: 'Yes, guests may have packages delivered to the hotel. Please ensure your name and reservation details are clearly marked on the package.' },
+    ];
+  const getFAQs = Array.from({ length: getRandomInt(5, 15) }, () => {
+    const question = getRandom(faqs);
+    return { question };
   });
 
   const avgRating = parseFloat((reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1));
@@ -233,34 +265,7 @@ export function generateHotel(): HotelData {
       lateCheckoutFee: 45,
     },
     finePrint: 'Government-issued photo ID and credit card required at check-in. Tax ID - C0014930350. CleanStay protocols in place.',
-    faqs: [
-      { question: 'Is breakfast included?', answer: 'Depends on the room; please check your specific room details or package for breakfast inclusions.' },
-      { question: 'Can I check out late?', answer: 'Yes, late checkout is often available for an additional fee and is subject to hotel availability. Please inquire at the front desk on your departure day.' },
-      { question: 'Are pets allowed?', answer: 'Only service animals are permitted. We unfortunately do not allow other pets on the premises.' },
-      { question: 'Is there parking available?', answer: 'Yes, we offer complimentary on-site parking for all registered guests. Valet parking may be available for an additional fee.' },
-      { question: 'Do you have a pool?', answer: 'Yes, we feature both an indoor heated pool and an outdoor seasonal pool for guest enjoyment. Hours are posted poolside.' },
-      { question: 'Is there Wi-Fi access?', answer: 'Yes, complimentary high-speed Wi-Fi is available throughout the entire hotel, including all guest rooms and common areas.' },
-      { question: 'What are the check-in and check-out times?', answer: 'Standard check-in is at 3:00 PM, and check-out is at 11:00 AM. Early check-in may be possible based on availability.' },
-      { question: 'Do you have a fitness center?', answer: 'Yes, our 24-hour fitness center is fully equipped with modern cardio machines, strength training equipment, and free weights.' },
-      { question: 'Is there a restaurant on site?', answer: 'Yes, our hotel features a full-service restaurant, offering breakfast, lunch, and dinner. Room service is also available.' },
-      { question: 'Can I store my luggage before check-in or after check-out?', answer: 'Yes, we offer complimentary luggage storage services at the front desk for your convenience.' },
-      { question: 'Do you offer airport shuttle service?', answer: 'Yes, we provide a complimentary shuttle service to and from the nearest airport. Please contact the front desk to arrange your pick-up or drop-off time.' },
-      { question: 'Are there accessible rooms available?', answer: 'Yes, we offer a variety of accessible rooms designed for guests with disabilities, featuring amenities like roll-in showers, grab bars, and wider doorways. Please specify your needs when booking.' },
-      { question: 'Is laundry service available?', answer: 'Yes, we have both self-service coin-operated laundry facilities and professional laundry/dry cleaning services available for a fee.' },
-      { question: 'Can I modify or cancel my reservation?', answer: 'Reservation modification and cancellation policies vary by booking type and rate. Please refer to your confirmation email for specific terms, or contact our reservations team for assistance.' },
-      { question: 'Do you have meeting or event spaces?', answer: 'Yes, we offer versatile meeting rooms and event spaces suitable for conferences, weddings, and social gatherings. Our events team can assist with planning.' },
-      { question: 'Is there a spa or wellness center?', answer: 'Some of our hotels feature a full-service spa offering massages, facials, and other treatments. Please check specific hotel amenities.' },
-      { question: 'What payment methods do you accept?', answer: 'We accept all major credit cards (Visa, MasterCard, American Express, Discover) and debit cards. Cash payments may require a deposit.' },
-      { question: 'Do rooms have coffee makers and mini-fridges?', answer: 'Most of our guest rooms include a coffee maker and a mini-fridge for your convenience. Please check your room type for specific amenities.' },
-      { question: 'Is smoking allowed in rooms or on property?', answer: 'Our hotel is 100% smoke-free. Smoking is prohibited in all indoor areas and may be restricted in designated outdoor areas.' },
-      { question: 'Can I request an extra bed or crib?', answer: 'Yes, extra beds (rollaways) and cribs are available upon request and are subject to availability and a possible nightly fee. Please arrange this in advance.' },
-      { question: 'Is there a gift shop or convenience store on site?', answer: 'Yes, we have a small gift shop/convenience store located in the lobby, offering snacks, drinks, and essential travel items.' },
-      { question: 'Do you offer a loyalty program?', answer: 'Yes, we participate in our hotel brand loyalty program. Members can earn points and enjoy exclusive benefits during their stay.' },
-      { question: 'What security measures are in place?', answer: 'Our hotel features 24/7 security cameras, key card access to guest floors, and on-site security personnel for your safety and peace of mind.' },
-      { question: 'Are there connecting rooms available?', answer: 'Connecting rooms can be requested but are subject to availability. Please note this preference when making your reservation.' },
-      { question: 'Do you have an ATM on site?', answer: 'Yes, there is an ATM conveniently located in the hotel lobby for guest use.' },
-      { question: 'Can I have packages delivered to the hotel?', answer: 'Yes, guests may have packages delivered to the hotel. Please ensure your name and reservation details are clearly marked on the package.' },
-    ],
+    faqs: getFAQs,
   };
 }
 

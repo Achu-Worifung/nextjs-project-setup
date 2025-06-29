@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { hotel_type } from "@/lib/types";
+import { HotelData } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -30,7 +30,7 @@ import {
 import Image from "next/image";
 
 interface HotelDetailsDrawerProps {
-  hotel: hotel_type | null;
+  hotel: HotelData | null;
   isOpen: boolean;
   onClose: () => void;
   checkInDate: Date | undefined;
@@ -39,10 +39,9 @@ interface HotelDetailsDrawerProps {
 }
 
 // Mock room data based on hotel - in a real app this would come from an API
-const generateRoomData = (hotel: hotel_type) => {
-  const basePrice = hotel.property.priceBreakdown.grossPrice.value;
-  const nights = Math.ceil((new Date(hotel.property.checkoutDate).getTime() - new Date(hotel.property.checkinDate).getTime()) / (1000 * 60 * 60 * 24));
-  const pricePerNight = Math.round(basePrice / Math.max(nights, 1));
+const generateRoomData = (hotel: HotelData) => {
+  const firstRoom = hotel?.rooms?.[0];
+  const pricePerNight = firstRoom?.pricePerNight || 150;
 
   return [
     {
@@ -161,7 +160,7 @@ export function HotelDetailsDrawer({
           <div className="pb-2 px-6 pt-4">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold text-gray-900">
-                {hotel.property.name}
+                {hotel.name}
               </h2>
               <Button variant="ghost" size="icon" className="rounded-full" onClick={onClose}>
                 <X className="h-5 w-5" />
@@ -170,18 +169,20 @@ export function HotelDetailsDrawer({
             
             <div className="flex items-center gap-4 mt-2">
               <div className="flex items-center gap-1">
-                {renderStars(hotel.property.reviewScore)}
-                <span className="ml-2 text-sm font-medium">{hotel.property.reviewScore}</span>
-                <span className="text-sm text-gray-500">({hotel.property.reviewCount} reviews)</span>
+                {renderStars(hotel.reviewSummary.averageRating)}
+                <span className="ml-2 text-sm font-medium">{hotel.reviewSummary.averageRating.toFixed(1)}</span>
+                <span className="text-sm text-gray-500">({hotel.reviewSummary.totalReviews} reviews)</span>
               </div>
               <Badge variant="secondary" className="bg-green-100 text-green-700">
-                {hotel.property.reviewScoreWord}
+                {hotel.reviewSummary.averageRating >= 4.5 ? 'Excellent' : 
+                 hotel.reviewSummary.averageRating >= 4.0 ? 'Very Good' :
+                 hotel.reviewSummary.averageRating >= 3.5 ? 'Good' : 'Fair'}
               </Badge>
             </div>
             
             <div className="flex items-center gap-1 text-gray-600 mt-1">
               <MapPin className="w-4 h-4" />
-              <span className="text-sm">Downtown • 0.5 km from city center</span>
+              <span className="text-sm">{hotel.address}</span>
             </div>
           </div>
 
@@ -194,19 +195,19 @@ export function HotelDetailsDrawer({
                   <CardContent className="p-0">
                     <div className="relative h-64 rounded-lg overflow-hidden">
                       <Image
-                        src={hotel.property.photoUrls[currentImageIndex] || '/des1.jpg'}
-                        alt={hotel.property.name}
+                        src="/des1.jpg" // Using default image since HotelData doesn't have photo URLs
+                        alt={hotel.name}
                         fill
                         className="object-cover"
                       />
                       <div className="absolute bottom-4 left-4 bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1">
                         <span className="text-white text-sm flex items-center gap-1">
                           <Camera className="w-4 h-4" />
-                          {currentImageIndex + 1} / {hotel.property.photoUrls.length}
+                          1 / 3
                         </span>
                       </div>
                       <div className="absolute bottom-4 right-4 flex gap-2">
-                        {hotel.property.photoUrls.map((_, index) => (
+                        {[0, 1, 2].map((index) => (
                           <button
                             key={index}
                             onClick={() => setCurrentImageIndex(index)}
@@ -225,10 +226,7 @@ export function HotelDetailsDrawer({
                   <CardContent className="p-6">
                     <h3 className="text-lg font-semibold mb-3">About this hotel</h3>
                     <p className="text-gray-600 leading-relaxed">
-                      Experience luxury and comfort at {hotel.property.name}. Located in the heart of the city, 
-                      our hotel offers modern accommodations with stunning views and exceptional service. 
-                      Perfect for both business and leisure travelers, featuring elegant rooms, world-class amenities, 
-                      and convenient access to major attractions.
+                      {hotel.description}
                     </p>
                   </CardContent>
                 </Card>

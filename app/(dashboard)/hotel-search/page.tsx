@@ -1,5 +1,5 @@
 "use client";
-import { hotel_type } from "@/lib/types";
+import { HotelData } from "@/lib/types";
 import { useState, useEffect, useCallback } from "react";
 import HotelFilterSidebar, {
   initialFilterState,
@@ -7,7 +7,6 @@ import HotelFilterSidebar, {
 } from "@/components/ui/hotel-filter-sidebar";
 import { useSearchParams, useRouter } from "next/navigation";
 import { generateHotels } from "@/lib/hotel-generator";
-import { mapHotelDataToHotelType } from "@/lib/hotel-mapper";
 import { HotelCard } from "@/components/ui/hotel-card-v3";
 import { HotelDetailsDrawer } from "@/components/ui/hotel-details-drawer";
 import { Button } from "@/components/ui/button";
@@ -27,8 +26,8 @@ import { cn } from "@/lib/utils";
 import { HotelSortBy } from "@/components/ui/hotel-sort-by";
 
 export default function HotelSearchPage() {
-  const [filteredHotels, setFilteredHotels] = useState<hotel_type[] | null>([]);
-  const [allHotels, setAllHotels] = useState<hotel_type[] | null>([]);
+  const [filteredHotels, setFilteredHotels] = useState<HotelData[] | null>([]);
+  const [allHotels, setAllHotels] = useState<HotelData[] | null>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<
@@ -36,7 +35,7 @@ export default function HotelSearchPage() {
   >("popularity");
 
   // Hotel details drawer state
-  const [selectedHotel, setSelectedHotel] = useState<hotel_type | null>(null);
+  const [selectedHotel, setSelectedHotel] = useState<HotelData | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const searchparams = useSearchParams();
@@ -73,14 +72,6 @@ export default function HotelSearchPage() {
       : 1;
 
   useEffect(() => {
-    const startDate =
-      searchparams?.get("startDate") || new Date().toISOString().split("T")[0];
-    const endDate =
-      searchparams?.get("endDate") ||
-      new Date(new Date().setDate(new Date().getDate() + 7))
-        .toISOString()
-        .split("T")[0]; // 7 days later
-
     //do checks for empty values
     async function fetchHotels() {
       try {
@@ -89,13 +80,10 @@ export default function HotelSearchPage() {
         
         // Generate mock hotel data using the hotel generator
         const generatedHotels = generateHotels(15); // Generate 15 hotels
-        const mappedHotels = generatedHotels.map(hotel => 
-          mapHotelDataToHotelType(hotel, startDate, endDate)
-        );
         
-        console.log("Generated hotels:", mappedHotels);
-        setAllHotels(mappedHotels as hotel_type[]);
-        setFilteredHotels(mappedHotels as hotel_type[]);
+        console.log("Generated hotels:", generatedHotels);
+        setAllHotels(generatedHotels);
+        setFilteredHotels(generatedHotels);
       } catch (error) {
         console.error("Error generating hotels:", error);
         setError(
@@ -111,34 +99,20 @@ export default function HotelSearchPage() {
     fetchHotels();
   }, [searchparams]);
 
-  // Update the state initialization
-  const getNights = useCallback((hotel: hotel_type) => {
-    const checkIn = new Date(hotel.property.checkinDate);
-    const checkOut = new Date(hotel.property.checkoutDate);
-    const diffTime = Math.abs(checkOut.getTime() - checkIn.getTime());
-    return Math.max(Math.ceil(diffTime / (1000 * 60 * 60 * 24)), 1); // At least 1 night
+  const getPerNightPrice = useCallback((hotel: HotelData) => {
+    return hotel.rooms[0]?.pricePerNight || 150;
   }, []);
-
-  const getPerNightPrice = useCallback((hotel: hotel_type) => {
-    const total =
-      hotel.property.priceBreakdown?.grossPrice?.value ?? 99999999999999;
-    const nights = getNights(hotel);
-    return total / nights;
-  }, [getNights]);
   // Apply filters to hotels
   useEffect(() => {
     if (!allHotels) return;
 
     let result = allHotels;
 
-    // Star filter
+    // Star filter - use a simple rating for HotelData
     if (filters.starRating.length > 0) {
       result = result.filter((hotel) => {
-        const stars =
-          hotel.property.propertyClass ||
-          hotel.property.qualityClass ||
-          hotel.property.accuratePropertyClass ||
-          0;
+        // Use review average rating as a proxy for star rating (convert to 1-5 scale)
+        const stars = Math.round(hotel.reviewSummary.averageRating);
         return filters.starRating.includes(stars);
       });
     }
@@ -165,36 +139,30 @@ export default function HotelSearchPage() {
     // Vendor filter
     if (filters.vendors.length > 0) {
       result = result.filter((hotel) => {
-        const accessibilityLabel = hotel.accessibilityLabel?.toLowerCase() || "";
-        
         return filters.vendors.some((vendor) => {
-          const vendorToCheck = vendor.toLowerCase();
-          return accessibilityLabel.includes(`offered by ${vendorToCheck}`.toLowerCase());
+          return hotel.vendor.toLowerCase() === vendor.toLowerCase();
         });
       });
     }
 
-    // Amenities filter (basic matching based on benefit badges and hotel name)
+    // Amenities filter (check based on hotel policies and room features)
     if (filters.amenities.length > 0) {
       result = result.filter((hotel) => {
-        const hotelName = hotel.property.name.toLowerCase();
-        const benefitBadges = hotel.property.priceBreakdown?.benefitBadges || [];
-        const badgeTexts = benefitBadges.map(badge => badge.text.toLowerCase());
+        const hotelName = hotel.name.toLowerCase();
+        const policies = hotel.policies;
+        const roomFeatures = hotel.rooms.flatMap(room => room.accessibleFeatures).join(' ').toLowerCase();
         
         return filters.amenities.some((amenity) => {
           const amenityToCheck = amenity.toLowerCase();
           
-          // Check if amenity is mentioned in benefit badges
-          if (badgeTexts.some(text => text.includes(amenityToCheck.replace('free ', '')))) {
-            return true;
-          }
-          
           // Basic name matching for common amenities
           switch (amenityToCheck) {
             case "free wifi":
-              return badgeTexts.some(text => text.includes('wifi') || text.includes('internet'));
+              return policies.safetyFeatures.some(feature => feature.toLowerCase().includes('wifi')) ||
+                     hotelName.includes('wifi');
             case "free parking":
-              return badgeTexts.some(text => text.includes('parking'));
+              return policies.accessMethods.some(method => method.toLowerCase().includes('parking')) ||
+                     hotelName.includes('parking');
             case "swimming pool":
               return hotelName.includes('aqua') || hotelName.includes('resort') || hotelName.includes('beach');
             case "fitness center":
@@ -202,9 +170,9 @@ export default function HotelSearchPage() {
             case "restaurant":
               return hotelName.includes('grand') || hotelName.includes('resort');
             case "coffee maker":
-              return badgeTexts.some(text => text.includes('coffee'));
+              return roomFeatures.includes('coffee') || hotelName.includes('coffee');
             case "airport shuttle":
-              return badgeTexts.some(text => text.includes('shuttle'));
+              return policies.accessMethods.some(method => method.toLowerCase().includes('shuttle'));
             default:
               return false;
           }
@@ -215,26 +183,26 @@ export default function HotelSearchPage() {
     // Accessibility features filter
     if (filters.accessibilityFeatures.length > 0) {
       result = result.filter((hotel) => {
-        const accessibilityLabel = hotel.accessibilityLabel?.toLowerCase() || "";
+        const accessibilityFeatures = hotel.rooms.flatMap(room => room.accessibleFeatures).join(' ').toLowerCase();
         
         return filters.accessibilityFeatures.some((feature) => {
           const featureToCheck = feature.toLowerCase();
           
           switch (featureToCheck) {
             case "wheelchair accessible":
-              return accessibilityLabel.includes('wheelchair') || accessibilityLabel.includes('accessible');
+              return accessibilityFeatures.includes('wheelchair') || accessibilityFeatures.includes('accessible');
             case "elevator access":
-              return accessibilityLabel.includes('elevator');
+              return accessibilityFeatures.includes('elevator');
             case "roll-in showers":
-              return accessibilityLabel.includes('roll-in') || accessibilityLabel.includes('shower');
+              return accessibilityFeatures.includes('roll-in') || accessibilityFeatures.includes('shower');
             case "accessible parking":
-              return accessibilityLabel.includes('parking');
+              return accessibilityFeatures.includes('parking');
             case "visual alarms":
-              return accessibilityLabel.includes('visual') || accessibilityLabel.includes('alarm');
+              return accessibilityFeatures.includes('visual') || accessibilityFeatures.includes('alarm');
             case "grab bars":
-              return accessibilityLabel.includes('grab') || accessibilityLabel.includes('bar');
+              return accessibilityFeatures.includes('grab') || accessibilityFeatures.includes('bar');
             default:
-              return accessibilityLabel.includes(featureToCheck);
+              return accessibilityFeatures.includes(featureToCheck);
           }
         });
       });
@@ -243,18 +211,13 @@ export default function HotelSearchPage() {
     // Special features filters
     if (filters.petsAllowed) {
       result = result.filter((hotel) => {
-        const accessibilityLabel = hotel.accessibilityLabel?.toLowerCase() || "";
-        return accessibilityLabel.includes('pet') || hotel.property.name.toLowerCase().includes('pet');
+        return hotel.policies.petsAllowed;
       });
     }
 
     if (filters.breakfastIncluded) {
       result = result.filter((hotel) => {
-        const benefitBadges = hotel.property.priceBreakdown?.benefitBadges || [];
-        return benefitBadges.some(badge => 
-          badge.text.toLowerCase().includes('breakfast') || 
-          badge.text.toLowerCase().includes('meal')
-        );
+        return hotel.rooms.some(room => room.includes.breakfast);
       });
     }
 
@@ -262,15 +225,14 @@ export default function HotelSearchPage() {
       result = result.filter((hotel) => {
         // For now, randomly assign some hotels as instant book available
         // In a real app, this would be a property of the hotel data
-        return hotel.hotel_id % 3 === 0; // Every 3rd hotel has instant booking
+        return hotel.id % 3 === 0; // Every 3rd hotel has instant booking
       });
     }
 
     // Review score filter
     if (filters.reviewScore > 0) {
       result = result.filter((hotel) => {
-        const score = hotel.property.reviewScore || 0;
-        return score >= filters.reviewScore;
+        return hotel.reviewSummary.averageRating >= filters.reviewScore;
       });
     }
 
@@ -280,26 +242,23 @@ export default function HotelSearchPage() {
         case "price":
           return getPerNightPrice(a) - getPerNightPrice(b);
         case "rating":
-          return (b.property.reviewScore || 0) - (a.property.reviewScore || 0);
+          return b.reviewSummary.averageRating - a.reviewSummary.averageRating;
         case "review":
-          return (b.property.reviewCount || 0) - (a.property.reviewCount || 0);
+          return b.reviewSummary.totalReviews - a.reviewSummary.totalReviews;
         case "popularity":
-          return (
-            (a.property.rankingPosition || 999) -
-            (b.property.rankingPosition || 999)
-          );
+          return a.id - b.id; // Use ID as a proxy for popularity
         default:
           return 0;
       }
     });
 
-    console.log("Filter and sort applied:", {
-      originalCount: allHotels.length,
-      filteredCount: result.length,
-      finalCount: sortedResult.length,
-      activeFilters: filters,
-      sortBy: sortBy,
-    });
+    // console.log("Filter and sort applied:", {
+    //   originalCount: allHotels.length,
+    //   filteredCount: result.length,
+    //   finalCount: sortedResult.length,
+    //   activeFilters: filters,
+    //   sortBy: sortBy,
+    // });
 
     setFilteredHotels(sortedResult);
   }, [allHotels, filters, sortBy, getPerNightPrice]);

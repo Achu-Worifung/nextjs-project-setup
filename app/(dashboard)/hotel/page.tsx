@@ -1,9 +1,8 @@
 'use client'
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import hotedetails from "./hoteldetailsampledata.json"
-import { HotelDetails } from "@/lib/types";
+import {generateHotels} from "@/lib/hotel-generator";
 
 export default function HotelPage() {
   const searchparams = useSearchParams();
@@ -14,43 +13,18 @@ export default function HotelPage() {
   const room_qty = searchparams?.get("room_qty") || "1";
   const adults = searchparams?.get("adults") || "1";
 
-  const [hotel, setHotel] = useState<HotelDetails | null>(null);
+  const [hotel, setHotel] = useState([]);
   const [loading, setLoading] = useState(true);
           console.log("Hotel ", hotedetails);
 
   useEffect(() => {
     async function getHotelDetails() {
       try {
-        setLoading(true);
-        // --------------------DELETE THIS CODE FOR PRODUCTION-------------------
-        setHotel(hotedetails);
-
-        return;
-        // --------------------DELETE THIS CODE FOR PRODUCTION-------------------
-
-        const res = await fetch("/api/hotel-details", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            hotel_id,
-            start_date,
-            end_date,
-            room_qty,
-            adults,
-          }),
-        });
-        if (res.ok) {
-          console.log("here is the response", res)
-          const data = await res.json();
-          setHotel(data);
-          console.log("Hotel Details:", data);
-        }
+       const hotels = generateHotels(10);
+       setHotel(hotels);
+       console.log("Generated Hotels: ", hotels); 
       } catch (error) {
         console.error("Error fetching hotel details:", error);
-      } finally {
-        setLoading(false);
       }
     }
     getHotelDetails();
