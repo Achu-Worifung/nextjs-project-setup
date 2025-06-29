@@ -181,7 +181,7 @@ export async function POST(req: NextRequest) {
   try {
     const token = jwt.sign(
       {
-        userid: userId,
+        userId: userId,
         firstName,
         lastName,
         email,

@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import {ModeToggle} from '@/components/mode-to-toggle'
 import { useTheme } from "next-themes";
-import jwt from 'jsonwebtoken';
+import { decodeJWT } from '@/lib/auth-utils';
 import { useRouter } from "next/navigation";
 
 export default function Navbar() {
@@ -47,16 +47,15 @@ export default function Navbar() {
 
   //this will return the signed in user or button 
   const renderAuthButton = () => {
-    if (isSignedIn) {
-      const decode = jwt.decode(token);
+    if (isSignedIn && token) {
+      const decode = decodeJWT(token);
       console.log(decode);
       return (
         <div>
           <Link href="/profileSetting">
             <button className="p-0 bg-transparent border-none cursor-pointer" onClick={() => router.push('/profileSetting')}>
               <ProfileBubble
-                name={decode?.firstName}
-                
+                name={decode?.firstName || decode?.email || "User"}
                 size={35}
               />
             </button>
