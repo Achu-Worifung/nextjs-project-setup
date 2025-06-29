@@ -1,6 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Flight, FlightClass } from "@/lib/types";
 import { ArrowRight, Coffee, Luggage, Clock } from "lucide-react";
 
@@ -165,12 +164,9 @@ export function FlightCards({ flight, selectedClass = 'economy' }: FlightCardPro
               ${price.toLocaleString()}
             </div>
             <div className="text-sm text-gray-600 mb-3">per person</div>
-            <Button 
-              className="w-full"
-              onClick={() => window.open(flight.bookingUrl, '_blank')}
-            >
-              Select Flight
-            </Button>
+            <div className="text-sm text-blue-600 font-medium cursor-pointer hover:text-blue-700">
+              Click to view details →
+            </div>
           </div>
         </div>
       </CardContent>

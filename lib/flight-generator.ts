@@ -5,7 +5,7 @@ export function generateFakeFlights(departureDate: string, count: number = 5): F
   const airlines = ['Delta', 'United', 'American Airlines', 'Southwest', 'JetBlue', 'Alaska Airlines', 'Spirit'];
   const airportCodes = ['LAX', 'JFK', 'ORD', 'ATL', 'DFW', 'DEN', 'SFO', 'SEA', 'MIA', 'BOS'];
   const aircraftTypes = ['Boeing 737', 'Airbus A320', 'Boeing 777', 'Airbus A350', 'Embraer E190', 'Boeing 787'];
-  const statuses = ['On Time', 'Delayed', 'Cancelled'];
+  const statuses: ('On Time' | 'Delayed' | 'Cancelled')[] = ['On Time', 'Delayed', 'Cancelled'];
   const terminals = ['A', 'B', 'C', 'D', 'E'];
 
   const flights: Flight[] = [];
@@ -93,7 +93,7 @@ export function generateFakeFlights(departureDate: string, count: number = 5): F
       meal: Math.random() > 0.3,
       availableSeats,
       prices,
-      bookingUrl: `https://www.fakeflights.com/book/${flightNumber.toLowerCase()}`
+      bookingUrl: `#` // Placeholder URL since we're using the drawer instead
     });
   }
 
