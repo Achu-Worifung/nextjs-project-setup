@@ -4,6 +4,9 @@ import { Flight, FlightClass } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { useAuth } from "@/context/AuthContext";
+import { bookingService, FlightBookingRequest } from "@/lib/booking-service";
+import { getCurrentUser } from "@/lib/auth-utils";
 import {
   X,
   Plane,
@@ -17,7 +20,8 @@ import {
   Shield,
   CheckCircle,
   MapPin,
-  Calendar
+  Calendar,
+  Loader2
 } from "lucide-react";
 
 interface FlightDetailsDrawerProps {
@@ -32,17 +36,60 @@ export function FlightDetailsDrawer({
   onClose,
 }: FlightDetailsDrawerProps) {
   const [selectedClass, setSelectedClass] = useState<FlightClass>("Economy");
+  const [numberOfSeats, setNumberOfSeats] = useState(1);
+  const [isBooking, setIsBooking] = useState(false);
+  const [bookingResult, setBookingResult] = useState<string | null>(null);
+  const { isSignedIn } = useAuth();
 
   if (!flight) return null;
 
-  const handleBookFlight = () => {
+  const handleBookFlight = async () => {
+    const { isAuthenticated } = getCurrentUser();
+    
+    if (!isAuthenticated) {
+      alert("Please sign in to book a flight");
+      return;
+    }
+
     const price = flight.prices[selectedClass];
     const availableSeats = flight.availableSeats[selectedClass];
     
-    if (availableSeats > 0) {
-      alert(`Booking ${flight.airline} ${flight.flightNumber} in ${selectedClass} class for $${price}`);
-    } else {
+    if (availableSeats === 0) {
       alert("Sorry, no seats available in this class");
+      return;
+    }
+
+    setIsBooking(true);
+    setBookingResult(null);
+
+    try {
+      const bookingData: FlightBookingRequest = {
+        flightNumber: flight.flightNumber,
+        airline: flight.airline,
+        departureAirport: flight.departureAirport,
+        destinationAirport: flight.destinationAirport,
+        departureTime: flight.departureTime,
+        arrivalTime: flight.arrivalTime,
+        flightClass: selectedClass,
+        price: price,
+        numberOfSeats: 1, // Default to 1 seat, can be made configurable
+      };
+
+      const response = await bookingService.bookFlight(bookingData);
+      
+      if (response.success) {
+        setBookingResult(`Flight booked successfully! Booking ID: ${response.booking?.bookingId}`);
+        // You could also close the drawer or redirect to a confirmation page
+        setTimeout(() => {
+          onClose();
+        }, 3000);
+      } else {
+        setBookingResult(`Booking failed: ${response.error}`);
+      }
+    } catch (error) {
+      setBookingResult(`Booking failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsBooking(false);
     }
   };
 
@@ -292,10 +339,30 @@ export function FlightDetailsDrawer({
                     <Button 
                       onClick={handleBookFlight}
                       className="w-full bg-blue-600 hover:bg-blue-700"
-                      disabled={flight.availableSeats[selectedClass] === 0}
+                      disabled={flight.availableSeats[selectedClass] === 0 || isBooking}
                     >
-                      {flight.availableSeats[selectedClass] > 0 ? 'Book Flight' : 'Sold Out'}
+                      {isBooking ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Booking...
+                        </>
+                      ) : flight.availableSeats[selectedClass] > 0 ? (
+                        'Book Flight'
+                      ) : (
+                        'Sold Out'
+                      )}
                     </Button>
+
+                    {/* Booking Result Message */}
+                    {bookingResult && (
+                      <div className={`mt-3 p-3 rounded-lg text-sm ${
+                        bookingResult.includes('successfully') 
+                          ? 'bg-green-100 text-green-800 border border-green-200' 
+                          : 'bg-red-100 text-red-800 border border-red-200'
+                      }`}>
+                        {bookingResult}
+                      </div>
+                    )}
 
                     {/* Features */}
                     <div className="mt-6 pt-4 border-t">
