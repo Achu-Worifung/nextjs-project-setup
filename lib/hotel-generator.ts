@@ -208,8 +208,8 @@ export function generateHotel(): HotelData {
       { question: 'Can I have packages delivered to the hotel?', answer: 'Yes, guests may have packages delivered to the hotel. Please ensure your name and reservation details are clearly marked on the package.' },
     ];
   const getFAQs = Array.from({ length: getRandomInt(5, 15) }, () => {
-    const question = getRandom(faqs);
-    return { question };
+    const faq = getRandom(faqs);
+    return { question: faq.question, answer: faq.answer };
   });
 
   const avgRating = parseFloat((reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1));

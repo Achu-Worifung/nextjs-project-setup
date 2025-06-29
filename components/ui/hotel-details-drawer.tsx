@@ -7,7 +7,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
   Star,
   MapPin,
-  Heart,
   X,
   Wifi,
   Car,
@@ -17,11 +16,9 @@ import {
   Coffee,
   Shield,
   Users,
-  Clock,
   Phone,
   Mail,
   Bed,
-  Maximize,
   CheckCircle,
   CarTaxiFront,
   Building2,
@@ -38,60 +35,6 @@ interface HotelDetailsDrawerProps {
   guests: number;
 }
 
-// Mock room data based on hotel - in a real app this would come from an API
-const generateRoomData = (hotel: HotelData) => {
-  const firstRoom = hotel?.rooms?.[0];
-  const pricePerNight = firstRoom?.pricePerNight || 150;
-
-  return [
-    {
-      id: 1,
-      type: "Standard Room",
-      description: "Comfortable room with modern amenities and city view",
-      pricePerNight: pricePerNight,
-      originalPrice: Math.round(pricePerNight * 1.2),
-      size: "320 sq ft",
-      bedType: "1 Queen Bed",
-      maxOccupancy: 2,
-      amenities: ["Free WiFi", "Coffee Maker", "Air Conditioning", "Flat-screen TV"],
-      images: ["/des1.jpg", "/des2.jpg"],
-      availableRooms: 3,
-      mostPopular: false,
-      breakfast: false
-    },
-    {
-      id: 2,
-      type: "Deluxe Room",
-      description: "Spacious room with premium amenities and partial ocean view",
-      pricePerNight: Math.round(pricePerNight * 1.3),
-      originalPrice: Math.round(pricePerNight * 1.5),
-      size: "450 sq ft",
-      bedType: "1 King Bed or 2 Queen Beds",
-      maxOccupancy: 4,
-      amenities: ["Free WiFi", "Coffee Maker", "Mini Fridge", "Premium TV", "Balcony"],
-      images: ["/des4.jpg", "/des5.webp"],
-      availableRooms: 2,
-      mostPopular: true,
-      breakfast: true
-    },
-    {
-      id: 3,
-      type: "Executive Suite",
-      description: "Luxurious suite with separate living area and premium services",
-      pricePerNight: Math.round(pricePerNight * 2),
-      originalPrice: Math.round(pricePerNight * 2.4),
-      size: "650 sq ft",
-      bedType: "1 King Bed + Sofa Bed",
-      maxOccupancy: 4,
-      amenities: ["Free WiFi", "Full Kitchen", "Living Room", "Premium TV", "Balcony", "Business Center Access"],
-      images: ["/des6.png", "/des7.webp"],
-      availableRooms: 1,
-      mostPopular: false,
-      breakfast: true
-    }
-  ];
-};
-
 const mockAmenities = [
   { name: "Free WiFi", icon: Wifi, available: true },
   { name: "Free Parking", icon: Car, available: true },
@@ -102,14 +45,6 @@ const mockAmenities = [
   { name: "Airport Shuttle", icon: CarTaxiFront, available: false },
   { name: "Business Center", icon: Building2, available: true },
   { name: "24/7 Security", icon: Shield, available: true }
-];
-
-const mockPolicies = [
-  { title: "Check-in", content: "3:00 PM - 12:00 AM", icon: Clock },
-  { title: "Check-out", content: "12:00 PM", icon: Clock },
-  { title: "Cancellation", content: "Free cancellation up to 24 hours before check-in", icon: Shield },
-  { title: "Pet Policy", content: "Pets not allowed", icon: Heart },
-  { title: "Children", content: "Children up to 12 stay free with existing bedding", icon: Users }
 ];
 
 export function HotelDetailsDrawer({
@@ -125,7 +60,6 @@ export function HotelDetailsDrawer({
 
   if (!hotel) return null;
 
-  const rooms = generateRoomData(hotel);
   const nights = checkInDate && checkOutDate 
     ? Math.ceil((checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24))
     : 1;
@@ -140,12 +74,19 @@ export function HotelDetailsDrawer({
   };
 
   const handleBookRoom = (roomId: number) => {
-    const room = rooms.find(r => r.id === roomId);
+    const room = hotel.rooms.find(r => r.type === hotel.rooms[roomId]?.type);
     if (room) {
       // In a real app, this would navigate to booking flow or open booking modal
       alert(`Booking ${room.type} for ${nights} night(s). Total: $${room.pricePerNight * nights}`);
     }
   };
+
+  // Get only the first 3 reviews and FAQs with defensive checks
+  const displayReviews = (hotel.reviews || []).slice(0, 3);
+  const displayFaqs = (hotel.faqs || []).slice(0, 3);
+
+  // Mock photo URLs for demo - in real app these would come from hotel data
+  const mockPhotoUrls = ['/des1.jpg', '/des2.jpg', '/des4.jpg', '/des5.webp'];
 
   return (
     <div className={`fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}>
@@ -170,12 +111,12 @@ export function HotelDetailsDrawer({
             <div className="flex items-center gap-4 mt-2">
               <div className="flex items-center gap-1">
                 {renderStars(hotel.reviewSummary.averageRating)}
-                <span className="ml-2 text-sm font-medium">{hotel.reviewSummary.averageRating.toFixed(1)}</span>
+                <span className="ml-2 text-sm font-medium">{hotel.reviewSummary.averageRating}</span>
                 <span className="text-sm text-gray-500">({hotel.reviewSummary.totalReviews} reviews)</span>
               </div>
               <Badge variant="secondary" className="bg-green-100 text-green-700">
                 {hotel.reviewSummary.averageRating >= 4.5 ? 'Excellent' : 
-                 hotel.reviewSummary.averageRating >= 4.0 ? 'Very Good' :
+                 hotel.reviewSummary.averageRating >= 4.0 ? 'Very Good' : 
                  hotel.reviewSummary.averageRating >= 3.5 ? 'Good' : 'Fair'}
               </Badge>
             </div>
@@ -195,7 +136,7 @@ export function HotelDetailsDrawer({
                   <CardContent className="p-0">
                     <div className="relative h-64 rounded-lg overflow-hidden">
                       <Image
-                        src="/des1.jpg" // Using default image since HotelData doesn't have photo URLs
+                        src={mockPhotoUrls[currentImageIndex] || '/des1.jpg'}
                         alt={hotel.name}
                         fill
                         className="object-cover"
@@ -203,11 +144,11 @@ export function HotelDetailsDrawer({
                       <div className="absolute bottom-4 left-4 bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1">
                         <span className="text-white text-sm flex items-center gap-1">
                           <Camera className="w-4 h-4" />
-                          1 / 3
+                          {currentImageIndex + 1} / {mockPhotoUrls.length}
                         </span>
                       </div>
                       <div className="absolute bottom-4 right-4 flex gap-2">
-                        {[0, 1, 2].map((index) => (
+                        {mockPhotoUrls.map((_, index) => (
                           <button
                             key={index}
                             onClick={() => setCurrentImageIndex(index)}
@@ -249,20 +190,97 @@ export function HotelDetailsDrawer({
                   </CardContent>
                 </Card>
 
+                {/* Reviews */}
+                {displayReviews.length > 0 && (
+                  <Card>
+                    <CardContent className="p-6">
+                      <h3 className="text-lg font-semibold mb-4">Guest Reviews</h3>
+                      <div className="space-y-4">
+                        {displayReviews.map((review, index) => (
+                          <div key={index} className="border-b border-gray-100 last:border-b-0 pb-4 last:pb-0">
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="flex items-center gap-1">
+                                {renderStars(typeof review.rating === 'number' ? review.rating : 0)}
+                              </div>
+                              <span className="font-medium text-gray-900">
+                                {typeof review.username === 'string' ? review.username : 'Anonymous'}
+                              </span>
+                              <span className="text-sm text-gray-500">
+                                {typeof review.date === 'string' ? review.date : 'Date not available'}
+                              </span>
+                            </div>
+                            <p className="text-gray-600 text-sm leading-relaxed">
+                              {typeof review.comment === 'string' ? review.comment : 'Review not available'}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* FAQs */}
+                {displayFaqs.length > 0 && (
+                  <Card>
+                    <CardContent className="p-6">
+                      <h3 className="text-lg font-semibold mb-4">Frequently Asked Questions</h3>
+                      <div className="space-y-4">
+                        {displayFaqs.map((faq, index) => (
+                          <div key={index} className="border-b border-gray-100 last:border-b-0 pb-4 last:pb-0">
+                            <h4 className="font-medium text-gray-900 mb-2">
+                              {typeof faq.question === 'string' ? faq.question : 'Question not available'}
+                            </h4>
+                            <p className="text-gray-600 text-sm leading-relaxed">
+                              {typeof faq.answer === 'string' ? faq.answer : 'Answer not available'}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
                 {/* Policies */}
                 <Card>
                   <CardContent className="p-6">
                     <h3 className="text-lg font-semibold mb-4">Policies & Information</h3>
                     <div className="space-y-4">
-                      {mockPolicies.map((policy) => (
-                        <div key={policy.title} className="flex items-start gap-3">
-                          <policy.icon className="w-5 h-5 text-gray-600 mt-0.5" />
-                          <div>
-                            <div className="font-medium text-gray-900">{policy.title}</div>
-                            <div className="text-sm text-gray-600">{policy.content}</div>
+                      <div className="flex items-start gap-3">
+                        <Users className="w-5 h-5 text-gray-600 mt-0.5" />
+                        <div>
+                          <div className="font-medium text-gray-900">Check-in</div>
+                          <div className="text-sm text-gray-600">
+                            {hotel.policies?.checkIn?.startTime || '3:00 PM'} - {hotel.policies?.checkIn?.endTime || '12:00 AM'}
                           </div>
                         </div>
-                      ))}
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <Users className="w-5 h-5 text-gray-600 mt-0.5" />
+                        <div>
+                          <div className="font-medium text-gray-900">Check-out</div>
+                          <div className="text-sm text-gray-600">
+                            {hotel.policies?.checkOut?.time || '12:00 PM'}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <Shield className="w-5 h-5 text-gray-600 mt-0.5" />
+                        <div>
+                          <div className="font-medium text-gray-900">Pet Policy</div>
+                          <div className="text-sm text-gray-600">
+                            {hotel.policies?.petsAllowed ? 'Pets allowed' : 'Pets not allowed'}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <Users className="w-5 h-5 text-gray-600 mt-0.5" />
+                        <div>
+                          <div className="font-medium text-gray-900">Children</div>
+                          <div className="text-sm text-gray-600">
+                            {hotel.policies?.childrenPolicy || 'Children up to 12 stay free with existing bedding'}
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -298,13 +316,13 @@ export function HotelDetailsDrawer({
 
                     {/* Room Options */}
                     <div className="space-y-4">
-                      {rooms.map((room) => (
+                      {hotel.rooms.map((room, index) => (
                         <Card 
-                          key={room.id} 
+                          key={index} 
                           className={`cursor-pointer transition-all ${
-                            selectedRoom === room.id ? 'ring-2 ring-blue-500 border-blue-500' : 'hover:shadow-md'
+                            selectedRoom === index ? 'ring-2 ring-blue-500 border-blue-500' : 'hover:shadow-md'
                           }`}
-                          onClick={() => setSelectedRoom(room.id)}
+                          onClick={() => setSelectedRoom(index)}
                         >
                           <CardContent className="p-4">
                             <div className="flex justify-between items-start mb-2">
@@ -317,37 +335,29 @@ export function HotelDetailsDrawer({
                                     </Badge>
                                   )}
                                 </div>
-                                <p className="text-sm text-gray-600 mb-2">{room.description}</p>
+                                <p className="text-sm text-gray-600 mb-2">Comfortable accommodation with modern amenities</p>
                                 
                                 <div className="flex items-center gap-4 text-xs text-gray-500 mb-2">
                                   <span className="flex items-center gap-1">
-                                    <Maximize className="w-3 h-3" />
-                                    {room.size}
-                                  </span>
-                                  <span className="flex items-center gap-1">
                                     <Bed className="w-3 h-3" />
-                                    {room.bedType}
-                                  </span>
-                                  <span className="flex items-center gap-1">
-                                    <Users className="w-3 h-3" />
-                                    Up to {room.maxOccupancy}
+                                    {room.bedCount} bed{room.bedCount > 1 ? 's' : ''}
                                   </span>
                                 </div>
 
                                 <div className="flex flex-wrap gap-1 mb-2">
-                                  {room.amenities.slice(0, 3).map((amenity) => (
-                                    <Badge key={amenity} variant="outline" className="text-xs">
-                                      {amenity}
+                                  {room.accessibleFeatures.slice(0, 3).map((feature) => (
+                                    <Badge key={feature} variant="outline" className="text-xs">
+                                      {feature}
                                     </Badge>
                                   ))}
-                                  {room.amenities.length > 3 && (
+                                  {room.accessibleFeatures.length > 3 && (
                                     <Badge variant="outline" className="text-xs">
-                                      +{room.amenities.length - 3} more
+                                      +{room.accessibleFeatures.length - 3} more
                                     </Badge>
                                   )}
                                 </div>
 
-                                {room.breakfast && (
+                                {room.includes.breakfast && (
                                   <div className="flex items-center gap-1 text-green-600 text-xs">
                                     <Coffee className="w-3 h-3" />
                                     Free Breakfast Included
@@ -357,7 +367,7 @@ export function HotelDetailsDrawer({
 
                               <div className="text-right ml-4">
                                 <div className="text-right mb-1">
-                                  {room.originalPrice > room.pricePerNight && (
+                                  {room.originalPrice && room.originalPrice > room.pricePerNight && (
                                     <div className="text-xs text-gray-400 line-through">
                                       ${room.originalPrice}/night
                                     </div>
@@ -379,7 +389,7 @@ export function HotelDetailsDrawer({
                                   className="w-full"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleBookRoom(room.id);
+                                    handleBookRoom(index);
                                   }}
                                 >
                                   Book Now
