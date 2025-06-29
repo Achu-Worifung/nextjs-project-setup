@@ -1,10 +1,11 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Flight, FlightClass } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { useAuth } from "@/context/AuthContext";
+import { AuthModal } from "@/components/ui/auth-modal";
 import { bookingService, FlightBookingRequest } from "@/lib/booking-service";
 import { getCurrentUser } from "@/lib/auth-utils";
 import {
@@ -35,11 +36,12 @@ export function FlightDetailsDrawer({
   isOpen,
   onClose,
 }: FlightDetailsDrawerProps) {
+  const router = useRouter();
   const [selectedClass, setSelectedClass] = useState<FlightClass>("Economy");
   const [numberOfSeats, setNumberOfSeats] = useState(1);
   const [isBooking, setIsBooking] = useState(false);
   const [bookingResult, setBookingResult] = useState<string | null>(null);
-  const { isSignedIn } = useAuth();
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   if (!flight) return null;
 
@@ -47,7 +49,7 @@ export function FlightDetailsDrawer({
     const { isAuthenticated } = getCurrentUser();
     
     if (!isAuthenticated) {
-      alert("Please sign in to book a flight");
+      setShowAuthModal(true);
       return;
     }
 
@@ -55,7 +57,12 @@ export function FlightDetailsDrawer({
     const availableSeats = flight.availableSeats[selectedClass];
     
     if (availableSeats === 0) {
-      alert("Sorry, no seats available in this class");
+      setBookingResult("Sorry, no seats available in this class");
+      return;
+    }
+
+    if (numberOfSeats > availableSeats) {
+      setBookingResult(`Sorry, only ${availableSeats} seats available in this class`);
       return;
     }
 
@@ -72,22 +79,23 @@ export function FlightDetailsDrawer({
         arrivalTime: flight.arrivalTime,
         flightClass: selectedClass,
         price: price,
-        numberOfSeats: 1, // Default to 1 seat, can be made configurable
+        numberOfSeats: numberOfSeats,
       };
 
       const response = await bookingService.bookFlight(bookingData);
       
       if (response.success) {
-        setBookingResult(`Flight booked successfully! Booking ID: ${response.booking?.bookingId}`);
-        // You could also close the drawer or redirect to a confirmation page
+        setBookingResult(`✅ Flight booked successfully! Booking ID: ${response.booking?.bookingId}`);
+        // Auto-close drawer after successful booking
         setTimeout(() => {
           onClose();
+          setBookingResult(null);
         }, 3000);
       } else {
-        setBookingResult(`Booking failed: ${response.error}`);
+        setBookingResult(`❌ Booking failed: ${response.error}`);
       }
     } catch (error) {
-      setBookingResult(`Booking failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      setBookingResult(`❌ Booking failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsBooking(false);
     }
@@ -128,6 +136,22 @@ export function FlightDetailsDrawer({
   };
 
   const classOptions: FlightClass[] = ["Economy", "Business", "First"];
+
+  const handleSignIn = () => {
+    setShowAuthModal(false);
+    // Navigate to sign in page
+    router.push('/signin');
+  };
+
+  const handleSignUp = () => {
+    setShowAuthModal(false);
+    // Navigate to sign up page  
+    router.push('/signup');
+  };
+
+  const handleAuthModalClose = () => {
+    setShowAuthModal(false);
+  };
 
   return (
     <div className={`fixed inset-0 z-50 ${isOpen ? 'block' : 'hidden'}`}>
@@ -313,6 +337,35 @@ export function FlightDetailsDrawer({
                       })}
                     </div>
 
+                    {/* Seat Selection */}
+                    <div className="mb-6">
+                      <h4 className="font-medium text-gray-900 mb-3">Number of Seats</h4>
+                      <div className="flex items-center gap-3">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => setNumberOfSeats(Math.max(1, numberOfSeats - 1))}
+                          disabled={numberOfSeats <= 1}
+                          className="h-8 w-8 p-0"
+                        >
+                          -
+                        </Button>
+                        <span className="text-lg font-medium w-8 text-center">{numberOfSeats}</span>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => setNumberOfSeats(Math.min(flight.availableSeats[selectedClass], numberOfSeats + 1))}
+                          disabled={numberOfSeats >= flight.availableSeats[selectedClass]}
+                          className="h-8 w-8 p-0"
+                        >
+                          +
+                        </Button>
+                        <span className="text-sm text-gray-500 ml-2">
+                          (Max: {flight.availableSeats[selectedClass]} available)
+                        </span>
+                      </div>
+                    </div>
+
                     {/* Booking Summary */}
                     <div className="border-t pt-4 mb-4">
                       <div className="space-y-2 text-sm">
@@ -325,12 +378,16 @@ export function FlightDetailsDrawer({
                           <span className="font-medium">{selectedClass}</span>
                         </div>
                         <div className="flex justify-between">
+                          <span>Seats:</span>
+                          <span className="font-medium">{numberOfSeats} × ${flight.prices[selectedClass]}</span>
+                        </div>
+                        <div className="flex justify-between">
                           <span>Duration:</span>
                           <span className="font-medium">{flight.duration}</span>
                         </div>
                         <div className="flex justify-between font-semibold text-base pt-2 border-t">
                           <span>Total:</span>
-                          <span>${flight.prices[selectedClass]}</span>
+                          <span>${(flight.prices[selectedClass] * numberOfSeats).toFixed(2)}</span>
                         </div>
                       </div>
                     </div>
@@ -391,6 +448,14 @@ export function FlightDetailsDrawer({
           </div>
         </div>
       </div>
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={handleAuthModalClose}
+        onSignIn={handleSignIn}
+        onSignUp={handleSignUp}
+      />
     </div>
   );
 }
