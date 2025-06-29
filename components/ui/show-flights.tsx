@@ -29,6 +29,7 @@ import {
 import { generateFakeFlights } from "@/lib/flight-generator";
 import { Flight } from "@/lib/types";
 import { FlightCards } from "@/components/ui/flight-cards";
+import { FlightDetailsDrawer } from "@/components/ui/flight-details-drawer";
 
 
 
@@ -41,19 +42,7 @@ const getUniqueAirlines = (flights: Flight[]) => {
   return Array.from(airlines);
 };
 
-// Get unique classes from the flight data
-const getUniqueClasses = (flights: Flight[]) => {
-  const classes = new Set<string>();
-  flights.forEach((flight) => {
-    // Add all class types that have available seats > 0
-    Object.entries(flight.availableSeats).forEach(([classType, seats]) => {
-      if (seats > 0) {
-        classes.add(classType);
-      }
-    });
-  });
-  return Array.from(classes);
-};
+
 
 const FlightSearchPage = () => {
   const searchParams = useSearchParams();
@@ -89,13 +78,15 @@ const FlightSearchPage = () => {
   const [priceRange, setPriceRange] = useState<number[]>([0, 5000]); // Increased range to show all flights
   const [selectedAirlines, setSelectedAirlines] = useState<string[]>([]);
   const [selectedStops, setSelectedStops] = useState<string[]>([]);
-  const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
   const [filteredFlights, setFilteredFlights] = useState<Flight[]>(flightData);
   const [sortBy, setSortBy] = useState("price");
   
+  // Flight details drawer state
+  const [selectedFlight, setSelectedFlight] = useState<Flight | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  
   // Get unique values for filters
   const airlines = getUniqueAirlines(flightData);
-  const classes = getUniqueClasses(flightData);
 
   // Handle search with new parameters
   const handleNewSearch = () => {
@@ -160,15 +151,6 @@ const FlightSearchPage = () => {
       });
     }
 
-    if (selectedClasses.length > 0) {
-      filtered = filtered.filter((flight) => {
-        // Check if any of the selected classes have available seats
-        return selectedClasses.some((selectedClass) => 
-          flight.availableSeats[selectedClass as keyof typeof flight.availableSeats] > 0
-        );
-      });
-    }
-
     // Sort flights
     const sortedFiltered = [...filtered];
     try {
@@ -207,7 +189,7 @@ const FlightSearchPage = () => {
     console.log("Total flights generated:", flightData.length);
     console.log("Flights after filtering:", sortedFiltered.length);
     setFilteredFlights(sortedFiltered);
-  }, [flightData, priceRange, selectedAirlines, selectedStops, selectedClasses, sortBy]);
+  }, [flightData, priceRange, selectedAirlines, selectedStops, sortBy]);
 
   const handleAirlineChange = (airline: string, checked: boolean) => {
     if (checked) {
@@ -225,12 +207,9 @@ const FlightSearchPage = () => {
     }
   };
 
-  const handleClassChange = (flightClass: string, checked: boolean) => {
-    if (checked) {
-      setSelectedClasses([...selectedClasses, flightClass]);
-    } else {
-      setSelectedClasses(selectedClasses.filter((c) => c !== flightClass));
-    }
+  const handleFlightSelect = (flight: Flight) => {
+    setSelectedFlight(flight);
+    setIsDrawerOpen(true);
   };
 
   return (
@@ -513,30 +492,6 @@ const FlightSearchPage = () => {
                     ))}
                   </div>
                 </div>
-
-                {/* Class */}
-                <div>
-                  <h3 className="font-medium mb-3">Class</h3>
-                  <div className="space-y-2">
-                    {classes.map((flightClass) => (
-                      <div
-                        key={flightClass}
-                        className="flex items-center space-x-2"
-                      >
-                        <Checkbox
-                          id={flightClass}
-                          checked={selectedClasses.includes(flightClass)}
-                          onCheckedChange={(checked: boolean) =>
-                            handleClassChange(flightClass, checked)
-                          }
-                        />
-                        <label htmlFor={flightClass} className="text-sm">
-                          {flightClass}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
               </CardContent>
             </Card>
           </div>
@@ -562,7 +517,13 @@ const FlightSearchPage = () => {
             {/* Flight Cards */}
             <div className="space-y-6">
               {filteredFlights.map((flight) => (
-                <FlightCards key={`${flight.airline}-${flight.flightNumber}`} flight={flight} />
+                <div 
+                  key={`${flight.airline}-${flight.flightNumber}`}
+                  onClick={() => handleFlightSelect(flight)}
+                  className="cursor-pointer transition-transform hover:scale-[1.02] hover:shadow-lg"
+                >
+                  <FlightCards flight={flight} />
+                </div>
               ))}
             </div>
             {/* No Results */}
@@ -582,7 +543,6 @@ const FlightSearchPage = () => {
                       setPriceRange([0, 5000]);
                       setSelectedAirlines([]);
                       setSelectedStops([]);
-                      setSelectedClasses([]);
                     }}
                   >
                     Clear All Filters
@@ -593,6 +553,16 @@ const FlightSearchPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Flight Details Drawer */}
+      <FlightDetailsDrawer
+        flight={selectedFlight}
+        isOpen={isDrawerOpen}
+        onClose={() => {
+          setIsDrawerOpen(false);
+          setSelectedFlight(null);
+        }}
+      />
     </div>
   );
 };
