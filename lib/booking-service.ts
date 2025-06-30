@@ -16,6 +16,31 @@ export interface FlightBookingRequest {
   numberOfSeats: number;
 }
 
+export interface HotelBookingRequest {
+  propertyId: string;
+  roomId: string;
+  checkInDate: string;
+  checkOutDate: string;
+  nights: number;
+  guests: number;
+  basePrice: number;
+  discounts?: number;
+  tax: number;
+  totalPrice: number;
+}
+
+export interface CarBookingRequest {
+  companyId: string;
+  modelId: string;
+  pickupDate: string;
+  dropoffDate: string;
+  days: number;
+  pickupLocationId: string;
+  dropoffLocationId: string;
+  price: number;
+  numberPassengers: number;
+}
+
 export interface FlightBooking {
   bookingId: string;
   flightBookingId: string;
@@ -32,16 +57,59 @@ export interface FlightBooking {
   checkInStatus?: string;
 }
 
+export interface HotelBooking {
+  bookingId: string;
+  hotelBookingId: string;
+  hotelName: string;
+  location: string;
+  roomType: string;
+  checkInDate: string;
+  checkOutDate: string;
+  nights: number;
+  guests: number;
+  totalPaid: number;
+  status: string;
+  bookingDateTime: string;
+}
+
+export interface CarBooking {
+  bookingId: string;
+  carBookingId: string;
+  companyName: string;
+  vehicle: string;
+  pickupLocation: string;
+  dropoffLocation: string;
+  pickupDate: string;
+  dropoffDate: string;
+  days: number;
+  numberPassengers: number;
+  totalPaid: number;
+  status: string;
+  bookingDateTime: string;
+}
+
 export interface BookingResponse {
   success: boolean;
   message?: string;
-  booking?: FlightBooking;
+  booking?: FlightBooking | HotelBooking | CarBooking;
   error?: string;
 }
 
-export interface BookingsListResponse {
+export interface FlightBookingsListResponse {
   success: boolean;
   bookings?: FlightBooking[];
+  error?: string;
+}
+
+export interface HotelBookingsListResponse {
+  success: boolean;
+  bookings?: HotelBooking[];
+  error?: string;
+}
+
+export interface CarBookingsListResponse {
+  success: boolean;
+  bookings?: CarBooking[];
   error?: string;
 }
 
@@ -84,7 +152,7 @@ class BookingService {
     }
   }
 
-  async getUserBookings(): Promise<BookingsListResponse> {
+  async getUserBookings(): Promise<FlightBookingsListResponse> {
     try {
       const headers = this.getAuthHeaders();
       
@@ -102,6 +170,108 @@ class BookingService {
       return data;
     } catch (error) {
       console.error('Error fetching bookings:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred',
+      };
+    }
+  }
+
+  async bookHotel(bookingData: HotelBookingRequest): Promise<BookingResponse> {
+    try {
+      const headers = this.getAuthHeaders();
+      
+      const response = await fetch('/api/bookings/hotel', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(bookingData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Hotel booking failed');
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Hotel booking error:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred',
+      };
+    }
+  }
+
+  async getUserHotelBookings(): Promise<HotelBookingsListResponse> {
+    try {
+      const headers = this.getAuthHeaders();
+      
+      const response = await fetch('/api/bookings/hotel', {
+        method: 'GET',
+        headers,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to fetch hotel bookings');
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Error fetching hotel bookings:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred',
+      };
+    }
+  }
+
+  async bookCar(bookingData: CarBookingRequest): Promise<BookingResponse> {
+    try {
+      const headers = this.getAuthHeaders();
+      
+      const response = await fetch('/api/bookings/car', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(bookingData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Car booking failed');
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Car booking error:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred',
+      };
+    }
+  }
+
+  async getUserCarBookings(): Promise<CarBookingsListResponse> {
+    try {
+      const headers = this.getAuthHeaders();
+      
+      const response = await fetch('/api/bookings/car', {
+        method: 'GET',
+        headers,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to fetch car bookings');
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Error fetching car bookings:', error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error occurred',

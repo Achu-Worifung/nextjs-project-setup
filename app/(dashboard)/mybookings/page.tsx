@@ -1,61 +1,78 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Switch } from '@headlessui/react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+import { useAuth } from '@/context/AuthContext';
+import { bookingService } from '@/lib/booking-service';
+import { useRouter } from 'next/navigation';
+
+interface Booking {
+  id: string;
+  type: 'Flight' | 'Hotel' | 'Car Rental';
+  date: string;
+  status: string;
+  location: string;
+  provider: string;
+  amount: string;
+  flightNumber?: string;
+  checkInStatus?: string;
+}
 
 export default function MyBooking() {
   const [enabled, setEnabled] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { isSignedIn } = useAuth();
+  const router = useRouter();
 
-  // Temporary booking data
-  const bookings = [
-    {
-      id: 'BK001',
-      type: 'Flight',
-      date: '2025-07-15',
-      status: 'Confirmed',
-      location: 'New York → Los Angeles',
-      provider: 'Delta Airlines',
-      amount: '$450.00'
-    },
-    {
-      id: 'BK002',
-      type: 'Hotel',
-      date: '2025-07-16',
-      status: 'Confirmed',
-      location: 'Beverly Hills, CA',
-      provider: 'Hilton Hotels',
-      amount: '$320.00'
-    },
-    {
-      id: 'BK003',
-      type: 'Car Rental',
-      date: '2025-07-17',
-      status: 'Pending',
-      location: 'LAX Airport',
-      provider: 'Hertz',
-      amount: '$180.00'
-    },
-    {
-      id: 'BK004',
-      type: 'Flight',
-      date: '2025-08-02',
-      status: 'Confirmed',
-      location: 'Los Angeles → Miami',
-      provider: 'American Airlines',
-      amount: '$380.00'
-    },
-    {
-      id: 'BK005',
-      type: 'Hotel',
-      date: '2025-08-03',
-      status: 'Cancelled',
-      location: 'South Beach, Miami',
-      provider: 'Marriott Hotels',
-      amount: '$280.00'
-    }
-  ];
+  // Fetch user bookings on component mount
+  useEffect(() => {
+    const fetchBookings = async () => {
+      if (!isSignedIn) {
+        router.push('/signin');
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+        
+        // Fetch flight bookings
+        const flightResponse = await bookingService.getUserBookings();
+        
+        if (flightResponse.success && flightResponse.bookings) {
+          // Transform flight bookings to the common booking format
+          const transformedBookings: Booking[] = flightResponse.bookings.map(booking => ({
+            id: booking.bookingId,
+            type: 'Flight' as const,
+            date: booking.bookingDateTime || booking.departureTime,
+            status: booking.status || 'Unknown',
+            location: booking.route || `${booking.flightNumber}`,
+            provider: booking.airline || 'Unknown Airline',
+            amount: `$${booking.totalPaid.toFixed(2)}`,
+            flightNumber: booking.flightNumber,
+            checkInStatus: booking.checkInStatus
+          }));
+          
+          setBookings(transformedBookings);
+        } else {
+          setError('Failed to fetch bookings');
+        }
+      } catch (error) {
+        console.error('Error fetching bookings:', error);
+        setError('Failed to load bookings. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBookings();
+  }, [isSignedIn, router]);
+
+  // TODO: Add hotel and car rental booking fetching when those APIs are ready
 
   const filteredBookings = bookings.filter(booking =>
     booking.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -137,7 +154,36 @@ export default function MyBooking() {
           </div>
         </div>
 
+        {/* Error State */}
+        {error && (
+          <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div className="text-center">
+              <div className="text-red-500 text-6xl mb-4">⚠️</div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Error Loading Bookings</h3>
+              <p className="text-gray-500 mb-4">{error}</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Retry
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Loading State */}
+        {loading && (
+          <div className="bg-white rounded-2xl shadow-lg p-8">
+            <div className="text-center">
+              <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Loading Your Bookings</h3>
+              <p className="text-gray-500">Please wait while we fetch your travel reservations...</p>
+            </div>
+          </div>
+        )}
+
         {/* Bookings Table */}
+        {!loading && !error && (
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
             <h2 className="text-xl font-semibold text-gray-900">
@@ -212,14 +258,32 @@ export default function MyBooking() {
             </table>
           </div>
           
-          {filteredBookings.length === 0 && (
+          {filteredBookings.length === 0 && !loading && !error && (
             <div className="text-center py-12">
-              <div className="text-gray-400 text-6xl mb-4">🔍</div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No bookings found</h3>
-              <p className="text-gray-500">Try adjusting your search criteria</p>
+              <div className="text-gray-400 text-6xl mb-4">
+                {searchTerm ? '🔍' : '✈️'}
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                {searchTerm ? 'No bookings found' : 'No bookings yet'}
+              </h3>
+              <p className="text-gray-500 mb-4">
+                {searchTerm 
+                  ? 'Try adjusting your search criteria' 
+                  : 'Start planning your next adventure!'
+                }
+              </p>
+              {!searchTerm && (
+                <button
+                  onClick={() => router.push('/flight-search')}
+                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Book Your First Flight
+                </button>
+              )}
             </div>
           )}
         </div>
+        )}
       </div>
     </div>
   );
