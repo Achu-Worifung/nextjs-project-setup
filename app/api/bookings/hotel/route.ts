@@ -1,36 +1,46 @@
-import { NextRequest, NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
-import db from '@/lib/db';
+import { NextRequest, NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
+import db from "@/lib/db";
+import pg from "pg";
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
+const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret";
 
 interface HotelBookingRequest {
-  propertyId: string;
-  roomId: string;
   checkInDate: string;
   checkOutDate: string;
-  nights: number;
   guests: number;
-  basePrice: number;
-  discounts?: number;
-  tax: number;
   totalPrice: number;
+  // Complete hotel details for storage
+  hotelDetails: {
+    hotelName: string;
+    hotelAddress: string;
+    hotelCity: string;
+    hotelCountry: string;
+    hotelRating?: number;
+    roomType: string;
+    roomDescription?: string;
+    maxOccupancy: number;
+    nights: number;
+    basePrice: number;
+    discounts?: number;
+    tax: number;
+    amenities?: string[];
+    images?: string[];
+    checkInTime?: string;
+    checkOutTime?: string;
+  };
 }
 
 interface HotelBookingRow {
   bookingid: string;
   hotelbookingid: string;
-  hotelname: string;
-  hotelcity: string;
-  hotelcountry: string;
-  roomtype: string;
   checkindate: string;
   checkoutdate: string;
-  nights: number;
   guests: number;
-  totalprice: string;
   hotelcheckinstatus: string;
   bookingdatetime: string;
+  hoteldetails: object | null;
+  totalpaid: string;
 }
 
 interface DecodedToken {
@@ -44,174 +54,158 @@ interface DecodedToken {
 export async function POST(req: NextRequest) {
   try {
     // Get token from Authorization header
-    const authHeader = req.headers.get('authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return NextResponse.json({ error: 'Authorization token required' }, { status: 401 });
+    const authHeader = req.headers.get("authorization");
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return NextResponse.json(
+        { error: "Authorization token required" },
+        { status: 401 }
+      );
     }
 
     const token = authHeader.substring(7);
-    
+
     // Verify JWT token
     let decoded: DecodedToken;
     try {
       decoded = jwt.verify(token, JWT_SECRET) as DecodedToken;
     } catch (jwtError) {
-      console.error('JWT verification failed:', jwtError);
-      return NextResponse.json({ error: 'Invalid or expired token' }, { status: 401 });
+      console.error("JWT verification failed:", jwtError);
+      return NextResponse.json(
+        { error: "Invalid or expired token" },
+        { status: 401 }
+      );
     }
 
     // Check if token is expired
     if (Date.now() >= decoded.exp * 1000) {
-      return NextResponse.json({ error: 'Token expired' }, { status: 401 });
+      return NextResponse.json({ error: "Token expired" }, { status: 401 });
     }
 
     // Parse booking data
     const bookingData: HotelBookingRequest = await req.json();
 
     // Validate required fields
-    const requiredFields = ['propertyId', 'roomId', 'checkInDate', 'checkOutDate', 'nights', 'guests', 'basePrice', 'tax', 'totalPrice'];
-    const missingFields = requiredFields.filter(field => !bookingData[field as keyof HotelBookingRequest]);
-    
+    const requiredFields = [
+      "checkInDate",
+      "checkOutDate",
+      "guests",
+      "totalPrice",
+      "hotelDetails",
+    ];
+    const missingFields = requiredFields.filter(
+      (field) => !bookingData[field as keyof HotelBookingRequest]
+    );
+
     if (missingFields.length > 0) {
-      return NextResponse.json({ 
-        error: `Missing required fields: ${missingFields.join(', ')}` 
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: `Missing required fields: ${missingFields.join(", ")}`,
+        },
+        { status: 400 }
+      );
     }
 
-    console.log('Creating hotel booking for user:', decoded.userId);
-    console.log('Booking data:', bookingData);
+    console.log("Creating hotel booking for user:", decoded.userId);
+    console.log("Booking data:", bookingData);
 
-    // Start transaction
-    const client = await db.connect();
-    
+    const client = new pg.Client({
+      user: process.env.PGUSER,
+      host: process.env.PGHOST,
+      database: process.env.PGDATABASE,
+      password: process.env.PGPASSWORD,
+      port: Number(process.env.PGPORT) || 5432,
+      ssl: {
+        rejectUnauthorized: false,
+        require: true,
+      },
+      connectionTimeoutMillis: 15000,
+      query_timeout: 10000,
+    });
     try {
-      await client.query('BEGIN');
+      // Connect to the database
+      await client.connect();
+      await client.query("BEGIN");
 
-      // Find or create hotel inventory record (simplified approach)
-      // In a real system, you would query for actual available inventory
-      const inventoryResult = await client.query(`
-        SELECT ri.InventoryID 
-        FROM Hotel.RoomInventory ri
-        WHERE ri.PropertyID = $1 AND ri.RoomID = $2
-        LIMIT 1
-      `, [bookingData.propertyId, bookingData.roomId]);
+      // Generate UUIDs
+      const hotelBookingId = crypto.randomUUID();
 
-      let inventoryId;
-      if (inventoryResult.rows.length > 0) {
-        inventoryId = inventoryResult.rows[0].inventoryid;
-      } else {
-        // Create a placeholder inventory record if none exists
-        const newInventoryResult = await client.query(`
-          INSERT INTO Hotel.RoomInventory (PropertyID, RoomID, DatesAvailable, DatesUnavailable, BasePrice)
-          VALUES ($1, $2, $3, $4, $5)
-          RETURNING InventoryID
-        `, [
-          bookingData.propertyId,
-          bookingData.roomId,
+      // Create hotel booking with all details in JSONB
+      const hotelBookingResult = await client.query(
+        `
+        INSERT INTO Hotel.HotelBookings (
+          HotelBookingID, UserID, CheckInDate, CheckOutDate, Guests,
+          HotelCheckInStatus, BookingDateTime, HotelDetails
+        )
+        VALUES ($1, $2, $3, $4, $5, $6, NOW(), $7)
+        RETURNING HotelBookingID, BookingDateTime
+      `,
+        [
+          hotelBookingId,
+          decoded.userId,
           bookingData.checkInDate,
           bookingData.checkOutDate,
-          bookingData.basePrice
-        ]);
-        inventoryId = newInventoryResult.rows[0].inventoryid;
-      }
+          bookingData.guests,
+          "Pending",
+          JSON.stringify({
+            ...bookingData.hotelDetails,
+            totalPrice: bookingData.totalPrice,
+            bookingDetails: {
+              checkInDate: bookingData.checkInDate,
+              checkOutDate: bookingData.checkOutDate,
+              guests: bookingData.guests,
+            },
+          }),
+        ]
+      );
 
-      // Create hotel booking
-      const hotelBookingResult = await client.query(`
-        INSERT INTO Hotel.HotelBookings (
-          UserID, InventoryID, CheckInDate, CheckOutDate, Nights, Guests,
-          Discounts, BasePrice, Tax, TotalPrice, HotelCheckInStatus, BookingDateTime
-        )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW())
-        RETURNING HotelBookingID, BookingDateTime
-      `, [
-        decoded.userId,
-        inventoryId,
-        bookingData.checkInDate,
-        bookingData.checkOutDate,
-        bookingData.nights,
-        bookingData.guests,
-        bookingData.discounts || 0,
-        bookingData.basePrice,
-        bookingData.tax,
-        bookingData.totalPrice,
-        'Pending'
-      ]);
-
-      const hotelBookingId = hotelBookingResult.rows[0].hotelbookingid;
+      const bookingDateTime = hotelBookingResult.rows[0].bookingdatetime;
 
       // Create main booking record
-      const mainBookingResult = await client.query(`
+      const mainBookingResult = await client.query(
+        `
         INSERT INTO ManageBookings.Bookings (UserID, BookingType, BookingStatus, TotalPaid, PaymentID)
         VALUES ($1, $2, $3, $4, $5)
         RETURNING BookingID
-      `, [
-        decoded.userId,
-        'Hotel',
-        'Paid',
-        bookingData.totalPrice,
-        '00000000-0000-0000-0000-000000000001' // Placeholder payment ID
-      ]);
+      `,
+        [
+          decoded.userId,
+          "Hotel",
+          "Paid",
+          bookingData.totalPrice,
+          "00000000-0000-0000-0000-000000000001", // Placeholder payment ID
+        ]
+      );
 
-      const bookingId = mainBookingResult.rows[0].bookingid;
-
-      await client.query('COMMIT');
-
-      // Fetch complete booking details for response
-      const bookingDetails = await client.query(`
-        SELECT 
-          mb.BookingID,
-          hb.HotelBookingID,
-          h.HotelName,
-          h.HotelCity,
-          h.HotelCountry,
-          rt.RoomType,
-          hb.CheckInDate,
-          hb.CheckOutDate,
-          hb.Nights,
-          hb.Guests,
-          hb.TotalPrice,
-          hb.HotelCheckInStatus,
-          hb.BookingDateTime
-        FROM ManageBookings.Bookings mb
-        JOIN Hotel.HotelBookings hb ON mb.UserID = hb.UserID
-        JOIN Hotel.RoomInventory ri ON hb.InventoryID = ri.InventoryID
-        JOIN Hotel.Hotels h ON ri.PropertyID = h.PropertyID
-        JOIN Hotel.RoomTypes rt ON ri.RoomID = rt.RoomID
-        WHERE mb.BookingID = $1 AND hb.HotelBookingID = $2
-      `, [bookingId, hotelBookingId]);
-
-      const booking = bookingDetails.rows[0];
+      await client.query("COMMIT");
 
       return NextResponse.json({
         success: true,
-        message: 'Hotel booking created successfully',
+        message: "Hotel booking created successfully",
         booking: {
-          bookingId: booking.bookingid,
-          hotelBookingId: booking.hotelbookingid,
-          hotelName: booking.hotelname,
-          location: `${booking.hotelcity}, ${booking.hotelcountry}`,
-          roomType: booking.roomtype,
-          checkInDate: booking.checkindate,
-          checkOutDate: booking.checkoutdate,
-          nights: booking.nights,
-          guests: booking.guests,
-          totalPaid: parseFloat(booking.totalprice),
-          status: booking.hotelcheckinstatus,
-          bookingDateTime: booking.bookingdatetime
-        }
+          bookingId: mainBookingResult.rows[0].bookingid,
+          hotelBookingId,
+          hotelName: bookingData.hotelDetails.hotelName,
+          location: `${bookingData.hotelDetails.hotelCity}, ${bookingData.hotelDetails.hotelCountry}`,
+          roomType: bookingData.hotelDetails.roomType,
+          checkInDate: bookingData.checkInDate,
+          checkOutDate: bookingData.checkOutDate,
+          nights: bookingData.hotelDetails.nights,
+          guests: bookingData.guests,
+          totalPaid: bookingData.totalPrice,
+          status: "Pending",
+          bookingDateTime,
+        },
       });
-
     } catch (dbError) {
-      await client.query('ROLLBACK');
+      await client.query("ROLLBACK");
       throw dbError;
     } finally {
-      client.release();
+      client.end();
     }
-
   } catch (error) {
-    console.error('Hotel booking error:', error);
+    console.error("Hotel booking error:", error);
     return NextResponse.json(
-      { error: 'Failed to create hotel booking' },
+      { error: "Failed to create hotel booking" },
       { status: 500 }
     );
   }
@@ -220,78 +214,90 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     // Get token from Authorization header
-    const authHeader = req.headers.get('authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return NextResponse.json({ error: 'Authorization token required' }, { status: 401 });
+    const authHeader = req.headers.get("authorization");
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return NextResponse.json(
+        { error: "Authorization token required" },
+        { status: 401 }
+      );
     }
 
     const token = authHeader.substring(7);
-    
+
     // Verify JWT token
     let decoded: DecodedToken;
     try {
       decoded = jwt.verify(token, JWT_SECRET) as DecodedToken;
     } catch (jwtError) {
-      console.error('JWT verification failed:', jwtError);
-      return NextResponse.json({ error: 'Invalid or expired token' }, { status: 401 });
+      console.error("JWT verification failed:", jwtError);
+      return NextResponse.json(
+        { error: "Invalid or expired token" },
+        { status: 401 }
+      );
     }
 
     // Check if token is expired
     if (Date.now() >= decoded.exp * 1000) {
-      return NextResponse.json({ error: 'Token expired' }, { status: 401 });
+      return NextResponse.json({ error: "Token expired" }, { status: 401 });
     }
 
-    console.log('Fetching hotel bookings for user:', decoded.userId);
+    console.log("Fetching hotel bookings for user:", decoded.userId);
 
-    // Fetch user's hotel bookings
-    const result = await db.query(`
+    // Fetch user's hotel bookings with the new simplified schema
+    const result = await db.query(
+      `
       SELECT 
         mb.BookingID,
         hb.HotelBookingID,
-        h.HotelName,
-        h.HotelCity,
-        h.HotelCountry,
-        rt.RoomType,
         hb.CheckInDate,
         hb.CheckOutDate,
-        hb.Nights,
         hb.Guests,
-        hb.TotalPrice,
         hb.HotelCheckInStatus,
-        hb.BookingDateTime
+        hb.BookingDateTime,
+        hb.HotelDetails,
+        mb.TotalPaid
       FROM ManageBookings.Bookings mb
       JOIN Hotel.HotelBookings hb ON mb.UserID = hb.UserID
-      JOIN Hotel.RoomInventory ri ON hb.InventoryID = ri.InventoryID
-      JOIN Hotel.Hotels h ON ri.PropertyID = h.PropertyID
-      JOIN Hotel.RoomTypes rt ON ri.RoomID = rt.RoomID
       WHERE mb.UserID = $1 AND mb.BookingType = 'Hotel'
       ORDER BY hb.BookingDateTime DESC
-    `, [decoded.userId]);
+    `,
+      [decoded.userId]
+    );
 
-    const bookings = result.rows.map((row: HotelBookingRow) => ({
-      bookingId: row.bookingid,
-      hotelBookingId: row.hotelbookingid,
-      hotelName: row.hotelname,
-      location: `${row.hotelcity}, ${row.hotelcountry}`,
-      roomType: row.roomtype,
-      checkInDate: row.checkindate,
-      checkOutDate: row.checkoutdate,
-      nights: row.nights,
-      guests: row.guests,
-      totalPaid: parseFloat(row.totalprice),
-      status: row.hotelcheckinstatus,
-      bookingDateTime: row.bookingdatetime
-    }));
+    const bookings = result.rows.map((row: HotelBookingRow) => {
+      const hotelDetails = (row.hoteldetails as Record<string, unknown>) || {};
+
+      return {
+        bookingId: row.bookingid,
+        hotelBookingId: row.hotelbookingid,
+        hotelName: (hotelDetails.hotelName as string) || "Unknown Hotel",
+        location:
+          hotelDetails.hotelCity && hotelDetails.hotelCountry
+            ? `${hotelDetails.hotelCity}, ${hotelDetails.hotelCountry}`
+            : "Unknown Location",
+        roomType: (hotelDetails.roomType as string) || "Unknown Room",
+        checkInDate: row.checkindate,
+        checkOutDate: row.checkoutdate,
+        nights: (hotelDetails.nights as number) || 1,
+        guests: row.guests,
+        totalPaid: (hotelDetails.totalPrice as number) || 0,
+        status: row.hotelcheckinstatus,
+        bookingDateTime: row.bookingdatetime,
+        // Additional details from JSONB
+        hotelRating: hotelDetails.hotelRating as number,
+        amenities: (hotelDetails.amenities as string[]) || [],
+        roomDescription: hotelDetails.roomDescription as string,
+      };
+    });
 
     return NextResponse.json({
       success: true,
-      bookings
+      bookings,
     });
-
   } catch (error) {
-    console.error('Error fetching hotel bookings:', error);
+    console.error("Error fetching hotel bookings:", error);
     return NextResponse.json(
-      { error: 'Failed to fetch hotel bookings' },
+      { error: "Failed to fetch hotel bookings" },
       { status: 500 }
     );
   }

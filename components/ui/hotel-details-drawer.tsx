@@ -1,9 +1,14 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { HotelData } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { AuthModal } from "@/components/ui/auth-modal";
+import { HotelBookingSuccessModal } from "@/components/ui/hotel-booking-success-modal";
+import { bookingService, HotelBookingRequest, HotelBooking } from "@/lib/booking-service";
+import { useAuth } from "@/context/AuthContext";
 import {
   Star,
   MapPin,
@@ -22,7 +27,8 @@ import {
   CheckCircle,
   CarTaxiFront,
   Building2,
-  Camera
+  Camera,
+  Loader2
 } from "lucide-react";
 import Image from "next/image";
 
@@ -55,8 +61,15 @@ export function HotelDetailsDrawer({
   checkOutDate,
   guests
 }: HotelDetailsDrawerProps) {
+  const router = useRouter();
   const [selectedRoom, setSelectedRoom] = useState<number | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isBooking, setIsBooking] = useState(false);
+  const [bookingResult, setBookingResult] = useState<string | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successBooking, setSuccessBooking] = useState<HotelBooking | null>(null);
+  const { token, isSignedIn } = useAuth();
 
   if (!hotel) return null;
 
@@ -73,12 +86,97 @@ export function HotelDetailsDrawer({
     ));
   };
 
-  const handleBookRoom = (roomId: number) => {
-    const room = hotel.rooms.find(r => r.type === hotel.rooms[roomId]?.type);
-    if (room) {
-      // In a real app, this would navigate to booking flow or open booking modal
-      alert(`Booking ${room.type} for ${nights} night(s). Total: $${room.pricePerNight * nights}`);
+  const handleBookRoom = async (roomId: number) => {
+    console.log("User authenticated:", isSignedIn);
+
+    if (!isSignedIn || !token) {
+      setShowAuthModal(true);
+      return;
     }
+
+    if (!checkInDate || !checkOutDate) {
+      setBookingResult("Please select check-in and check-out dates");
+      return;
+    }
+
+    const room = hotel.rooms.find(r => r.type === hotel.rooms[roomId]?.type);
+    if (!room) {
+      setBookingResult("Selected room is not available");
+      return;
+    }
+
+    setIsBooking(true);
+    setBookingResult(null);
+
+    try {
+      const totalPrice = room.pricePerNight * nights;
+      const taxRate = 0.12; // 12% tax
+      const tax = totalPrice * taxRate;
+      const finalTotal = totalPrice + tax;
+
+      const bookingData: HotelBookingRequest = {
+        checkInDate: checkInDate.toISOString().split('T')[0],
+        checkOutDate: checkOutDate.toISOString().split('T')[0],
+        guests: guests,
+        totalPrice: finalTotal,
+        hotelDetails: {
+          hotelName: hotel.name,
+          hotelAddress: hotel.address,
+          hotelCity: hotel.address.split(',')[0]?.trim() || 'Unknown',
+          hotelCountry: hotel.address.split(',')[1]?.trim() || 'Unknown',
+          hotelRating: hotel.reviewSummary.averageRating,
+          roomType: room.type,
+          roomDescription: `Comfortable ${room.type} room with modern amenities`,
+          maxOccupancy: room.bedCount * 2 || guests,
+          nights: nights,
+          basePrice: totalPrice,
+          tax: tax,
+          amenities: mockAmenities.filter(a => a.available).map(a => a.name),
+          images: ['/des1.jpg', '/des2.jpg', '/des4.jpg', '/des5.webp'],
+          checkInTime: '3:00 PM',
+          checkOutTime: '11:00 AM',
+        },
+      };
+
+      const response = await bookingService.bookHotel(bookingData);
+      
+      if (response.success && response.booking) {
+        // Set booking data for success modal - ensure it's a hotel booking
+        if ('hotelBookingId' in response.booking) {
+          setSuccessBooking(response.booking as HotelBooking);
+          setShowSuccessModal(true);
+          setBookingResult(null); // Clear any previous error messages
+        } else {
+          setBookingResult("❌ Invalid booking response received");
+        }
+      } else {
+        setBookingResult(`❌ Booking failed: ${response.error}`);
+      }
+    } catch (error) {
+      setBookingResult(`❌ Booking failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsBooking(false);
+    }
+  };
+
+  const handleSignIn = () => {
+    setShowAuthModal(false);
+    router.push('/signin');
+  };
+
+  const handleSignUp = () => {
+    setShowAuthModal(false);
+    router.push('/signup');
+  };
+
+  const handleAuthModalClose = () => {
+    setShowAuthModal(false);
+  };
+
+  const handleSuccessModalClose = () => {
+    setShowSuccessModal(false);
+    setSuccessBooking(null);
+    onClose();
   };
 
   // Get only the first 3 reviews and FAQs with defensive checks
@@ -391,8 +489,18 @@ export function HotelDetailsDrawer({
                                     e.stopPropagation();
                                     handleBookRoom(index);
                                   }}
+                                  disabled={isBooking || room.availableRooms === 0}
                                 >
-                                  Book Now
+                                  {isBooking ? (
+                                    <>
+                                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                      Booking...
+                                    </>
+                                  ) : room.availableRooms > 0 ? (
+                                    'Book Now'
+                                  ) : (
+                                    'Sold Out'
+                                  )}
                                 </Button>
                               </div>
                             </div>
@@ -400,6 +508,13 @@ export function HotelDetailsDrawer({
                         </Card>
                       ))}
                     </div>
+
+                    {/* Error Message */}
+                    {bookingResult && (
+                      <div className="mt-3 p-3 rounded-lg text-sm bg-red-100 text-red-800 border border-red-200">
+                        {bookingResult}
+                      </div>
+                    )}
 
                     <div className="border-t my-4 pt-4">
                       {/* Contact Info */}
@@ -424,6 +539,21 @@ export function HotelDetailsDrawer({
           </div>
         </div>
       </div>
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={handleAuthModalClose}
+        onSignIn={handleSignIn}
+        onSignUp={handleSignUp}
+      />
+
+      {/* Success Modal */}
+      <HotelBookingSuccessModal
+        isOpen={showSuccessModal}
+        onClose={handleSuccessModalClose}
+        booking={successBooking}
+      />
     </div>
   );
 }

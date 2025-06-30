@@ -86,15 +86,32 @@ export function FlightDetailsDrawer({
         flightClass: selectedClass,
         price: price,
         numberOfSeats: numberOfSeats,
+        // Include complete flight details for database storage
+        flightDetails: {
+          duration: flight.duration,
+          aircraft: flight.aircraft,
+          gate: flight.gate,
+          terminal: flight.terminal,
+          numberOfStops: flight.numberOfStops,
+          stops: flight.stops,
+          status: flight.status,
+          meal: flight.meal,
+          availableSeats: flight.availableSeats,
+          prices: flight.prices,
+        },
       };
 
       const response = await bookingService.bookFlight(bookingData);
       
       if (response.success && response.booking) {
-        // Set booking data for success modal
-        setSuccessBooking(response.booking);
-        setShowSuccessModal(true);
-        setBookingResult(null); // Clear any previous error messages
+        // Set booking data for success modal - ensure it's a flight booking
+        if ('flightBookingId' in response.booking) {
+          setSuccessBooking(response.booking as FlightBooking);
+          setShowSuccessModal(true);
+          setBookingResult(null); // Clear any previous error messages
+        } else {
+          setBookingResult("❌ Invalid booking response received");
+        }
       } else {
         setBookingResult(`❌ Booking failed: ${response.error}`);
       }

@@ -14,6 +14,32 @@ interface BookFlightRequest {
   flightClass: 'Economy' | 'Business' | 'First';
   price: number;
   numberOfSeats: number;
+  // Add complete flight details for storage
+  flightDetails?: {
+    duration: string;
+    aircraft: string;
+    gate: string;
+    terminal: string;
+    numberOfStops: number;
+    stops: Array<{
+      airport: string;
+      arrivalTime: string;
+      departureTime: string;
+      layoverDuration: string;
+    }>;
+    status: string;
+    meal: boolean;
+    availableSeats: {
+      Economy: number;
+      Business: number;
+      First: number;
+    };
+    prices: {
+      Economy: number;
+      Business: number;
+      First: number;
+    };
+  };
 }
 
 interface BookingRow {
@@ -25,6 +51,7 @@ interface BookingRow {
   seatprice: string;
   bookingdatetime: string;
   checkinstatus: string;
+  flightdetails: object | null; // JSONB data
 }
 
 export async function POST(request: NextRequest) {
@@ -107,12 +134,30 @@ export async function POST(request: NextRequest) {
           VALUES ($1, $2, $3, $4, $5, $6)
         `, [bookingId, paymentId, userId, 'Flight', 'Paid', totalPaid]);
 
-        // Insert into Flights.FlightBookings table
+        // Insert into Flights.FlightBookings table with flight details
         await client.query(`
           INSERT INTO Flights.FlightBookings 
-          (FlightBookingID, UserID, InventoryID, NumberSeats, SeatPrice, BookingDateTime, FlightCheckInStatus)
-          VALUES ($1, $2, $3, $4, $5, $6, $7)
-        `, [flightBookingId, userId, inventoryId, body.numberOfSeats, body.price, new Date(), 'Pending']);
+          (FlightBookingID, UserID, InventoryID, NumberSeats, SeatPrice, BookingDateTime, FlightCheckInStatus, FlightDetails)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        `, [
+          flightBookingId, 
+          userId, 
+          inventoryId, 
+          body.numberOfSeats, 
+          body.price, 
+          new Date(), 
+          'Pending',
+          JSON.stringify({
+            flightNumber: body.flightNumber,
+            airline: body.airline,
+            departureAirport: body.departureAirport,
+            destinationAirport: body.destinationAirport,
+            departureTime: body.departureTime,
+            arrivalTime: body.arrivalTime,
+            flightClass: body.flightClass,
+            ...body.flightDetails
+          })
+        ]);
 
         // Commit transaction
         await client.query('COMMIT');
@@ -194,7 +239,8 @@ export async function GET(request: NextRequest) {
           fb.NumberSeats as numberOfSeats,
           fb.SeatPrice as seatPrice,
           fb.BookingDateTime as bookingDateTime,
-          fb.FlightCheckInStatus as checkInStatus
+          fb.FlightCheckInStatus as checkInStatus,
+          fb.FlightDetails as flightDetails
         FROM ManageBookings.Bookings b
         JOIN Flights.FlightBookings fb ON b.UserID = fb.UserID  
         WHERE b.UserID = $1 AND b.BookingType = 'Flight'
@@ -202,21 +248,34 @@ export async function GET(request: NextRequest) {
       `, [userId]);
 
       // Transform database results to match the expected format
-      const bookings = result.rows.map((row: BookingRow) => ({
-        bookingId: row.bookingid,
-        flightBookingId: row.flightbookingid,
-        flightNumber: 'Unknown', // Would need to join with flight inventory/schedule tables
-        airline: 'Unknown', // Would need to join with airline tables
-        route: 'Unknown → Unknown', // Would need airport data
-        departureTime: 'Unknown',
-        arrivalTime: 'Unknown',
-        flightClass: 'Economy', // Would need this from inventory
-        numberOfSeats: row.numberseats,
-        totalPaid: parseFloat(row.totalpaid),
-        status: row.bookingstatus?.toLowerCase() || 'unknown',
-        bookingDateTime: row.bookingdatetime,
-        checkInStatus: row.checkinstatus?.toLowerCase().replace(' ', '_') || 'pending',
-      }));
+      const bookings = result.rows.map((row: BookingRow) => {
+        const flightDetails = (row.flightdetails as Record<string, unknown>) || {};
+        
+        return {
+          bookingId: row.bookingid,
+          flightBookingId: row.flightbookingid,
+          flightNumber: (flightDetails.flightNumber as string) || 'Unknown',
+          airline: (flightDetails.airline as string) || 'Unknown',
+          route: flightDetails.departureAirport && flightDetails.destinationAirport 
+            ? `${flightDetails.departureAirport} → ${flightDetails.destinationAirport}`
+            : 'Unknown → Unknown',
+          departureTime: (flightDetails.departureTime as string) || 'Unknown',
+          arrivalTime: (flightDetails.arrivalTime as string) || 'Unknown',
+          flightClass: (flightDetails.flightClass as string) || 'Economy',
+          numberOfSeats: row.numberseats,
+          totalPaid: parseFloat(row.totalpaid),
+          status: row.bookingstatus?.toLowerCase() || 'unknown',
+          bookingDateTime: row.bookingdatetime,
+          checkInStatus: row.checkinstatus?.toLowerCase().replace(' ', '_') || 'pending',
+          // Include additional flight details if available
+          duration: flightDetails.duration as string,
+          aircraft: flightDetails.aircraft as string,
+          gate: flightDetails.gate as string,
+          terminal: flightDetails.terminal as string,
+          stops: (flightDetails.stops as Array<unknown>) || [],
+          meal: Boolean(flightDetails.meal),
+        };
+      });
 
       return NextResponse.json({
         success: true,

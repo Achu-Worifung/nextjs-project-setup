@@ -40,7 +40,7 @@ export default function MyBooking() {
         setLoading(true);
         setError(null);
         
-        // Fetch flight bookings
+        // Fetch flight bookings only for now
         const flightResponse = await bookingService.getUserBookings();
         
         if (flightResponse.success && flightResponse.bookings) {
@@ -59,11 +59,11 @@ export default function MyBooking() {
           
           setBookings(transformedBookings);
         } else {
-          setError('Failed to fetch bookings');
+          setError('Failed to fetch flight bookings');
         }
       } catch (error) {
-        console.error('Error fetching bookings:', error);
-        setError('Failed to load bookings. Please try again.');
+        console.error('Error fetching flight bookings:', error);
+        setError('Failed to load flight bookings. Please try again.');
       } finally {
         setLoading(false);
       }
@@ -71,8 +71,6 @@ export default function MyBooking() {
 
     fetchBookings();
   }, [isSignedIn, router]);
-
-  // TODO: Add hotel and car rental booking fetching when those APIs are ready
 
   const filteredBookings = bookings.filter(booking =>
     booking.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -113,10 +111,10 @@ export default function MyBooking() {
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            My Bookings
+            My Flight Bookings
           </h1>
           <p className="text-gray-600 text-lg">
-            Manage and track all your travel reservations
+            Manage and track your flight reservations
           </p>
         </div>
 
@@ -159,7 +157,7 @@ export default function MyBooking() {
           <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
             <div className="text-center">
               <div className="text-red-500 text-6xl mb-4">⚠️</div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Error Loading Bookings</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Error Loading Flight Bookings</h3>
               <p className="text-gray-500 mb-4">{error}</p>
               <button
                 onClick={() => window.location.reload()}
@@ -176,8 +174,8 @@ export default function MyBooking() {
           <div className="bg-white rounded-2xl shadow-lg p-8">
             <div className="text-center">
               <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Loading Your Bookings</h3>
-              <p className="text-gray-500">Please wait while we fetch your travel reservations...</p>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Loading Your Flight Bookings</h3>
+              <p className="text-gray-500">Please wait while we fetch your flight reservations...</p>
             </div>
           </div>
         )}
@@ -187,7 +185,7 @@ export default function MyBooking() {
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
             <h2 className="text-xl font-semibold text-gray-900">
-              {filteredBookings.length} Booking{filteredBookings.length !== 1 ? 's' : ''} Found
+              {filteredBookings.length} Flight Booking{filteredBookings.length !== 1 ? 's' : ''} Found
             </h2>
           </div>
           
@@ -264,12 +262,12 @@ export default function MyBooking() {
                 {searchTerm ? '🔍' : '✈️'}
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">
-                {searchTerm ? 'No bookings found' : 'No bookings yet'}
+                {searchTerm ? 'No flight bookings found' : 'No flight bookings yet'}
               </h3>
               <p className="text-gray-500 mb-4">
                 {searchTerm 
                   ? 'Try adjusting your search criteria' 
-                  : 'Start planning your next adventure!'
+                  : 'Start planning your next flight!'
                 }
               </p>
               {!searchTerm && (

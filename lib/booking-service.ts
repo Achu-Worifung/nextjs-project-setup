@@ -14,19 +14,58 @@ export interface FlightBookingRequest {
   flightClass: 'Economy' | 'Business' | 'First';
   price: number;
   numberOfSeats: number;
+  // Add complete flight details for storage
+  flightDetails?: {
+    duration: string;
+    aircraft: string;
+    gate: string;
+    terminal: string;
+    numberOfStops: number;
+    stops: Array<{
+      airport: string;
+      arrivalTime: string;
+      departureTime: string;
+      layoverDuration: string;
+    }>;
+    status: string;
+    meal: boolean;
+    availableSeats: {
+      Economy: number;
+      Business: number;
+      First: number;
+    };
+    prices: {
+      Economy: number;
+      Business: number;
+      First: number;
+    };
+  };
 }
 
 export interface HotelBookingRequest {
-  propertyId: string;
-  roomId: string;
   checkInDate: string;
   checkOutDate: string;
-  nights: number;
   guests: number;
-  basePrice: number;
-  discounts?: number;
-  tax: number;
   totalPrice: number;
+  // Complete hotel details for storage
+  hotelDetails: {
+    hotelName: string;
+    hotelAddress: string;
+    hotelCity: string;
+    hotelCountry: string;
+    hotelRating?: number;
+    roomType: string;
+    roomDescription?: string;
+    maxOccupancy: number;
+    nights: number;
+    basePrice: number;
+    discounts?: number;
+    tax: number;
+    amenities?: string[];
+    images?: string[];
+    checkInTime?: string;
+    checkOutTime?: string;
+  };
 }
 
 export interface CarBookingRequest {
@@ -55,6 +94,13 @@ export interface FlightBooking {
   status: string;
   bookingDateTime?: string;
   checkInStatus?: string;
+  // Additional flight details from JSONB column
+  duration?: string;
+  aircraft?: string;
+  gate?: string;
+  terminal?: string;
+  stops?: Array<unknown>;
+  meal?: boolean;
 }
 
 export interface HotelBooking {
@@ -70,6 +116,10 @@ export interface HotelBooking {
   totalPaid: number;
   status: string;
   bookingDateTime: string;
+  // Additional details from JSONB
+  hotelRating?: number;
+  amenities?: string[];
+  roomDescription?: string;
 }
 
 export interface CarBooking {
