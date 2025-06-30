@@ -40,7 +40,7 @@ export default function MyBooking() {
         setLoading(true);
         setError(null);
         
-        // Fetch flight bookings only for now
+        // Fetch flight bookings 
         const flightResponse = await bookingService.getUserBookings();
         
         if (flightResponse.success && flightResponse.bookings) {
@@ -52,10 +52,12 @@ export default function MyBooking() {
             status: booking.status || 'Unknown',
             location: booking.route || `${booking.flightNumber}`,
             provider: booking.airline || 'Unknown Airline',
-            amount: `$${booking.totalPaid.toFixed(2)}`,
+            amount: booking.totalPaid,
             flightNumber: booking.flightNumber,
             checkInStatus: booking.checkInStatus
           }));
+
+          console.log('Fetched flight bookings:', transformedBookings);
           
           setBookings(transformedBookings);
         } else {
