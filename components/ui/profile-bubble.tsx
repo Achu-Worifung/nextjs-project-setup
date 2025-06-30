@@ -1,17 +1,16 @@
 import React from "react";
+import Image from "next/image";
 
 interface ProfileBubbleProps {
-  name: string;
+  name?: string | null;
   avatarUrl?: string;
   size?: number; // px
 }
 
-const getInitials = (name: string) =>
-  name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase();
+const getInitials = (name?: string | null) => {
+  if (!name || name.length === 0) return "U";
+  return name.charAt(0).toUpperCase();
+};
 
 export const ProfileBubble: React.FC<ProfileBubbleProps> = ({
   name,
@@ -34,12 +33,14 @@ export const ProfileBubble: React.FC<ProfileBubbleProps> = ({
       border: "2px solid #e5e7eb",
       userSelect: "none",
     }}
-    title={name}
+    title={name || "User"}
   >
     {avatarUrl ? (
-      <img
+      <Image
         src={avatarUrl}
-        alt={name}
+        alt={name || "User profile"}
+        width={size}
+        height={size}
         style={{
           width: "100%",
           height: "100%",

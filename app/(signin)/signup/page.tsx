@@ -15,7 +15,7 @@ import {
 
 } from "lucide-react";
 
-import { GoogleLogin } from "@react-oauth/google";
+
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { SignInBg } from "@/components/ui/signin-bg";
@@ -88,15 +88,6 @@ const handleSignUpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     
   }
 };
- const isPasswordValid = (password: string) => {
-  const lengthCheck = password.length >= 8;
-  const upperCheck = /[A-Z]/.test(password);
-  const lowerCheck = /[a-z]/.test(password);
-  const numberCheck = /\d/.test(password);
-  const specialCheck = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-  return lengthCheck && upperCheck && lowerCheck && numberCheck && specialCheck;
-};
 
   const handleSignUpSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -135,47 +126,8 @@ const handleSignUpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setIsLoading(false);
     }, 1000);
   };
-  const handleGoogleSignUp= async (credentialResponse: any) => {
-    if (credentialResponse.credential) {
-      try {
-        const res = await fetch("/api/verify-google-token", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ idToken: credentialResponse.credential }),
-        });
-        const googledata = await res.json();
-        if (res.ok) {
-          try {
-            const res = await fetch("/api/google-sign-up", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ id: googledata.payload.sub , email: googledata.payload.email , fName: googledata.payload.given_name, lName: googledata.payload.family_name }),
-            });
-            const data = await res.json();
-            if (res.ok) {
-              setToken(data.token);
-              router.push("/");
-            } else {
-              if (res.status === 409) {
-                setDupUser(true);
-              }
-              else {
-                console.error("Error during Google sign-up:", data.error);
-              }
-            }
-          } catch (err) {
-            console.error("Error during Google sign-up:", err);
-          }
-        } else {
-          console.error("Google token verification failed:", googledata.error);
-        }
-      } catch (err) {
-        console.error("Error verifying Google token:", err);
-      }
-    } else {
-      console.warn("No credential found in response");
-    }
-  };
+  
+  
   return (
     <div className="min-h-screen w-full flex items-center justify-center font-sans relative overflow-hidden">
       {/* Enhanced Glamoric Background */}
@@ -201,14 +153,7 @@ const handleSignUpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           </div>
 
           <form onSubmit={handleSignUpSubmit} className="space-y-4 text-white">
-            <GoogleLogin
-              onSuccess={handleGoogleSignUp}
-              onError={() => {}}
-              useOneTap={false}
-              theme="outline"
-              size="large"
-              text="signup_with"
-            />
+           
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label

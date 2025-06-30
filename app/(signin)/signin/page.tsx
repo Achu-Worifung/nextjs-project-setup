@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import {SignInBg} from "@/components/ui/signin-bg";
 
-import { GoogleLogin } from "@react-oauth/google";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 
@@ -42,48 +41,7 @@ export default function LoginPage() {
     setSignInData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleGoogleLogin = async (credentialResponse: { credential?: string }) => {
-  if (credentialResponse.credential) {
-    try {
-      const res = await fetch("/api/verify-google-token", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idToken: credentialResponse.credential }),
-      });
-      const googledata = await res.json();
 
-      if (res.ok) {
-        //if response is ok sign in with users info from google
-         try {
-          const res = await fetch("/api/google-sign-in", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: googledata.payload.email, password: googledata.payload.sub}),
-          });
-          const data = await res.json();
-          console.log("Google database sign-in response:", data);
-          if (res.ok) {
-            setToken(data.token);
-            router.push("/");
-          } else {
-            if(res.status === 404) {
-              setgWarning(true);
-            }
-          }
-        } catch (err) {
-          console.error("Error during Google sign-in:", err);
-        }
-
-      } else {
-        console.error("Google token verification failed:", googledata.error);
-      }
-    } catch (err) {
-      console.error("Error verifying Google token:", err);
-    }
-  } else {
-    console.warn("No credential found in response");
-  }
-};
 
   const handleSignInSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -148,14 +106,7 @@ export default function LoginPage() {
             </div>
 
             <form onSubmit={handleSignInSubmit} className="space-y-6">
-              <div className="mb-6">
-                <GoogleLogin
-                  onSuccess={handleGoogleLogin}
-                  onError={() => {
-                    console.error("Google Sign-In Failed");
-                  }}
-                />
-              </div>
+           
               
               <div className="space-y-1">
                 <label

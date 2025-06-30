@@ -1,13 +1,14 @@
 "use client";
-import { hotel_type } from "@/lib/types";
-import { useState, useEffect } from "react";
+import { HotelData } from "@/lib/types";
+import { useState, useEffect, useCallback } from "react";
 import HotelFilterSidebar, {
   initialFilterState,
   type FilterState,
 } from "@/components/ui/hotel-filter-sidebar";
 import { useSearchParams, useRouter } from "next/navigation";
-import { hotelSearch } from "@/components/api/booking/destinations";
-import { HotelCard } from "@/components/ui/hotel-card";
+import { generateHotels } from "@/lib/hotel-generator";
+import { HotelCard } from "@/components/ui/hotel-card-v3";
+import { HotelDetailsDrawer } from "@/components/ui/hotel-details-drawer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,13 +26,17 @@ import { cn } from "@/lib/utils";
 import { HotelSortBy } from "@/components/ui/hotel-sort-by";
 
 export default function HotelSearchPage() {
-  const [filteredHotels, setFilteredHotels] = useState<hotel_type[] | null>([]);
-  const [allHotels, setAllHotels] = useState<hotel_type[] | null>([]);
+  const [filteredHotels, setFilteredHotels] = useState<HotelData[] | null>([]);
+  const [allHotels, setAllHotels] = useState<HotelData[] | null>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<
     "price" | "rating" | "review" | "popularity"
   >("popularity");
+
+  // Hotel details drawer state
+  const [selectedHotel, setSelectedHotel] = useState<HotelData | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const searchparams = useSearchParams();
   const router = useRouter();
@@ -67,36 +72,22 @@ export default function HotelSearchPage() {
       : 1;
 
   useEffect(() => {
-    const city = searchparams?.get("city") || "";
-    const startDate =
-      searchparams?.get("startDate") || new Date().toISOString().split("T")[0];
-    const endDate =
-      searchparams?.get("endDate") ||
-      new Date(new Date().setDate(new Date().getDate() + 7))
-        .toISOString()
-        .split("T")[0]; // 7 days later
-    const guests = searchparams?.get("guests") || "1";
-    const rooms = searchparams?.get("rooms") || "1";
-
     //do checks for empty values
     async function fetchHotels() {
       try {
         setLoading(true);
         setError(null);
-        const res = await hotelSearch({
-          city,
-          startDate,
-          endDate,
-          guests,
-          rooms,
-        });
-        console.log("Fetched hotels:", res);
-        setAllHotels(res as hotel_type[]);
-        setFilteredHotels(res as hotel_type[]);
+        
+        // Generate mock hotel data using the hotel generator
+        const generatedHotels = generateHotels(15); // Generate 15 hotels
+        
+        console.log("Generated hotels:", generatedHotels);
+        setAllHotels(generatedHotels);
+        setFilteredHotels(generatedHotels);
       } catch (error) {
-        console.error("Error fetching hotels:", error);
+        console.error("Error generating hotels:", error);
         setError(
-          error instanceof Error ? error.message : "Failed to fetch hotels"
+          error instanceof Error ? error.message : "Failed to generate hotels"
         );
         setAllHotels([]);
         setFilteredHotels([]);
@@ -108,34 +99,20 @@ export default function HotelSearchPage() {
     fetchHotels();
   }, [searchparams]);
 
-  // Update the state initialization
-  const getNights = (hotel: hotel_type) => {
-    const checkIn = new Date(hotel.property.checkinDate);
-    const checkOut = new Date(hotel.property.checkoutDate);
-    const diffTime = Math.abs(checkOut.getTime() - checkIn.getTime());
-    return Math.max(Math.ceil(diffTime / (1000 * 60 * 60 * 24)), 1); // At least 1 night
-  };
-
-  const getPerNightPrice = (hotel: hotel_type) => {
-    const total =
-      hotel.property.priceBreakdown?.grossPrice?.value ?? 99999999999999;
-    const nights = getNights(hotel);
-    return total / nights;
-  };
+  const getPerNightPrice = useCallback((hotel: HotelData) => {
+    return hotel.rooms[0]?.pricePerNight || 150;
+  }, []);
   // Apply filters to hotels
   useEffect(() => {
     if (!allHotels) return;
 
     let result = allHotels;
 
-    // Star filter
+    // Star filter - use a simple rating for HotelData
     if (filters.starRating.length > 0) {
       result = result.filter((hotel) => {
-        const stars =
-          hotel.property.propertyClass ||
-          hotel.property.qualityClass ||
-          hotel.property.accuratePropertyClass ||
-          0;
+        // Use review average rating as a proxy for star rating (convert to 1-5 scale)
+        const stars = Math.round(hotel.reviewSummary.averageRating);
         return filters.starRating.includes(stars);
       });
     }
@@ -159,66 +136,103 @@ export default function HotelSearchPage() {
       });
     }
 
-    // Property type filter
-    if (filters.propertyType.length > 0) {
+    // Vendor filter
+    if (filters.vendors.length > 0) {
       result = result.filter((hotel) => {
-        const hotelName = hotel.property.name.toLowerCase();
-        const accessibilityLabel =
-          hotel.accessibilityLabel?.toLowerCase() || "";
+        return filters.vendors.some((vendor) => {
+          return hotel.vendor.toLowerCase() === vendor.toLowerCase();
+        });
+      });
+    }
 
-        return filters.propertyType.some((type) => {
-          const typeToCheck = type.toLowerCase();
-
-          // Map filter types to actual property types
-          switch (typeToCheck) {
-            case "hotel":
-              return (
-                hotelName.includes("hotel") ||
-                accessibilityLabel.includes("hotel")
-              );
-            case "private suite":
-              return (
-                hotelName.includes("suite") ||
-                hotelName.includes("apartment") ||
-                accessibilityLabel.includes("suite")
-              );
-            case "apartment":
-              return (
-                hotelName.includes("apartment") ||
-                hotelName.includes("residence") ||
-                accessibilityLabel.includes("apartment")
-              );
-            case "villa":
-              return (
-                hotelName.includes("villa") ||
-                accessibilityLabel.includes("villa")
-              );
-            case "hostel":
-              return (
-                hotelName.includes("hostel") ||
-                accessibilityLabel.includes("hostel")
-              );
-            case "b&b":
-              return (
-                hotelName.includes("b&b") ||
-                hotelName.includes("bed and breakfast") ||
-                accessibilityLabel.includes("b&b")
-              );
+    // Amenities filter (check based on hotel policies and room features)
+    if (filters.amenities.length > 0) {
+      result = result.filter((hotel) => {
+        const hotelName = hotel.name.toLowerCase();
+        const policies = hotel.policies;
+        const roomFeatures = hotel.rooms.flatMap(room => room.accessibleFeatures).join(' ').toLowerCase();
+        
+        return filters.amenities.some((amenity) => {
+          const amenityToCheck = amenity.toLowerCase();
+          
+          // Basic name matching for common amenities
+          switch (amenityToCheck) {
+            case "free wifi":
+              return policies.safetyFeatures.some(feature => feature.toLowerCase().includes('wifi')) ||
+                     hotelName.includes('wifi');
+            case "free parking":
+              return policies.accessMethods.some(method => method.toLowerCase().includes('parking')) ||
+                     hotelName.includes('parking');
+            case "swimming pool":
+              return hotelName.includes('aqua') || hotelName.includes('resort') || hotelName.includes('beach');
+            case "fitness center":
+              return hotelName.includes('fitness') || hotelName.includes('gym');
+            case "restaurant":
+              return hotelName.includes('grand') || hotelName.includes('resort');
+            case "coffee maker":
+              return roomFeatures.includes('coffee') || hotelName.includes('coffee');
+            case "airport shuttle":
+              return policies.accessMethods.some(method => method.toLowerCase().includes('shuttle'));
             default:
-              return (
-                hotelName.includes(typeToCheck) ||
-                accessibilityLabel.includes(typeToCheck)
-              );
+              return false;
           }
         });
+      });
+    }
+
+    // Accessibility features filter
+    if (filters.accessibilityFeatures.length > 0) {
+      result = result.filter((hotel) => {
+        const accessibilityFeatures = hotel.rooms.flatMap(room => room.accessibleFeatures).join(' ').toLowerCase();
+        
+        return filters.accessibilityFeatures.some((feature) => {
+          const featureToCheck = feature.toLowerCase();
+          
+          switch (featureToCheck) {
+            case "wheelchair accessible":
+              return accessibilityFeatures.includes('wheelchair') || accessibilityFeatures.includes('accessible');
+            case "elevator access":
+              return accessibilityFeatures.includes('elevator');
+            case "roll-in showers":
+              return accessibilityFeatures.includes('roll-in') || accessibilityFeatures.includes('shower');
+            case "accessible parking":
+              return accessibilityFeatures.includes('parking');
+            case "visual alarms":
+              return accessibilityFeatures.includes('visual') || accessibilityFeatures.includes('alarm');
+            case "grab bars":
+              return accessibilityFeatures.includes('grab') || accessibilityFeatures.includes('bar');
+            default:
+              return accessibilityFeatures.includes(featureToCheck);
+          }
+        });
+      });
+    }
+
+    // Special features filters
+    if (filters.petsAllowed) {
+      result = result.filter((hotel) => {
+        return hotel.policies.petsAllowed;
+      });
+    }
+
+    if (filters.breakfastIncluded) {
+      result = result.filter((hotel) => {
+        return hotel.rooms.some(room => room.includes.breakfast);
+      });
+    }
+
+    if (filters.instantBook) {
+      result = result.filter((hotel) => {
+        // For now, randomly assign some hotels as instant book available
+        // In a real app, this would be a property of the hotel data
+        return hotel.id % 3 === 0; // Every 3rd hotel has instant booking
       });
     }
 
     // Review score filter
     if (filters.reviewScore > 0) {
       result = result.filter((hotel) => {
-        const score = hotel.property.reviewScore || 0;
-        return score >= filters.reviewScore;
+        return hotel.reviewSummary.averageRating >= filters.reviewScore;
       });
     }
 
@@ -228,29 +242,26 @@ export default function HotelSearchPage() {
         case "price":
           return getPerNightPrice(a) - getPerNightPrice(b);
         case "rating":
-          return (b.property.reviewScore || 0) - (a.property.reviewScore || 0);
+          return b.reviewSummary.averageRating - a.reviewSummary.averageRating;
         case "review":
-          return (b.property.reviewCount || 0) - (a.property.reviewCount || 0);
+          return b.reviewSummary.totalReviews - a.reviewSummary.totalReviews;
         case "popularity":
-          return (
-            (a.property.rankingPosition || 999) -
-            (b.property.rankingPosition || 999)
-          );
+          return a.id - b.id; // Use ID as a proxy for popularity
         default:
           return 0;
       }
     });
 
-    console.log("Filter and sort applied:", {
-      originalCount: allHotels.length,
-      filteredCount: result.length,
-      finalCount: sortedResult.length,
-      activeFilters: filters,
-      sortBy: sortBy,
-    });
+    // console.log("Filter and sort applied:", {
+    //   originalCount: allHotels.length,
+    //   filteredCount: result.length,
+    //   finalCount: sortedResult.length,
+    //   activeFilters: filters,
+    //   sortBy: sortBy,
+    // });
 
     setFilteredHotels(sortedResult);
-  }, [allHotels, filters, sortBy]);
+  }, [allHotels, filters, sortBy, getPerNightPrice]);
 
   //change sorting function
   const sortByfunction = (value: string) => {
@@ -432,10 +443,10 @@ export default function HotelSearchPage() {
                 <div className="absolute inset-0 rounded-full bg-blue-100 animate-pulse mx-auto h-16 w-16 opacity-20"></div>
               </div>
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">
-                Searching for hotels...
+                Generating hotel options...
               </h2>
               <p className="text-gray-600 mb-4">
-                We&apos;re finding the best deals for you in {searchCity}
+                We&apos;re creating personalized hotel recommendations for you in {searchCity}
               </p>
               <div className="flex justify-center space-x-2">
                 <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"></div>
@@ -567,18 +578,25 @@ export default function HotelSearchPage() {
             </div>
           )}
 
-          <div className="flex gap-6">
+          <div className="flex gap-8">
             {/* Filter Sidebar */}
-            <div className="w-80 flex-shrink-0">
+            <div className="w-72 flex-shrink-0">
               <HotelFilterSidebar filters={filters} setFilters={setFilters} />
             </div>
 
             {/* Hotels List */}
             <div className="flex-1">
               {filteredHotels && filteredHotels.length > 0 ? (
-                <div className="space-y-4">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                   {filteredHotels.map((hotel, idx) => (
-                    <HotelCard key={idx} hotel={hotel} />
+                    <HotelCard 
+                      key={idx} 
+                      hotel={hotel} 
+                      onHotelClick={(selectedHotel) => {
+                        setSelectedHotel(selectedHotel);
+                        setIsDrawerOpen(true);
+                      }}
+                    />
                   ))}
                 </div>
               ) : (
@@ -593,6 +611,19 @@ export default function HotelSearchPage() {
             </div>
           </div>
         </div>
+
+        {/* Hotel Details Drawer */}
+        <HotelDetailsDrawer
+          hotel={selectedHotel}
+          isOpen={isDrawerOpen}
+          onClose={() => {
+            setIsDrawerOpen(false);
+            setSelectedHotel(null);
+          }}
+          checkInDate={checkInDate}
+          checkOutDate={checkOutDate}
+          guests={parseInt(searchGuests)}
+        />
       </div>
     </div>
   );
