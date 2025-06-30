@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { decodeJWT } from '@/lib/auth-utils';
 import pool from '@/lib/db';
+import pg from 'pg';
 
 interface BookFlightRequest {
+    token: string;
   flightNumber: string;
   airline: string;
   departureAirport: string;
@@ -36,8 +38,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const token = authorization.substring(7);
+    const body: BookFlightRequest = await request.json();
+    const token = body.token;
     const payload = decodeJWT(token);
+    console.log('Payload:', payload);
     
     if (!payload || Date.now() >= payload.exp * 1000) {
       return NextResponse.json(
@@ -45,9 +49,11 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
-
+    console.log('Decoded payload:', payload);
     const userId = payload.userId;
-    const body: BookFlightRequest = await request.json();
+
+    console.log('Booking flight for user:', userId, 'with data:', body);
+    // return;
 
     // Validate required fields
     const requiredFields = [
@@ -76,7 +82,21 @@ export async function POST(request: NextRequest) {
 
     try {
       // Start database transaction
-      const client = await pool.connect();
+      // Connect to the database
+         const client = new pg.Client({
+             user: process.env.PGUSER,
+             host: process.env.PGHOST,
+             database: process.env.PGDATABASE,
+             password: process.env.PGPASSWORD,
+             port: Number(process.env.PGPORT) || 5432,
+             ssl: {
+               rejectUnauthorized: false,
+               require: true, 
+             },
+             connectionTimeoutMillis: 15000,
+             query_timeout: 10000,
+           });
+         await client.connect();
       await client.query('BEGIN');
 
       try {
@@ -96,7 +116,7 @@ export async function POST(request: NextRequest) {
 
         // Commit transaction
         await client.query('COMMIT');
-        client.release();
+        client.end();
 
         // Return success response
         return NextResponse.json({
@@ -119,7 +139,7 @@ export async function POST(request: NextRequest) {
       } catch (dbError) {
         // Rollback transaction on error
         await client.query('ROLLBACK');
-        client.release();
+        client.end();
         throw dbError;
       }
 

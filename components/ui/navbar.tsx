@@ -49,6 +49,7 @@ export default function Navbar() {
   const renderAuthButton = () => {
     if (isSignedIn && token) {
       const decode = decodeJWT(token);
+      // console.log("decoded token from navbar", decode);
       console.log(decode);
       return (
         <div>

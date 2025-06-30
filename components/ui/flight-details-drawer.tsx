@@ -6,8 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { AuthModal } from "@/components/ui/auth-modal";
-import { bookingService, FlightBookingRequest } from "@/lib/booking-service";
-import { getCurrentUser } from "@/lib/auth-utils";
+import { BookingSuccessModal } from "@/components/ui/booking-success-modal";
+import { bookingService, FlightBookingRequest, FlightBooking } from "@/lib/booking-service";
+import {useAuth} from "@/context/AuthContext"
+
 import {
   X,
   Plane,
@@ -42,13 +44,16 @@ export function FlightDetailsDrawer({
   const [isBooking, setIsBooking] = useState(false);
   const [bookingResult, setBookingResult] = useState<string | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successBooking, setSuccessBooking] = useState<FlightBooking | null>(null);
+  const { token, isSignedIn } = useAuth();
 
   if (!flight) return null;
 
   const handleBookFlight = async () => {
-    const { isAuthenticated } = getCurrentUser();
-    
-    if (!isAuthenticated) {
+    console.log("User authenticated:", isSignedIn);
+
+    if (!isSignedIn || !token) {
       setShowAuthModal(true);
       return;
     }
@@ -71,6 +76,7 @@ export function FlightDetailsDrawer({
 
     try {
       const bookingData: FlightBookingRequest = {
+        token: token, // Now guaranteed to be non-null
         flightNumber: flight.flightNumber,
         airline: flight.airline,
         departureAirport: flight.departureAirport,
@@ -84,13 +90,11 @@ export function FlightDetailsDrawer({
 
       const response = await bookingService.bookFlight(bookingData);
       
-      if (response.success) {
-        setBookingResult(`✅ Flight booked successfully! Booking ID: ${response.booking?.bookingId}`);
-        // Auto-close drawer after successful booking
-        setTimeout(() => {
-          onClose();
-          setBookingResult(null);
-        }, 3000);
+      if (response.success && response.booking) {
+        // Set booking data for success modal
+        setSuccessBooking(response.booking);
+        setShowSuccessModal(true);
+        setBookingResult(null); // Clear any previous error messages
       } else {
         setBookingResult(`❌ Booking failed: ${response.error}`);
       }
@@ -151,6 +155,13 @@ export function FlightDetailsDrawer({
 
   const handleAuthModalClose = () => {
     setShowAuthModal(false);
+  };
+
+  const handleSuccessModalClose = () => {
+    setShowSuccessModal(false);
+    setSuccessBooking(null);
+    // Optionally close the flight details drawer too
+    onClose();
   };
 
   return (
@@ -410,13 +421,9 @@ export function FlightDetailsDrawer({
                       )}
                     </Button>
 
-                    {/* Booking Result Message */}
+                    {/* Error Message */}
                     {bookingResult && (
-                      <div className={`mt-3 p-3 rounded-lg text-sm ${
-                        bookingResult.includes('successfully') 
-                          ? 'bg-green-100 text-green-800 border border-green-200' 
-                          : 'bg-red-100 text-red-800 border border-red-200'
-                      }`}>
+                      <div className="mt-3 p-3 rounded-lg text-sm bg-red-100 text-red-800 border border-red-200">
                         {bookingResult}
                       </div>
                     )}
@@ -455,6 +462,13 @@ export function FlightDetailsDrawer({
         onClose={handleAuthModalClose}
         onSignIn={handleSignIn}
         onSignUp={handleSignUp}
+      />
+
+      {/* Success Modal */}
+      <BookingSuccessModal
+        isOpen={showSuccessModal}
+        onClose={handleSuccessModalClose}
+        booking={successBooking}
       />
     </div>
   );

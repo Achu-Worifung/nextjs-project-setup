@@ -47,9 +47,10 @@ export async function POST(req: NextRequest) {
     }
 
     // Generate JWT
-    const token = jwt.sign({ userId: user.id ,
-        firstName: user.first_name,
-        lastName: user.last_name,
+    const token = jwt.sign({ 
+        userId: user.userid,  
+        firstName: user.firstname,
+        lastName: user.lastname,
         email: user.email
       }, process.env.JWT_SECRET);
 

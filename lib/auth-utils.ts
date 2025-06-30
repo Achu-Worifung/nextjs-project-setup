@@ -11,7 +11,13 @@ interface JWTPayload {
 
 export function decodeJWT(token: string): JWTPayload | null {
   try {
+    // Client-side JWT parsing (without verification - verification happens on server)
     const base64Url = token.split('.')[1];
+    if (!base64Url) {
+      console.error('Invalid token format');
+      return null;
+    }
+    
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(
       atob(base64)
@@ -19,7 +25,16 @@ export function decodeJWT(token: string): JWTPayload | null {
         .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
         .join('')
     );
-    return JSON.parse(jsonPayload);
+    
+    const payload = JSON.parse(jsonPayload);
+    console.log('Decoded JWT payload:', payload);
+    console.log('Available fields:', Object.keys(payload));
+    console.log('userId:', payload.userId);
+    console.log('email:', payload.email);
+    console.log('firstName:', payload.firstName);
+    console.log('lastName:', payload.lastName);
+    
+    return payload;
   } catch (error) {
     console.error('Error decoding JWT:', error);
     return null;

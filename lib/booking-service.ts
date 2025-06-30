@@ -1,6 +1,10 @@
+'use client';
 import { tokenManager } from './token-manager';
+import { decodeJWT } from '@/lib/auth-utils';
+
 
 export interface FlightBookingRequest {
+  token: string; // Optional token for client-side use
   flightNumber: string;
   airline: string;
   departureAirport: string;
@@ -47,7 +51,7 @@ class BookingService {
     if (!token) {
       throw new Error('No authentication token found');
     }
-    
+        
     return {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -128,6 +132,27 @@ class BookingService {
         error: error instanceof Error ? error.message : 'Unknown error occurred',
       };
     }
+  }
+
+  // Get current user info from token
+  getCurrentUser() {
+    const token = tokenManager.get();
+    if (!token) {
+      return null;
+    }
+    
+    const decode = decodeJWT(token);
+    if (!decode || Date.now() >= decode.exp * 1000) {
+      tokenManager.clear();
+      return null;
+    }
+    
+    return {
+      userId: decode.userId,
+      email: decode.email,
+      firstName: decode.firstName,
+      lastName: decode.lastName,
+    };
   }
 }
 
