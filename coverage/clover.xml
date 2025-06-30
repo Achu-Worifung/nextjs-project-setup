@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1751304719626" clover="3.2.0">
-  <project timestamp="1751304719626" name="All files">
+<coverage generated="1751304796093" clover="3.2.0">
+  <project timestamp="1751304796093" name="All files">
     <metrics statements="51" coveredstatements="51" conditionals="5" coveredconditionals="5" methods="5" coveredmethods="5" elements="61" coveredelements="61" complexity="0" loc="51" ncloc="51" packages="1" files="2" classes="2"/>
     <file name="mode-to-toggle.tsx" path="/Users/alanrivera/nextjs-project-setup/components/mode-to-toggle.tsx">
       <metrics statements="40" coveredstatements="40" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4"/>
