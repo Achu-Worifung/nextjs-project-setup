@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-import db from "@/lib/db";
 import pg from "pg";
 
 const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret";
@@ -32,7 +31,6 @@ interface HotelBookingRequest {
 }
 
 interface HotelBookingRow {
-  bookingid: string;
   hotelbookingid: string;
   checkindate: string;
   checkoutdate: string;
@@ -40,7 +38,6 @@ interface HotelBookingRow {
   hotelcheckinstatus: string;
   bookingdatetime: string;
   hoteldetails: object | null;
-  totalpaid: string;
 }
 
 interface DecodedToken {
@@ -196,9 +193,9 @@ export async function POST(req: NextRequest) {
           bookingDateTime,
         },
       });
-    } catch (dbError) {
+    } catch (error) {
       await client.query("ROLLBACK");
-      throw dbError;
+      throw error;
     } finally {
       client.end();
     }
@@ -242,63 +239,89 @@ export async function GET(req: NextRequest) {
     }
 
     console.log("Fetching hotel bookings for user:", decoded.userId);
-
-    // Fetch user's hotel bookings with the new simplified schema
-    const result = await db.query(
-      `
-      SELECT 
-        mb.BookingID,
-        hb.HotelBookingID,
-        hb.CheckInDate,
-        hb.CheckOutDate,
-        hb.Guests,
-        hb.HotelCheckInStatus,
-        hb.BookingDateTime,
-        hb.HotelDetails,
-        mb.TotalPaid
-      FROM ManageBookings.Bookings mb
-      JOIN Hotel.HotelBookings hb ON mb.UserID = hb.UserID
-      WHERE mb.UserID = $1 AND mb.BookingType = 'Hotel'
-      ORDER BY hb.BookingDateTime DESC
-    `,
-      [decoded.userId]
-    );
-
-    const bookings = result.rows.map((row: HotelBookingRow) => {
-      const hotelDetails = (row.hoteldetails as Record<string, unknown>) || {};
-
-      return {
-        bookingId: row.bookingid,
-        hotelBookingId: row.hotelbookingid,
-        hotelName: (hotelDetails.hotelName as string) || "Unknown Hotel",
-        location:
-          hotelDetails.hotelCity && hotelDetails.hotelCountry
-            ? `${hotelDetails.hotelCity}, ${hotelDetails.hotelCountry}`
-            : "Unknown Location",
-        roomType: (hotelDetails.roomType as string) || "Unknown Room",
-        checkInDate: row.checkindate,
-        checkOutDate: row.checkoutdate,
-        nights: (hotelDetails.nights as number) || 1,
-        guests: row.guests,
-        totalPaid: (hotelDetails.totalPrice as number) || 0,
-        status: row.hotelcheckinstatus,
-        bookingDateTime: row.bookingdatetime,
-        // Additional details from JSONB
-        hotelRating: hotelDetails.hotelRating as number,
-        amenities: (hotelDetails.amenities as string[]) || [],
-        roomDescription: hotelDetails.roomDescription as string,
-      };
+    
+    // Connect to the database
+    const client = new pg.Client({
+      user: process.env.PGUSER,
+      host: process.env.PGHOST,
+      database: process.env.PGDATABASE,
+      password: process.env.PGPASSWORD,
+      port: Number(process.env.PGPORT) || 5432,
+      ssl: {
+        rejectUnauthorized: false,
+        require: true,
+      },
+      connectionTimeoutMillis: 15000,
+      query_timeout: 10000,
     });
+    
+    try {
+      await client.connect();
+      
+      // Fetch user's hotel bookings directly from HotelBookings table
+      const result = await client.query(
+        `
+        SELECT 
+          hb.HotelBookingID,
+          hb.CheckInDate,
+          hb.CheckOutDate,
+          hb.Guests,
+          hb.HotelCheckInStatus,
+          hb.BookingDateTime,
+          hb.HotelDetails
+        FROM Hotel.HotelBookings hb
+        WHERE hb.UserID = $1
+        ORDER BY hb.BookingDateTime DESC
+      `,
+        [decoded.userId]
+      );
 
-    return NextResponse.json({
-      success: true,
-      bookings,
-    });
+      const bookings = result.rows.map((row: HotelBookingRow) => {
+        const hotelDetails = (row.hoteldetails as Record<string, unknown>) || {};
+
+        return {
+          bookingId: row.hotelbookingid, // Use hotel booking ID as the main booking ID
+          hotelBookingId: row.hotelbookingid,
+          hotelName: (hotelDetails.hotelName as string) || "Unknown Hotel",
+          location:
+            hotelDetails.hotelCity && hotelDetails.hotelCountry
+              ? `${hotelDetails.hotelCity}, ${hotelDetails.hotelCountry}`
+              : "Unknown Location",
+          roomType: (hotelDetails.roomType as string) || "Unknown Room",
+          checkInDate: row.checkindate,
+          checkOutDate: row.checkoutdate,
+          nights: (hotelDetails.nights as number) || 1,
+          guests: row.guests,
+          totalPaid: (hotelDetails.totalPrice as number) || 0,
+          status: row.hotelcheckinstatus,
+          bookingDateTime: row.bookingdatetime,
+          // Additional details from JSONB
+          hotelRating: hotelDetails.hotelRating as number,
+          amenities: (hotelDetails.amenities as string[]) || [],
+          roomDescription: hotelDetails.roomDescription as string,
+        };
+      });
+
+      return NextResponse.json({
+        success: true,
+        bookings,
+      });
+      
+    } catch (dbError) {
+      console.error("Database error:", dbError);
+      return NextResponse.json(
+        { error: "Failed to fetch hotel bookings from database" },
+        { status: 500 }
+      );
+    } finally {
+      client.end();
+    }
   } catch (error) {
-    console.error("Error fetching hotel bookings:", error);
+    console.error("Hotel bookings fetch error:", error);
     return NextResponse.json(
       { error: "Failed to fetch hotel bookings" },
       { status: 500 }
     );
   }
 }
+

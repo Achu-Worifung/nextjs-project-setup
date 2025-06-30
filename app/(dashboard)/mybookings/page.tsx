@@ -40,32 +40,58 @@ export default function MyBooking() {
         setLoading(true);
         setError(null);
         
+        const allBookings: Booking[] = [];
+        
         // Fetch flight bookings 
         const flightResponse = await bookingService.getUserBookings();
         
         if (flightResponse.success && flightResponse.bookings) {
           // Transform flight bookings to the common booking format
-          const transformedBookings: Booking[] = flightResponse.bookings.map(booking => ({
+          const transformedFlightBookings: Booking[] = flightResponse.bookings.map(booking => ({
             id: booking.bookingId,
             type: 'Flight' as const,
             date: booking.bookingDateTime || booking.departureTime,
             status: booking.status || 'Unknown',
             location: booking.route || `${booking.flightNumber}`,
             provider: booking.airline || 'Unknown Airline',
-            amount: booking.totalPaid,
+            amount: `$${booking.totalPaid.toFixed(2)}`,
             flightNumber: booking.flightNumber,
             checkInStatus: booking.checkInStatus
           }));
 
-          console.log('Fetched flight bookings:', transformedBookings);
-          
-          setBookings(transformedBookings);
-        } else {
-          setError('Failed to fetch flight bookings');
+          allBookings.push(...transformedFlightBookings);
+        }
+
+        // Fetch hotel bookings
+        const hotelResponse = await bookingService.getUserHotelBookings();
+        
+        if (hotelResponse.success && hotelResponse.bookings) {
+          // Transform hotel bookings to the common booking format
+          const transformedHotelBookings: Booking[] = hotelResponse.bookings.map(booking => ({
+            id: booking.bookingId,
+            type: 'Hotel' as const,
+            date: booking.bookingDateTime,
+            status: booking.status || 'Unknown',
+            location: booking.location,
+            provider: booking.hotelName,
+            amount: `$${booking.totalPaid.toFixed(2)}`,
+            flightNumber: undefined,
+            checkInStatus: undefined
+          }));
+
+          allBookings.push(...transformedHotelBookings);
+        }
+
+        console.log('Fetched all bookings:', allBookings);
+        
+        setBookings(allBookings);
+        
+        if (allBookings.length === 0) {
+          setError('No bookings found');
         }
       } catch (error) {
-        console.error('Error fetching flight bookings:', error);
-        setError('Failed to load flight bookings. Please try again.');
+        console.error('Error fetching bookings:', error);
+        setError('Failed to load bookings. Please try again.');
       } finally {
         setLoading(false);
       }
@@ -113,10 +139,10 @@ export default function MyBooking() {
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            My Flight Bookings
+            My Bookings
           </h1>
           <p className="text-gray-600 text-lg">
-            Manage and track your flight reservations
+            Manage and track your travel reservations
           </p>
         </div>
 
@@ -159,7 +185,7 @@ export default function MyBooking() {
           <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
             <div className="text-center">
               <div className="text-red-500 text-6xl mb-4">⚠️</div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Error Loading Flight Bookings</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Error Loading Bookings</h3>
               <p className="text-gray-500 mb-4">{error}</p>
               <button
                 onClick={() => window.location.reload()}
@@ -176,8 +202,8 @@ export default function MyBooking() {
           <div className="bg-white rounded-2xl shadow-lg p-8">
             <div className="text-center">
               <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Loading Your Flight Bookings</h3>
-              <p className="text-gray-500">Please wait while we fetch your flight reservations...</p>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Loading Your Bookings</h3>
+              <p className="text-gray-500">Please wait while we fetch your travel reservations...</p>
             </div>
           </div>
         )}
@@ -187,7 +213,7 @@ export default function MyBooking() {
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
             <h2 className="text-xl font-semibold text-gray-900">
-              {filteredBookings.length} Flight Booking{filteredBookings.length !== 1 ? 's' : ''} Found
+              {filteredBookings.length} Booking{filteredBookings.length !== 1 ? 's' : ''} Found
             </h2>
           </div>
           
@@ -264,12 +290,12 @@ export default function MyBooking() {
                 {searchTerm ? '🔍' : '✈️'}
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">
-                {searchTerm ? 'No flight bookings found' : 'No flight bookings yet'}
+                {searchTerm ? 'No bookings found' : 'No bookings yet'}
               </h3>
               <p className="text-gray-500 mb-4">
                 {searchTerm 
                   ? 'Try adjusting your search criteria' 
-                  : 'Start planning your next flight!'
+                  : 'Start planning your next adventure!'
                 }
               </p>
               {!searchTerm && (
@@ -277,7 +303,7 @@ export default function MyBooking() {
                   onClick={() => router.push('/flight-search')}
                   className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  Book Your First Flight
+                  Book Your First Trip
                 </button>
               )}
             </div>
