@@ -9,11 +9,11 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
+import { DayPicker } from "react-day-picker";
 import {
   Search,
   Users,
-  CalendarDays,
+  Calendar,
   PlaneTakeoff,
   PlaneLanding,
   ArrowLeftRight,
@@ -25,6 +25,7 @@ type Leg = { from: string; to: string; date?: Date };
 
 export function FlightSelection() {
   const router = useRouter();
+  const MAX_LEGS = 5;
 
   // Flight type
   const [flightType, setFlightType] = useState<"one-way" | "round-trip" | "multi-city">(
@@ -61,10 +62,20 @@ export function FlightSelection() {
     return airports
       .map((a) => {
         let score = 0;
-        if (a.iata.toLowerCase() === query) score += 50;
-        if (a.icao.toLowerCase() === query) score += 50;
+        // Exact matches first
+        if (a.iata.toLowerCase() === query) score += 100;
+        if (a.icao.toLowerCase() === query) score += 100;
+        // Major airports ranking
+        if (a.name.toLowerCase().includes("international")) score += 40;
+        if (a.name.toLowerCase().includes("heathrow")) score += 50;
+        // Major cities bonus
+        const majorCities = ["london", "new york", "paris", "tokyo", "beijing", "dubai", "los angeles", "chicago", "hong kong", "frankfurt"];
+        if (majorCities.includes(a.city.toLowerCase())) score += 30;
+        // Partial matches
         if (a.name.toLowerCase().includes(query)) score += 20;
         if (a.city.toLowerCase().includes(query)) score += 15;
+        if (a.iata.toLowerCase().includes(query)) score += 15;
+        if (a.icao.toLowerCase().includes(query)) score += 15;
         if (a.country.toLowerCase().includes(query)) score += 10;
         return { airport: a, score };
       })
@@ -137,7 +148,7 @@ export function FlightSelection() {
       to,
       departDate: departDate ? format(departDate, "yyyy-MM-dd") : "",
       returnDate: returnDate ? format(returnDate, "yyyy-MM-dd") : "",
-      travelers: `${counts} Adult${counts > 1 ? "s" : ""}`,
+      travelers: `${counts.adults} Adult${counts.adults > 1 ? "s" : ""}`,
       classType,
       legs: flightType === "multi-city" ? JSON.stringify(legs) : "",
     });
@@ -184,50 +195,62 @@ export function FlightSelection() {
  
 <div className="mb-6 flex items-end space-x-4 w-full">
   {/* Adults */}
-  <div>
+  <div data-testid="passenger-adults" role="group" aria-label="Adult passengers">
     <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
       <Users className="h-4 w-4 text-pink-500" /> Adults
     </Label>
     <div className="flex items-center space-x-4">
+      <span className="sr-only">Adults</span>
       <button
         type="button"
+        data-testid="adults-decrement"
         onClick={() => dec("adults")}
         className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+        aria-label="Decrease adult count"
       >
         −
       </button>
-      <span className="w-8 text-center text-sm">{counts.adults}</span>
+      <span data-testid="adults-count" className="w-8 text-center text-sm">{counts.adults}</span>
       <button
         type="button"
+        data-testid="adults-increment"
         onClick={() => inc("adults")}
         className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+        aria-label="Increase adult count"
       >
         +
       </button>
+      <span className="sr-only">Adults</span>
     </div>
   </div>
 
   {/* Children */}
-  <div>
+  <div data-testid="passenger-children" role="group" aria-label="Child passengers">
     <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
       <Users className="h-4 w-4 text-pink-500" /> Children
     </Label>
     <div className="flex items-center space-x-4">
+      <span className="sr-only">Children</span>
       <button
         type="button"
+        data-testid="children-decrement"
         onClick={() => dec("children")}
         className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+        aria-label="Decrease children count"
       >
         −
       </button>
-      <span className="w-8 text-center text-sm">{counts.children}</span>
+      <span data-testid="children-count" className="w-8 text-center text-sm">{counts.children}</span>
       <button
         type="button"
+        data-testid="children-increment"
         onClick={() => inc("children")}
         className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+        aria-label="Increase children count"
       >
         +
       </button>
+      <span className="sr-only">Children</span>
     </div>
   </div>
 
@@ -275,7 +298,7 @@ export function FlightSelection() {
                       key={i}
                       className="px-4 py-2 hover:bg-pink-50 cursor-pointer"
                       onClick={() => {
-                        setFrom(`${ap.iata}, ${ap.city}`);
+                        setFrom(`${ap.city}, ${ap.iata}`);
                         setAirportSuggestions([]);
                       }}
                     >
@@ -295,6 +318,7 @@ export function FlightSelection() {
                 variant="outline"
                 size="sm"
                 onClick={handleSwap}
+                aria-label="Swap departure and destination"
                 className="p-2 rounded-full border-2 border-pink-200 hover:border-pink-500 hover:bg-pink-50"
               >
                 <ArrowLeftRight className="h-4 w-4 text-pink-500" />
@@ -324,7 +348,7 @@ export function FlightSelection() {
                       key={i}
                       className="px-4 py-2 hover:bg-pink-50 cursor-pointer"
                       onClick={() => {
-                        setTo(`${ap.iata}, ${ap.city}`);
+                        setTo(`${ap.city}, ${ap.iata}`);
                         setToAirportSuggestions([]);
                       }}
                     >
@@ -339,55 +363,33 @@ export function FlightSelection() {
 
           {/* Depart */}
           <div className="lg:col-span-2">
-            <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-              <CalendarDays className="h-4 w-4 text-pink-500" /> Depart
+            <Label htmlFor="departure" className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+              <Calendar className="h-4 w-4 text-pink-500" /> Departure date
             </Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline" 
-                  className={cn("w-full text-left", !departDate && "text-muted-foreground")}  
-                >
-                  <CalendarDays className="mr-2 h-4 w-4" />
-                  {departDate ? format(departDate, "MMM dd, yyyy") : "Select date"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent align="start">
-                <Calendar
-                  mode="single"
-                  selected={departDate}
-                  onSelect={setDepartDate}
-                  disabled={(d) => d < new Date()}
-                />
-              </PopoverContent>
-            </Popover>
+            <input
+              type="date"
+              id="departure"
+              value={departDate ? departDate.toISOString().split('T')[0] : ''}
+              onChange={e => setDepartDate(e.target.value ? new Date(e.target.value) : undefined)}
+              min={new Date().toISOString().split('T')[0]}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
+            />
           </div>
 
           {/* Return */}
           {flightType === "round-trip" && (
             <div className="lg:col-span-2">
-              <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                <CalendarDays className="h-4 w-4 text-pink-500" /> Return
+              <Label htmlFor="return" className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                <Calendar className="h-4 w-4 text-pink-500" /> Return date
               </Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn("w-full text-left", !returnDate && "text-muted-foreground")}
-                  >
-                    <CalendarDays className="mr-2 h-4 w-4" />
-                    {returnDate ? format(returnDate, "MMM dd, yyyy") : "Select date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent align="start">
-                  <Calendar
-                    mode="single"
-                    selected={returnDate}
-                    onSelect={setReturnDate}
-                    disabled={(d) => d < (departDate || new Date())}
-                  />
-                </PopoverContent>
-              </Popover>
+              <input
+                type="date"
+                id="return"
+                value={returnDate ? returnDate.toISOString().split('T')[0] : ''}
+                onChange={e => setReturnDate(e.target.value ? new Date(e.target.value) : undefined)}
+                min={(departDate || new Date()).toISOString().split('T')[0]}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
+              />
             </div>
           )}
         </div>
@@ -401,11 +403,12 @@ export function FlightSelection() {
             <div key={idx} className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end mb-4">
               {/* From */}
               <div className="lg:col-span-3 relative overflow-visible">
-                <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                <Label htmlFor={`from-${idx}`} className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                   <PlaneTakeoff className="h-4 w-4 text-pink-500" /> From
                 </Label>
                 <div className="relative">
                   <input
+                    id={`from-${idx}`}
                     type="text"
                     value={leg.from}
                     onFocus={() => {
@@ -425,7 +428,7 @@ export function FlightSelection() {
                           key={i}
                           className="px-4 py-2 hover:bg-pink-50 cursor-pointer"
                           onClick={() => {
-                            updateLeg(idx, { from: `${ap.iata}, ${ap.city}` });
+                            updateLeg(idx, { from: `${ap.city}, ${ap.iata}` });
                             const s = [...legFromSuggestions];
                             s[idx] = [];
                             setLegFromSuggestions(s);
@@ -450,6 +453,7 @@ export function FlightSelection() {
                     [c[idx].from, c[idx].to] = [c[idx].to, c[idx].from];
                     setLegs(c);
                   }}
+                  aria-label="Swap departure and destination"
                   className="p-2 rounded-full border-2 border-pink-200 hover:border-pink-500 hover:bg-pink-50"
                 >
                   <ArrowLeftRight className="h-4 w-4 text-pink-500" />
@@ -457,11 +461,12 @@ export function FlightSelection() {
               </div>
               {/* To */}
               <div className="lg:col-span-3 relative overflow-visible">
-                <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                <Label htmlFor={`to-${idx}`} className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                   <PlaneLanding className="h-4 w-4 text-pink-500" /> To
                 </Label>
                 <div className="relative">
                   <input
+                    id={`to-${idx}`}
                     type="text"
                     value={leg.to}
                     onFocus={() => {
@@ -481,7 +486,7 @@ export function FlightSelection() {
                           key={i}
                           className="px-4 py-2 hover:bg-pink-50 cursor-pointer"
                           onClick={() => {
-                            updateLeg(idx, { to: `${ap.iata}, ${ap.city}` });
+                            updateLeg(idx, { to: `${ap.city}, ${ap.iata}` });
                             const s = [...legToSuggestions];
                             s[idx] = [];
                             setLegToSuggestions(s);
@@ -497,28 +502,17 @@ export function FlightSelection() {
               </div>
               {/* Depart leg */}
               <div className="lg:col-span-2">
-                <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                  <CalendarDays className="h-4 w-4 text-pink-500" /> Depart
+                <Label htmlFor={`leg-${idx}-date`} className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                  <Calendar className="h-4 w-4 text-pink-500" /> Departure date
                 </Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn("w-full text-left", !leg.date && "text-muted-foreground")}
-                    >
-                      <CalendarDays className="mr-2 h-4 w-4" />
-                      {leg.date ? format(leg.date, "MMM dd, yyyy") : "Select date"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent align="start">
-                    <Calendar
-                      mode="single"
-                      selected={leg.date}
-                      onSelect={(d) => onLegDateChange(idx, d)}
-                      disabled={(d) => d < new Date()}
-                    />
-                  </PopoverContent>
-                </Popover>
+                <input
+                  type="date"
+                  id={`leg-${idx}-date`}
+                  value={leg.date ? leg.date.toISOString().split('T')[0] : ''}
+                  onChange={e => onLegDateChange(idx, e.target.value ? new Date(e.target.value) : undefined)}
+                  min={new Date().toISOString().split('T')[0]}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
+                />
               </div>
 
               {/* Remove leg */}
@@ -530,7 +524,7 @@ export function FlightSelection() {
                     onClick={() => removeLeg(idx)}
                     className="w-10 h-10 p-2 rounded-full text-red-500 hover:bg-red-50 flex items-center justify-center z-10"
                   >
-                    ✕
+                    x
                   </Button>
                 </div>
               )}
@@ -542,9 +536,15 @@ export function FlightSelection() {
       <button
         type="button"
         onClick={addLeg}
-        className="text-pink-500 text-sm font-medium hover:underline"
+        disabled={legs.length >= MAX_LEGS}
+        className={cn(
+          "text-sm font-medium",
+          legs.length >= MAX_LEGS
+            ? "text-gray-400 cursor-not-allowed"
+            : "text-pink-500 hover:underline"
+        )}
       >
-        + Add Another Flight
+        {legs.length >= MAX_LEGS ? `Maximum ${MAX_LEGS} flights reached` : "Add Another Flight"}
       </button>
     </div>
     

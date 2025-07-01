@@ -56,6 +56,8 @@ export function SelectHotel() {
                     <input
                         type="date"
                         id="checkin"
+                        value={startDate ? startDate.toISOString().split('T')[0] : ''}
+                        onChange={e => setStartDate(e.target.value ? new Date(e.target.value) : null)}
                         className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                     />
                 </div>
@@ -69,6 +71,8 @@ export function SelectHotel() {
                     <input
                         type="date"
                         id="checkout"
+                        value={endDate ? endDate.toISOString().split('T')[0] : ''}
+                        onChange={e => setEndDate(e.target.value ? new Date(e.target.value) : null)}
                         className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                     />
                 </div>

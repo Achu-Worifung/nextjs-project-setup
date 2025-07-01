@@ -11,7 +11,6 @@ import {
   type CarData 
 } from "@/data/car-rental-data";
 
-// Add animation style
 const animationStyles = `
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
@@ -52,6 +51,22 @@ export function SelectVehicle() {
 		
 		if (!dropoffLocation) {
 			alert("Please enter a dropoff location");
+			return;
+		}
+		
+		if (!pickupDate) {
+			alert("Please select a pickup date and time");
+			return;
+		}
+		
+		if (!dropoffDate) {
+			alert("Please select a dropoff date and time");
+			return;
+		}
+		
+		// Validate date order
+		if (new Date(dropoffDate) <= new Date(pickupDate)) {
+			alert("Dropoff date must be after pickup date");
 			return;
 		}
 		
