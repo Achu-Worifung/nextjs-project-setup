@@ -90,16 +90,20 @@ describe('SelectVehicle Component', () => {
   test('location fields accept input', async () => {
     render(<SelectVehicle />);
     
-    // Use act to handle async updates
+    const pickupInput = screen.getByPlaceholderText('Enter pickup location');
+    const dropoffInput = screen.getByPlaceholderText('Enter dropoff location');
+    
     await act(async () => {
-      const pickupInput = screen.getByPlaceholderText('Enter pickup location');
       fireEvent.change(pickupInput, { target: { value: 'New York' } });
-      expect(pickupInput).toHaveValue('New York');
-      
-      const dropoffInput = screen.getByPlaceholderText('Enter dropoff location');
-      fireEvent.change(dropoffInput, { target: { value: 'Miami' } });
-      expect(dropoffInput).toHaveValue('Miami');
+      await Promise.resolve();
     });
+    expect(pickupInput).toHaveValue('New York');
+    
+    await act(async () => {
+      fireEvent.change(dropoffInput, { target: { value: 'Miami' } });
+      await Promise.resolve();
+    });
+    expect(dropoffInput).toHaveValue('Miami');
   });
   
   test('shows location suggestions when typing', async () => {
@@ -107,19 +111,19 @@ describe('SelectVehicle Component', () => {
     
     const pickupInput = screen.getByPlaceholderText('Enter pickup location');
     
-    // Type in the input to trigger suggestions and wait for async updates
     await act(async () => {
       fireEvent.change(pickupInput, { target: { value: 'New' } });
       fireEvent.focus(pickupInput);
+      await Promise.resolve();
     });
     
-    // Wait for suggestions to be fetched
     await waitFor(() => {
       expect(require('@/data/car-rental-data').getLocationSuggestions).toHaveBeenCalledWith('New');
     });
     
-    // Ensure suggestions are displayed
-    expect(screen.getByText('New York, NY')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('New York, NY')).toBeInTheDocument();
+    });
   });
   
   test('handles suggestion selection', async () => {
