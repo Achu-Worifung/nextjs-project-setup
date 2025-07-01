@@ -69,15 +69,23 @@ export interface HotelBookingRequest {
 }
 
 export interface CarBookingRequest {
-  companyId: string;
-  modelId: string;
+  id:number;
+  name:string;
+  make:string;
+  model:string;
+  year:number;
+  imageUrl:string;
+  seats:number;
+  type:string;
+  pricePerDay:number;
+  features:string;
+  transmission:string;
+  fuelType:string;
+  rating:number;
+  pickupLocation: string;
+  dropoffLocation: string;
   pickupDate: string;
   dropoffDate: string;
-  days: number;
-  pickupLocationId: string;
-  dropoffLocationId: string;
-  price: number;
-  numberPassengers: number;
 }
 
 export interface FlightBooking {
@@ -202,7 +210,7 @@ class BookingService {
     }
   }
 
-  async getUserBookings(): Promise<FlightBookingsListResponse> {
+  async getUserFlightBookings(): Promise<FlightBookingsListResponse> {
     try {
       const headers = this.getAuthHeaders();
       
@@ -308,7 +316,7 @@ class BookingService {
     try {
       const headers = this.getAuthHeaders();
       
-      const response = await fetch('/api/bookings/car', {
+      const response = await fetch('/api/bookings', {
         method: 'GET',
         headers,
       });
@@ -353,6 +361,36 @@ class BookingService {
       };
     }
   }
+
+  async getUserBookings(){
+    try 
+    {
+      const headers = this.getAuthHeaders();
+
+      const response = await fetch(`/api/bookings`, {
+        method: 'GET',
+        headers,
+      });
+
+      const data = await response.json();
+
+      console.log('User bookings data:', data);
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to fetch user bookings');
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Error fetching user bookings:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred',
+      };
+    }
+  }
+
+  
 
   // Get current user info from token
   getCurrentUser() {

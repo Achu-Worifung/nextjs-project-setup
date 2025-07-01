@@ -6,17 +6,16 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { useAuth } from '@/context/AuthContext';
 import { bookingService } from '@/lib/booking-service';
 import { useRouter } from 'next/navigation';
-
 interface Booking {
-  id: string;
-  type: 'Flight' | 'Hotel' | 'Car Rental';
-  date: string;
-  status: string;
-  location: string;
-  provider: string;
-  amount: string;
-  flightNumber?: string;
-  checkInStatus?: string;
+  bookingid: string;
+  paymentId: string;
+  userId: string;
+  bookingtype: string;
+  totalpaid: number;
+  bookingStatus: string;
+  location?: string;
+  provider?: string;
+
 }
 
 export default function MyBooking() {
@@ -40,54 +39,14 @@ export default function MyBooking() {
         setLoading(true);
         setError(null);
         
-        const allBookings: Booking[] = [];
+        const allBookings: Booking[] = await bookingService.getUserBookings();
         
-        // Fetch flight bookings 
-        const flightResponse = await bookingService.getUserBookings();
-        
-        if (flightResponse.success && flightResponse.bookings) {
-          // Transform flight bookings to the common booking format
-          const transformedFlightBookings: Booking[] = flightResponse.bookings.map(booking => ({
-            id: booking.bookingId,
-            type: 'Flight' as const,
-            date: booking.bookingDateTime || booking.departureTime,
-            status: booking.status || 'Unknown',
-            location: booking.route || `${booking.flightNumber}`,
-            provider: booking.airline || 'Unknown Airline',
-            amount: `$${booking.totalPaid.toFixed(2)}`,
-            flightNumber: booking.flightNumber,
-            checkInStatus: booking.checkInStatus
-          }));
-
-          allBookings.push(...transformedFlightBookings);
-        }
-
-        // Fetch hotel bookings
-        const hotelResponse = await bookingService.getUserHotelBookings();
-        
-        if (hotelResponse.success && hotelResponse.bookings) {
-          // Transform hotel bookings to the common booking format
-          const transformedHotelBookings: Booking[] = hotelResponse.bookings.map(booking => ({
-            id: booking.bookingId,
-            type: 'Hotel' as const,
-            date: booking.bookingDateTime,
-            status: booking.status || 'Unknown',
-            location: booking.location,
-            provider: booking.hotelName,
-            amount: `$${booking.totalPaid.toFixed(2)}`,
-            flightNumber: undefined,
-            checkInStatus: undefined
-          }));
-
-          allBookings.push(...transformedHotelBookings);
-        }
-
         console.log('Fetched all bookings:', allBookings);
         
         setBookings(allBookings);
         
-        if (allBookings.length === 0) {
-          setError('No bookings found');
+        if (!allBookings || allBookings.length === 0) {
+          console.log('No bookings found for user');
         }
       } catch (error) {
         console.error('Error fetching bookings:', error);
@@ -101,10 +60,10 @@ export default function MyBooking() {
   }, [isSignedIn, router]);
 
   const filteredBookings = bookings.filter(booking =>
-    booking.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    booking.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    booking.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    booking.provider.toLowerCase().includes(searchTerm.toLowerCase())
+    booking.bookingid.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    booking.bookingtype.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (booking.location && booking.location.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (booking.provider && booking.provider.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const getStatusColor = (status: string) => {
@@ -126,7 +85,7 @@ export default function MyBooking() {
         return '✈️';
       case 'Hotel':
         return '🏨';
-      case 'Car Rental':
+      case 'Car':
         return '🚗';
       default:
         return '📋';
@@ -197,6 +156,7 @@ export default function MyBooking() {
           </div>
         )}
 
+
         {/* Loading State */}
         {loading && (
           <div className="bg-white rounded-2xl shadow-lg p-8">
@@ -227,9 +187,7 @@ export default function MyBooking() {
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Date
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
+                  
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Location
                   </th>
@@ -242,41 +200,34 @@ export default function MyBooking() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredBookings.map((booking) => (
-                  <tr key={booking.id} className="hover:bg-gray-50 transition-colors duration-150">
+                {filteredBookings.map((booking: Booking) => (
+                  <tr key={booking.bookingid} className="hover:bg-gray-50 transition-colors duration-150">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
                           <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                            <span className="text-lg">{getTypeIcon(booking.type)}</span>
+                            <span className="text-lg">{getTypeIcon(booking.bookingtype)}</span>
                           </div>
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{booking.id}</div>
-                          <div className="text-sm text-gray-500">{booking.type}</div>
+                          <div className="text-sm font-medium text-gray-900">{booking.bookingid}</div>
+                          <div className="text-sm text-gray-500">{booking.bookingtype}</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {new Date(booking.date).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                      })}
+                      {/* Since we don't have a date field, we'll use a placeholder */}
+                      N/A
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(booking.status)}`}>
-                        {booking.status}
-                      </span>
-                    </td>
+                    
                     <td className="px-6 py-4 text-sm text-gray-900 max-w-xs truncate">
-                      {booking.location}
+                      {booking.location || 'N/A'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {booking.provider}
+                      {booking.provider || 'N/A'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {booking.amount}
+                      ${booking.totalpaid || '0.00'}
                     </td>
                   </tr>
                 ))}

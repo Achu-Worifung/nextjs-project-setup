@@ -6,6 +6,8 @@ import { CarData, mockAvailableCars } from "@/data/car-rental-data";
 import { Calendar, MapPin, Check, CreditCard, ArrowLeft, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { Label } from "@/components/ui/label";
+import { bookingService, CarBookingRequest } from '@/lib/booking-service';
+
 
 // Form states interface
 interface BookingFormData {
@@ -28,6 +30,7 @@ export default function CarBookingPage() {
   const params = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
+  
   const carId = params && typeof params.id === 'string' ? parseInt(params.id, 10) : 0;
   const [car, setCar] = useState<CarData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -77,6 +80,8 @@ export default function CarBookingPage() {
     
     if (selectedCar) {
       setCar(selectedCar);
+      console.log("Selected car:", selectedCar);
+
       
       // Calculate number of rental days
       let days = 1;
@@ -119,7 +124,7 @@ export default function CarBookingPage() {
   }, [car, insuranceOption, daysCount]);
 
   // Handle booking submission
-  const handleSubmitBooking = (e: React.FormEvent) => {
+  const handleSubmitBooking = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (bookingStep === 1) {
@@ -140,7 +145,23 @@ export default function CarBookingPage() {
         alert("Please agree to the terms and conditions");
         return;
       }
-      setBookingStep(3);
+      //making the booking request
+      try 
+      {
+        const requestData = {...car, pickupLocation, dropoffLocation, pickupDate, dropoffDate, totalPrice, insuranceOption} as CarBookingRequest;
+       const res = await bookingService.bookCar(requestData);
+       if (!res.success)
+       {
+        alert('booking failed')
+       }else 
+       {
+        setBookingStep(3);
+       }
+      }catch(err)
+      {
+        console.log('an error occured while booking the car', err)
+      }
+
     }
     else {
       // Final step, redirect to confirmation or dashboard

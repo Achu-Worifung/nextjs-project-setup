@@ -160,16 +160,17 @@ export async function POST(req: NextRequest) {
       // Create main booking record
       const mainBookingResult = await client.query(
         `
-        INSERT INTO ManageBookings.Bookings (UserID, BookingType, BookingStatus, TotalPaid, PaymentID)
-        VALUES ($1, $2, $3, $4, $5)
+        INSERT INTO ManageBookings.Bookings (UserID, BookingType, TotalPaid, PaymentID, LOCATION, PROVIDER, date)
+        VALUES ($1, $2, $3, $4, $5, $6, NOW())
         RETURNING BookingID
       `,
         [
           decoded.userId,
           "Hotel",
-          "Paid",
           bookingData.totalPrice,
           "00000000-0000-0000-0000-000000000001", // Placeholder payment ID
+          bookingData.hotelDetails.hotelAddress,
+          bookingData.hotelDetails.hotelName,
         ]
       );
 
@@ -189,7 +190,7 @@ export async function POST(req: NextRequest) {
           nights: bookingData.hotelDetails.nights,
           guests: bookingData.guests,
           totalPaid: bookingData.totalPrice,
-          status: "Pending",
+          status: "Paid",
           bookingDateTime,
         },
       });
