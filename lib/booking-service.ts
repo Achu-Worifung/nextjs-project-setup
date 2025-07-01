@@ -146,6 +146,45 @@ export interface CarBooking {
   bookingDateTime: string;
 }
 
+export interface BookingDetails {
+  success: boolean;
+  booking?: {
+    bookingId: string;
+    userId: string;
+    bookingType: string;
+    totalPaid: number;
+    status: string;
+    bookingDateTime: string;
+    location?: string;
+    provider?: string;
+    // Flight specific
+    flightNumber?: string;
+    airline?: string;
+    departureTime?: string;
+    arrivalTime?: string;
+    flightClass?: string;
+    numberOfSeats?: number;
+    // Hotel specific
+    hotelName?: string;
+    roomType?: string;
+    checkInDate?: string;
+    checkOutDate?: string;
+    nights?: number;
+    guests?: number;
+    // Car specific
+    vehicle?: string;
+    companyName?: string;
+    pickupDate?: string;
+    dropoffDate?: string;
+    days?: number;
+    numberPassengers?: number;
+    pickupLocation?: string;
+    dropoffLocation?: string;
+    [key: string]: unknown; // Allow additional properties
+  };
+  error?: string;
+}
+
 export interface BookingResponse {
   success: boolean;
   message?: string;
@@ -337,11 +376,68 @@ class BookingService {
     }
   }
 
-  async cancelBooking(bookingId: string): Promise<BookingResponse> {
+  async getBookingDetails(bookingId: string, bookingType: string): Promise<BookingDetails> {
     try {
       const headers = this.getAuthHeaders();
       
-      const response = await fetch(`/api/bookings/flight/${bookingId}`, {
+      // Determine the endpoint based on booking type
+      let endpoint = '';
+      switch (bookingType.toLowerCase()) {
+        case 'flight':
+          endpoint = `/api/bookings/flight/${bookingId}`;
+          break;
+        case 'hotel':
+          endpoint = `/api/bookings/hotel/${bookingId}`;
+          break;
+        case 'car':
+          endpoint = `/api/bookings/car/${bookingId}`;
+          break;
+        default:
+          throw new Error('Invalid booking type');
+      }
+
+      const response = await fetch(endpoint, {
+        method: 'GET',
+        headers,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to fetch booking details');
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Booking details fetch error:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred',
+      };
+    }
+  }
+
+  async cancelBooking(bookingId: string, bookingType: string): Promise<BookingResponse> {
+    try {
+      const headers = this.getAuthHeaders();
+      
+      // Determine the endpoint based on booking type
+      let endpoint = '';
+      switch (bookingType.toLowerCase()) {
+        case 'flight':
+          endpoint = `/api/bookings/flight/${bookingId}`;
+          break;
+        case 'hotel':
+          endpoint = `/api/bookings/hotel/${bookingId}`;
+          break;
+        case 'car':
+          endpoint = `/api/bookings/car/${bookingId}`;
+          break;
+        default:
+          throw new Error('Invalid booking type');
+      }
+      
+      const response = await fetch(endpoint, {
         method: 'DELETE',
         headers,
       });
