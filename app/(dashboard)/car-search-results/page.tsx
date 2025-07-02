@@ -6,13 +6,18 @@ import { CarData, mockAvailableCars, carTypes } from "@/data/car-rental-data";
 import { Label } from "@/components/ui/label";
 import { MapPin, Calendar, Filter, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { AuthModal } from "@/components/ui/auth-modal";
+import {useAuth} from "@/context/AuthContext"
+
 
 export default function CarSearchResults() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [availableCars, setAvailableCars] = useState<CarData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const {token, isSignedIn} = useAuth()
+
   // Filter states
   const [minSeats, setMinSeats] = useState(searchParams ? Number(searchParams.get("minSeats") || 0) : 0);
   const [maxPrice, setMaxPrice] = useState(searchParams ? Number(searchParams.get("maxPrice") || 100) : 100);
@@ -54,6 +59,38 @@ export default function CarSearchResults() {
     }, 500);
   };
   
+   const handleSignIn = () => {
+    setShowAuthModal(false);
+    // Navigate to sign in page
+    router.push('/signin');
+  };
+
+  const handleSignUp = () => {
+    setShowAuthModal(false);
+    // Navigate to sign up page  
+    router.push('/signup');
+  };
+
+  const handleAuthModalClose = () => {
+    setShowAuthModal(false);
+  };
+
+  const handleCarSelection = (carId:number) =>
+  {
+    if (!isSignedIn) {
+      setShowAuthModal(true);
+      return;
+    }
+    
+    const queryParams = new URLSearchParams({
+      pickup: pickupLocation,
+      dropoff: dropoffLocation,
+      ...(pickupDate && { pickupDate }),
+      ...(dropoffDate && { dropoffDate }),
+    }).toString();
+
+    router.push(`/car-booking/${carId}?${queryParams}`);
+  }
   // Function to build car booking URL (used for debugging if needed)
   const getBookingUrl = (carId: number): string => {
     const queryParams = new URLSearchParams();
@@ -277,20 +314,12 @@ export default function CarSearchResults() {
 
                     <div className="flex justify-between items-center pt-2 border-t border-gray-100">
                       <p className="text-xl font-bold text-pink-500">${car.pricePerDay}<span className="text-sm font-normal text-gray-500">/day</span></p>
-                      <Link
-                        href={{
-                          pathname: `/car-booking/${car.id}`,
-                          query: {
-                            pickup: pickupLocation,
-                            dropoff: dropoffLocation,
-                            ...(pickupDate && { pickupDate: pickupDate }),
-                            ...(dropoffDate && { dropoffDate: dropoffDate }),
-                          },
-                        }}
+                      <button
+                        onClick={() => handleCarSelection(car.id)}
                         className="bg-pink-500 hover:bg-pink-600 text-white py-2 px-4 rounded text-sm font-medium transition-colors cursor-pointer inline-block"
                       >
                         Select
-                      </Link>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -320,6 +349,12 @@ export default function CarSearchResults() {
           )}
         </div>
       </div>
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={handleAuthModalClose}
+        onSignIn={handleSignIn}
+        onSignUp={handleSignUp}
+      />
     </div>
   );
 }

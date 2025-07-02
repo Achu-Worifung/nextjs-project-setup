@@ -69,15 +69,23 @@ export interface HotelBookingRequest {
 }
 
 export interface CarBookingRequest {
-  companyId: string;
-  modelId: string;
+  id:number;
+  name:string;
+  make:string;
+  model:string;
+  year:number;
+  imageUrl:string;
+  seats:number;
+  type:string;
+  pricePerDay:number;
+  features:string;
+  transmission:string;
+  fuelType:string;
+  rating:number;
+  pickupLocation: string;
+  dropoffLocation: string;
   pickupDate: string;
   dropoffDate: string;
-  days: number;
-  pickupLocationId: string;
-  dropoffLocationId: string;
-  price: number;
-  numberPassengers: number;
 }
 
 export interface FlightBooking {
@@ -136,6 +144,45 @@ export interface CarBooking {
   totalPaid: number;
   status: string;
   bookingDateTime: string;
+}
+
+export interface BookingDetails {
+  success: boolean;
+  booking?: {
+    bookingId: string;
+    userId: string;
+    bookingType: string;
+    totalPaid: number;
+    status: string;
+    bookingDateTime: string;
+    location?: string;
+    provider?: string;
+    // Flight specific
+    flightNumber?: string;
+    airline?: string;
+    departureTime?: string;
+    arrivalTime?: string;
+    flightClass?: string;
+    numberOfSeats?: number;
+    // Hotel specific
+    hotelName?: string;
+    roomType?: string;
+    checkInDate?: string;
+    checkOutDate?: string;
+    nights?: number;
+    guests?: number;
+    // Car specific
+    vehicle?: string;
+    companyName?: string;
+    pickupDate?: string;
+    dropoffDate?: string;
+    days?: number;
+    numberPassengers?: number;
+    pickupLocation?: string;
+    dropoffLocation?: string;
+    [key: string]: unknown; // Allow additional properties
+  };
+  error?: string;
 }
 
 export interface BookingResponse {
@@ -202,7 +249,7 @@ class BookingService {
     }
   }
 
-  async getUserBookings(): Promise<FlightBookingsListResponse> {
+  async getUserFlightBookings(): Promise<FlightBookingsListResponse> {
     try {
       const headers = this.getAuthHeaders();
       
@@ -308,7 +355,7 @@ class BookingService {
     try {
       const headers = this.getAuthHeaders();
       
-      const response = await fetch('/api/bookings/car', {
+      const response = await fetch('/api/bookings', {
         method: 'GET',
         headers,
       });
@@ -329,11 +376,68 @@ class BookingService {
     }
   }
 
-  async cancelBooking(bookingId: string): Promise<BookingResponse> {
+  async getBookingDetails(bookingId: string, bookingType: string): Promise<BookingDetails> {
     try {
       const headers = this.getAuthHeaders();
       
-      const response = await fetch(`/api/bookings/flight/${bookingId}`, {
+      // Determine the endpoint based on booking type
+      let endpoint = '';
+      switch (bookingType.toLowerCase()) {
+        case 'flight':
+          endpoint = `/api/bookings/flight/${bookingId}`;
+          break;
+        case 'hotel':
+          endpoint = `/api/bookings/hotel/${bookingId}`;
+          break;
+        case 'car':
+          endpoint = `/api/bookings/car/${bookingId}`;
+          break;
+        default:
+          throw new Error('Invalid booking type');
+      }
+
+      const response = await fetch(endpoint, {
+        method: 'GET',
+        headers,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to fetch booking details');
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Booking details fetch error:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred',
+      };
+    }
+  }
+
+  async cancelBooking(bookingId: string, bookingType: string): Promise<BookingResponse> {
+    try {
+      const headers = this.getAuthHeaders();
+      
+      // Determine the endpoint based on booking type
+      let endpoint = '';
+      switch (bookingType.toLowerCase()) {
+        case 'flight':
+          endpoint = `/api/bookings/flight/${bookingId}`;
+          break;
+        case 'hotel':
+          endpoint = `/api/bookings/hotel/${bookingId}`;
+          break;
+        case 'car':
+          endpoint = `/api/bookings/car/${bookingId}`;
+          break;
+        default:
+          throw new Error('Invalid booking type');
+      }
+      
+      const response = await fetch(endpoint, {
         method: 'DELETE',
         headers,
       });
@@ -353,6 +457,36 @@ class BookingService {
       };
     }
   }
+
+  async getUserBookings(){
+    try 
+    {
+      const headers = this.getAuthHeaders();
+
+      const response = await fetch(`/api/bookings`, {
+        method: 'GET',
+        headers,
+      });
+
+      const data = await response.json();
+
+      console.log('User bookings data:', data);
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to fetch user bookings');
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Error fetching user bookings:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred',
+      };
+    }
+  }
+
+  
 
   // Get current user info from token
   getCurrentUser() {

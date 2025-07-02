@@ -2,7 +2,6 @@
 import { HotelData } from "@/lib/types";
 import { Star, MapPin, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 
 interface HotelCardProps {
   hotel: HotelData;
@@ -47,12 +46,13 @@ export function HotelCard({ hotel, onHotelClick }: HotelCardProps) {
     >
       {/* Image Section */}
       <div className="relative h-56 overflow-hidden">
-        <Image
-          src="/des1.jpg" // Use a default image since HotelData doesn't have photo URLs
-          alt={hotel.name}
-          fill
-          className="object-cover group-hover:scale-110 transition-transform duration-500"
-        />
+        {/* Placeholder Image */}
+        <div className="w-full h-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <div className="text-center text-blue-600">
+            <div className="text-4xl mb-2">🏨</div>
+            <p className="text-sm font-medium px-4">{hotel.name}</p>
+          </div>
+        </div>
         
         {/* Simple overlay on hover */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300" />

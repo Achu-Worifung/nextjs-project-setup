@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { X, CheckCircle, Plane, Calendar, Users, CreditCard, MapPin } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface BookingSuccessModalProps {
   isOpen: boolean;
@@ -27,6 +28,7 @@ export function BookingSuccessModal({
   onClose,
   booking
 }: BookingSuccessModalProps) {
+    const router = useRouter();
   if (!isOpen || !booking) return null;
 
   const formatCurrency = (amount: number) => `$${amount.toFixed(2)}`;
@@ -148,6 +150,7 @@ export function BookingSuccessModal({
               onClick={() => {
                 // In a real app, this would navigate to bookings page
                 onClose();
+                router.push('/mybookings');
               }}
               className="flex-1 border-gray-300 hover:bg-gray-50"
             >

@@ -134,10 +134,10 @@ export async function POST(request: NextRequest) {
         await client.query(
           `
           INSERT INTO ManageBookings.Bookings 
-          (BookingID, PaymentID, UserID, BookingType, BookingStatus, TotalPaid)
-          VALUES ($1, $2, $3, $4, $5, $6)
+          (BookingID, PaymentID, UserID, BookingType, TotalPaid, Location, Provider, date)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, NOW())
         `,
-          [bookingId, paymentId, userId, "Flight", "Paid", totalPaid]
+          [bookingId, paymentId, userId, "Flight", totalPaid, `${body.departureAirport} → ${body.destinationAirport}`, body.airline]
         );
 
         // Insert into Flights.FlightBookings table with flight details
