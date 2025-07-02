@@ -122,6 +122,7 @@ export default function MyBooking() {
           ...booking,
           ...detailsResult.booking
         });
+        console.log('Fetched booking details:', detailsResult.booking);
       } else {
         console.error('Failed to fetch booking details:', detailsResult.error);
         // Still show modal with basic information
@@ -210,12 +211,32 @@ export default function MyBooking() {
       {/* Header Section */}
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            My Bookings
-          </h1>
-          <p className="text-gray-600 text-lg">
-            Manage and track your travel reservations
-          </p>
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-4xl font-bold text-gray-900 mb-2">
+                My Bookings
+              </h1>
+              <p className="text-gray-600 text-lg">
+                Manage and track your travel reservations
+              </p>
+            </div>
+            <div className="flex space-x-3">
+              <button
+                onClick={() => router.push('/mytrips')}
+                className="flex items-center px-6 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors shadow-lg"
+              >
+                <span className="mr-2">🗺️</span>
+                Plan New Trip
+              </button>
+              <button
+                onClick={() => router.push('/flight-search')}
+                className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors shadow-lg"
+              >
+                <span className="mr-2">✈️</span>
+                Book Now
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Search and Filter Section */}
@@ -367,12 +388,20 @@ export default function MyBooking() {
                 }
               </p>
               {!searchTerm && (
-                <button
-                  onClick={() => router.push('/flight-search')}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  Book Your First Trip
-                </button>
+                <div className="flex space-x-3">
+                  <button
+                    onClick={() => router.push('/mytrips')}
+                    className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                  >
+                    Plan a Trip
+                  </button>
+                  <button
+                    onClick={() => router.push('/flight-search')}
+                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    Book Individual Service
+                  </button>
+                </div>
               )}
             </div>
           )}

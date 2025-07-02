@@ -29,7 +29,6 @@ import {
 import { generateFakeFlights } from "@/lib/flight-generator";
 import { Flight } from "@/lib/types";
 import { FlightCards } from "@/components/ui/flight-cards";
-import { FlightDetailsDrawer } from "@/components/ui/flight-details-drawer";
 
 
 
@@ -71,7 +70,11 @@ const FlightSearchPage = () => {
   // Generate flight data based on search parameters
   const [flightData] = useState<Flight[]>(() => {
     const departDate = originalDepartDate || format(new Date(), "yyyy-MM-dd");
-    return generateFakeFlights(departDate, 10);
+    console.log("Generating flights for date:", departDate);
+    const flights = generateFakeFlights(departDate, 10);
+    console.log("Generated flights:", flights);
+    console.log("Number of flights generated:", flights.length);
+    return flights;
   });
   
   // Filter states
@@ -80,10 +83,6 @@ const FlightSearchPage = () => {
   const [selectedStops, setSelectedStops] = useState<string[]>([]);
   const [filteredFlights, setFilteredFlights] = useState<Flight[]>(flightData);
   const [sortBy, setSortBy] = useState("price");
-  
-  // Flight details drawer state
-  const [selectedFlight, setSelectedFlight] = useState<Flight | null>(null);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   
   // Get unique values for filters
   const airlines = getUniqueAirlines(flightData);
@@ -208,8 +207,11 @@ const FlightSearchPage = () => {
   };
 
   const handleFlightSelect = (flight: Flight) => {
-    setSelectedFlight(flight);
-    setIsDrawerOpen(true);
+    // Navigate to flight details page with flight data
+    const flightParams = new URLSearchParams({
+      flight: encodeURIComponent(JSON.stringify(flight)),
+    });
+    router.push(`/flight-details?${flightParams.toString()}`);
   };
 
   return (
@@ -553,16 +555,6 @@ const FlightSearchPage = () => {
           </div>
         </div>
       </div>
-
-      {/* Flight Details Drawer */}
-      <FlightDetailsDrawer
-        flight={selectedFlight}
-        isOpen={isDrawerOpen}
-        onClose={() => {
-          setIsDrawerOpen(false);
-          setSelectedFlight(null);
-        }}
-      />
     </div>
   );
 };

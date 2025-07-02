@@ -386,8 +386,8 @@ export function HotelDetailsDrawer({
 
               {/* Right Column - Room Selection */}
               <div className="space-y-4">
-                <Card className="sticky top-4">
-                  <CardContent className="p-6">
+                <Card className="top-4">
+                  <CardContent className="p-3">
                     <h3 className="text-lg font-semibold mb-4">Choose your room</h3>
                     
                     {/* Booking Summary */}
