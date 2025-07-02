@@ -13,6 +13,7 @@ import {
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { Fragment } from 'react';
+import { getCurrentUser } from '@/lib/auth-utils';
 
 interface Trip {
   id: string;
@@ -60,7 +61,21 @@ export default function MyTrips() {
   const { isSignedIn } = useAuth();
   const router = useRouter();
 
-  // Mock data for now - this would come from an API
+  // Form state for creating new trips
+  const [newTripForm, setNewTripForm] = useState({
+    name: '',
+    destination: '',
+    startDate: '',
+    endDate: '',
+    travelers: 1,
+    budget: 0,
+    description: '',
+    flight: { included: false, departure: '', arrival: '' },
+    hotel: { included: false, name: '', rooms: 1 },
+    car: { included: false, type: '', pickupLocation: '', dropoffLocation: '' }
+  });
+
+  // Load trips from database
   useEffect(() => {
     const loadTrips = async () => {
       if (!isSignedIn) {
@@ -70,46 +85,25 @@ export default function MyTrips() {
 
       try {
         setLoading(true);
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        setError(null);
         
-        // Mock trips data
-        const mockTrips: Trip[] = [
-          {
-            id: '1',
-            name: 'Summer Vacation in Paris',
-            destination: 'Paris, France',
-            startDate: '2025-08-15',
-            endDate: '2025-08-25',
-            travelers: 2,
-            budget: 5000,
-            status: 'Planning',
-            description: 'Romantic getaway to the City of Light',
-            createdAt: '2025-07-01',
-            updatedAt: '2025-07-01',
-            flight: { included: true, departure: 'JFK', arrival: 'CDG' },
-            hotel: { included: true, name: 'Hotel des Grands Boulevards', rooms: 1 },
-            car: { included: false }
-          },
-          {
-            id: '2',
-            name: 'Business Trip to Tokyo',
-            destination: 'Tokyo, Japan',
-            startDate: '2025-09-10',
-            endDate: '2025-09-15',
-            travelers: 1,
-            budget: 3500,
-            status: 'Booked',
-            description: 'Annual conference and client meetings',
-            createdAt: '2025-06-15',
-            updatedAt: '2025-06-20',
-            flight: { included: true, departure: 'LAX', arrival: 'NRT' },
-            hotel: { included: true, name: 'The Peninsula Tokyo', rooms: 1 },
-            car: { included: true, type: 'Executive Sedan' }
-          }
-        ];
+        // Get user ID from auth context
+        const { userId, isAuthenticated } = getCurrentUser();
         
-        setTrips(mockTrips);
+        if (!isAuthenticated || !userId) {
+          setError('User not found. Please sign in again.');
+          router.push('/signin');
+          return;
+        }
+
+        const response = await fetch(`/api/trips?userId=${userId}`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch trips');
+        }
+        
+        const data = await response.json();
+        setTrips(data.trips || []);
       } catch (error) {
         console.error('Error loading trips:', error);
         setError('Failed to load trips. Please try again.');
@@ -145,9 +139,70 @@ export default function MyTrips() {
     setIsCreateModalOpen(true);
   };
 
-  const handlePlanTrip = (tripId: string) => {
+  const handleCreateTripSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    try {
+      const { userId, isAuthenticated } = getCurrentUser();
+      
+      if (!isAuthenticated || !userId) {
+        setError('User not found. Please sign in again.');
+        return;
+      }
+
+      const response = await fetch('/api/trips', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          ...newTripForm
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create trip');
+      }
+
+      const data = await response.json();
+      
+      // Add the new trip to the list
+      setTrips(prevTrips => [data.trip, ...prevTrips]);
+      
+      // Reset form and close modal
+      setNewTripForm({
+        name: '',
+        destination: '',
+        startDate: '',
+        endDate: '',
+        travelers: 1,
+        budget: 0,
+        description: '',
+        flight: { included: false, departure: '', arrival: '' },
+        hotel: { included: false, name: '', rooms: 1 },
+        car: { included: false, type: '', pickupLocation: '', dropoffLocation: '' }
+      });
+      setIsCreateModalOpen(false);
+      
+    } catch (error) {
+      console.error('Error creating trip:', error);
+      setError('Failed to create trip. Please try again.');
+    }
+  };
+
+  const handleFormChange = (field: string, value: string | number | boolean) => {
+    setNewTripForm(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handlePlanTrip = (tripId: string, tripdestination: string) => {
     // Navigate to trip planning page
-    router.push(`/mytrips/${tripId}/plan`);
+    // console.log(`Planning trip with ID: ${trip}`);
+    const url = `/mytrips/${tripId}/plan?destination=${encodeURIComponent(tripdestination)}`;
+     router.push(url);
   };
 
   const closeModals = () => {
@@ -331,18 +386,20 @@ export default function MyTrips() {
                   <div className="flex space-x-2">
                     <button
                       onClick={() => handleViewTrip(trip)}
-                      className="flex-1 flex items-center justify-center px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+                      className={`${trip.status === 'Booked' ? 'flex-1' : 'flex-1'} flex items-center justify-center px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm`}
                     >
                       <EyeIcon className="w-4 h-4 mr-1" />
                       View
                     </button>
-                    <button
-                      onClick={() => handlePlanTrip(trip.id)}
-                      className="flex-1 flex items-center justify-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
-                    >
-                      <PencilIcon className="w-4 h-4 mr-1" />
-                      Plan
-                    </button>
+                    {trip.status !== 'Booked' && (
+                      <button
+                        onClick={() => handlePlanTrip(trip.id, trip.destination)}
+                        className="flex-1 flex items-center justify-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                      >
+                        <PencilIcon className="w-4 h-4 mr-1" />
+                        Plan
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -407,7 +464,7 @@ export default function MyTrips() {
                     </div>
 
                     <div className="p-6">
-                      <form className="space-y-4">
+                      <form onSubmit={handleCreateTripSubmit} className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">
                             Trip Name
@@ -415,7 +472,10 @@ export default function MyTrips() {
                           <input
                             type="text"
                             placeholder="e.g., Summer Vacation in Paris"
+                            value={newTripForm.name}
+                            onChange={(e) => handleFormChange('name', e.target.value)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
                           />
                         </div>
 
@@ -426,7 +486,10 @@ export default function MyTrips() {
                           <input
                             type="text"
                             placeholder="e.g., Paris, France"
+                            value={newTripForm.destination}
+                            onChange={(e) => handleFormChange('destination', e.target.value)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
                           />
                         </div>
 
@@ -437,7 +500,10 @@ export default function MyTrips() {
                             </label>
                             <input
                               type="date"
+                              value={newTripForm.startDate}
+                              onChange={(e) => handleFormChange('startDate', e.target.value)}
                               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              required
                             />
                           </div>
                           <div>
@@ -446,7 +512,10 @@ export default function MyTrips() {
                             </label>
                             <input
                               type="date"
+                              value={newTripForm.endDate}
+                              onChange={(e) => handleFormChange('endDate', e.target.value)}
                               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              required
                             />
                           </div>
                         </div>
@@ -459,8 +528,10 @@ export default function MyTrips() {
                             <input
                               type="number"
                               min="1"
-                              placeholder="2"
+                              value={newTripForm.travelers}
+                              onChange={(e) => handleFormChange('travelers', parseInt(e.target.value))}
                               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              required
                             />
                           </div>
                           <div>
@@ -469,8 +540,11 @@ export default function MyTrips() {
                             </label>
                             <input
                               type="number"
-                              placeholder="5000"
+                              min="0"
+                              value={newTripForm.budget}
+                              onChange={(e) => handleFormChange('budget', parseFloat(e.target.value))}
                               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              required
                             />
                           </div>
                         </div>
@@ -482,24 +556,28 @@ export default function MyTrips() {
                           <textarea
                             placeholder="Tell us about your trip..."
                             rows={3}
+                            value={newTripForm.description}
+                            onChange={(e) => handleFormChange('description', e.target.value)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                           />
                         </div>
-                      </form>
-                    </div>
 
-                    <div className="bg-gray-50 px-6 py-4 flex justify-end space-x-3">
-                      <button
-                        onClick={closeModals}
-                        className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                      >
-                        Create Trip
-                      </button>
+                        <div className="bg-gray-50 px-6 py-4 flex justify-end space-x-3">
+                          <button
+                            type="button"
+                            onClick={closeModals}
+                            className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            type="submit"
+                            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                          >
+                            Create Trip
+                          </button>
+                        </div>
+                      </form>
                     </div>
                   </Dialog.Panel>
                 </Transition.Child>
@@ -609,7 +687,15 @@ export default function MyTrips() {
                                     </div>
                                     {selectedTrip.flight?.included && (
                                       <div className="mt-2 text-sm text-gray-600">
-                                        {selectedTrip.flight.departure} → {selectedTrip.flight.arrival}
+                                        {selectedTrip.flight.departure && selectedTrip.flight.arrival 
+                                          ? `${selectedTrip.flight.departure} → ${selectedTrip.flight.arrival}`
+                                          : 'Flight details pending'
+                                        }
+                                        {selectedTrip.flight.bookingId && (
+                                          <div className="text-xs text-green-600 mt-1">
+                                            ✓ Booked (ID: {selectedTrip.flight.bookingId})
+                                          </div>
+                                        )}
                                       </div>
                                     )}
                                   </div>
@@ -627,6 +713,16 @@ export default function MyTrips() {
                                     {selectedTrip.hotel?.included && selectedTrip.hotel.name && (
                                       <div className="mt-2 text-sm text-gray-600">
                                         {selectedTrip.hotel.name}
+                                        {selectedTrip.hotel.checkIn && selectedTrip.hotel.checkOut && (
+                                          <div className="text-xs text-gray-500 mt-1">
+                                            {new Date(selectedTrip.hotel.checkIn).toLocaleDateString()} - {new Date(selectedTrip.hotel.checkOut).toLocaleDateString()}
+                                          </div>
+                                        )}
+                                        {selectedTrip.hotel.bookingId && (
+                                          <div className="text-xs text-green-600 mt-1">
+                                            ✓ Booked (ID: {selectedTrip.hotel.bookingId})
+                                          </div>
+                                        )}
                                       </div>
                                     )}
                                   </div>
@@ -644,6 +740,16 @@ export default function MyTrips() {
                                     {selectedTrip.car?.included && selectedTrip.car.type && (
                                       <div className="mt-2 text-sm text-gray-600">
                                         {selectedTrip.car.type}
+                                        {selectedTrip.car.pickupLocation && (
+                                          <div className="text-xs text-gray-500 mt-1">
+                                            Pickup: {selectedTrip.car.pickupLocation}
+                                          </div>
+                                        )}
+                                        {selectedTrip.car.bookingId && (
+                                          <div className="text-xs text-green-600 mt-1">
+                                            ✓ Booked (ID: {selectedTrip.car.bookingId})
+                                          </div>
+                                        )}
                                       </div>
                                     )}
                                   </div>
@@ -664,12 +770,14 @@ export default function MyTrips() {
                             >
                               Close
                             </button>
-                            <button
-                              onClick={() => handlePlanTrip(selectedTrip.id)}
-                              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                            >
-                              Start Planning
-                            </button>
+                            {selectedTrip.status !== 'Booked' && (
+                              <button
+                                onClick={() => handlePlanTrip(selectedTrip.id, selectedTrip.destination)}
+                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                              >
+                                Start Planning
+                              </button>
+                            )}
                           </div>
                         </div>
                       </>

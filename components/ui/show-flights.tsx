@@ -52,6 +52,8 @@ const FlightSearchPage = () => {
   const originalFrom = searchParams?.get("from") || "New York";
   const originalTo = searchParams?.get("to") || "Los Angeles";
   const originalDepartDate = searchParams?.get("departDate") || "";
+
+  console.log("Original Depart Date:", originalDepartDate);
   const originalReturnDate = searchParams?.get("returnDate") || "";
   const originalTravelers =
     searchParams?.get("travelers") || "1 adult, Economy";

@@ -1,8 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Tab } from '@headlessui/react';
+import {generateHotels} from "@/lib/hotel-generator";
+import {generateFakeFlights} from "@/lib/flight-generator";
+import {Flight, HotelData} from "@/lib/types";
+import { format } from "date-fns";
+import ConfirmationModal from "@/components/ConfirmationModal";
+
 import { 
   ArrowLeftIcon,
   CheckIcon,
@@ -23,30 +29,6 @@ interface Trip {
   budget: number;
   status: string;
   description?: string;
-}
-
-interface FlightOption {
-  id: string;
-  airline: string;
-  flightNumber: string;
-  departure: string;
-  arrival: string;
-  departureTime: string;
-  arrivalTime: string;
-  price: number;
-  duration: string;
-  stops: number;
-}
-
-interface HotelOption {
-  id: string;
-  name: string;
-  rating: number;
-  address: string;
-  price: number;
-  amenities: string[];
-  imageUrl: string;
-  roomType: string;
 }
 
 interface CarOption {
@@ -71,62 +53,35 @@ export default function TripPlanning() {
   const [trip, setTrip] = useState<Trip | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState(0);
-  const [selectedFlight, setSelectedFlight] = useState<FlightOption | null>(null);
-  const [selectedHotel, setSelectedHotel] = useState<HotelOption | null>(null);
+  const [selectedFlight, setSelectedFlight] = useState<Flight | null>(null);
+  const [selectedHotel, setSelectedHotel] = useState<HotelData | null>(null);
   const [selectedCar, setSelectedCar] = useState<CarOption | null>(null);
+  const [modalState, setModalState] = useState<{
+    isOpen: boolean;
+    type: 'success' | 'error';
+    title: string;
+    message: string;
+    details?: {
+      flight?: { id: string };
+      hotel?: { id: string };
+      car?: { id: string };
+    } | Error | string;
+  }>({
+    isOpen: false,
+    type: 'success',
+    title: '',
+    message: '',
+    details: null
+  });
+  const searchParams = useSearchParams();
+  const tripDestination = searchParams?.get('destination');
 
   const tabs = ['Flight', 'Hotel', 'Car Rental', 'Summary'];
 
-  // Mock data
-  const mockFlights: FlightOption[] = [
-    {
-      id: '1',
-      airline: 'Air France',
-      flightNumber: 'AF123',
-      departure: 'JFK',
-      arrival: 'CDG',
-      departureTime: '2025-08-15T14:30:00',
-      arrivalTime: '2025-08-16T07:15:00',
-      price: 850,
-      duration: '7h 45m',
-      stops: 0
-    },
-    {
-      id: '2',
-      airline: 'Delta',
-      flightNumber: 'DL456',
-      departure: 'JFK',
-      arrival: 'CDG',
-      departureTime: '2025-08-15T10:15:00',
-      arrivalTime: '2025-08-16T01:30:00',
-      price: 780,
-      duration: '8h 15m',
-      stops: 1
-    }
-  ];
+  // Mock data - using a valid date format
+  const mockFlights: Flight[] = generateFakeFlights(format(new Date(), "yyyy-MM-dd"), 5);
 
-  const mockHotels: HotelOption[] = [
-    {
-      id: '1',
-      name: 'Hotel des Grands Boulevards',
-      rating: 4.5,
-      address: '17 Boulevard Poissonnière, Paris',
-      price: 200,
-      amenities: ['Free WiFi', 'Restaurant', 'Bar', 'Concierge'],
-      imageUrl: '/des1.jpg',
-      roomType: 'Deluxe Room'
-    },
-    {
-      id: '2',
-      name: 'Le Marais Boutique Hotel',
-      rating: 4.3,
-      address: '12 Rue de Rivoli, Paris',
-      price: 180,
-      amenities: ['Free WiFi', 'Breakfast', 'Gym', 'Spa'],
-      imageUrl: '/des2.jpg',
-      roomType: 'Superior Room'
-    }
-  ];
+  const mockHotels: HotelData[] = generateHotels()
 
   const mockCars: CarOption[] = [
     {
@@ -181,44 +136,70 @@ export default function TripPlanning() {
     loadTrip();
   }, [isSignedIn, router, params?.id]);
 
-  const handleBookFlight = (flight: FlightOption) => {
-    // Navigate to flight booking with pre-filled data
-    router.push(`/flight-search?prefill=${encodeURIComponent(JSON.stringify({
-      from: flight.departure,
-      to: flight.arrival,
-      departure: trip?.startDate,
-      passengers: trip?.travelers || 1,
-      selectedFlight: flight
-    }))}`);
-  };
+  const handleBookTrip = async () => {
+    if (!trip) return;
 
-  const handleBookHotel = (hotel: HotelOption) => {
-    // Navigate to hotel booking
-    router.push(`/hotel-search?prefill=${encodeURIComponent(JSON.stringify({
-      destination: trip?.destination,
-      checkIn: trip?.startDate,
-      checkOut: trip?.endDate,
-      guests: trip?.travelers || 1,
-      selectedHotel: hotel
-    }))}`);
-  };
+    try {
+      // Get token from localStorage or your auth context
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setModalState({
+          isOpen: true,
+          type: 'error',
+          title: 'Authentication Required',
+          message: 'Please sign in to save your booking.',
+          details: 'You need to be logged in to proceed with booking.'
+        });
+        return;
+      }
 
-  const handleBookCar = (car: CarOption) => {
-    // Navigate to car booking
-    router.push(`/car-search?prefill=${encodeURIComponent(JSON.stringify({
-      location: trip?.destination,
-      pickupDate: trip?.startDate,
-      dropoffDate: trip?.endDate,
-      selectedCar: car
-    }))}`);
+      const bookingData = {
+        tripId: trip.id,
+        flight: selectedFlight,
+        hotel: selectedHotel,
+        car: selectedCar
+      };
+
+      const response = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(bookingData)
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setModalState({
+          isOpen: true,
+          type: 'success',
+          title: 'Booking Confirmed! 🎉',
+          message: 'Your selections have been successfully saved and confirmed.',
+          details: result.data
+        });
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to save booking');
+      }
+    } catch (error) {
+      console.error('Error saving booking:', error);
+      setModalState({
+        isOpen: true,
+        type: 'error',
+        title: 'Booking Failed',
+        message: 'We encountered an issue while saving your booking.',
+        details: error instanceof Error ? error.message : String(error)
+      });
+    }
   };
 
   const getTotalEstimate = () => {
     let total = 0;
-    if (selectedFlight) total += selectedFlight.price * (trip?.travelers || 1);
+    if (selectedFlight) total += selectedFlight.prices.Economy * (trip?.travelers || 1);
     if (selectedHotel && trip) {
       const nights = Math.ceil((new Date(trip.endDate).getTime() - new Date(trip.startDate).getTime()) / (1000 * 60 * 60 * 24));
-      total += selectedHotel.price * nights;
+      total += selectedHotel.rooms[0].pricePerNight * nights;
     }
     if (selectedCar && trip) {
       const days = Math.ceil((new Date(trip.endDate).getTime() - new Date(trip.startDate).getTime()) / (1000 * 60 * 60 * 24));
@@ -346,44 +327,38 @@ export default function TripPlanning() {
                 <h2 className="text-xl font-semibold text-gray-900 mb-6">Choose Your Flight</h2>
                 <div className="space-y-4">
                   {mockFlights.map((flight) => (
-                    <div key={flight.id} className={`border rounded-lg p-4 ${selectedFlight?.id === flight.id ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}>
-                      <div className="flex justify-between items-center">
-                        <div className="flex-1">
+                    <div key={flight.flightNumber} className={`border rounded-lg p-4 ${selectedFlight?.flightNumber === flight.flightNumber ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}>
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1 pr-4">
                           <div className="flex items-center justify-between mb-2">
                             <div className="font-semibold text-lg">
                               {flight.airline} {flight.flightNumber}
                             </div>
-                            <div className="text-right">
-                              <div className="text-2xl font-bold text-green-600">${flight.price}</div>
-                              <div className="text-sm text-gray-500">per person</div>
-                            </div>
                           </div>
                           <div className="flex items-center space-x-4 text-gray-600 mb-2">
-                            <span>{flight.departure} → {flight.arrival}</span>
+                            <span>{flight.departureAirport} → {flight.destinationAirport}</span>
                             <span>Duration: {flight.duration}</span>
-                            <span>{flight.stops === 0 ? 'Non-stop' : `${flight.stops} stop${flight.stops > 1 ? 's' : ''}`}</span>
+                            <span>{flight.numberOfStops === 0 ? 'Non-stop' : `${flight.numberOfStops} stop${flight.numberOfStops > 1 ? 's' : ''}`}</span>
                           </div>
                           <div className="text-sm text-gray-500">
-                            Departure: {new Date(flight.departureTime).toLocaleString()} | 
-                            Arrival: {new Date(flight.arrivalTime).toLocaleString()}
+                            Departure: {flight.departureTime} | 
+                            Arrival: {flight.arrivalTime}
                           </div>
                         </div>
-                        <div className="ml-4 space-x-2">
+                        <div className="flex flex-col items-end justify-center space-y-3 min-h-[80px]">
+                          <div className="text-right">
+                            <div className="text-2xl font-bold text-green-600">${flight.prices.Economy}</div>
+                            <div className="text-sm text-gray-500">per person</div>
+                          </div>
                           <button
                             onClick={() => setSelectedFlight(flight)}
                             className={`px-4 py-2 rounded-lg transition-colors ${
-                              selectedFlight?.id === flight.id
+                              selectedFlight?.flightNumber === flight.flightNumber
                                 ? 'bg-blue-600 text-white'
                                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                             }`}
                           >
-                            {selectedFlight?.id === flight.id ? 'Selected' : 'Select'}
-                          </button>
-                          <button
-                            onClick={() => handleBookFlight(flight)}
-                            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                          >
-                            Book Now
+                            {selectedFlight?.flightNumber === flight.flightNumber ? 'Selected' : 'Select'}
                           </button>
                         </div>
                       </div>
@@ -409,18 +384,19 @@ export default function TripPlanning() {
                             <div>
                               <h3 className="font-semibold text-lg">{hotel.name}</h3>
                               <div className="flex items-center">
-                                <span className="text-yellow-400">{'★'.repeat(Math.floor(hotel.rating))}</span>
-                                <span className="ml-1 text-gray-600">({hotel.rating})</span>
+                                <span className="text-yellow-400">{'★'.repeat(Math.floor(hotel.reviewSummary.averageRating))}</span>
+                                <span className="ml-1 text-gray-600">({hotel.reviewSummary.totalReviews} reviews)</span>
                               </div>
                             </div>
                             <div className="text-right">
-                              <div className="text-2xl font-bold text-green-600">${hotel.price}</div>
+                              <div className="text-2xl font-bold text-green-600">${hotel.rooms[0].pricePerNight}</div>
                               <div className="text-sm text-gray-500">per night</div>
                             </div>
                           </div>
-                          <p className="text-gray-600 text-sm mb-2">{hotel.address}</p>
-                          <p className="text-gray-600 text-sm mb-2">{hotel.roomType}</p>
-                          <div className="flex items-center space-x-2 mb-2">
+                          <p className="text-gray-600 text-sm mb-2">{hotel.address}, {tripDestination}</p>
+                          <p className="text-gray-600 text-sm mb-2">{hotel.rooms[0].type}</p>
+                          comeback to amenities later
+                          {/* <div className="flex items-center space-x-2 mb-2">
                             {hotel.amenities.slice(0, 3).map((amenity, index) => (
                               <span key={index} className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
                                 {amenity}
@@ -429,7 +405,7 @@ export default function TripPlanning() {
                             {hotel.amenities.length > 3 && (
                               <span className="text-gray-500 text-xs">+{hotel.amenities.length - 3} more</span>
                             )}
-                          </div>
+                          </div> */}
                           <div className="flex space-x-2">
                             <button
                               onClick={() => setSelectedHotel(hotel)}
@@ -441,12 +417,12 @@ export default function TripPlanning() {
                             >
                               {selectedHotel?.id === hotel.id ? 'Selected' : 'Select'}
                             </button>
-                            <button
+                            {/* <button
                               onClick={() => handleBookHotel(hotel)}
                               className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                             >
                               Book Now
-                            </button>
+                            </button> */}
                           </div>
                         </div>
                       </div>
@@ -497,12 +473,12 @@ export default function TripPlanning() {
                             >
                               {selectedCar?.id === car.id ? 'Selected' : 'Select'}
                             </button>
-                            <button
+                            {/* <button
                               onClick={() => handleBookCar(car)}
                               className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                             >
                               Book Now
-                            </button>
+                            </button> */}
                           </div>
                         </div>
                       </div>
@@ -524,9 +500,9 @@ export default function TripPlanning() {
                           <div className="flex items-center justify-between">
                             <div>
                               <div className="font-medium">✈️ {selectedFlight.airline} {selectedFlight.flightNumber}</div>
-                              <div className="text-sm text-gray-600">{selectedFlight.departure} → {selectedFlight.arrival}</div>
+                              <div className="text-sm text-gray-600">{selectedFlight.departureAirport} → {selectedFlight.destinationAirport}</div>
                             </div>
-                            <div className="text-green-600 font-semibold">${selectedFlight.price * trip.travelers}</div>
+                            <div className="text-green-600 font-semibold">${selectedFlight.prices.Economy * trip.travelers}</div>
                           </div>
                         </div>
                       ) : (
@@ -540,10 +516,10 @@ export default function TripPlanning() {
                           <div className="flex items-center justify-between">
                             <div>
                               <div className="font-medium">🏨 {selectedHotel.name}</div>
-                              <div className="text-sm text-gray-600">{selectedHotel.roomType}</div>
+                              <div className="text-sm text-gray-600">{selectedHotel.rooms[0].type}</div>
                             </div>
                             <div className="text-green-600 font-semibold">
-                              ${selectedHotel.price * Math.ceil((new Date(trip.endDate).getTime() - new Date(trip.startDate).getTime()) / (1000 * 60 * 60 * 24))}
+                              ${selectedHotel.rooms[0].pricePerNight * Math.ceil((new Date(trip.endDate).getTime() - new Date(trip.startDate).getTime()) / (1000 * 60 * 60 * 24))}
                             </div>
                           </div>
                         </div>
@@ -571,6 +547,18 @@ export default function TripPlanning() {
                         </div>
                       )}
                     </div>
+                    
+                    {/* Book Now Button - Only show if at least one option is selected */}
+                    {(selectedFlight || selectedHotel || selectedCar) && (
+                      <div className="mt-4">
+                        <button
+                          onClick={handleBookTrip}
+                          className="w-full px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors"
+                        >
+                          Book Selected Items
+                        </button>
+                      </div>
+                    )}
                   </div>
 
                   <div className="space-y-4">
@@ -580,13 +568,13 @@ export default function TripPlanning() {
                         {selectedFlight && (
                           <div className="flex justify-between">
                             <span>Flight ({trip.travelers} passenger{trip.travelers > 1 ? 's' : ''})</span>
-                            <span>${selectedFlight.price * trip.travelers}</span>
+                            <span>${selectedFlight.prices.Economy * trip.travelers}</span>
                           </div>
                         )}
                         {selectedHotel && (
                           <div className="flex justify-between">
                             <span>Hotel ({Math.ceil((new Date(trip.endDate).getTime() - new Date(trip.startDate).getTime()) / (1000 * 60 * 60 * 24))} nights)</span>
-                            <span>${selectedHotel.price * Math.ceil((new Date(trip.endDate).getTime() - new Date(trip.startDate).getTime()) / (1000 * 60 * 60 * 24))}</span>
+                            <span>${selectedHotel.rooms[0].pricePerNight * Math.ceil((new Date(trip.endDate).getTime() - new Date(trip.startDate).getTime()) / (1000 * 60 * 60 * 24))}</span>
                           </div>
                         )}
                         {selectedCar && (
@@ -643,6 +631,16 @@ export default function TripPlanning() {
             Next
           </button>
         </div>
+
+        {/* Confirmation Modal */}
+        <ConfirmationModal
+          isOpen={modalState.isOpen}
+          onClose={() => setModalState(prev => ({ ...prev, isOpen: false }))}
+          type={modalState.type}
+          title={modalState.title}
+          message={modalState.message}
+          details={modalState.details}
+        />
       </div>
     </div>
   );
