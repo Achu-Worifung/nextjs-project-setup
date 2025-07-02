@@ -8,7 +8,6 @@ import HotelFilterSidebar, {
 import { useSearchParams, useRouter } from "next/navigation";
 import { generateHotels } from "@/lib/hotel-generator";
 import { HotelCard } from "@/components/ui/hotel-card-v3";
-import { HotelDetailsDrawer } from "@/components/ui/hotel-details-drawer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,10 +32,6 @@ export default function HotelSearchPage() {
   const [sortBy, setSortBy] = useState<
     "price" | "rating" | "review" | "popularity"
   >("popularity");
-
-  // Hotel details drawer state
-  const [selectedHotel, setSelectedHotel] = useState<HotelData | null>(null);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const searchparams = useSearchParams();
   const router = useRouter();
@@ -593,8 +588,14 @@ export default function HotelSearchPage() {
                       key={idx} 
                       hotel={hotel} 
                       onHotelClick={(selectedHotel) => {
-                        setSelectedHotel(selectedHotel);
-                        setIsDrawerOpen(true);
+                        // Navigate to hotel details page with hotel data
+                        const hotelParams = new URLSearchParams({
+                          hotel: encodeURIComponent(JSON.stringify(selectedHotel)),
+                          checkIn: checkInDate?.toISOString() || "",
+                          checkOut: checkOutDate?.toISOString() || "",
+                          guests: searchGuests,
+                        });
+                        router.push(`/hotel-details?${hotelParams.toString()}`);
                       }}
                     />
                   ))}
@@ -611,19 +612,6 @@ export default function HotelSearchPage() {
             </div>
           </div>
         </div>
-
-        {/* Hotel Details Drawer */}
-        <HotelDetailsDrawer
-          hotel={selectedHotel}
-          isOpen={isDrawerOpen}
-          onClose={() => {
-            setIsDrawerOpen(false);
-            setSelectedHotel(null);
-          }}
-          checkInDate={checkInDate}
-          checkOutDate={checkOutDate}
-          guests={parseInt(searchGuests)}
-        />
       </div>
     </div>
   );

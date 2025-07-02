@@ -354,8 +354,7 @@ export default function MyBooking() {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {/* Since we don't have a date field, we'll use a placeholder */}
-                      N/A
+                      {new Date(booking.date).toISOString().split('T')[0] || 'N/A'}
                     </td>
                     
                     <td className="px-6 py-4 text-sm text-gray-900 max-w-xs truncate">
