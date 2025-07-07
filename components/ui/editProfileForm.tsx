@@ -18,6 +18,11 @@ const defaultUserData: UserData = {
   email: '',
 };
 
+// Service URLs from environment variables
+const AUTH_SERVICE_URL = process.env.NEXT_PUBLIC_AUTH_SERVICE_URL || 'http://localhost:3001';
+const PROFILE_SERVICE_URL = process.env.NEXT_PUBLIC_PROFILE_SERVICE_URL || 'http://localhost:3002';
+const LOCATION_SERVICE_URL = process.env.NEXT_PUBLIC_LOCATION_SERVICE_URL || 'http://localhost:3003';
+
 export default function EditProfileForm() {
   const [userData, setUserData] = useState<UserData>(defaultUserData);
   const [loading, setLoading] = useState(true);
@@ -34,16 +39,42 @@ export default function EditProfileForm() {
   useEffect(() => {
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODliZjUxMy1lOTQ3LTQzZDQtODhiMy02ZjJmOWRjMDUxMjQiLCJmaXJzdE5hbWUiOiJBbGFuIiwibGFzdE5hbWUiOiJSaXZlcmEiLCJlbWFpbCI6ImFsYW5yaXZlcmExMjM0QGdtYWlsLmNvbSIsImlhdCI6MTc1MTkwNTUyNn0.a9X9xQ8FSscdOKxjHG16Yp1huMKm42HGXyX07sDrN-Q';
     
-    try {
-      const decoded = jwtDecode(token) as UserData;
-      setUserData(decoded);
-    } catch (error) {
-      console.error('Error decoding token:', error);
-    } finally {
-      setLoading(false);
-    }
-    
-    fetchCountries();
+    const initializeProfile = async () => {
+      try {
+        // Verify token with auth service
+        const authResponse = await fetch(`${AUTH_SERVICE_URL}/verify`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (!authResponse.ok) throw new Error('Authentication failed');
+        
+        const decoded = jwtDecode(token) as UserData;
+        setUserData(decoded);
+
+        // Fetch profile data
+        const profileResponse = await fetch(`${PROFILE_SERVICE_URL}/profile/${decoded.userId}`);
+        if (profileResponse.ok) {
+          const profileData = await profileResponse.json();
+          if (profileData) {
+            setSelectedCountry(profileData.country || '');
+            setSelectedState(profileData.state || '');
+            setSelectedCity(profileData.city || '');
+            setProfileImage(profileData.profileImage || "https://randomuser.me/api/portraits/men/32.jpg");
+          }
+        }
+
+        // Fetch countries
+        const countriesResponse = await fetch(`${LOCATION_SERVICE_URL}/countries`);
+        const countriesData = await countriesResponse.json();
+        setCountries(countriesData);
+      } catch (error) {
+        console.error('Error initializing profile:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeProfile();
   }, []);
 
   useEffect(() => {
@@ -64,33 +95,17 @@ export default function EditProfileForm() {
     }
   }, [selectedState, selectedCountry]);
 
-  const fetchCountries = async () => {
-    try {
-      const res = await fetch("https://countriesnow.space/api/v0.1/countries/positions");
-      const data = await res.json();
-      if (data.error) {
-        console.error('Error fetching countries:', data.msg);
-        return;
-      }
-      setCountries(data.data.map((c: any) => c.name));
-    } catch (error) {
-      console.error('Error fetching countries:', error);
-    }
-  };
-
   const fetchStates = async (country: string) => {
     try {
-      const res = await fetch("https://countriesnow.space/api/v0.1/countries/states", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ country }),
+      const response = await fetch(`${LOCATION_SERVICE_URL}/states`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ country })
       });
-      const data = await res.json();
-      if (data.error) {
-        console.error('Error fetching states:', data.msg);
-        return;
+      const data = await response.json();
+      if (Array.isArray(data)) {
+        setStates(data);
       }
-      setStates(data.data.states.map((s: any) => s.name));
     } catch (error) {
       console.error('Error fetching states:', error);
     }
@@ -98,17 +113,15 @@ export default function EditProfileForm() {
 
   const fetchCities = async (country: string, state: string) => {
     try {
-      const res = await fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ country, state }),
+      const response = await fetch(`${LOCATION_SERVICE_URL}/cities`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ country, state })
       });
-      const data = await res.json();
-      if (data.error) {
-        console.error('Error fetching cities:', data.msg);
-        return;
+      const data = await response.json();
+      if (Array.isArray(data)) {
+        setCities(data);
       }
-      setCities(data.data);
     } catch (error) {
       console.error('Error fetching cities:', error);
     }
@@ -129,14 +142,28 @@ export default function EditProfileForm() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      console.log('Form submitted with data:', {
-        ...userData,
+      const profileData = {
+        userId: userData.userId,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        email: userData.email,
         country: selectedCountry,
         state: selectedState,
         city: selectedCity,
         profileImage
+      };
+
+      const response = await fetch(`${PROFILE_SERVICE_URL}/profile/${userData.userId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profileData)
       });
-      // Add your form submission logic here
+
+      if (!response.ok) {
+        throw new Error('Failed to update profile');
+      }
+
+      console.log('Profile updated successfully');
     } catch (error) {
       console.error('Error submitting form:', error);
     } finally {

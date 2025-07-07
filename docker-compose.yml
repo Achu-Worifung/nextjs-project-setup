@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   ollama:
-    image: ghcr.io/ollama/ollama:latest
+    image: ollama/ollama:latest
     command: serve --listen 0.0.0.0:11434
     ports:
       - "11434:11434"
@@ -15,5 +15,60 @@ services:
       - "3000:3000"
     environment:
       - OLLAMA_URL=http://ollama:11434
+      - AUTH_SERVICE_URL=http://auth-service:3001
+      - PROFILE_SERVICE_URL=http://profile-service:3002
+      - LOCATION_SERVICE_URL=http://location-service:3003
     depends_on:
       - ollama
+      - auth-service
+      - profile-service
+      - location-service
+
+  auth-service:
+    build: ./services/auth-service
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/auth
+      - JWT_SECRET=your_jwt_secret
+      - PORT=3001
+    depends_on:
+      - mongodb
+
+  profile-service:
+    build: ./services/profile-service
+    ports:
+      - "3002:3002"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/profile
+      - PORT=3002
+    depends_on:
+      - mongodb
+
+  location-service:
+    build: ./services/location-service
+    ports:
+      - "3003:3003"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - PORT=3003
+    depends_on:
+      - redis
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mongodb_data:
+  redis_data:
