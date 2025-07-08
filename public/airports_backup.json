@@ -77,28 +77,28 @@
     "icao": "BIAR"
   },
   {
-    "name": "Egilsstaðir Airport",
+    "name": "Egilssta\u00f0ir Airport",
     "city": "Egilsstadir",
     "country": "Iceland",
     "iata": "EGS",
     "icao": "BIEG"
   },
   {
-    "name": "Hornafjörður Airport",
+    "name": "Hornafj\u00f6r\u00f0ur Airport",
     "city": "Hofn",
     "country": "Iceland",
     "iata": "HFN",
     "icao": "BIHN"
   },
   {
-    "name": "Húsavík Airport",
+    "name": "H\u00fasav\u00edk Airport",
     "city": "Husavik",
     "country": "Iceland",
     "iata": "HZK",
     "icao": "BIHU"
   },
   {
-    "name": "Ísafjörður Airport",
+    "name": "\u00cdsafj\u00f6r\u00f0ur Airport",
     "city": "Isafjordur",
     "country": "Iceland",
     "iata": "IFJ",
@@ -112,7 +112,7 @@
     "icao": "BIKF"
   },
   {
-    "name": "Patreksfjörður Airport",
+    "name": "Patreksfj\u00f6r\u00f0ur Airport",
     "city": "Patreksfjordur",
     "country": "Iceland",
     "iata": "PFJ",
@@ -126,7 +126,7 @@
     "icao": "BIRK"
   },
   {
-    "name": "Siglufjörður Airport",
+    "name": "Siglufj\u00f6r\u00f0ur Airport",
     "city": "Siglufjordur",
     "country": "Iceland",
     "iata": "SIJ",
@@ -427,14 +427,14 @@
     "icao": "CYGK"
   },
   {
-    "name": "La Grande Rivière Airport",
+    "name": "La Grande Rivi\u00e8re Airport",
     "city": "La Grande Riviere",
     "country": "Canada",
     "iata": "YGL",
     "icao": "CYGL"
   },
   {
-    "name": "Gaspé (Michel-Pouliot) Airport",
+    "name": "Gasp\u00e9 (Michel-Pouliot) Airport",
     "city": "Gaspe",
     "country": "Canada",
     "iata": "YGP",
@@ -448,7 +448,7 @@
     "icao": "CYGQ"
   },
   {
-    "name": "Îles-de-la-Madeleine Airport",
+    "name": "\u00celes-de-la-Madeleine Airport",
     "city": "Iles De La Madeleine",
     "country": "Canada",
     "iata": "YGR",
@@ -490,7 +490,7 @@
     "icao": "CYHM"
   },
   {
-    "name": "Montréal / Saint-Hubert Airport",
+    "name": "Montr\u00e9al / Saint-Hubert Airport",
     "city": "Montreal",
     "country": "Canada",
     "iata": "YHU",
@@ -889,7 +889,7 @@
     "icao": "CYRB"
   },
   {
-    "name": "Rivière-du-Loup Airport",
+    "name": "Rivi\u00e8re-du-Loup Airport",
     "city": "Riviere Du Loup",
     "country": "Canada",
     "iata": "YRI",
@@ -1400,7 +1400,7 @@
     "icao": "CYZU"
   },
   {
-    "name": "Sept-Îles Airport",
+    "name": "Sept-\u00celes Airport",
     "city": "Sept-iles",
     "country": "Canada",
     "iata": "YZV",
@@ -1498,7 +1498,7 @@
     "icao": "DAAQ"
   },
   {
-    "name": "Aguenar – Hadj Bey Akhamok Airport",
+    "name": "Aguenar \u2013 Hadj Bey Akhamok Airport",
     "city": "Tamanrasset",
     "country": "Algeria",
     "iata": "TMR",
@@ -1540,7 +1540,7 @@
     "icao": "DABC"
   },
   {
-    "name": "Cheikh Larbi Tébessi Airport",
+    "name": "Cheikh Larbi T\u00e9bessi Airport",
     "city": "Tebessa",
     "country": "Algeria",
     "iata": "TEE",
@@ -1589,7 +1589,7 @@
     "icao": "DAOL"
   },
   {
-    "name": "Zenata – Messali El Hadj Airport",
+    "name": "Zenata \u2013 Messali El Hadj Airport",
     "city": "Tlemcen",
     "country": "Algeria",
     "iata": "TLM",
@@ -1638,7 +1638,7 @@
     "icao": "DAUE"
   },
   {
-    "name": "Noumérat - Moufdi Zakaria Airport",
+    "name": "Noum\u00e9rat - Moufdi Zakaria Airport",
     "city": "Ghardaia",
     "country": "Algeria",
     "iata": "GHA",
@@ -1687,7 +1687,7 @@
     "icao": "DAUU"
   },
   {
-    "name": "In Aménas Airport",
+    "name": "In Am\u00e9nas Airport",
     "city": "Zarzaitine",
     "country": "Algeria",
     "iata": "IAM",
@@ -1757,7 +1757,7 @@
     "icao": "DIAP"
   },
   {
-    "name": "Bouaké Airport",
+    "name": "Bouak\u00e9 Airport",
     "city": "Bouake",
     "country": "Cote d'Ivoire",
     "iata": "BYK",
@@ -2016,7 +2016,7 @@
     "icao": "DTTF"
   },
   {
-    "name": "Gabès Matmata International Airport",
+    "name": "Gab\u00e8s Matmata International Airport",
     "city": "Gabes",
     "country": "Tunisia",
     "iata": "GAE",
@@ -2065,7 +2065,7 @@
     "icao": "DXNG"
   },
   {
-    "name": "Lomé-Tokoin Airport",
+    "name": "Lom\u00e9-Tokoin Airport",
     "city": "Lome",
     "country": "Togo",
     "iata": "LFW",
@@ -2114,7 +2114,7 @@
     "icao": "EBCI"
   },
   {
-    "name": "Chièvres Air Base",
+    "name": "Chi\u00e8vres Air Base",
     "city": "Chievres",
     "country": "Belgium",
     "iata": "\\N",
@@ -2142,7 +2142,7 @@
     "icao": "EBKT"
   },
   {
-    "name": "Liège Airport",
+    "name": "Li\u00e8ge Airport",
     "city": "Liege",
     "country": "Belgium",
     "iata": "LGG",
@@ -2219,14 +2219,14 @@
     "icao": "EDAD"
   },
   {
-    "name": "Eisenhüttenstadt Airfield",
+    "name": "Eisenh\u00fcttenstadt Airfield",
     "city": "Eisenhuettenstadt",
     "country": "Germany",
     "iata": "\\N",
     "icao": "EDAE"
   },
   {
-    "name": "Großenhain Airport",
+    "name": "Gro\u00dfenhain Airport",
     "city": "Suhl",
     "country": "Germany",
     "iata": "\\N",
@@ -2247,14 +2247,14 @@
     "icao": "EDAQ"
   },
   {
-    "name": "Riesa-Göhlis Airport",
+    "name": "Riesa-G\u00f6hlis Airport",
     "city": "Riesa",
     "country": "Germany",
     "iata": "IES",
     "icao": "EDAU"
   },
   {
-    "name": "Rechlin-Lärz Airport",
+    "name": "Rechlin-L\u00e4rz Airport",
     "city": "Rechlin-laerz",
     "country": "Germany",
     "iata": "REB",
@@ -2268,7 +2268,7 @@
     "icao": "EDAY"
   },
   {
-    "name": "Schönhagen Airport",
+    "name": "Sch\u00f6nhagen Airport",
     "city": "Schoenhagen",
     "country": "Germany",
     "iata": "QXH",
@@ -2282,7 +2282,7 @@
     "icao": "EDBH"
   },
   {
-    "name": "Jena-Schöngleina Airfield",
+    "name": "Jena-Sch\u00f6ngleina Airfield",
     "city": "Jena",
     "country": "Germany",
     "iata": "\\N",
@@ -2303,7 +2303,7 @@
     "icao": "EDBM"
   },
   {
-    "name": "Rothenburg/Görlitz Airport",
+    "name": "Rothenburg/G\u00f6rlitz Airport",
     "city": "Rothenburg/ol",
     "country": "Germany",
     "iata": "\\N",
@@ -2331,7 +2331,7 @@
     "icao": "EDCM"
   },
   {
-    "name": "Berlin-Schönefeld Airport",
+    "name": "Berlin-Sch\u00f6nefeld Airport",
     "city": "Berlin",
     "country": "Germany",
     "iata": "SXF",
@@ -2359,7 +2359,7 @@
     "icao": "EDDF"
   },
   {
-    "name": "Münster Osnabrück Airport",
+    "name": "M\u00fcnster Osnabr\u00fcck Airport",
     "city": "Munster",
     "country": "Germany",
     "iata": "FMO",
@@ -2387,7 +2387,7 @@
     "icao": "EDDK"
   },
   {
-    "name": "Düsseldorf Airport",
+    "name": "D\u00fcsseldorf Airport",
     "city": "Duesseldorf",
     "country": "Germany",
     "iata": "DUS",
@@ -2415,7 +2415,7 @@
     "icao": "EDDP"
   },
   {
-    "name": "Saarbrücken Airport",
+    "name": "Saarbr\u00fccken Airport",
     "city": "Saarbruecken",
     "country": "Germany",
     "iata": "SCN",
@@ -2520,7 +2520,7 @@
     "icao": "EDHK"
   },
   {
-    "name": "Lübeck Blankensee Airport",
+    "name": "L\u00fcbeck Blankensee Airport",
     "city": "Luebeck",
     "country": "Germany",
     "iata": "LBC",
@@ -2562,7 +2562,7 @@
     "icao": "EDLI"
   },
   {
-    "name": "Mönchengladbach Airport",
+    "name": "M\u00f6nchengladbach Airport",
     "city": "Moenchengladbach",
     "country": "Germany",
     "iata": "MGL",
@@ -2597,7 +2597,7 @@
     "icao": "EDMA"
   },
   {
-    "name": "Biberach a.d. Riß Airfield",
+    "name": "Biberach a.d. Ri\u00df Airfield",
     "city": "Biberach",
     "country": "Germany",
     "iata": "\\N",
@@ -2695,7 +2695,7 @@
     "icao": "EDQM"
   },
   {
-    "name": "Haßfurt-Schweinfurt Airport",
+    "name": "Ha\u00dffurt-Schweinfurt Airport",
     "city": "Hassfurt",
     "country": "Germany",
     "iata": "\\N",
@@ -2709,7 +2709,7 @@
     "icao": "EDRK"
   },
   {
-    "name": "Trier-Föhren Airport",
+    "name": "Trier-F\u00f6hren Airport",
     "city": "Trier",
     "country": "Germany",
     "iata": "\\N",
@@ -2723,7 +2723,7 @@
     "icao": "EDRY"
   },
   {
-    "name": "Zweibrücken Airport",
+    "name": "Zweibr\u00fccken Airport",
     "city": "Zweibruecken",
     "country": "Germany",
     "iata": "ZQW",
@@ -2751,7 +2751,7 @@
     "icao": "EDTM"
   },
   {
-    "name": "Adolf Würth Airport",
+    "name": "Adolf W\u00fcrth Airport",
     "city": "Schwaebisch Hall",
     "country": "Germany",
     "iata": "\\N",
@@ -2828,7 +2828,7 @@
     "icao": "EDWY"
   },
   {
-    "name": "Flensburg-Schäferhaus Airport",
+    "name": "Flensburg-Sch\u00e4ferhaus Airport",
     "city": "Flensburg",
     "country": "Germany",
     "iata": "FLF",
@@ -2849,14 +2849,14 @@
     "icao": "EDXW"
   },
   {
-    "name": "Ämari Air Base",
+    "name": "\u00c4mari Air Base",
     "city": "Armari Air Force Base",
     "country": "Estonia",
     "iata": "\\N",
     "icao": "EEEI"
   },
   {
-    "name": "Kärdla Airport",
+    "name": "K\u00e4rdla Airport",
     "city": "Kardla",
     "country": "Estonia",
     "iata": "KDL",
@@ -2870,7 +2870,7 @@
     "icao": "EEKE"
   },
   {
-    "name": "Pärnu Airport",
+    "name": "P\u00e4rnu Airport",
     "city": "Parnu",
     "country": "Estonia",
     "iata": "EPU",
@@ -2940,7 +2940,7 @@
     "icao": "EFHN"
   },
   {
-    "name": "Hyvinkää Airfield",
+    "name": "Hyvink\u00e4\u00e4 Airfield",
     "city": "Hyvinkaa",
     "country": "Finland",
     "iata": "HYV",
@@ -3038,7 +3038,7 @@
     "icao": "EFKS"
   },
   {
-    "name": "Kittilä Airport",
+    "name": "Kittil\u00e4 Airport",
     "city": "Kittila",
     "country": "Finland",
     "iata": "KTT",
@@ -3115,14 +3115,14 @@
     "icao": "EFPO"
   },
   {
-    "name": "Pudasjärvi Airport",
+    "name": "Pudasj\u00e4rvi Airport",
     "city": "Pudasjarvi",
     "country": "Finland",
     "iata": "\\N",
     "icao": "EFPU"
   },
   {
-    "name": "Pyhäsalmi Airport",
+    "name": "Pyh\u00e4salmi Airport",
     "city": "Pyhasalmi",
     "country": "Finland",
     "iata": "\\N",
@@ -4221,7 +4221,7 @@
     "icao": "EKEB"
   },
   {
-    "name": "Grønholt Hillerød Airport",
+    "name": "Gr\u00f8nholt Hiller\u00f8d Airport",
     "city": "Gronholt",
     "country": "Denmark",
     "iata": "\\N",
@@ -4235,7 +4235,7 @@
     "icao": "EKKA"
   },
   {
-    "name": "Læsø Airport",
+    "name": "L\u00e6s\u00f8 Airport",
     "city": "Laeso",
     "country": "Denmark",
     "iata": "BYR",
@@ -4256,7 +4256,7 @@
     "icao": "EKOD"
   },
   {
-    "name": "Kruså-Padborg Airport",
+    "name": "Krus\u00e5-Padborg Airport",
     "city": "Krusa-padborg",
     "country": "Denmark",
     "iata": "\\N",
@@ -4277,7 +4277,7 @@
     "icao": "EKRN"
   },
   {
-    "name": "Sønderborg Airport",
+    "name": "S\u00f8nderborg Airport",
     "city": "Soenderborg",
     "country": "Denmark",
     "iata": "SGD",
@@ -4347,14 +4347,14 @@
     "icao": "ELLX"
   },
   {
-    "name": "Ålesund Airport",
+    "name": "\u00c5lesund Airport",
     "city": "Alesund",
     "country": "Norway",
     "iata": "AES",
     "icao": "ENAL"
   },
   {
-    "name": "Andøya Airport",
+    "name": "And\u00f8ya Airport",
     "city": "Andoya",
     "country": "Norway",
     "iata": "ANX",
@@ -4368,21 +4368,21 @@
     "icao": "ENAT"
   },
   {
-    "name": "Bømoen Airport",
+    "name": "B\u00f8moen Airport",
     "city": "Voss",
     "country": "Norway",
     "iata": "\\N",
     "icao": "ENBM"
   },
   {
-    "name": "Brønnøysund Airport",
+    "name": "Br\u00f8nn\u00f8ysund Airport",
     "city": "Bronnoysund",
     "country": "Norway",
     "iata": "BNN",
     "icao": "ENBN"
   },
   {
-    "name": "Bodø Airport",
+    "name": "Bod\u00f8 Airport",
     "city": "Bodo",
     "country": "Norway",
     "iata": "BOO",
@@ -4396,7 +4396,7 @@
     "icao": "ENBR"
   },
   {
-    "name": "Båtsfjord Airport",
+    "name": "B\u00e5tsfjord Airport",
     "city": "Batsfjord",
     "country": "Norway",
     "iata": "BJF",
@@ -4438,7 +4438,7 @@
     "icao": "ENFG"
   },
   {
-    "name": "Florø Airport",
+    "name": "Flor\u00f8 Airport",
     "city": "Floro",
     "country": "Norway",
     "iata": "FRO",
@@ -4480,7 +4480,7 @@
     "icao": "ENKJ"
   },
   {
-    "name": "Kirkenes Airport (Høybuktmoen)",
+    "name": "Kirkenes Airport (H\u00f8ybuktmoen)",
     "city": "Kirkenes",
     "country": "Norway",
     "iata": "KKN",
@@ -4501,7 +4501,7 @@
     "icao": "ENML"
   },
   {
-    "name": "Mosjøen Airport (Kjærstad)",
+    "name": "Mosj\u00f8en Airport (Kj\u00e6rstad)",
     "city": "Mosjoen",
     "country": "Norway",
     "iata": "MJF",
@@ -4522,14 +4522,14 @@
     "icao": "ENNO"
   },
   {
-    "name": "Ørland Airport",
+    "name": "\u00d8rland Airport",
     "city": "Orland",
     "country": "Norway",
     "iata": "OLA",
     "icao": "ENOL"
   },
   {
-    "name": "Røros Airport",
+    "name": "R\u00f8ros Airport",
     "city": "Roros",
     "country": "Norway",
     "iata": "RRS",
@@ -4564,14 +4564,14 @@
     "icao": "ENSO"
   },
   {
-    "name": "Sandnessjøen Airport (Stokka)",
+    "name": "Sandnessj\u00f8en Airport (Stokka)",
     "city": "Sandnessjoen",
     "country": "Norway",
     "iata": "SSJ",
     "icao": "ENST"
   },
   {
-    "name": "Tromsø Airport,",
+    "name": "Troms\u00f8 Airport,",
     "city": "Tromso",
     "country": "Norway",
     "iata": "TOS",
@@ -4585,7 +4585,7 @@
     "icao": "ENTO"
   },
   {
-    "name": "Trondheim Airport Værnes",
+    "name": "Trondheim Airport V\u00e6rnes",
     "city": "Trondheim",
     "country": "Norway",
     "iata": "TRD",
@@ -4606,14 +4606,14 @@
     "icao": "EPBC"
   },
   {
-    "name": "Gdańsk Lech Wałęsa Airport",
+    "name": "Gda\u0144sk Lech Wa\u0142\u0119sa Airport",
     "city": "Gdansk",
     "country": "Poland",
     "iata": "GDN",
     "icao": "EPGD"
   },
   {
-    "name": "Kraków John Paul II International Airport",
+    "name": "Krak\u00f3w John Paul II International Airport",
     "city": "Krakow",
     "country": "Poland",
     "iata": "KRK",
@@ -4641,21 +4641,21 @@
     "icao": "EPML"
   },
   {
-    "name": "Poznań-Ławica Airport",
+    "name": "Pozna\u0144-\u0141awica Airport",
     "city": "Poznan",
     "country": "Poland",
     "iata": "POZ",
     "icao": "EPPO"
   },
   {
-    "name": "Rzeszów-Jasionka Airport",
+    "name": "Rzesz\u00f3w-Jasionka Airport",
     "city": "Rzeszow",
     "country": "Poland",
     "iata": "RZE",
     "icao": "EPRZ"
   },
   {
-    "name": "Szczecin-Goleniów \"Solidarność\" Airport",
+    "name": "Szczecin-Goleni\u00f3w \"Solidarno\u015b\u0107\" Airport",
     "city": "Szczecin",
     "country": "Poland",
     "iata": "SZZ",
@@ -4683,14 +4683,14 @@
     "icao": "EPWA"
   },
   {
-    "name": "Copernicus Wrocław Airport",
+    "name": "Copernicus Wroc\u0142aw Airport",
     "city": "Wroclaw",
     "country": "Poland",
     "iata": "WRO",
     "icao": "EPWR"
   },
   {
-    "name": "Zielona Góra-Babimost Airport",
+    "name": "Zielona G\u00f3ra-Babimost Airport",
     "city": "Zielona Gora",
     "country": "Poland",
     "iata": "IEG",
@@ -4704,7 +4704,7 @@
     "icao": "ESCF"
   },
   {
-    "name": "Bråvalla Air Base",
+    "name": "Br\u00e5valla Air Base",
     "city": "Norrkoeping",
     "country": "Sweden",
     "iata": "\\N",
@@ -4725,7 +4725,7 @@
     "icao": "ESDF"
   },
   {
-    "name": "Råda Air Base",
+    "name": "R\u00e5da Air Base",
     "city": "Rada",
     "country": "Sweden",
     "iata": "\\N",
@@ -4739,21 +4739,21 @@
     "icao": "ESGG"
   },
   {
-    "name": "Jönköping Airport",
+    "name": "J\u00f6nk\u00f6ping Airport",
     "city": "Joenkoeping",
     "country": "Sweden",
     "iata": "JKG",
     "icao": "ESGJ"
   },
   {
-    "name": "Falköping Airport",
+    "name": "Falk\u00f6ping Airport",
     "city": "Falkoping",
     "country": "Sweden",
     "iata": "\\N",
     "icao": "ESGK"
   },
   {
-    "name": "Lidköping-Hovby Airport",
+    "name": "Lidk\u00f6ping-Hovby Airport",
     "city": "Lidkoping",
     "country": "Sweden",
     "iata": "LDK",
@@ -4767,14 +4767,14 @@
     "icao": "ESGP"
   },
   {
-    "name": "Skövde Airport",
+    "name": "Sk\u00f6vde Airport",
     "city": "Skovde",
     "country": "Sweden",
     "iata": "KVB",
     "icao": "ESGR"
   },
   {
-    "name": "Trollhättan-Vänersborg Airport",
+    "name": "Trollh\u00e4ttan-V\u00e4nersborg Airport",
     "city": "Trollhattan",
     "country": "Sweden",
     "iata": "THN",
@@ -4788,7 +4788,7 @@
     "icao": "ESIA"
   },
   {
-    "name": "Såtenäs Air Base",
+    "name": "S\u00e5ten\u00e4s Air Base",
     "city": "Satenas",
     "country": "Sweden",
     "iata": "\\N",
@@ -4879,7 +4879,7 @@
     "icao": "ESMQ"
   },
   {
-    "name": "Malmö Sturup Airport",
+    "name": "Malm\u00f6 Sturup Airport",
     "city": "Malmoe",
     "country": "Sweden",
     "iata": "MMX",
@@ -4900,7 +4900,7 @@
     "icao": "ESMV"
   },
   {
-    "name": "Växjö Kronoberg Airport",
+    "name": "V\u00e4xj\u00f6 Kronoberg Airport",
     "city": "Vaxjo",
     "country": "Sweden",
     "iata": "VXO",
@@ -4928,7 +4928,7 @@
     "icao": "ESND"
   },
   {
-    "name": "Gällivare Airport",
+    "name": "G\u00e4llivare Airport",
     "city": "Gallivare",
     "country": "Sweden",
     "iata": "GEV",
@@ -4949,7 +4949,7 @@
     "icao": "ESNJ"
   },
   {
-    "name": "Kramfors Sollefteå Airport",
+    "name": "Kramfors Sollefte\u00e5 Airport",
     "city": "Kramfors",
     "country": "Sweden",
     "iata": "KRF",
@@ -4970,21 +4970,21 @@
     "icao": "ESNM"
   },
   {
-    "name": "Sundsvall-Härnösand Airport",
+    "name": "Sundsvall-H\u00e4rn\u00f6sand Airport",
     "city": "Sundsvall",
     "country": "Sweden",
     "iata": "SDL",
     "icao": "ESNN"
   },
   {
-    "name": "Örnsköldsvik Airport",
+    "name": "\u00d6rnsk\u00f6ldsvik Airport",
     "city": "Ornskoldsvik",
     "country": "Sweden",
     "iata": "OER",
     "icao": "ESNO"
   },
   {
-    "name": "Piteå Airport",
+    "name": "Pite\u00e5 Airport",
     "city": "Pitea",
     "country": "Sweden",
     "iata": "\\N",
@@ -5005,21 +5005,21 @@
     "icao": "ESNR"
   },
   {
-    "name": "Skellefteå Airport",
+    "name": "Skellefte\u00e5 Airport",
     "city": "Skelleftea",
     "country": "Sweden",
     "iata": "SFT",
     "icao": "ESNS"
   },
   {
-    "name": "Sättna Airport",
+    "name": "S\u00e4ttna Airport",
     "city": "Sattna",
     "country": "Sweden",
     "iata": "\\N",
     "icao": "ESNT"
   },
   {
-    "name": "Umeå Airport",
+    "name": "Ume\u00e5 Airport",
     "city": "Umea",
     "country": "Sweden",
     "iata": "UME",
@@ -5040,21 +5040,21 @@
     "icao": "ESNX"
   },
   {
-    "name": "Örebro Airport",
+    "name": "\u00d6rebro Airport",
     "city": "Orebro",
     "country": "Sweden",
     "iata": "ORB",
     "icao": "ESOE"
   },
   {
-    "name": "Stockholm Västerås Airport",
+    "name": "Stockholm V\u00e4ster\u00e5s Airport",
     "city": "Vasteras",
     "country": "Sweden",
     "iata": "VST",
     "icao": "ESOW"
   },
   {
-    "name": "Luleå Airport",
+    "name": "Lule\u00e5 Airport",
     "city": "Lulea",
     "country": "Sweden",
     "iata": "LLA",
@@ -5103,21 +5103,21 @@
     "icao": "ESSF"
   },
   {
-    "name": "Gävle Sandviken Airport",
+    "name": "G\u00e4vle Sandviken Airport",
     "city": "Gavle",
     "country": "Sweden",
     "iata": "GVX",
     "icao": "ESSK"
   },
   {
-    "name": "Linköping City Airport",
+    "name": "Link\u00f6ping City Airport",
     "city": "Linkoeping",
     "country": "Sweden",
     "iata": "LPI",
     "icao": "ESSL"
   },
   {
-    "name": "Norrköping Airport",
+    "name": "Norrk\u00f6ping Airport",
     "city": "Norrkoeping",
     "country": "Sweden",
     "iata": "NRK",
@@ -5166,7 +5166,7 @@
     "icao": "ETEU"
   },
   {
-    "name": "Bückeburg Air Base",
+    "name": "B\u00fcckeburg Air Base",
     "city": "Brueckeburg",
     "country": "Germany",
     "iata": "\\N",
@@ -5299,7 +5299,7 @@
     "icao": "ETNL"
   },
   {
-    "name": "Nörvenich Air Base",
+    "name": "N\u00f6rvenich Air Base",
     "city": "Noervenich",
     "country": "Germany",
     "iata": "\\N",
@@ -5355,7 +5355,7 @@
     "icao": "ETSA"
   },
   {
-    "name": "Büchel Air Base",
+    "name": "B\u00fcchel Air Base",
     "city": "Buechel",
     "country": "Germany",
     "iata": "\\N",
@@ -5369,7 +5369,7 @@
     "icao": "ETSE"
   },
   {
-    "name": "Fürstenfeldbruck Air Base",
+    "name": "F\u00fcrstenfeldbruck Air Base",
     "city": "Fuerstenfeldbruck",
     "country": "Germany",
     "iata": "FEL",
@@ -5404,7 +5404,7 @@
     "icao": "ETSN"
   },
   {
-    "name": "Gütersloh Air Base",
+    "name": "G\u00fctersloh Air Base",
     "city": "Guetersloh",
     "country": "Germany",
     "iata": "GUT",
@@ -6083,7 +6083,7 @@
     "icao": "FEFF"
   },
   {
-    "name": "Berbérati Airport",
+    "name": "Berb\u00e9rati Airport",
     "city": "Berberati",
     "country": "Central African Republic",
     "iata": "BBT",
@@ -6160,7 +6160,7 @@
     "icao": "FKKM"
   },
   {
-    "name": "N'Gaoundéré Airport",
+    "name": "N'Gaound\u00e9r\u00e9 Airport",
     "city": "N'gaoundere",
     "country": "Cameroon",
     "iata": "NGE",
@@ -6188,7 +6188,7 @@
     "icao": "FKKV"
   },
   {
-    "name": "Yaoundé Airport",
+    "name": "Yaound\u00e9 Airport",
     "city": "Yaounde",
     "country": "Cameroon",
     "iata": "YAO",
@@ -6251,7 +6251,7 @@
     "icao": "FMCH"
   },
   {
-    "name": "Mohéli Bandar Es Eslam Airport",
+    "name": "Moh\u00e9li Bandar Es Eslam Airport",
     "city": "Moheli",
     "country": "Comoros",
     "iata": "NWA",
@@ -6419,7 +6419,7 @@
     "icao": "FMNZ"
   },
   {
-    "name": "Tôlanaro Airport",
+    "name": "T\u00f4lanaro Airport",
     "city": "Tolagnaro",
     "country": "Madagascar",
     "iata": "FTU",
@@ -6657,7 +6657,7 @@
     "icao": "FPPR"
   },
   {
-    "name": "São Tomé International Airport",
+    "name": "S\u00e3o Tom\u00e9 International Airport",
     "city": "Sao Tome",
     "country": "Sao Tome and Principe",
     "iata": "TMS",
@@ -6706,7 +6706,7 @@
     "icao": "FQMD"
   },
   {
-    "name": "Mocímboa da Praia Airport",
+    "name": "Moc\u00edmboa da Praia Airport",
     "city": "Mocimboa Da Praia",
     "country": "Mozambique",
     "iata": "MZB",
@@ -7294,7 +7294,7 @@
     "icao": "GMAT"
   },
   {
-    "name": "Saïss Airport",
+    "name": "Sa\u00efss Airport",
     "city": "Fes",
     "country": "Morocco",
     "iata": "FEZ",
@@ -7336,7 +7336,7 @@
     "icao": "GMMB"
   },
   {
-    "name": "Rabat-Salé Airport",
+    "name": "Rabat-Sal\u00e9 Airport",
     "city": "Rabat",
     "country": "Morocco",
     "iata": "RBA",
@@ -7413,7 +7413,7 @@
     "icao": "GOOK"
   },
   {
-    "name": "Léopold Sédar Senghor International Airport",
+    "name": "L\u00e9opold S\u00e9dar Senghor International Airport",
     "city": "Dakar",
     "country": "Senegal",
     "iata": "DKR",
@@ -7434,7 +7434,7 @@
     "icao": "GOTB"
   },
   {
-    "name": "Kédougou Airport",
+    "name": "K\u00e9dougou Airport",
     "city": "Kedougou",
     "country": "Senegal",
     "iata": "KGG",
@@ -7469,28 +7469,28 @@
     "icao": "GQNF"
   },
   {
-    "name": "Néma Airport",
+    "name": "N\u00e9ma Airport",
     "city": "Nema",
     "country": "Mauritania",
     "iata": "EMN",
     "icao": "GQNI"
   },
   {
-    "name": "Kaédi Airport",
+    "name": "Ka\u00e9di Airport",
     "city": "Kaedi",
     "country": "Mauritania",
     "iata": "KED",
     "icao": "GQNK"
   },
   {
-    "name": "Nouakchott–Oumtounsy International Airport",
+    "name": "Nouakchott\u2013Oumtounsy International Airport",
     "city": "Nouakschott",
     "country": "Mauritania",
     "iata": "NKC",
     "icao": "GQNO"
   },
   {
-    "name": "Sélibaby Airport",
+    "name": "S\u00e9libaby Airport",
     "city": "Selibabi",
     "country": "Mauritania",
     "iata": "SEY",
@@ -7539,7 +7539,7 @@
     "icao": "GULB"
   },
   {
-    "name": "Amílcar Cabral International Airport",
+    "name": "Am\u00edlcar Cabral International Airport",
     "city": "Amilcar Cabral",
     "country": "Cape Verde",
     "iata": "SID",
@@ -7560,14 +7560,14 @@
     "icao": "GVMA"
   },
   {
-    "name": "Preguiça Airport",
+    "name": "Pregui\u00e7a Airport",
     "city": "Sao Nocolau Island",
     "country": "Cape Verde",
     "iata": "SNE",
     "icao": "GVSN"
   },
   {
-    "name": "São Pedro Airport",
+    "name": "S\u00e3o Pedro Airport",
     "city": "Sao Vicente Island",
     "country": "Cape Verde",
     "iata": "VXE",
@@ -8190,7 +8190,7 @@
     "icao": "LDDU"
   },
   {
-    "name": "Osijek-Čepin Airfield",
+    "name": "Osijek-\u010cepin Airfield",
     "city": "Cepin",
     "country": "Croatia",
     "iata": "\\N",
@@ -8232,7 +8232,7 @@
     "icao": "LDSP"
   },
   {
-    "name": "Varaždin Airport",
+    "name": "Vara\u017edin Airport",
     "city": "Varazdin",
     "country": "Croatia",
     "iata": "\\N",
@@ -8274,7 +8274,7 @@
     "icao": "LEAL"
   },
   {
-    "name": "Almería International Airport",
+    "name": "Almer\u00eda International Airport",
     "city": "Almeria",
     "country": "Spain",
     "iata": "LEI",
@@ -8288,7 +8288,7 @@
     "icao": "LEAS"
   },
   {
-    "name": "Córdoba Airport",
+    "name": "C\u00f3rdoba Airport",
     "city": "Cordoba",
     "country": "Spain",
     "iata": "ODB",
@@ -8316,7 +8316,7 @@
     "icao": "LEBZ"
   },
   {
-    "name": "A Coruña Airport",
+    "name": "A Coru\u00f1a Airport",
     "city": "La Coruna",
     "country": "Spain",
     "iata": "LCG",
@@ -8372,14 +8372,14 @@
     "icao": "LELC"
   },
   {
-    "name": "Adolfo Suárez Madrid–Barajas Airport",
+    "name": "Adolfo Su\u00e1rez Madrid\u2013Barajas Airport",
     "city": "Madrid",
     "country": "Spain",
     "iata": "MAD",
     "icao": "LEMD"
   },
   {
-    "name": "Málaga Airport",
+    "name": "M\u00e1laga Airport",
     "city": "Malaga",
     "country": "Spain",
     "iata": "AGP",
@@ -8400,7 +8400,7 @@
     "icao": "LEMO"
   },
   {
-    "name": "Ocaña Airport",
+    "name": "Oca\u00f1a Airport",
     "city": "Ocana",
     "country": "Spain",
     "iata": "\\N",
@@ -8477,7 +8477,7 @@
     "icao": "LESU"
   },
   {
-    "name": "Torrejón Airport",
+    "name": "Torrej\u00f3n Airport",
     "city": "Madrid",
     "country": "Spain",
     "iata": "TOJ",
@@ -8540,7 +8540,7 @@
     "icao": "LFAC"
   },
   {
-    "name": "Péronne-Saint-Quentin Airport",
+    "name": "P\u00e9ronne-Saint-Quentin Airport",
     "city": "Peronne",
     "country": "France",
     "iata": "\\N",
@@ -8568,7 +8568,7 @@
     "icao": "LFAQ"
   },
   {
-    "name": "Le Touquet-Côte d'Opale Airport",
+    "name": "Le Touquet-C\u00f4te d'Opale Airport",
     "city": "Le Tourquet",
     "country": "France",
     "iata": "LTQ",
@@ -8603,14 +8603,14 @@
     "icao": "LFBC"
   },
   {
-    "name": "Bordeaux-Mérignac Airport",
+    "name": "Bordeaux-M\u00e9rignac Airport",
     "city": "Bordeaux",
     "country": "France",
     "iata": "BOD",
     "icao": "LFBD"
   },
   {
-    "name": "Bergerac-Roumanière Airport",
+    "name": "Bergerac-Roumani\u00e8re Airport",
     "city": "Bergerac",
     "country": "France",
     "iata": "EGC",
@@ -8624,7 +8624,7 @@
     "icao": "LFBF"
   },
   {
-    "name": "Cognac-Châteaubernard (BA 709) Air Base",
+    "name": "Cognac-Ch\u00e2teaubernard (BA 709) Air Base",
     "city": "Cognac",
     "country": "France",
     "iata": "CNG",
@@ -8638,7 +8638,7 @@
     "icao": "LFBI"
   },
   {
-    "name": "Montluçon-Guéret Airport",
+    "name": "Montlu\u00e7on-Gu\u00e9ret Airport",
     "city": "Montlucon-gueret",
     "country": "France",
     "iata": "MCU",
@@ -8659,7 +8659,7 @@
     "icao": "LFBM"
   },
   {
-    "name": "Niort-Souché Airport",
+    "name": "Niort-Souch\u00e9 Airport",
     "city": "Niort",
     "country": "France",
     "iata": "NIT",
@@ -8673,7 +8673,7 @@
     "icao": "LFBO"
   },
   {
-    "name": "Pau Pyrénées Airport",
+    "name": "Pau Pyr\u00e9n\u00e9es Airport",
     "city": "Pau",
     "country": "France",
     "iata": "PUF",
@@ -8687,14 +8687,14 @@
     "icao": "LFBR"
   },
   {
-    "name": "Tarbes-Lourdes-Pyrénées Airport",
+    "name": "Tarbes-Lourdes-Pyr\u00e9n\u00e9es Airport",
     "city": "Tarbes",
     "country": "France",
     "iata": "LDE",
     "icao": "LFBT"
   },
   {
-    "name": "Angoulême-Brie-Champniers Airport",
+    "name": "Angoul\u00eame-Brie-Champniers Airport",
     "city": "Angouleme",
     "country": "France",
     "iata": "ANG",
@@ -8708,7 +8708,7 @@
     "icao": "LFSL"
   },
   {
-    "name": "Périgueux-Bassillac Airport",
+    "name": "P\u00e9rigueux-Bassillac Airport",
     "city": "Perigueux",
     "country": "France",
     "iata": "PGX",
@@ -8743,7 +8743,7 @@
     "icao": "LFCH"
   },
   {
-    "name": "Albi-Le Séquestre Airport",
+    "name": "Albi-Le S\u00e9questre Airport",
     "city": "Albi",
     "country": "France",
     "iata": "LBI",
@@ -8799,7 +8799,7 @@
     "icao": "LFCW"
   },
   {
-    "name": "Royan-Médis Airport",
+    "name": "Royan-M\u00e9dis Airport",
     "city": "Royan",
     "country": "France",
     "iata": "RYN",
@@ -8869,7 +8869,7 @@
     "icao": "LFED"
   },
   {
-    "name": "Aubigny-sur-Nère Airport",
+    "name": "Aubigny-sur-N\u00e8re Airport",
     "city": "Aubigny-sur-nere",
     "country": "France",
     "iata": "\\N",
@@ -8890,7 +8890,7 @@
     "icao": "LFFI"
   },
   {
-    "name": "Brienne-le-Château Airport",
+    "name": "Brienne-le-Ch\u00e2teau Airport",
     "city": "Brienne-le Chateau",
     "country": "France",
     "iata": "\\N",
@@ -8932,7 +8932,7 @@
     "icao": "LFGW"
   },
   {
-    "name": "Aubenas-Ardèche Méridional Airport",
+    "name": "Aubenas-Ard\u00e8che M\u00e9ridional Airport",
     "city": "Aubenas-vals-lanas",
     "country": "France",
     "iata": "OBS",
@@ -8953,7 +8953,7 @@
     "icao": "LFHQ"
   },
   {
-    "name": "Bourg-Ceyzériat Airport",
+    "name": "Bourg-Ceyz\u00e9riat Airport",
     "city": "Bourg",
     "country": "France",
     "iata": "\\N",
@@ -8981,7 +8981,7 @@
     "icao": "LFIF"
   },
   {
-    "name": "Cassagnes-Bégonhès Airport",
+    "name": "Cassagnes-B\u00e9gonh\u00e8s Airport",
     "city": "Cassagnes-beghones",
     "country": "France",
     "iata": "\\N",
@@ -9016,7 +9016,7 @@
     "icao": "LFKF"
   },
   {
-    "name": "Ajaccio-Napoléon Bonaparte Airport",
+    "name": "Ajaccio-Napol\u00e9on Bonaparte Airport",
     "city": "Ajaccio",
     "country": "France",
     "iata": "AJA",
@@ -9051,7 +9051,7 @@
     "icao": "LFLA"
   },
   {
-    "name": "Chambéry-Savoie Airport",
+    "name": "Chamb\u00e9ry-Savoie Airport",
     "city": "Chambery",
     "country": "France",
     "iata": "CMF",
@@ -9072,7 +9072,7 @@
     "icao": "LFLD"
   },
   {
-    "name": "Chambéry-Challes-les-Eaux Airport",
+    "name": "Chamb\u00e9ry-Challes-les-Eaux Airport",
     "city": "Chambery",
     "country": "France",
     "iata": "\\N",
@@ -9093,14 +9093,14 @@
     "icao": "LFLI"
   },
   {
-    "name": "Lyon Saint-Exupéry Airport",
+    "name": "Lyon Saint-Exup\u00e9ry Airport",
     "city": "Lyon",
     "country": "France",
     "iata": "LYS",
     "icao": "LFLL"
   },
   {
-    "name": "Mâcon-Charnay Airport",
+    "name": "M\u00e2con-Charnay Airport",
     "city": "Macon",
     "country": "France",
     "iata": "\\N",
@@ -9128,14 +9128,14 @@
     "icao": "LFLP"
   },
   {
-    "name": "Grenoble-Isère Airport",
+    "name": "Grenoble-Is\u00e8re Airport",
     "city": "Grenoble",
     "country": "France",
     "iata": "GNB",
     "icao": "LFLS"
   },
   {
-    "name": "Montluçon-Domérat Airport",
+    "name": "Montlu\u00e7on-Dom\u00e9rat Airport",
     "city": "Montlucon",
     "country": "France",
     "iata": "\\N",
@@ -9163,7 +9163,7 @@
     "icao": "LFLW"
   },
   {
-    "name": "Châteauroux-Déols \"Marcel Dassault\" Airport",
+    "name": "Ch\u00e2teauroux-D\u00e9ols \"Marcel Dassault\" Airport",
     "city": "Chateauroux",
     "country": "France",
     "iata": "CHR",
@@ -9198,14 +9198,14 @@
     "icao": "LFMD"
   },
   {
-    "name": "Saint-Étienne-Bouthéon Airport",
+    "name": "Saint-\u00c9tienne-Bouth\u00e9on Airport",
     "city": "St-Etienne",
     "country": "France",
     "iata": "EBU",
     "icao": "LFMH"
   },
   {
-    "name": "Istres Le Tubé/Istres Air Base (BA 125) Airport",
+    "name": "Istres Le Tub\u00e9/Istres Air Base (BA 125) Airport",
     "city": "Istres",
     "country": "France",
     "iata": "\\N",
@@ -9226,7 +9226,7 @@
     "icao": "LFML"
   },
   {
-    "name": "Nice-Côte d'Azur Airport",
+    "name": "Nice-C\u00f4te d'Azur Airport",
     "city": "Nice",
     "country": "France",
     "iata": "NCE",
@@ -9240,7 +9240,7 @@
     "icao": "LFMO"
   },
   {
-    "name": "Perpignan-Rivesaltes (Llabanère) Airport",
+    "name": "Perpignan-Rivesaltes (Llaban\u00e8re) Airport",
     "city": "Perpignan",
     "country": "France",
     "iata": "PGF",
@@ -9254,21 +9254,21 @@
     "icao": "LFMQ"
   },
   {
-    "name": "Alès-Deaux Airport",
+    "name": "Al\u00e8s-Deaux Airport",
     "city": "Ales",
     "country": "France",
     "iata": "\\N",
     "icao": "LFMS"
   },
   {
-    "name": "Montpellier-Méditerranée Airport",
+    "name": "Montpellier-M\u00e9diterran\u00e9e Airport",
     "city": "Montpellier",
     "country": "France",
     "iata": "MPL",
     "icao": "LFMT"
   },
   {
-    "name": "Béziers-Vias Airport",
+    "name": "B\u00e9ziers-Vias Airport",
     "city": "Beziers",
     "country": "France",
     "iata": "BZR",
@@ -9289,7 +9289,7 @@
     "icao": "LFMY"
   },
   {
-    "name": "Lézignan-Corbières Airfield",
+    "name": "L\u00e9zignan-Corbi\u00e8res Airfield",
     "city": "Lezignan-corbieres",
     "country": "France",
     "iata": "\\N",
@@ -9317,14 +9317,14 @@
     "icao": "LFOA"
   },
   {
-    "name": "Paris Beauvais Tillé Airport",
+    "name": "Paris Beauvais Till\u00e9 Airport",
     "city": "Beauvais",
     "country": "France",
     "iata": "BVA",
     "icao": "LFOB"
   },
   {
-    "name": "Châteaudun (BA 279) Air Base",
+    "name": "Ch\u00e2teaudun (BA 279) Air Base",
     "city": "Chateaudun",
     "country": "France",
     "iata": "\\N",
@@ -9338,7 +9338,7 @@
     "icao": "LFOD"
   },
   {
-    "name": "Évreux-Fauville (BA 105) Air Base",
+    "name": "\u00c9vreux-Fauville (BA 105) Air Base",
     "city": "Evreux",
     "country": "France",
     "iata": "EVX",
@@ -9359,14 +9359,14 @@
     "icao": "LFOI"
   },
   {
-    "name": "Orléans-Bricy (BA 123) Air Base",
+    "name": "Orl\u00e9ans-Bricy (BA 123) Air Base",
     "city": "Orleans",
     "country": "France",
     "iata": "ORE",
     "icao": "LFOJ"
   },
   {
-    "name": "Châlons-Vatry Airport",
+    "name": "Ch\u00e2lons-Vatry Airport",
     "city": "Chalons",
     "country": "France",
     "iata": "XCR",
@@ -9401,7 +9401,7 @@
     "icao": "LFOV"
   },
   {
-    "name": "Orléans-Saint-Denis-de-l'Hôtel Airport",
+    "name": "Orl\u00e9ans-Saint-Denis-de-l'H\u00f4tel Airport",
     "city": "Orleans",
     "country": "France",
     "iata": "\\N",
@@ -9464,7 +9464,7 @@
     "icao": "LFPT"
   },
   {
-    "name": "Villacoublay-Vélizy (BA 107) Air Base",
+    "name": "Villacoublay-V\u00e9lizy (BA 107) Air Base",
     "city": "Villacoublay",
     "country": "France",
     "iata": "VIY",
@@ -9485,14 +9485,14 @@
     "icao": "LFQB"
   },
   {
-    "name": "Lunéville-Croismare Airport",
+    "name": "Lun\u00e9ville-Croismare Airport",
     "city": "Luneville",
     "country": "France",
     "iata": "\\N",
     "icao": "LFQC"
   },
   {
-    "name": "Étain-Rouvres Air Base",
+    "name": "\u00c9tain-Rouvres Air Base",
     "city": "Etain",
     "country": "France",
     "iata": "\\N",
@@ -9513,21 +9513,21 @@
     "icao": "LFQG"
   },
   {
-    "name": "Cambrai-Épinoy (BA 103) Air Base",
+    "name": "Cambrai-\u00c9pinoy (BA 103) Air Base",
     "city": "Cambrai",
     "country": "France",
     "iata": "\\N",
     "icao": "LFQI"
   },
   {
-    "name": "Maubeuge-Élesmes Airport",
+    "name": "Maubeuge-\u00c9lesmes Airport",
     "city": "Maubeuge",
     "country": "France",
     "iata": "XME",
     "icao": "LFQJ"
   },
   {
-    "name": "Besançon-La Vèze Airport",
+    "name": "Besan\u00e7on-La V\u00e8ze Airport",
     "city": "Besancon-la-veze",
     "country": "France",
     "iata": "\\N",
@@ -9555,7 +9555,7 @@
     "icao": "LFQT"
   },
   {
-    "name": "Charleville-Mézières Airport",
+    "name": "Charleville-M\u00e9zi\u00e8res Airport",
     "city": "Charleville",
     "country": "France",
     "iata": "XCZ",
@@ -9639,7 +9639,7 @@
     "icao": "LFRK"
   },
   {
-    "name": "Lanvéoc-Poulmic Air Base",
+    "name": "Lanv\u00e9oc-Poulmic Air Base",
     "city": "Lanvedoc",
     "country": "France",
     "iata": "\\N",
@@ -9660,7 +9660,7 @@
     "icao": "LFRN"
   },
   {
-    "name": "Lannion-Côte de Granit Airport",
+    "name": "Lannion-C\u00f4te de Granit Airport",
     "city": "Lannion",
     "country": "France",
     "iata": "LAI",
@@ -9737,7 +9737,7 @@
     "icao": "LFSF"
   },
   {
-    "name": "Épinal-Mirecourt Airport",
+    "name": "\u00c9pinal-Mirecourt Airport",
     "city": "Epinal",
     "country": "France",
     "iata": "EPL",
@@ -9758,7 +9758,7 @@
     "icao": "LFSI"
   },
   {
-    "name": "Montbéliard-Courcelles Airfield",
+    "name": "Montb\u00e9liard-Courcelles Airfield",
     "city": "Montbeliard",
     "country": "France",
     "iata": "\\N",
@@ -9814,14 +9814,14 @@
     "icao": "LFTF"
   },
   {
-    "name": "Toulon-Hyères Airport",
+    "name": "Toulon-Hy\u00e8res Airport",
     "city": "Hyeres",
     "country": "France",
     "iata": "TLN",
     "icao": "LFTH"
   },
   {
-    "name": "Nîmes-Arles-Camargue Airport",
+    "name": "N\u00eemes-Arles-Camargue Airport",
     "city": "Nimes",
     "country": "France",
     "iata": "FNI",
@@ -9842,7 +9842,7 @@
     "icao": "LFVP"
   },
   {
-    "name": "Ambérieu Air Base (BA 278)",
+    "name": "Amb\u00e9rieu Air Base (BA 278)",
     "city": "Amberieu",
     "country": "France",
     "iata": "\\N",
@@ -10178,28 +10178,28 @@
     "icao": "LHDC"
   },
   {
-    "name": "Kecskemét Airport",
+    "name": "Kecskem\u00e9t Airport",
     "city": "Kecskemet",
     "country": "Hungary",
     "iata": "\\N",
     "icao": "LHKE"
   },
   {
-    "name": "Nyíregyháza Airport",
+    "name": "Ny\u00edregyh\u00e1za Airport",
     "city": "Nyirregyhaza",
     "country": "Hungary",
     "iata": "\\N",
     "icao": "LHNY"
   },
   {
-    "name": "Őcsény Airport",
+    "name": "\u0150cs\u00e9ny Airport",
     "city": "Ocseny",
     "country": "Hungary",
     "iata": "\\N",
     "icao": "LHOY"
   },
   {
-    "name": "Szentkirályszabadja Airport",
+    "name": "Szentkir\u00e1lyszabadja Airport",
     "city": "Azentkilyszabadja",
     "country": "Hungary",
     "iata": "\\N",
@@ -10227,7 +10227,7 @@
     "icao": "LIBC"
   },
   {
-    "name": "Bari Karol Wojtyła Airport",
+    "name": "Bari Karol Wojty\u0142a Airport",
     "city": "Bari",
     "country": "Italy",
     "iata": "BRI",
@@ -10262,7 +10262,7 @@
     "icao": "LIBP"
   },
   {
-    "name": "Brindisi – Salento Airport",
+    "name": "Brindisi \u2013 Salento Airport",
     "city": "Brindisi",
     "country": "Italy",
     "iata": "BDS",
@@ -10304,7 +10304,7 @@
     "icao": "LICG"
   },
   {
-    "name": "Falcone–Borsellino Airport",
+    "name": "Falcone\u2013Borsellino Airport",
     "city": "Palermo",
     "country": "Italy",
     "iata": "PMO",
@@ -10367,7 +10367,7 @@
     "icao": "LIEO"
   },
   {
-    "name": "Tortolì Airport",
+    "name": "Tortol\u00ec Airport",
     "city": "Tortoli",
     "country": "Italy",
     "iata": "TTB",
@@ -10500,7 +10500,7 @@
     "icao": "LIPI"
   },
   {
-    "name": "Forlì Airport",
+    "name": "Forl\u00ec Airport",
     "city": "Forli",
     "country": "Italy",
     "iata": "FRL",
@@ -10528,7 +10528,7 @@
     "icao": "LIPO"
   },
   {
-    "name": "Trieste–Friuli Venezia Giulia Airport",
+    "name": "Trieste\u2013Friuli Venezia Giulia Airport",
     "city": "Ronchi De Legionari",
     "country": "Italy",
     "iata": "TRS",
@@ -10584,7 +10584,7 @@
     "icao": "LIQS"
   },
   {
-    "name": "Ciampino–G. B. Pastine International Airport",
+    "name": "Ciampino\u2013G. B. Pastine International Airport",
     "city": "Rome",
     "country": "Italy",
     "iata": "CIA",
@@ -10598,7 +10598,7 @@
     "icao": "LIRE"
   },
   {
-    "name": "Leonardo da Vinci–Fiumicino Airport",
+    "name": "Leonardo da Vinci\u2013Fiumicino Airport",
     "city": "Rome",
     "country": "Italy",
     "iata": "FCO",
@@ -10675,7 +10675,7 @@
     "icao": "LIRV"
   },
   {
-    "name": "Perugia San Francesco d'Assisi – Umbria International Airport",
+    "name": "Perugia San Francesco d'Assisi \u2013 Umbria International Airport",
     "city": "Perugia",
     "country": "Italy",
     "iata": "PEG",
@@ -10689,7 +10689,7 @@
     "icao": "LJCE"
   },
   {
-    "name": "Ljubljana Jože Pučnik Airport",
+    "name": "Ljubljana Jo\u017ee Pu\u010dnik Airport",
     "city": "Ljubljana",
     "country": "Slovenia",
     "iata": "LJU",
@@ -10717,28 +10717,28 @@
     "icao": "LJSG"
   },
   {
-    "name": "České Budějovice Airport",
+    "name": "\u010cesk\u00e9 Bud\u011bjovice Airport",
     "city": "Ceske Budejovice",
     "country": "Czech Republic",
     "iata": "\\N",
     "icao": "LKCS"
   },
   {
-    "name": "Čáslav Air Base",
+    "name": "\u010c\u00e1slav Air Base",
     "city": "Caslav",
     "country": "Czech Republic",
     "iata": "\\N",
     "icao": "LKCV"
   },
   {
-    "name": "Hradec Králové Airport",
+    "name": "Hradec Kr\u00e1lov\u00e9 Airport",
     "city": "Hradec Kralove",
     "country": "Czech Republic",
     "iata": "\\N",
     "icao": "LKHK"
   },
   {
-    "name": "Hořovice Airport",
+    "name": "Ho\u0159ovice Airport",
     "city": "Horovice",
     "country": "Czech Republic",
     "iata": "\\N",
@@ -10766,28 +10766,28 @@
     "icao": "LKKV"
   },
   {
-    "name": "Plzeň-Líně Airport",
+    "name": "Plze\u0148-L\u00edn\u011b Airport",
     "city": "Line",
     "country": "Czech Republic",
     "iata": "\\N",
     "icao": "LKLN"
   },
   {
-    "name": "Mnichovo Hradiště Airport",
+    "name": "Mnichovo Hradi\u0161t\u011b Airport",
     "city": "Mnichovo Hradiste",
     "country": "Czech Republic",
     "iata": "\\N",
     "icao": "LKMH"
   },
   {
-    "name": "Ostrava Leos Janáček Airport",
+    "name": "Ostrava Leos Jan\u00e1\u010dek Airport",
     "city": "Ostrava",
     "country": "Czech Republic",
     "iata": "OSR",
     "icao": "LKMT"
   },
   {
-    "name": "Náměšť Air Base",
+    "name": "N\u00e1m\u011b\u0161\u0165 Air Base",
     "city": "Namest",
     "country": "Czech Republic",
     "iata": "\\N",
@@ -10808,21 +10808,21 @@
     "icao": "LKPM"
   },
   {
-    "name": "Přerov Air Base",
+    "name": "P\u0159erov Air Base",
     "city": "Prerov",
     "country": "Czech Republic",
     "iata": "PRV",
     "icao": "LKPO"
   },
   {
-    "name": "Václav Havel Airport Prague",
+    "name": "V\u00e1clav Havel Airport Prague",
     "city": "Prague",
     "country": "Czech Republic",
     "iata": "PRG",
     "icao": "LKPR"
   },
   {
-    "name": "Brno-Tuřany Airport",
+    "name": "Brno-Tu\u0159any Airport",
     "city": "Brno",
     "country": "Czech Republic",
     "iata": "BRQ",
@@ -10983,7 +10983,7 @@
     "icao": "LOWI"
   },
   {
-    "name": "Linz Hörsching Airport",
+    "name": "Linz H\u00f6rsching Airport",
     "city": "Linz",
     "country": "Austria",
     "iata": "LNZ",
@@ -11025,7 +11025,7 @@
     "icao": "LPAZ"
   },
   {
-    "name": "Bragança Airport",
+    "name": "Bragan\u00e7a Airport",
     "city": "Braganca",
     "country": "Portugal",
     "iata": "BGC",
@@ -11060,14 +11060,14 @@
     "icao": "LPCS"
   },
   {
-    "name": "Coimbra Hospital Covões Heliport",
+    "name": "Coimbra Hospital Cov\u00f5es Heliport",
     "city": "Covilha",
     "country": "Portugal",
     "iata": "\\N",
     "icao": "LPCV"
   },
   {
-    "name": "Évora Airport",
+    "name": "\u00c9vora Airport",
     "city": "Evora",
     "country": "Portugal",
     "iata": "\\N",
@@ -11130,7 +11130,7 @@
     "icao": "LPOV"
   },
   {
-    "name": "João Paulo II Airport",
+    "name": "Jo\u00e3o Paulo II Airport",
     "city": "Ponta Delgada",
     "country": "Portugal",
     "iata": "PDL",
@@ -11144,14 +11144,14 @@
     "icao": "LPPI"
   },
   {
-    "name": "Portimão Airport",
+    "name": "Portim\u00e3o Airport",
     "city": "Portimao",
     "country": "Portugal",
     "iata": "PRM",
     "icao": "LPPM"
   },
   {
-    "name": "Francisco de Sá Carneiro Airport",
+    "name": "Francisco de S\u00e1 Carneiro Airport",
     "city": "Porto",
     "country": "Portugal",
     "iata": "OPO",
@@ -11172,7 +11172,7 @@
     "icao": "LPPT"
   },
   {
-    "name": "São Jorge Airport",
+    "name": "S\u00e3o Jorge Airport",
     "city": "Sao Jorge Island",
     "country": "Portugal",
     "iata": "SJZ",
@@ -11228,7 +11228,7 @@
     "icao": "LRAR"
   },
   {
-    "name": "Bacău Airport",
+    "name": "Bac\u0103u Airport",
     "city": "Bacau",
     "country": "Romania",
     "iata": "BCM",
@@ -11242,14 +11242,14 @@
     "icao": "LRBM"
   },
   {
-    "name": "Băneasa International Airport",
+    "name": "B\u0103neasa International Airport",
     "city": "Bucharest",
     "country": "Romania",
     "iata": "BBU",
     "icao": "LRBS"
   },
   {
-    "name": "Mihail Kogălniceanu International Airport",
+    "name": "Mihail Kog\u0103lniceanu International Airport",
     "city": "Constanta",
     "country": "Romania",
     "iata": "CND",
@@ -11263,7 +11263,7 @@
     "icao": "LRCL"
   },
   {
-    "name": "Caransebeş Airport",
+    "name": "Caransebe\u015f Airport",
     "city": "Caransebes",
     "country": "Romania",
     "iata": "CSB",
@@ -11277,7 +11277,7 @@
     "icao": "LRCV"
   },
   {
-    "name": "Iaşi Airport",
+    "name": "Ia\u015fi Airport",
     "city": "Iasi",
     "country": "Romania",
     "iata": "IAS",
@@ -11291,7 +11291,7 @@
     "icao": "LROD"
   },
   {
-    "name": "Henri Coandă International Airport",
+    "name": "Henri Coand\u0103 International Airport",
     "city": "Bucharest",
     "country": "Romania",
     "iata": "OTP",
@@ -11326,14 +11326,14 @@
     "icao": "LRTC"
   },
   {
-    "name": "Transilvania Târgu Mureş International Airport",
+    "name": "Transilvania T\u00e2rgu Mure\u015f International Airport",
     "city": "Tirgu Mures",
     "country": "Romania",
     "iata": "TGM",
     "icao": "LRTM"
   },
   {
-    "name": "Timişoara Traian Vuia Airport",
+    "name": "Timi\u015foara Traian Vuia Airport",
     "city": "Timisoara",
     "country": "Romania",
     "iata": "TSR",
@@ -11375,7 +11375,7 @@
     "icao": "LSMA"
   },
   {
-    "name": "Dübendorf Air Base",
+    "name": "D\u00fcbendorf Air Base",
     "city": "Dubendorf",
     "country": "Switzerland",
     "iata": "\\N",
@@ -11431,7 +11431,7 @@
     "icao": "LSZG"
   },
   {
-    "name": "Zürich Airport",
+    "name": "Z\u00fcrich Airport",
     "city": "Zurich",
     "country": "Switzerland",
     "iata": "ZRH",
@@ -11452,14 +11452,14 @@
     "icao": "LSZS"
   },
   {
-    "name": "Güvercinlik Airport",
+    "name": "G\u00fcvercinlik Airport",
     "city": "Ankara",
     "country": "Turkey",
     "iata": "\\N",
     "icao": "LTAB"
   },
   {
-    "name": "Esenboğa International Airport",
+    "name": "Esenbo\u011fa International Airport",
     "city": "Ankara",
     "country": "Turkey",
     "iata": "ESB",
@@ -11473,7 +11473,7 @@
     "icao": "LTAD"
   },
   {
-    "name": "Akıncı Air Base",
+    "name": "Ak\u0131nc\u0131 Air Base",
     "city": "Ankara",
     "country": "Turkey",
     "iata": "\\N",
@@ -11487,7 +11487,7 @@
     "icao": "LTAF"
   },
   {
-    "name": "İncirlik Air Base",
+    "name": "\u0130ncirlik Air Base",
     "city": "Adana",
     "country": "Turkey",
     "iata": "UAB",
@@ -11515,7 +11515,7 @@
     "icao": "LTAJ"
   },
   {
-    "name": "İskenderun Airport",
+    "name": "\u0130skenderun Airport",
     "city": "Iskenderun",
     "country": "Turkey",
     "iata": "\\N",
@@ -11543,14 +11543,14 @@
     "icao": "LTAP"
   },
   {
-    "name": "Sivas Nuri Demirağ Airport",
+    "name": "Sivas Nuri Demira\u011f Airport",
     "city": "Sivas",
     "country": "Turkey",
     "iata": "VAS",
     "icao": "LTAR"
   },
   {
-    "name": "Malatya Erhaç Airport",
+    "name": "Malatya Erha\u00e7 Airport",
     "city": "Malatya",
     "country": "Turkey",
     "iata": "MLX",
@@ -11578,35 +11578,35 @@
     "icao": "LTAW"
   },
   {
-    "name": "Çardak Airport",
+    "name": "\u00c7ardak Airport",
     "city": "Denizli",
     "country": "Turkey",
     "iata": "DNZ",
     "icao": "LTAY"
   },
   {
-    "name": "Atatürk International Airport",
+    "name": "Atat\u00fcrk International Airport",
     "city": "Istanbul",
     "country": "Turkey",
     "iata": "ISL",
     "icao": "LTBA"
   },
   {
-    "name": "Balıkesir Merkez Airport",
+    "name": "Bal\u0131kesir Merkez Airport",
     "city": "Balikesir",
     "country": "Turkey",
     "iata": "BZI",
     "icao": "LTBF"
   },
   {
-    "name": "Bandırma Airport",
+    "name": "Band\u0131rma Airport",
     "city": "Bandirma",
     "country": "Turkey",
     "iata": "BDM",
     "icao": "LTBG"
   },
   {
-    "name": "Eskişehir Air Base",
+    "name": "Eski\u015fehir Air Base",
     "city": "Eskisehir",
     "country": "Turkey",
     "iata": "ESK",
@@ -11627,7 +11627,7 @@
     "icao": "LTBK"
   },
   {
-    "name": "Çiğli Airport",
+    "name": "\u00c7i\u011fli Airport",
     "city": "Izmir",
     "country": "Turkey",
     "iata": "IGL",
@@ -11641,7 +11641,7 @@
     "icao": "LTBM"
   },
   {
-    "name": "Kütahya Airport",
+    "name": "K\u00fctahya Airport",
     "city": "Kutahya",
     "country": "Turkey",
     "iata": "\\N",
@@ -11676,21 +11676,21 @@
     "icao": "LTBT"
   },
   {
-    "name": "Imsık Airport",
+    "name": "Ims\u0131k Airport",
     "city": "Bodrum",
     "country": "Turkey",
     "iata": "BXN",
     "icao": "LTBV"
   },
   {
-    "name": "Samandıra Air Base",
+    "name": "Samand\u0131ra Air Base",
     "city": "Istanbul",
     "country": "Turkey",
     "iata": "\\N",
     "icao": "LTBX"
   },
   {
-    "name": "Elazığ Airport",
+    "name": "Elaz\u0131\u011f Airport",
     "city": "Elazig",
     "country": "Turkey",
     "iata": "EZS",
@@ -11746,28 +11746,28 @@
     "icao": "LTCL"
   },
   {
-    "name": "Kaklıç Airport",
+    "name": "Kakl\u0131\u00e7 Airport",
     "city": "Izmir",
     "country": "Turkey",
     "iata": "\\N",
     "icao": "LTFA"
   },
   {
-    "name": "Selçuk Efes Airport",
+    "name": "Sel\u00e7uk Efes Airport",
     "city": "Izmir",
     "country": "Turkey",
     "iata": "\\N",
     "icao": "LTFB"
   },
   {
-    "name": "Bălți International Airport",
+    "name": "B\u0103l\u021bi International Airport",
     "city": "Saltsy",
     "country": "Moldova",
     "iata": "BZY",
     "icao": "LUBL"
   },
   {
-    "name": "Chişinău International Airport",
+    "name": "Chi\u015fin\u0103u International Airport",
     "city": "Chisinau",
     "country": "Moldova",
     "iata": "KIV",
@@ -11816,7 +11816,7 @@
     "icao": "LYPG"
   },
   {
-    "name": "Priština International Airport",
+    "name": "Pri\u0161tina International Airport",
     "city": "Pristina",
     "country": "Serbia",
     "iata": "PRN",
@@ -11830,49 +11830,49 @@
     "icao": "LYTV"
   },
   {
-    "name": "Vršac International Airport",
+    "name": "Vr\u0161ac International Airport",
     "city": "Vrsac",
     "country": "Serbia",
     "iata": "\\N",
     "icao": "LYVR"
   },
   {
-    "name": "M. R. Štefánik Airport",
+    "name": "M. R. \u0160tef\u00e1nik Airport",
     "city": "Bratislava",
     "country": "Slovakia",
     "iata": "BTS",
     "icao": "LZIB"
   },
   {
-    "name": "Košice Airport",
+    "name": "Ko\u0161ice Airport",
     "city": "Kosice",
     "country": "Slovakia",
     "iata": "KSC",
     "icao": "LZKZ"
   },
   {
-    "name": "Kuchyňa Air Base",
+    "name": "Kuchy\u0148a Air Base",
     "city": "Malacky",
     "country": "Slovakia",
     "iata": "\\N",
     "icao": "LZMC"
   },
   {
-    "name": "Piešťany Airport",
+    "name": "Pie\u0161\u0165any Airport",
     "city": "Piestany",
     "country": "Slovakia",
     "iata": "PZY",
     "icao": "LZPP"
   },
   {
-    "name": "Sliač Airport",
+    "name": "Slia\u010d Airport",
     "city": "Sliac",
     "country": "Slovakia",
     "iata": "SLD",
     "icao": "LZSL"
   },
   {
-    "name": "Trenčín Airport",
+    "name": "Tren\u010d\u00edn Airport",
     "city": "Trencin",
     "country": "Slovakia",
     "iata": "\\N",
@@ -11949,7 +11949,7 @@
     "icao": "MDPP"
   },
   {
-    "name": "Las Américas International Airport",
+    "name": "Las Am\u00e9ricas International Airport",
     "city": "Santo Domingo",
     "country": "Dominican Republic",
     "iata": "SDQ",
@@ -11998,7 +11998,7 @@
     "icao": "MGRT"
   },
   {
-    "name": "San José Airport",
+    "name": "San Jos\u00e9 Airport",
     "city": "San Jose",
     "country": "Guatemala",
     "iata": "GSJ",
@@ -12012,7 +12012,7 @@
     "icao": "MHLC"
   },
   {
-    "name": "Ramón Villeda Morales International Airport",
+    "name": "Ram\u00f3n Villeda Morales International Airport",
     "city": "San Pedro Sula",
     "country": "Honduras",
     "iata": "SAP",
@@ -12040,7 +12040,7 @@
     "icao": "MHTE"
   },
   {
-    "name": "Toncontín International Airport",
+    "name": "Toncont\u00edn International Airport",
     "city": "Tegucigalpa",
     "country": "Honduras",
     "iata": "TGU",
@@ -12103,14 +12103,14 @@
     "icao": "MMAN"
   },
   {
-    "name": "Jesús Terán Paredo International Airport",
+    "name": "Jes\u00fas Ter\u00e1n Paredo International Airport",
     "city": "Aguascalientes",
     "country": "Mexico",
     "iata": "AGU",
     "icao": "MMAS"
   },
   {
-    "name": "Bahías de Huatulco International Airport",
+    "name": "Bah\u00edas de Huatulco International Airport",
     "city": "Huatulco",
     "country": "Mexico",
     "iata": "HUX",
@@ -12124,7 +12124,7 @@
     "icao": "MMCB"
   },
   {
-    "name": "Ciudad Acuña New International Airport",
+    "name": "Ciudad Acu\u00f1a New International Airport",
     "city": "Ciudad Acuna",
     "country": "Mexico",
     "iata": "ACN",
@@ -12166,21 +12166,21 @@
     "icao": "MMCM"
   },
   {
-    "name": "Ciudad Obregón International Airport",
+    "name": "Ciudad Obreg\u00f3n International Airport",
     "city": "Ciudad Obregon",
     "country": "Mexico",
     "iata": "CEN",
     "icao": "MMCN"
   },
   {
-    "name": "Ingeniero Alberto Acuña Ongay International Airport",
+    "name": "Ingeniero Alberto Acu\u00f1a Ongay International Airport",
     "city": "Campeche",
     "country": "Mexico",
     "iata": "CPE",
     "icao": "MMCP"
   },
   {
-    "name": "Abraham González International Airport",
+    "name": "Abraham Gonz\u00e1lez International Airport",
     "city": "Ciudad Juarez",
     "country": "Mexico",
     "iata": "CJS",
@@ -12236,7 +12236,7 @@
     "icao": "MMGL"
   },
   {
-    "name": "General José María Yáñez International Airport",
+    "name": "General Jos\u00e9 Mar\u00eda Y\u00e1\u00f1ez International Airport",
     "city": "Guaymas",
     "country": "Mexico",
     "iata": "GYM",
@@ -12285,7 +12285,7 @@
     "icao": "MMIT"
   },
   {
-    "name": "Lázaro Cárdenas Airport",
+    "name": "L\u00e1zaro C\u00e1rdenas Airport",
     "city": "Lazard Cardenas",
     "country": "Mexico",
     "iata": "LZC",
@@ -12299,14 +12299,14 @@
     "icao": "MMLM"
   },
   {
-    "name": "Del Bajío International Airport",
+    "name": "Del Baj\u00edo International Airport",
     "city": "Del Bajio",
     "country": "Mexico",
     "iata": "BJX",
     "icao": "MMLO"
   },
   {
-    "name": "Manuel Márquez de León International Airport",
+    "name": "Manuel M\u00e1rquez de Le\u00f3n International Airport",
     "city": "La Paz",
     "country": "Mexico",
     "iata": "LAP",
@@ -12390,7 +12390,7 @@
     "icao": "MMNG"
   },
   {
-    "name": "Quetzalcóatl International Airport",
+    "name": "Quetzalc\u00f3atl International Airport",
     "city": "Nuevo Laredo",
     "country": "Mexico",
     "iata": "NLD",
@@ -12411,7 +12411,7 @@
     "icao": "MMPA"
   },
   {
-    "name": "Hermanos Serdán International Airport",
+    "name": "Hermanos Serd\u00e1n International Airport",
     "city": "Puebla",
     "country": "Mexico",
     "iata": "PBC",
@@ -12425,7 +12425,7 @@
     "icao": "MMPC"
   },
   {
-    "name": "Mar de Cortés International Airport",
+    "name": "Mar de Cort\u00e9s International Airport",
     "city": "Punta Penasco",
     "country": "Mexico",
     "iata": "PPE",
@@ -12446,7 +12446,7 @@
     "icao": "MMPN"
   },
   {
-    "name": "Licenciado Gustavo Díaz Ordaz International Airport",
+    "name": "Licenciado Gustavo D\u00edaz Ordaz International Airport",
     "city": "Puerto Vallarta",
     "country": "Mexico",
     "iata": "PVR",
@@ -12460,7 +12460,7 @@
     "icao": "MMPS"
   },
   {
-    "name": "Querétaro Intercontinental Airport",
+    "name": "Quer\u00e9taro Intercontinental Airport",
     "city": "Queretaro",
     "country": "Mexico",
     "iata": "QRO",
@@ -12502,7 +12502,7 @@
     "icao": "MMTA"
   },
   {
-    "name": "Terán Air Base",
+    "name": "Ter\u00e1n Air Base",
     "city": "Tuxtla Gutierrez",
     "country": "Mexico",
     "iata": "\\N",
@@ -12523,7 +12523,7 @@
     "icao": "MMTG"
   },
   {
-    "name": "General Abelardo L. Rodríguez International Airport",
+    "name": "General Abelardo L. Rodr\u00edguez International Airport",
     "city": "Tijuana",
     "country": "Mexico",
     "iata": "TIJ",
@@ -12558,14 +12558,14 @@
     "icao": "MMTP"
   },
   {
-    "name": "Cancún International Airport",
+    "name": "Canc\u00fan International Airport",
     "city": "Cancun",
     "country": "Mexico",
     "iata": "CUN",
     "icao": "MMUN"
   },
   {
-    "name": "Carlos Rovirosa Pérez International Airport",
+    "name": "Carlos Rovirosa P\u00e9rez International Airport",
     "city": "Villahermosa",
     "country": "Mexico",
     "iata": "VSA",
@@ -14133,7 +14133,7 @@
     "icao": "OETB"
   },
   {
-    "name": "Ta’if Regional Airport",
+    "name": "Ta\u2019if Regional Airport",
     "city": "Taif",
     "country": "Saudi Arabia",
     "iata": "TIF",
@@ -15484,7 +15484,7 @@
     "icao": "RJFO"
   },
   {
-    "name": "Kitakyūshū Airport",
+    "name": "Kitaky\u016bsh\u016b Airport",
     "city": "Kitakyushu",
     "country": "Japan",
     "iata": "KKJ",
@@ -15624,7 +15624,7 @@
     "icao": "RJOH"
   },
   {
-    "name": "Kōchi Ryōma Airport",
+    "name": "K\u014dchi Ry\u014dma Airport",
     "city": "Kochi",
     "country": "Japan",
     "iata": "KCZ",
@@ -16317,7 +16317,7 @@
     "icao": "SAME"
   },
   {
-    "name": "Comodoro D.R. Salomón Airport",
+    "name": "Comodoro D.R. Salom\u00f3n Airport",
     "city": "Malargue",
     "country": "Argentina",
     "iata": "LGS",
@@ -16338,7 +16338,7 @@
     "icao": "SANC"
   },
   {
-    "name": "Vicecomodoro Angel D. La Paz Aragonés Airport",
+    "name": "Vicecomodoro Angel D. La Paz Aragon\u00e9s Airport",
     "city": "Santiago Del Estero",
     "country": "Argentina",
     "iata": "SDE",
@@ -16443,7 +16443,7 @@
     "icao": "SARF"
   },
   {
-    "name": "Cataratas Del Iguazú International Airport",
+    "name": "Cataratas Del Iguaz\u00fa International Airport",
     "city": "Iguazu Falls",
     "country": "Argentina",
     "iata": "IGR",
@@ -16492,7 +16492,7 @@
     "icao": "SASJ"
   },
   {
-    "name": "Orán Airport",
+    "name": "Or\u00e1n Airport",
     "city": "Oran",
     "country": "Argentina",
     "iata": "ORA",
@@ -16520,7 +16520,7 @@
     "icao": "SATG"
   },
   {
-    "name": "Oberá Airport",
+    "name": "Ober\u00e1 Airport",
     "city": "Obera",
     "country": "Argentina",
     "iata": "\\N",
@@ -16604,7 +16604,7 @@
     "icao": "SAWE"
   },
   {
-    "name": "Piloto Civil N. Fernández Airport",
+    "name": "Piloto Civil N. Fern\u00e1ndez Airport",
     "city": "Rio Gallegos",
     "country": "Argentina",
     "iata": "RGL",
@@ -16681,7 +16681,7 @@
     "icao": "SAZI"
   },
   {
-    "name": "Ástor Piazzola International Airport",
+    "name": "\u00c1stor Piazzola International Airport",
     "city": "Mar Del Plata",
     "country": "Argentina",
     "iata": "MDQ",
@@ -16716,7 +16716,7 @@
     "icao": "SAZS"
   },
   {
-    "name": "Héroes De Malvinas Airport",
+    "name": "H\u00e9roes De Malvinas Airport",
     "city": "Tandil",
     "country": "Argentina",
     "iata": "TDL",
@@ -16744,21 +16744,21 @@
     "icao": "SAZY"
   },
   {
-    "name": "Conceição do Araguaia Airport",
+    "name": "Concei\u00e7\u00e3o do Araguaia Airport",
     "city": "Conceicao Do Araguaia",
     "country": "Brazil",
     "iata": "CDJ",
     "icao": "SBAA"
   },
   {
-    "name": "Campo Délio Jardim de Mattos Airport",
+    "name": "Campo D\u00e9lio Jardim de Mattos Airport",
     "city": "Rio De Janeiro",
     "country": "Brazil",
     "iata": "\\N",
     "icao": "SBAF"
   },
   {
-    "name": "Amapá Airport",
+    "name": "Amap\u00e1 Airport",
     "city": "Amapa",
     "country": "Brazil",
     "iata": "\\N",
@@ -16786,14 +16786,14 @@
     "icao": "SBAT"
   },
   {
-    "name": "Araçatuba Airport",
+    "name": "Ara\u00e7atuba Airport",
     "city": "Aracatuba",
     "country": "Brazil",
     "iata": "ARU",
     "icao": "SBAU"
   },
   {
-    "name": "Val de Cans/Júlio Cezar Ribeiro International Airport",
+    "name": "Val de Cans/J\u00falio Cezar Ribeiro International Airport",
     "city": "Belem",
     "country": "Brazil",
     "iata": "BEL",
@@ -16849,7 +16849,7 @@
     "icao": "SBBV"
   },
   {
-    "name": "Barra do Garças Airport",
+    "name": "Barra do Gar\u00e7as Airport",
     "city": "Barra Do Garcas",
     "country": "Brazil",
     "iata": "BPG",
@@ -16898,7 +16898,7 @@
     "icao": "SBCI"
   },
   {
-    "name": "Diomício Freitas Airport",
+    "name": "Diom\u00edcio Freitas Airport",
     "city": "Criciuma",
     "country": "Brazil",
     "iata": "CCM",
@@ -16919,7 +16919,7 @@
     "icao": "SBCP"
   },
   {
-    "name": "Corumbá International Airport",
+    "name": "Corumb\u00e1 International Airport",
     "city": "Corumba",
     "country": "Brazil",
     "iata": "CMG",
@@ -16982,7 +16982,7 @@
     "icao": "SBEK"
   },
   {
-    "name": "São Pedro da Aldeia Airport",
+    "name": "S\u00e3o Pedro da Aldeia Airport",
     "city": "Sao Pedro Da Aldeia",
     "country": "Brazil",
     "iata": "\\N",
@@ -16996,7 +16996,7 @@
     "icao": "SBFI"
   },
   {
-    "name": "Hercílio Luz International Airport",
+    "name": "Herc\u00edlio Luz International Airport",
     "city": "Florianopolis",
     "country": "Brazil",
     "iata": "FLN",
@@ -17024,14 +17024,14 @@
     "icao": "SBFZ"
   },
   {
-    "name": "Rio Galeão – Tom Jobim International Airport",
+    "name": "Rio Gale\u00e3o \u2013 Tom Jobim International Airport",
     "city": "Rio De Janeiro",
     "country": "Brazil",
     "iata": "GIG",
     "icao": "SBGL"
   },
   {
-    "name": "Guajará-Mirim Airport",
+    "name": "Guajar\u00e1-Mirim Airport",
     "city": "Guajara-mirim",
     "country": "Brazil",
     "iata": "GJM",
@@ -17045,21 +17045,21 @@
     "icao": "SBGO"
   },
   {
-    "name": "EMBRAER - Unidade Gavião Peixoto Airport",
+    "name": "EMBRAER - Unidade Gavi\u00e3o Peixoto Airport",
     "city": "Macae",
     "country": "Brazil",
     "iata": "\\N",
     "icao": "SBGP"
   },
   {
-    "name": "Guarulhos - Governador André Franco Montoro International Airport",
+    "name": "Guarulhos - Governador Andr\u00e9 Franco Montoro International Airport",
     "city": "Sao Paulo",
     "country": "Brazil",
     "iata": "GRU",
     "icao": "SBGR"
   },
   {
-    "name": "Guaratinguetá Airport",
+    "name": "Guaratinguet\u00e1 Airport",
     "city": "Guaratingueta",
     "country": "Brazil",
     "iata": "GUJ",
@@ -17115,7 +17115,7 @@
     "icao": "SBIZ"
   },
   {
-    "name": "Belém/Brigadeiro Protásio de Oliveira Airport",
+    "name": "Bel\u00e9m/Brigadeiro Prot\u00e1sio de Oliveira Airport",
     "city": "Belem",
     "country": "Brazil",
     "iata": "\\N",
@@ -17143,7 +17143,7 @@
     "icao": "SBJV"
   },
   {
-    "name": "Presidente João Suassuna Airport",
+    "name": "Presidente Jo\u00e3o Suassuna Airport",
     "city": "Campina Grande",
     "country": "Brazil",
     "iata": "CPV",
@@ -17206,7 +17206,7 @@
     "icao": "SBMD"
   },
   {
-    "name": "Regional de Maringá - Sílvio Nane Junior Airport",
+    "name": "Regional de  Nane Junior Airport",
     "city": "Maringa",
     "country": "Brazil",
     "iata": "MGF",
@@ -17297,14 +17297,14 @@
     "icao": "SBPA"
   },
   {
-    "name": "Prefeito Doutor João Silva Filho Airport",
+    "name": "Prefeito Doutor Jo\u00e3o Silva Filho Airport",
     "city": "Parnaiba",
     "country": "Brazil",
     "iata": "PHB",
     "icao": "SBPB"
   },
   {
-    "name": "Poços de Caldas - Embaixador Walther Moreira Salles Airport",
+    "name": "Po\u00e7os de Caldas - Embaixador Walther Moreira Salles Airport",
     "city": "Pocos De Caldas",
     "country": "Brazil",
     "iata": "POO",
@@ -17318,7 +17318,7 @@
     "icao": "SBPF"
   },
   {
-    "name": "João Simões Lopes Neto International Airport",
+    "name": "Jo\u00e3o Sim\u00f5es Lopes Neto International Airport",
     "city": "Pelotas",
     "country": "Brazil",
     "iata": "PET",
@@ -17339,7 +17339,7 @@
     "icao": "SBPN"
   },
   {
-    "name": "Ponta Porã Airport",
+    "name": "Ponta Por\u00e3 Airport",
     "city": "Ponta Pora",
     "country": "Brazil",
     "iata": "PMG",
@@ -17353,7 +17353,7 @@
     "icao": "SBPV"
   },
   {
-    "name": "Plácido de Castro Airport",
+    "name": "Pl\u00e1cido de Castro Airport",
     "city": "Rio Branco",
     "country": "Brazil",
     "iata": "RBR",
@@ -17416,14 +17416,14 @@
     "icao": "SBSR"
   },
   {
-    "name": "Base Aérea de Santos Airport",
+    "name": "Base A\u00e9rea de Santos Airport",
     "city": "Santos",
     "country": "Brazil",
     "iata": "SSZ",
     "icao": "SBST"
   },
   {
-    "name": "Deputado Luiz Eduardo Magalhães International Airport",
+    "name": "Deputado Luiz Eduardo Magalh\u00e3es International Airport",
     "city": "Salvador",
     "country": "Brazil",
     "iata": "SSA",
@@ -17437,35 +17437,35 @@
     "icao": "SBTB"
   },
   {
-    "name": "Senador Petrônio Portela Airport",
+    "name": "Senador Petr\u00f4nio Portela Airport",
     "city": "Teresina",
     "country": "Brazil",
     "iata": "THE",
     "icao": "SBTE"
   },
   {
-    "name": "Tefé Airport",
+    "name": "Tef\u00e9 Airport",
     "city": "Tefe",
     "country": "Brazil",
     "iata": "TFF",
     "icao": "SBTF"
   },
   {
-    "name": "Tarauacá Airport",
+    "name": "Tarauac\u00e1 Airport",
     "city": "Tarauaca",
     "country": "Brazil",
     "iata": "TRQ",
     "icao": "SBTK"
   },
   {
-    "name": "Telêmaco Borba Airport",
+    "name": "Tel\u00eamaco Borba Airport",
     "city": "Telemaco Borba",
     "country": "Brazil",
     "iata": "TEC",
     "icao": "SBTL"
   },
   {
-    "name": "Tiriós Airport",
+    "name": "Tiri\u00f3s Airport",
     "city": "Obidos Tirios",
     "country": "Brazil",
     "iata": "\\N",
@@ -17479,14 +17479,14 @@
     "icao": "SBTT"
   },
   {
-    "name": "Tucuruí Airport",
+    "name": "Tucuru\u00ed Airport",
     "city": "Tucurui",
     "country": "Brazil",
     "iata": "TUR",
     "icao": "SBTU"
   },
   {
-    "name": "São Gabriel da Cachoeira Airport",
+    "name": "S\u00e3o Gabriel da Cachoeira Airport",
     "city": "Sao Gabriel",
     "country": "Brazil",
     "iata": "SJL",
@@ -17507,14 +17507,14 @@
     "icao": "SBUG"
   },
   {
-    "name": "Ten. Cel. Aviador César Bombonato Airport",
+    "name": "Ten. Cel. Aviador C\u00e9sar Bombonato Airport",
     "city": "Uberlandia",
     "country": "Brazil",
     "iata": "UDI",
     "icao": "SBUL"
   },
   {
-    "name": "Mário de Almeida Franco Airport",
+    "name": "M\u00e1rio de Almeida Franco Airport",
     "city": "Uberaba",
     "country": "Brazil",
     "iata": "UBA",
@@ -17528,7 +17528,7 @@
     "icao": "SBVG"
   },
   {
-    "name": "Brigadeiro Camarão Airport",
+    "name": "Brigadeiro Camar\u00e3o Airport",
     "city": "Vilhena",
     "country": "Brazil",
     "iata": "BVH",
@@ -17542,7 +17542,7 @@
     "icao": "SBVT"
   },
   {
-    "name": "Iauaretê Airport",
+    "name": "Iauaret\u00ea Airport",
     "city": "Iauarete",
     "country": "Brazil",
     "iata": "\\N",
@@ -17591,14 +17591,14 @@
     "icao": "SCCF"
   },
   {
-    "name": "Gral. Bernardo O´Higgins Airport",
+    "name": "Gral. Bernardo O\u00b4Higgins Airport",
     "city": "Chillan",
     "country": "Chile",
     "iata": "YAI",
     "icao": "SCCH"
   },
   {
-    "name": "Pdte. Carlos Ibañez del Campo Airport",
+    "name": "Pdte. Carlos Iba\u00f1ez del Campo Airport",
     "city": "Punta Arenas",
     "country": "Chile",
     "iata": "PUQ",
@@ -17619,14 +17619,14 @@
     "icao": "SCDA"
   },
   {
-    "name": "Comodoro Arturo Merino Benítez International Airport",
+    "name": "Comodoro Arturo Merino Ben\u00edtez International Airport",
     "city": "Santiago",
     "country": "Chile",
     "iata": "SCL",
     "icao": "SCEL"
   },
   {
-    "name": "Andrés Sabella Gálvez International Airport",
+    "name": "Andr\u00e9s Sabella G\u00e1lvez International Airport",
     "city": "Antofagasta",
     "country": "Chile",
     "iata": "ANF",
@@ -17640,21 +17640,21 @@
     "icao": "SCFM"
   },
   {
-    "name": "Futaleufú Airport",
+    "name": "Futaleuf\u00fa Airport",
     "city": "Futaleufu",
     "country": "Chile",
     "iata": "FFU",
     "icao": "SCFT"
   },
   {
-    "name": "María Dolores Airport",
+    "name": "Mar\u00eda Dolores Airport",
     "city": "Los Angeles",
     "country": "Chile",
     "iata": "LSQ",
     "icao": "SCGE"
   },
   {
-    "name": "Guardiamarina Zañartu Airport",
+    "name": "Guardiamarina Za\u00f1artu Airport",
     "city": "Puerto Williams",
     "country": "Chile",
     "iata": "WPU",
@@ -17675,7 +17675,7 @@
     "icao": "SCIP"
   },
   {
-    "name": "Cañal Bajo Carlos - Hott Siebert Airport",
+    "name": "Ca\u00f1al Bajo Carlos - Hott Siebert Airport",
     "city": "Osorno",
     "country": "Chile",
     "iata": "ZOS",
@@ -17710,7 +17710,7 @@
     "icao": "SCSE"
   },
   {
-    "name": "Eulogio Sánchez Airport",
+    "name": "Eulogio S\u00e1nchez Airport",
     "city": "Santiago",
     "country": "Chile",
     "iata": "\\N",
@@ -17731,7 +17731,7 @@
     "icao": "SCTE"
   },
   {
-    "name": "Chaitén Airport",
+    "name": "Chait\u00e9n Airport",
     "city": "Chaiten",
     "country": "Chile",
     "iata": "WCH",
@@ -17745,7 +17745,7 @@
     "icao": "SCVD"
   },
   {
-    "name": "Chachoán Airport",
+    "name": "Chacho\u00e1n Airport",
     "city": "Ambato",
     "country": "Ecuador",
     "iata": "ATF",
@@ -17780,7 +17780,7 @@
     "icao": "SEGS"
   },
   {
-    "name": "José Joaquín de Olmedo International Airport",
+    "name": "Jos\u00e9 Joaqu\u00edn de Olmedo International Airport",
     "city": "Guayaquil",
     "country": "Ecuador",
     "iata": "GYE",
@@ -17969,14 +17969,14 @@
     "icao": "SGCO"
   },
   {
-    "name": "Itaipú Airport",
+    "name": "Itaip\u00fa Airport",
     "city": "Itaipu",
     "country": "Paraguay",
     "iata": "\\N",
     "icao": "SGIB"
   },
   {
-    "name": "Dr. Luis Maria Argaña International Airport",
+    "name": "Dr. Luis Maria Arga\u00f1a International Airport",
     "city": "Mariscal Estigarribia",
     "country": "Paraguay",
     "iata": "ESG",
@@ -18032,14 +18032,14 @@
     "icao": "SKBQ"
   },
   {
-    "name": "José Celestino Mutis Airport",
+    "name": "Jos\u00e9 Celestino Mutis Airport",
     "city": "Bahia Solano",
     "country": "Colombia",
     "iata": "BSC",
     "icao": "SKBS"
   },
   {
-    "name": "Gerardo Tobar López Airport",
+    "name": "Gerardo Tobar L\u00f3pez Airport",
     "city": "Buenaventura",
     "country": "Colombia",
     "iata": "BUN",
@@ -18053,7 +18053,7 @@
     "icao": "SKCC"
   },
   {
-    "name": "Rafael Nuñez International Airport",
+    "name": "Rafael Nu\u00f1ez International Airport",
     "city": "Cartagena",
     "country": "Colombia",
     "iata": "CTG",
@@ -18081,7 +18081,7 @@
     "icao": "SKCZ"
   },
   {
-    "name": "Yariguíes Airport",
+    "name": "Yarigu\u00edes Airport",
     "city": "Barrancabermeja",
     "country": "Colombia",
     "iata": "EJA",
@@ -18144,7 +18144,7 @@
     "icao": "SKLM"
   },
   {
-    "name": "Alfredo Vásquez Cobo International Airport",
+    "name": "Alfredo V\u00e1squez Cobo International Airport",
     "city": "Leticia",
     "country": "Colombia",
     "iata": "LET",
@@ -18207,7 +18207,7 @@
     "icao": "SKOT"
   },
   {
-    "name": "Puerto Bolívar Airport",
+    "name": "Puerto Bol\u00edvar Airport",
     "city": "Puerto Bolivar",
     "country": "Colombia",
     "iata": "\\N",
@@ -18221,7 +18221,7 @@
     "icao": "SKPC"
   },
   {
-    "name": "Matecaña International Airport",
+    "name": "Mateca\u00f1a International Airport",
     "city": "Pereira",
     "country": "Colombia",
     "iata": "PEI",
@@ -18235,7 +18235,7 @@
     "icao": "SKPI"
   },
   {
-    "name": "Guillermo León Valencia Airport",
+    "name": "Guillermo Le\u00f3n Valencia Airport",
     "city": "Popayan",
     "country": "Colombia",
     "iata": "PPN",
@@ -18263,7 +18263,7 @@
     "icao": "SKQU"
   },
   {
-    "name": "Jose Maria Córdova International Airport",
+    "name": "Jose Maria C\u00f3rdova International Airport",
     "city": "Rio Negro",
     "country": "Colombia",
     "iata": "MDE",
@@ -18284,7 +18284,7 @@
     "icao": "SKSJ"
   },
   {
-    "name": "Simón Bolívar International Airport",
+    "name": "Sim\u00f3n Bol\u00edvar International Airport",
     "city": "Santa Marta",
     "country": "Colombia",
     "iata": "SMR",
@@ -18319,21 +18319,21 @@
     "icao": "SKUC"
   },
   {
-    "name": "El Caraño Airport",
+    "name": "El Cara\u00f1o Airport",
     "city": "Quibdo",
     "country": "Colombia",
     "iata": "UIB",
     "icao": "SKUI"
   },
   {
-    "name": "Heriberto Gíl Martínez Airport",
+    "name": "Heriberto G\u00edl Mart\u00ednez Airport",
     "city": "Tulua",
     "country": "Colombia",
     "iata": "ULQ",
     "icao": "SKUL"
   },
   {
-    "name": "Alfonso López Pumarejo Airport",
+    "name": "Alfonso L\u00f3pez Pumarejo Airport",
     "city": "Valledupar",
     "country": "Colombia",
     "iata": "VUP",
@@ -18368,7 +18368,7 @@
     "icao": "SLCH"
   },
   {
-    "name": "Capitán Aníbal Arab Airport",
+    "name": "Capit\u00e1n An\u00edbal Arab Airport",
     "city": "Cobija",
     "country": "Bolivia",
     "iata": "CIJ",
@@ -18396,7 +18396,7 @@
     "icao": "SLPO"
   },
   {
-    "name": "Capitán Av. Salvador Ogaya G. airport",
+    "name": "Capit\u00e1n Av. Salvador Ogaya G. airport",
     "city": "Puerto Suarez",
     "country": "Bolivia",
     "iata": "PSZ",
@@ -18431,7 +18431,7 @@
     "icao": "SLTR"
   },
   {
-    "name": "Teniente Coronel Rafael Pabón Airport",
+    "name": "Teniente Coronel Rafael Pab\u00f3n Airport",
     "city": "Villa Montes",
     "country": "Bolivia",
     "iata": "VLM",
@@ -18487,7 +18487,7 @@
     "icao": "SPAS"
   },
   {
-    "name": "Teniente General Gerardo Pérez Pinedo Airport",
+    "name": "Teniente General Gerardo P\u00e9rez Pinedo Airport",
     "city": "Atalaya",
     "country": "Peru",
     "iata": "\\N",
@@ -18557,7 +18557,7 @@
     "icao": "SPHZ"
   },
   {
-    "name": "Jorge Chávez International Airport",
+    "name": "Jorge Ch\u00e1vez International Airport",
     "city": "Lima",
     "country": "Peru",
     "iata": "LIM",
@@ -18634,14 +18634,14 @@
     "icao": "SPQT"
   },
   {
-    "name": "Rodríguez Ballón International Airport",
+    "name": "Rodr\u00edguez Ball\u00f3n International Airport",
     "city": "Arequipa",
     "country": "Peru",
     "iata": "AQP",
     "icao": "SPQU"
   },
   {
-    "name": "Capitán FAP Leonardo Alvariño Herr Airport",
+    "name": "Capit\u00e1n FAP Leonardo Alvari\u00f1o Herr Airport",
     "city": "San Ramon",
     "country": "Peru",
     "iata": "\\N",
@@ -18655,7 +18655,7 @@
     "icao": "SPRU"
   },
   {
-    "name": "Capitán FAP Renán Elías Olivera International Airport",
+    "name": "Capit\u00e1n FAP Ren\u00e1n El\u00edas Olivera International Airport",
     "city": "Pisco",
     "country": "Peru",
     "iata": "PIO",
@@ -18683,7 +18683,7 @@
     "icao": "SPTU"
   },
   {
-    "name": "Capitán FAP Guillermo Concha Iberico International Airport",
+    "name": "Capit\u00e1n FAP Guillermo Concha Iberico International Airport",
     "city": "Piura",
     "country": "Peru",
     "iata": "PIU",
@@ -18753,7 +18753,7 @@
     "icao": "SVAT"
   },
   {
-    "name": "General José Antonio Anzoategui International Airport",
+    "name": "General Jos\u00e9 Antonio Anzoategui International Airport",
     "city": "Barcelona",
     "country": "Venezuela",
     "iata": "BLA",
@@ -18823,14 +18823,14 @@
     "icao": "SVCO"
   },
   {
-    "name": "General Francisco Bermúdez Airport",
+    "name": "General Francisco Berm\u00fadez Airport",
     "city": "Carupano",
     "country": "Venezuela",
     "iata": "CUP",
     "icao": "SVCP"
   },
   {
-    "name": "José Leonardo Chirinos Airport",
+    "name": "Jos\u00e9 Leonardo Chirinos Airport",
     "city": "Coro",
     "country": "Venezuela",
     "iata": "CZE",
@@ -18844,14 +18844,14 @@
     "icao": "SVCS"
   },
   {
-    "name": "Cumaná (Antonio José de Sucre) Airport",
+    "name": "Cuman\u00e1 (Antonio Jos\u00e9 de Sucre) Airport",
     "city": "Cumana",
     "country": "Venezuela",
     "iata": "CUM",
     "icao": "SVCU"
   },
   {
-    "name": "Capitán Manuel Ríos Airbase",
+    "name": "Capit\u00e1n Manuel R\u00edos Airbase",
     "city": "Carrizal",
     "country": "Venezuela",
     "iata": "\\N",
@@ -18900,7 +18900,7 @@
     "icao": "SVHG"
   },
   {
-    "name": "Andrés Miguel Salazar Marcano Airport",
+    "name": "Andr\u00e9s Miguel Salazar Marcano Airport",
     "city": "Isla De Coche",
     "country": "Venezuela",
     "iata": "ICC",
@@ -18949,21 +18949,21 @@
     "icao": "SVMD"
   },
   {
-    "name": "Del Caribe Santiago Mariño International Airport",
+    "name": "Del Caribe Santiago Mari\u00f1o International Airport",
     "city": "Porlamar",
     "country": "Venezuela",
     "iata": "PMV",
     "icao": "SVMG"
   },
   {
-    "name": "Simón Bolívar International Airport",
+    "name": "Sim\u00f3n Bol\u00edvar International Airport",
     "city": "Caracas",
     "country": "Venezuela",
     "iata": "CCS",
     "icao": "SVMI"
   },
   {
-    "name": "Maturín Airport",
+    "name": "Matur\u00edn Airport",
     "city": "Maturin",
     "country": "Venezuela",
     "iata": "MUN",
@@ -19012,7 +19012,7 @@
     "icao": "SVSA"
   },
   {
-    "name": "Santa Bárbara de Barinas Airport",
+    "name": "Santa B\u00e1rbara de Barinas Airport",
     "city": "Santa Barbara",
     "country": "Venezuela",
     "iata": "SBB",
@@ -19047,14 +19047,14 @@
     "icao": "SVSR"
   },
   {
-    "name": "San Tomé Airport",
+    "name": "San Tom\u00e9 Airport",
     "city": "San Tome",
     "country": "Venezuela",
     "iata": "SOM",
     "icao": "SVST"
   },
   {
-    "name": "Santa Bárbara del Zulia Airport",
+    "name": "Santa B\u00e1rbara del Zulia Airport",
     "city": "Santa Barbara",
     "country": "Venezuela",
     "iata": "STB",
@@ -19082,7 +19082,7 @@
     "icao": "SVVA"
   },
   {
-    "name": "Dr. Antonio Nicolás Briceño Airport",
+    "name": "Dr. Antonio Nicol\u00e1s Brice\u00f1o Airport",
     "city": "Valera",
     "country": "Venezuela",
     "iata": "VLV",
@@ -19138,21 +19138,21 @@
     "icao": "TDPD"
   },
   {
-    "name": "Martinique Aimé Césaire International Airport",
+    "name": "Martinique Aim\u00e9 C\u00e9saire International Airport",
     "city": "Fort-de-france",
     "country": "Martinique",
     "iata": "FDF",
     "icao": "TFFF"
   },
   {
-    "name": "L'Espérance Airport",
+    "name": "L'Esp\u00e9rance Airport",
     "city": "St. Martin",
     "country": "Guadeloupe",
     "iata": "SFG",
     "icao": "TFFG"
   },
   {
-    "name": "Pointe-à-Pitre Le Raizet",
+    "name": "Pointe-\u00e0-Pitre Le Raizet",
     "city": "Pointe-a-pitre",
     "country": "Guadeloupe",
     "iata": "PTP",
@@ -20930,7 +20930,7 @@
     "icao": "VQPR"
   },
   {
-    "name": "Malé International Airport",
+    "name": "Mal\u00e9 International Airport",
     "city": "Male",
     "country": "Maldives",
     "iata": "MLE",
@@ -22421,7 +22421,7 @@
     "icao": "ZWTN"
   },
   {
-    "name": "Ürümqi Diwopu International Airport",
+    "name": "\u00dcr\u00fcmqi Diwopu International Airport",
     "city": "Urumqi",
     "country": "China",
     "iata": "URC",
@@ -23716,7 +23716,7 @@
     "icao": "KAKR"
   },
   {
-    "name": "Greenwood–Leflore Airport",
+    "name": "Greenwood\u2013Leflore Airport",
     "city": "Greenwood",
     "country": "United States",
     "iata": "GWO",
@@ -26215,7 +26215,7 @@
     "icao": "KDAB"
   },
   {
-    "name": "Liepāja International Airport",
+    "name": "Liep\u0101ja International Airport",
     "city": "Liepaja",
     "country": "Latvia",
     "iata": "LPX",
@@ -26229,7 +26229,7 @@
     "icao": "EVRA"
   },
   {
-    "name": "Šiauliai International Airport",
+    "name": "\u0160iauliai International Airport",
     "city": "Siauliai",
     "country": "Lithuania",
     "iata": "SQQ",
@@ -26250,7 +26250,7 @@
     "icao": "EYKA"
   },
   {
-    "name": "S. Darius and S. Girėnas Airfield",
+    "name": "S. Darius and S. Gir\u0117nas Airfield",
     "city": "Kaunas",
     "country": "Lithuania",
     "iata": "\\N",
@@ -26271,7 +26271,7 @@
     "icao": "EYVI"
   },
   {
-    "name": "Panevėžys Air Base",
+    "name": "Panev\u0117\u017eys Air Base",
     "city": "Panevezys",
     "country": "Lithuania",
     "iata": "PNV",
@@ -26432,7 +26432,7 @@
     "icao": "EDJA"
   },
   {
-    "name": "Nevşehir Kapadokya Airport",
+    "name": "Nev\u015fehir Kapadokya Airport",
     "city": "Nevsehir",
     "country": "Turkey",
     "iata": "NAV",
@@ -26614,7 +26614,7 @@
     "icao": "KCHO"
   },
   {
-    "name": "Roanoke–Blacksburg Regional Airport",
+    "name": "Roanoke\u2013Blacksburg Regional Airport",
     "city": "Roanoke VA",
     "country": "United States",
     "iata": "ROA",
@@ -27006,7 +27006,7 @@
     "icao": "UNNT"
   },
   {
-    "name": "Samsø Airport",
+    "name": "Sams\u00f8 Airport",
     "city": "Samsoe",
     "country": "Denmark",
     "iata": "\\N",
@@ -27489,7 +27489,7 @@
     "icao": "VVRG"
   },
   {
-    "name": "Cà Mau Airport",
+    "name": "C\u00e0 Mau Airport",
     "city": "Ca Mau",
     "country": "Vietnam",
     "iata": "CAH",
@@ -27524,7 +27524,7 @@
     "icao": "LDSB"
   },
   {
-    "name": "Yaoundé Nsimalen International Airport",
+    "name": "Yaound\u00e9 Nsimalen International Airport",
     "city": "Yaounde",
     "country": "Cameroon",
     "iata": "NSI",
@@ -27538,7 +27538,7 @@
     "icao": "GUCY"
   },
   {
-    "name": "Aachen-Merzbrück Airport",
+    "name": "Aachen-Merzbr\u00fcck Airport",
     "city": "Aachen",
     "country": "Germany",
     "iata": "AAH",
@@ -27839,7 +27839,7 @@
     "icao": "SBPJ"
   },
   {
-    "name": "Nelson Ribeiro Guimarães Airport",
+    "name": "Nelson Ribeiro Guimar\u00e3es Airport",
     "city": "Caldas Novas",
     "country": "Brazil",
     "iata": "CLV",
@@ -27972,7 +27972,7 @@
     "icao": "CYKD"
   },
   {
-    "name": "Déline Airport",
+    "name": "D\u00e9line Airport",
     "city": "Deline",
     "country": "Canada",
     "iata": "YWJ",
@@ -28378,7 +28378,7 @@
     "icao": "DTKA"
   },
   {
-    "name": "Sabiha Gökçen International Airport",
+    "name": "Sabiha G\u00f6k\u00e7en International Airport",
     "city": "Istanbul",
     "country": "Turkey",
     "iata": "SAW",
@@ -28441,8 +28441,8 @@
     "icao": "ENMH"
   },
   {
-    "name": "Vadsø Airport",
-    "city": "Vadsø",
+    "name": "Vads\u00f8 Airport",
+    "city": "Vads\u00f8",
     "country": "Norway",
     "iata": "VDS",
     "icao": "ENVD"
@@ -28532,7 +28532,7 @@
     "icao": "KCOD"
   },
   {
-    "name": "Ørsta-Volda Airport, Hovden",
+    "name": "\u00d8rsta-Volda Airport, Hovden",
     "city": "Orsta-Volda",
     "country": "Norway",
     "iata": "HOV",
@@ -28560,7 +28560,7 @@
     "icao": "ENNK"
   },
   {
-    "name": "Berlevåg Airport",
+    "name": "Berlev\u00e5g Airport",
     "city": "Berlevag",
     "country": "Norway",
     "iata": "BVG",
@@ -29134,8 +29134,8 @@
     "icao": "BGUQ"
   },
   {
-    "name": "Grímsey Airport",
-    "city": "Grímsey",
+    "name": "Gr\u00edmsey Airport",
+    "city": "Gr\u00edmsey",
     "country": "Iceland",
     "iata": "GRY",
     "icao": "BIGR"
@@ -29148,8 +29148,8 @@
     "icao": "BITN"
   },
   {
-    "name": "Vopnafjörður Airport",
-    "city": "Vopnafjörður",
+    "name": "Vopnafj\u00f6r\u00f0ur Airport",
+    "city": "Vopnafj\u00f6r\u00f0ur",
     "country": "Iceland",
     "iata": "VPN",
     "icao": "BIVO"
@@ -29204,8 +29204,8 @@
     "icao": "CEB3"
   },
   {
-    "name": "Whatì Airport",
-    "city": "Whatì",
+    "name": "What\u00ec Airport",
+    "city": "What\u00ec",
     "country": "Canada",
     "iata": "YLE",
     "icao": "CEM3"
@@ -29274,15 +29274,15 @@
     "icao": "CSU2"
   },
   {
-    "name": "Tête-à-la-Baleine Airport",
-    "city": "Tête-à-la-Baleine",
+    "name": "T\u00eate-\u00e0-la-Baleine Airport",
+    "city": "T\u00eate-\u00e0-la-Baleine",
     "country": "Canada",
     "iata": "ZTB",
     "icao": "CTB6"
   },
   {
-    "name": "La Tabatière Airport",
-    "city": "La Tabatière",
+    "name": "La Tabati\u00e8re Airport",
+    "city": "La Tabati\u00e8re",
     "country": "Canada",
     "iata": "ZLT",
     "icao": "CTU5"
@@ -29625,7 +29625,7 @@
   },
   {
     "name": "Rae Lakes Airport",
-    "city": "Gamètì",
+    "city": "Gam\u00e8t\u00ec",
     "country": "Canada",
     "iata": "YRA",
     "icao": "CYRA"
@@ -29813,8 +29813,8 @@
     "icao": "DABT"
   },
   {
-    "name": "Béchar Boudghene Ben Ali Lotfi Airport",
-    "city": "Béchar",
+    "name": "B\u00e9char Boudghene Ben Ali Lotfi Airport",
+    "city": "B\u00e9char",
     "country": "Algeria",
     "iata": "CBH",
     "icao": "DAOR"
@@ -29848,22 +29848,22 @@
     "icao": "EDAH"
   },
   {
-    "name": "Heide-Büsum Airport",
-    "city": "Büsum",
+    "name": "Heide-B\u00fcsum Airport",
+    "city": "B\u00fcsum",
     "country": "Germany",
     "iata": "HEI",
     "icao": "EDXB"
   },
   {
-    "name": "Helgoland-Düne Airport",
+    "name": "Helgoland-D\u00fcne Airport",
     "city": "Helgoland",
     "country": "Germany",
     "iata": "HGL",
     "icao": "EDXH"
   },
   {
-    "name": "Seinäjoki Airport",
-    "city": "Seinäjoki / Ilmajoki",
+    "name": "Sein\u00e4joki Airport",
+    "city": "Sein\u00e4joki / Ilmajoki",
     "country": "Finland",
     "iata": "SJY",
     "icao": "EFSI"
@@ -30002,29 +30002,29 @@
     "icao": "ENLK"
   },
   {
-    "name": "Namsos Høknesøra Airport",
+    "name": "Namsos H\u00f8knes\u00f8ra Airport",
     "city": "Namsos",
     "country": "Norway",
     "iata": "OSY",
     "icao": "ENNM"
   },
   {
-    "name": "Mo i Rana Airport, Røssvoll",
+    "name": "Mo i Rana Airport, R\u00f8ssvoll",
     "city": "Mo i Rana",
     "country": "Norway",
     "iata": "MQN",
     "icao": "ENRA"
   },
   {
-    "name": "Rørvik Airport, Ryum",
-    "city": "Rørvik",
+    "name": "R\u00f8rvik Airport, Ryum",
+    "city": "R\u00f8rvik",
     "country": "Norway",
     "iata": "RVK",
     "icao": "ENRM"
   },
   {
-    "name": "Røst Airport",
-    "city": "Røst",
+    "name": "R\u00f8st Airport",
+    "city": "R\u00f8st",
     "country": "Norway",
     "iata": "RET",
     "icao": "ENRS"
@@ -30044,29 +30044,29 @@
     "icao": "ENSG"
   },
   {
-    "name": "Svolvær Helle Airport",
-    "city": "Svolvær",
+    "name": "Svolv\u00e6r Helle Airport",
+    "city": "Svolv\u00e6r",
     "country": "Norway",
     "iata": "SVJ",
     "icao": "ENSH"
   },
   {
-    "name": "Sørkjosen Airport",
+    "name": "S\u00f8rkjosen Airport",
     "city": "Sorkjosen",
     "country": "Norway",
     "iata": "SOJ",
     "icao": "ENSR"
   },
   {
-    "name": "Vardø Airport, Svartnes",
-    "city": "Vardø",
+    "name": "Vard\u00f8 Airport, Svartnes",
+    "city": "Vard\u00f8",
     "country": "Norway",
     "iata": "VAW",
     "icao": "ENSS"
   },
   {
-    "name": "Værøy Heliport",
-    "city": "Værøy",
+    "name": "V\u00e6r\u00f8y Heliport",
+    "city": "V\u00e6r\u00f8y",
     "country": "Norway",
     "iata": "VRY",
     "icao": "ENVR"
@@ -30079,15 +30079,15 @@
     "icao": "EPBY"
   },
   {
-    "name": "Łódź Władysław Reymont Airport",
+    "name": "\u0141\u00f3d\u017a W\u0142adys\u0142aw Reymont Airport",
     "city": "Lodz",
     "country": "Poland",
     "iata": "LCJ",
     "icao": "EPLL"
   },
   {
-    "name": "Åre Östersund Airport",
-    "city": "Östersund",
+    "name": "\u00c5re \u00d6stersund Airport",
+    "city": "\u00d6stersund",
     "country": "Sweden",
     "iata": "OSD",
     "icao": "ESNZ"
@@ -30114,8 +30114,8 @@
     "icao": "ESST"
   },
   {
-    "name": "Ängelholm-Helsingborg Airport",
-    "city": "Ängelholm",
+    "name": "\u00c4ngelholm-Helsingborg Airport",
+    "city": "\u00c4ngelholm",
     "country": "Sweden",
     "iata": "AGH",
     "icao": "ESTA"
@@ -30282,8 +30282,8 @@
     "icao": "FMMZ"
   },
   {
-    "name": "Port Bergé Airport",
-    "city": "Port Bergé",
+    "name": "Port Berg\u00e9 Airport",
+    "city": "Port Berg\u00e9",
     "country": "Madagascar",
     "iata": "WPB",
     "icao": "FMNG"
@@ -30563,7 +30563,7 @@
   },
   {
     "name": "Hassan I Airport",
-    "city": "El Aaiún",
+    "city": "El Aai\u00fan",
     "country": "Western Sahara",
     "iata": "EUN",
     "icao": "GMML"
@@ -30583,7 +30583,7 @@
     "icao": "GVNP"
   },
   {
-    "name": "São Filipe Airport",
+    "name": "S\u00e3o Filipe Airport",
     "city": "Sao Filipe, Fogo Island",
     "country": "Cape Verde",
     "iata": "SFL",
@@ -31304,29 +31304,29 @@
     "icao": "LCEN"
   },
   {
-    "name": "Logroño-Agoncillo Airport",
-    "city": "Logroño-Agoncillo",
+    "name": "Logro\u00f1o-Agoncillo Airport",
+    "city": "Logro\u00f1o-Agoncillo",
     "country": "Spain",
     "iata": "RJL",
     "icao": "LELO"
   },
   {
-    "name": "Île d'Yeu Airport",
-    "city": "Île d'Yeu",
+    "name": "\u00cele d'Yeu Airport",
+    "city": "\u00cele d'Yeu",
     "country": "France",
     "iata": "IDY",
     "icao": "LFEY"
   },
   {
     "name": "Angers-Loire Airport",
-    "city": "Angers/Marcé",
+    "city": "Angers/Marc\u00e9",
     "country": "France",
     "iata": "ANE",
     "icao": "LFJR"
   },
   {
-    "name": "La Môle Airport",
-    "city": "La Môle",
+    "name": "La M\u00f4le Airport",
+    "city": "La M\u00f4le",
     "country": "France",
     "iata": "LTT",
     "icao": "LFTZ"
@@ -31339,22 +31339,22 @@
     "icao": "LGSO"
   },
   {
-    "name": "Pécs-Pogány Airport",
-    "city": "Pécs-Pogány",
+    "name": "P\u00e9cs-Pog\u00e1ny Airport",
+    "city": "P\u00e9cs-Pog\u00e1ny",
     "country": "Hungary",
     "iata": "PEV",
     "icao": "LHPP"
   },
   {
-    "name": "Győr-Pér International Airport",
-    "city": "Győr",
+    "name": "Gy\u0151r-P\u00e9r International Airport",
+    "city": "Gy\u0151r",
     "country": "Hungary",
     "iata": "\\N",
     "icao": "LHPR"
   },
   {
-    "name": "Sármellék International Airport",
-    "city": "Sármellék",
+    "name": "S\u00e1rmell\u00e9k International Airport",
+    "city": "S\u00e1rmell\u00e9k",
     "country": "Hungary",
     "iata": "SOB",
     "icao": "LHSM"
@@ -31388,7 +31388,7 @@
     "icao": "LQBK"
   },
   {
-    "name": "Uşak Airport",
+    "name": "U\u015fak Airport",
     "city": "Usak",
     "country": "Turkey",
     "iata": "USQ",
@@ -31402,57 +31402,57 @@
     "icao": "LTCF"
   },
   {
-    "name": "Şanlıurfa Airport",
+    "name": "\u015eanl\u0131urfa Airport",
     "city": "Sanliurfa",
     "country": "Turkey",
     "iata": "SFQ",
     "icao": "LTCH"
   },
   {
-    "name": "Kahramanmaraş Airport",
+    "name": "Kahramanmara\u015f Airport",
     "city": "Kahramanmaras",
     "country": "Turkey",
     "iata": "KCM",
     "icao": "LTCN"
   },
   {
-    "name": "Ağrı Airport",
+    "name": "A\u011fr\u0131 Airport",
     "city": "Agri",
     "country": "Turkey",
     "iata": "AJI",
     "icao": "LTCO"
   },
   {
-    "name": "Adıyaman Airport",
+    "name": "Ad\u0131yaman Airport",
     "city": "Adiyaman",
     "country": "Turkey",
     "iata": "ADF",
     "icao": "LTCP"
   },
   {
-    "name": "Süleyman Demirel International Airport",
+    "name": "S\u00fcleyman Demirel International Airport",
     "city": "Isparta",
     "country": "Turkey",
     "iata": "ISE",
     "icao": "LTFC"
   },
   {
-    "name": "Balıkesir Körfez Airport",
+    "name": "Bal\u0131kesir K\u00f6rfez Airport",
     "city": "Balikesir Korfez",
     "country": "Turkey",
     "iata": "EDO",
     "icao": "LTFD"
   },
   {
-    "name": "Samsun Çarşamba Airport",
+    "name": "Samsun \u00c7ar\u015famba Airport",
     "city": "Samsun",
     "country": "Turkey",
     "iata": "SZF",
     "icao": "LTFH"
   },
   {
-    "name": "Žilina Airport",
-    "city": "Žilina",
+    "name": "\u017dilina Airport",
+    "city": "\u017dilina",
     "country": "Slovakia",
     "iata": "ILZ",
     "icao": "LZZI"
@@ -31479,7 +31479,7 @@
     "icao": "MBSY"
   },
   {
-    "name": "Samaná El Catey International Airport",
+    "name": "Saman\u00e1 El Catey International Airport",
     "city": "Samana",
     "country": "Dominican Republic",
     "iata": "AZS",
@@ -31542,8 +31542,8 @@
     "icao": "MMCY"
   },
   {
-    "name": "Ciudad Constitución Airport",
-    "city": "Ciudad Constitución",
+    "name": "Ciudad Constituci\u00f3n Airport",
+    "city": "Ciudad Constituci\u00f3n",
     "country": "Mexico",
     "iata": "CUA",
     "icao": "MMDA"
@@ -31564,21 +31564,21 @@
   },
   {
     "name": "Alonso Valderrama Airport",
-    "city": "Chitré",
+    "city": "Chitr\u00e9",
     "country": "Panama",
     "iata": "CTD",
     "icao": "MPCE"
   },
   {
     "name": "Enrique Adolfo Jimenez Airport",
-    "city": "Colón",
+    "city": "Col\u00f3n",
     "country": "Panama",
     "iata": "ONX",
     "icao": "MPEJ"
   },
   {
-    "name": "Jaqué Airport",
-    "city": "Jaqué",
+    "name": "Jaqu\u00e9 Airport",
+    "city": "Jaqu\u00e9",
     "country": "Panama",
     "iata": "JQE",
     "icao": "MPJE"
@@ -31640,7 +31640,7 @@
     "icao": "MRSR"
   },
   {
-    "name": "Jérémie Airport",
+    "name": "J\u00e9r\u00e9mie Airport",
     "city": "Jeremie",
     "country": "Haiti",
     "iata": "JEE",
@@ -32039,7 +32039,7 @@
     "icao": "NVST"
   },
   {
-    "name": "Uléi Airport",
+    "name": "Ul\u00e9i Airport",
     "city": "Ambryn Island",
     "country": "Vanuatu",
     "iata": "ULB",
@@ -32109,15 +32109,15 @@
     "icao": "NWWA"
   },
   {
-    "name": "Île Art - Waala Airport",
+    "name": "\u00cele Art - Waala Airport",
     "city": "Waala",
     "country": "New Caledonia",
     "iata": "BMY",
     "icao": "NWWC"
   },
   {
-    "name": "Île des Pins Airport",
-    "city": "Île des Pins",
+    "name": "\u00cele des Pins Airport",
+    "city": "\u00cele des Pins",
     "country": "New Caledonia",
     "iata": "ILP",
     "icao": "NWWE"
@@ -32711,7 +32711,7 @@
     "icao": "SAVH"
   },
   {
-    "name": "Antoine de Saint Exupéry Airport",
+    "name": "Antoine de Saint Exup\u00e9ry Airport",
     "city": "San Antonio Oeste",
     "country": "Argentina",
     "iata": "OES",
@@ -32753,29 +32753,29 @@
     "icao": "SBJU"
   },
   {
-    "name": "Coronel Horácio de Mattos Airport",
-    "city": "Lençóis",
+    "name": "Coronel Hor\u00e1cio de Mattos Airport",
+    "city": "Len\u00e7\u00f3is",
     "country": "Brazil",
     "iata": "LEC",
     "icao": "SBLE"
   },
   {
-    "name": "Macaé Airport",
-    "city": "Macaé",
+    "name": "Maca\u00e9 Airport",
+    "city": "Maca\u00e9",
     "country": "Brazil",
     "iata": "MEA",
     "icao": "SBME"
   },
   {
-    "name": "Frank Miloye Milenkowichi–Marília State Airport",
-    "city": "Marília",
+    "name": "Frank Miloye Milenkowichi\u2013Mar\u00edlia State Airport",
+    "city": "Mar\u00edlia",
     "country": "Brazil",
     "iata": "MII",
     "icao": "SBML"
   },
   {
-    "name": "Vitória da Conquista Airport",
-    "city": "Vitória Da Conquista",
+    "name": "Vit\u00f3ria da Conquista Airport",
+    "city": "Vit\u00f3ria Da Conquista",
     "country": "Brazil",
     "iata": "VDC",
     "icao": "SBQV"
@@ -32795,14 +32795,14 @@
     "icao": "SBTD"
   },
   {
-    "name": "Ricardo García Posada Airport",
+    "name": "Ricardo Garc\u00eda Posada Airport",
     "city": "El Salvador",
     "country": "Chile",
     "iata": "ESR",
     "icao": "SCES"
   },
   {
-    "name": "Pucón Airport",
+    "name": "Puc\u00f3n Airport",
     "city": "Pucon",
     "country": "Chile",
     "iata": "ZPC",
@@ -32816,8 +32816,8 @@
     "icao": "SDCO"
   },
   {
-    "name": "San Cristóbal Airport",
-    "city": "San Cristóbal",
+    "name": "San Crist\u00f3bal Airport",
+    "city": "San Crist\u00f3bal",
     "country": "Ecuador",
     "iata": "SCY",
     "icao": "SEST"
@@ -32852,14 +32852,14 @@
   },
   {
     "name": "La Jagua Airport",
-    "city": "Garzón",
+    "city": "Garz\u00f3n",
     "country": "Colombia",
     "iata": "\\N",
     "icao": "SKGZ"
   },
   {
     "name": "Caucaya Airport",
-    "city": "Puerto Leguízamo",
+    "city": "Puerto Legu\u00edzamo",
     "country": "Colombia",
     "iata": "LQM",
     "icao": "SKLG"
@@ -32873,14 +32873,14 @@
   },
   {
     "name": "Reyes Murillo Airport",
-    "city": "Nuquí",
+    "city": "Nuqu\u00ed",
     "country": "Colombia",
     "iata": "NQU",
     "icao": "SKNQ"
   },
   {
     "name": "Obando Airport",
-    "city": "Puerto Inírida",
+    "city": "Puerto In\u00edrida",
     "country": "Colombia",
     "iata": "PDA",
     "icao": "SKPD"
@@ -32893,8 +32893,8 @@
     "icao": "SKYP"
   },
   {
-    "name": "Capitán de Av. Emilio Beltrán Airport",
-    "city": "Guayaramerín",
+    "name": "Capit\u00e1n de Av. Emilio Beltr\u00e1n Airport",
+    "city": "Guayaramer\u00edn",
     "country": "Bolivia",
     "iata": "GYA",
     "icao": "SLGY"
@@ -32907,7 +32907,7 @@
     "icao": "SLPR"
   },
   {
-    "name": "Capitán Av. Selin Zeitun Lopez Airport",
+    "name": "Capit\u00e1n Av. Selin Zeitun Lopez Airport",
     "city": "Riberalta",
     "country": "Bolivia",
     "iata": "RIB",
@@ -32921,7 +32921,7 @@
     "icao": "SLRY"
   },
   {
-    "name": "Capitán Av. German Quiroga G. Airport",
+    "name": "Capit\u00e1n Av. German Quiroga G. Airport",
     "city": "San Borja",
     "country": "Bolivia",
     "iata": "SRJ",
@@ -32957,7 +32957,7 @@
   },
   {
     "name": "Alferez Fap David Figueroa Fernandini Airport",
-    "city": "Huánuco",
+    "city": "Hu\u00e1nuco",
     "country": "Peru",
     "iata": "HUU",
     "icao": "SPNC"
@@ -32977,7 +32977,7 @@
     "icao": "SSZR"
   },
   {
-    "name": "El Jagüel / Punta del Este Airport",
+    "name": "El Jag\u00fcel / Punta del Este Airport",
     "city": "Maldonado",
     "country": "Uruguay",
     "iata": "\\N",
@@ -32991,15 +32991,15 @@
     "icao": "SVBS"
   },
   {
-    "name": "Juan Pablo Pérez Alfonso Airport",
-    "city": "El Vigía",
+    "name": "Juan Pablo P\u00e9rez Alfonso Airport",
+    "city": "El Vig\u00eda",
     "country": "Venezuela",
     "iata": "VIG",
     "icao": "SVVG"
   },
   {
-    "name": "Ji-Paraná Airport",
-    "city": "Ji-Paraná",
+    "name": "Ji-Paran\u00e1 Airport",
+    "city": "Ji-Paran\u00e1",
     "country": "Brazil",
     "iata": "JPR",
     "icao": "SWJI"
@@ -33012,7 +33012,7 @@
     "icao": "TAPH"
   },
   {
-    "name": "La Désirade Airport",
+    "name": "La D\u00e9sirade Airport",
     "city": "Grande Anse",
     "country": "Guadeloupe",
     "iata": "DSD",
@@ -33026,8 +33026,8 @@
     "icao": "TFFB"
   },
   {
-    "name": "St-François Airport",
-    "city": "St-François",
+    "name": "St-Fran\u00e7ois Airport",
+    "city": "St-Fran\u00e7ois",
     "country": "Guadeloupe",
     "iata": "SFC",
     "icao": "TFFC"
@@ -35042,7 +35042,7 @@
     "icao": "ZMKD"
   },
   {
-    "name": "Mörön Airport",
+    "name": "M\u00f6r\u00f6n Airport",
     "city": "Muren",
     "country": "Mongolia",
     "iata": "MXV",
@@ -35364,7 +35364,7 @@
     "icao": "EICA"
   },
   {
-    "name": "Rügen Airport",
+    "name": "R\u00fcgen Airport",
     "city": "Ruegen",
     "country": "Germany",
     "iata": "GTI",
@@ -35378,7 +35378,7 @@
     "icao": "USHB"
   },
   {
-    "name": "Szczecin-Dąbie Airport",
+    "name": "Szczecin-D\u0105bie Airport",
     "city": "Szczecin",
     "country": "Poland",
     "iata": "\\N",
@@ -35546,7 +35546,7 @@
     "icao": "SSER"
   },
   {
-    "name": "La Côte Airport",
+    "name": "La C\u00f4te Airport",
     "city": "Prangins",
     "country": "Switzerland",
     "iata": "\\N",
@@ -35609,7 +35609,7 @@
     "icao": "DAAS"
   },
   {
-    "name": "La Rochelle-Île de Ré Airport",
+    "name": "La Rochelle-\u00cele de R\u00e9 Airport",
     "city": "La Rochelle",
     "country": "France",
     "iata": "LRH",
@@ -35651,7 +35651,7 @@
     "icao": "KIWA"
   },
   {
-    "name": "Saúl Airport",
+    "name": "Sa\u00fal Airport",
     "city": "Saul",
     "country": "French Guiana",
     "iata": "XAU",
@@ -35672,7 +35672,7 @@
     "icao": "LOGO"
   },
   {
-    "name": "Vöslau Airport",
+    "name": "V\u00f6slau Airport",
     "city": "Bad Voeslau",
     "country": "Austria",
     "iata": "\\N",
@@ -36148,14 +36148,14 @@
     "icao": "LTBY"
   },
   {
-    "name": "Çanakkale Airport",
+    "name": "\u00c7anakkale Airport",
     "city": "Canakkale",
     "country": "Turkey",
     "iata": "CKZ",
     "icao": "LTBH"
   },
   {
-    "name": "Muş Airport",
+    "name": "Mu\u015f Airport",
     "city": "Mus",
     "country": "Turkey",
     "iata": "MSR",
@@ -36169,14 +36169,14 @@
     "icao": "LTCM"
   },
   {
-    "name": "Tekirdağ Çorlu Airport",
-    "city": "Çorlu",
+    "name": "Tekirda\u011f \u00c7orlu Airport",
+    "city": "\u00c7orlu",
     "country": "Turkey",
     "iata": "TEQ",
     "icao": "LTBU"
   },
   {
-    "name": "Bursa Yenişehir Airport",
+    "name": "Bursa Yeni\u015fehir Airport",
     "city": "Yenisehir",
     "country": "Turkey",
     "iata": "YEI",
@@ -36260,7 +36260,7 @@
     "icao": "LOIH"
   },
   {
-    "name": "Weser-Wümme Airport",
+    "name": "Weser-W\u00fcmme Airport",
     "city": "Hellwege",
     "country": "Germany",
     "iata": "\\N",
@@ -36435,7 +36435,7 @@
     "icao": "EDLD"
   },
   {
-    "name": "Höxter-Holzminden Airport",
+    "name": "H\u00f6xter-Holzminden Airport",
     "city": "Hoexter Holzminden",
     "country": "Germany",
     "iata": "\\N",
@@ -36498,7 +36498,7 @@
     "icao": "YBUU"
   },
   {
-    "name": "Sazená Airport",
+    "name": "Sazen\u00e1 Airport",
     "city": "Sazena",
     "country": "Czech Republic",
     "iata": "\\N",
@@ -36512,7 +36512,7 @@
     "icao": "FVSV"
   },
   {
-    "name": "Reykjahlíð Airport",
+    "name": "Reykjahl\u00ed\u00f0 Airport",
     "city": "Myvatn",
     "country": "Iceland",
     "iata": "MVA",
@@ -36750,7 +36750,7 @@
     "icao": "LSPN"
   },
   {
-    "name": "Lausanne-Blécherette Airport",
+    "name": "Lausanne-Bl\u00e9cherette Airport",
     "city": "Lausanne",
     "country": "Switzerland",
     "iata": "QLS",
@@ -37317,7 +37317,7 @@
     "icao": "KSTJ"
   },
   {
-    "name": "Pápa Air Base",
+    "name": "P\u00e1pa Air Base",
     "city": "Papa",
     "country": "Hungary",
     "iata": "\\N",
@@ -38171,7 +38171,7 @@
     "icao": "SAVS"
   },
   {
-    "name": "Cabo F.A.A. H. R. Bordón Airport",
+    "name": "Cabo F.A.A. H. R. Bord\u00f3n Airport",
     "city": "Ingeniero Jacobacci",
     "country": "Argentina",
     "iata": "IGB",
@@ -38381,7 +38381,7 @@
     "icao": "CYJQ"
   },
   {
-    "name": "Wekweètì Airport",
+    "name": "Wekwe\u00e8t\u00ec Airport",
     "city": "Wekweeti",
     "country": "Canada",
     "iata": "YFJ",
@@ -38451,7 +38451,7 @@
     "icao": "MRCR"
   },
   {
-    "name": "Constanza - Expedición 14 de Junio National Airport",
+    "name": "Constanza - Expedici\u00f3n 14 de Junio National Airport",
     "city": "Constanza",
     "country": "Dominican Republic",
     "iata": "COZ",
@@ -38465,7 +38465,7 @@
     "icao": "MKNG"
   },
   {
-    "name": "José Aponte de la Torre Airport",
+    "name": "Jos\u00e9 Aponte de la Torre Airport",
     "city": "Ceiba",
     "country": "Puerto Rico",
     "iata": "NRR",
@@ -38696,7 +38696,7 @@
     "icao": "SGPJ"
   },
   {
-    "name": "Alcides Fernández Airport",
+    "name": "Alcides Fern\u00e1ndez Airport",
     "city": "Acandi",
     "country": "Colombia",
     "iata": "ACD",
@@ -38717,7 +38717,7 @@
     "icao": "UEBB"
   },
   {
-    "name": "Villa Garzón Airport",
+    "name": "Villa Garz\u00f3n Airport",
     "city": "Villa Garzon",
     "country": "Colombia",
     "iata": "VGZ",
@@ -38759,7 +38759,7 @@
     "icao": "SBCB"
   },
   {
-    "name": "Presidente João Batista Figueiredo Airport",
+    "name": "Presidente Jo\u00e3o Batista Figueiredo Airport",
     "city": "Sinop",
     "country": "Brazil",
     "iata": "OPS",
@@ -38815,21 +38815,21 @@
     "icao": "SWST"
   },
   {
-    "name": "Minaçu Airport",
+    "name": "Mina\u00e7u Airport",
     "city": "Minacu",
     "country": "Brazil",
     "iata": "MQH",
     "icao": "SBMC"
   },
   {
-    "name": "Araguaína Airport",
+    "name": "Aragua\u00edna Airport",
     "city": "Araguaina",
     "country": "Brazil",
     "iata": "AUX",
     "icao": "SWGN"
   },
   {
-    "name": "Novo Aripuanã Airport",
+    "name": "Novo Aripuan\u00e3 Airport",
     "city": "Novo Aripuana",
     "country": "Brazil",
     "iata": "NVP",
@@ -38857,7 +38857,7 @@
     "icao": "SSDO"
   },
   {
-    "name": "Lábrea Airport",
+    "name": "L\u00e1brea Airport",
     "city": "Labrea",
     "country": "Brazil",
     "iata": "LBR",
@@ -38899,7 +38899,7 @@
     "icao": "SBAX"
   },
   {
-    "name": "Maués Airport",
+    "name": "Mau\u00e9s Airport",
     "city": "Maues",
     "country": "Brazil",
     "iata": "MBZ",
@@ -39151,7 +39151,7 @@
     "icao": "ENSA"
   },
   {
-    "name": "Ny-Ålesund Airport (Hamnerabben)",
+    "name": "Ny-\u00c5lesund Airport (Hamnerabben)",
     "city": "Ny-Alesund",
     "country": "Svalbard",
     "iata": "\\N",
@@ -39221,14 +39221,14 @@
     "icao": "BIBD"
   },
   {
-    "name": "Gjögur Airport",
+    "name": "Gj\u00f6gur Airport",
     "city": "Gjogur",
     "country": "Iceland",
     "iata": "GJR",
     "icao": "BIGJ"
   },
   {
-    "name": "Sauðárkrókur Airport",
+    "name": "Sau\u00f0\u00e1rkr\u00f3kur Airport",
     "city": "Saudarkrokur",
     "country": "Iceland",
     "iata": "SAK",
@@ -39550,21 +39550,21 @@
     "icao": "ZPLC"
   },
   {
-    "name": "Maturacá Airport",
+    "name": "Maturac\u00e1 Airport",
     "city": "Maturaca",
     "country": "Brazil",
     "iata": "\\N",
     "icao": "SWMK"
   },
   {
-    "name": "Carajás Airport",
+    "name": "Caraj\u00e1s Airport",
     "city": "Parauapebas",
     "country": "Brazil",
     "iata": "CKS",
     "icao": "SBCJ"
   },
   {
-    "name": "Centro de Lançamento de Alcântara Airport",
+    "name": "Centro de Lan\u00e7amento de Alc\u00e2ntara Airport",
     "city": "Alcantara",
     "country": "Brazil",
     "iata": "\\N",
@@ -39578,14 +39578,14 @@
     "icao": "WIOM"
   },
   {
-    "name": "Würzburg-Schenkenturm Airport",
+    "name": "W\u00fcrzburg-Schenkenturm Airport",
     "city": "Wuerzburg",
     "country": "Germany",
     "iata": "\\N",
     "icao": "EDFW"
   },
   {
-    "name": "São Jacinto Airport",
+    "name": "S\u00e3o Jacinto Airport",
     "city": "Aveiro",
     "country": "Portugal",
     "iata": "\\N",
@@ -39697,7 +39697,7 @@
     "icao": "RCCM"
   },
   {
-    "name": "Daşoguz Airport",
+    "name": "Da\u015foguz Airport",
     "city": "Dasoguz",
     "country": "Turkmenistan",
     "iata": "TAZ",
@@ -40180,7 +40180,7 @@
     "icao": "KSBD"
   },
   {
-    "name": "Valença Airport",
+    "name": "Valen\u00e7a Airport",
     "city": "Valenca",
     "country": "Brazil",
     "iata": "VAL",
@@ -40292,7 +40292,7 @@
     "icao": "KTRK"
   },
   {
-    "name": "Fréjus Airport",
+    "name": "Fr\u00e9jus Airport",
     "city": "Frejus",
     "country": "France",
     "iata": "FRJ",
@@ -40551,7 +40551,7 @@
     "icao": "KEMP"
   },
   {
-    "name": "Skå-Edeby Airport",
+    "name": "Sk\u00e5-Edeby Airport",
     "city": "Essen",
     "country": "Germany",
     "iata": "\\N",
@@ -40642,7 +40642,7 @@
     "icao": "KOLV"
   },
   {
-    "name": "Viña del mar Airport",
+    "name": "Vi\u00f1a del mar Airport",
     "city": "Vina del Mar",
     "country": "Chile",
     "iata": "KNA",
@@ -40733,7 +40733,7 @@
     "icao": "EHAL"
   },
   {
-    "name": "Saint-Cyr-l'École Airport",
+    "name": "Saint-Cyr-l'\u00c9cole Airport",
     "city": "Saint-Cyr",
     "country": "France",
     "iata": "\\N",
@@ -40978,14 +40978,14 @@
     "icao": "CYOO"
   },
   {
-    "name": "Marl-Loemühle Airfield",
+    "name": "Marl-Loem\u00fchle Airfield",
     "city": "Recklinghausen",
     "country": "Germany",
     "iata": "\\N",
     "icao": "EDLM"
   },
   {
-    "name": "Färila Air Base",
+    "name": "F\u00e4rila Air Base",
     "city": "Farila",
     "country": "Sweden",
     "iata": "\\N",
@@ -41139,7 +41139,7 @@
     "icao": "KKLS"
   },
   {
-    "name": "Benešov Airport",
+    "name": "Bene\u0161ov Airport",
     "city": "Benesov",
     "country": "Czech Republic",
     "iata": "\\N",
@@ -41489,14 +41489,14 @@
     "icao": "KRKP"
   },
   {
-    "name": "Megève Airport",
+    "name": "Meg\u00e8ve Airport",
     "city": "Verdun",
     "country": "France",
     "iata": "MVV",
     "icao": "LFHM"
   },
   {
-    "name": "Méribel Altiport",
+    "name": "M\u00e9ribel Altiport",
     "city": "Ajaccio",
     "country": "France",
     "iata": "MFX",
@@ -41524,21 +41524,21 @@
     "icao": "FYMO"
   },
   {
-    "name": "Rotenburg (Wümme) Airport",
+    "name": "Rotenburg (W\u00fcmme) Airport",
     "city": "Rotenburg Wuemme",
     "country": "Germany",
     "iata": "\\N",
     "icao": "EDXQ"
   },
   {
-    "name": "Wipperfürth-Neye Airport",
+    "name": "Wipperf\u00fcrth-Neye Airport",
     "city": "Wipperfuerth",
     "country": "Germany",
     "iata": "\\N",
     "icao": "EDKN"
   },
   {
-    "name": "Osnabrück-Atterheide Airport",
+    "name": "Osnabr\u00fcck-Atterheide Airport",
     "city": "Osnabrueck",
     "country": "Germany",
     "iata": "\\N",
@@ -41608,7 +41608,7 @@
     "icao": "EDHB"
   },
   {
-    "name": "Tønder Airport",
+    "name": "T\u00f8nder Airport",
     "city": "Toender",
     "country": "Denmark",
     "iata": "\\N",
@@ -41636,7 +41636,7 @@
     "icao": "EDLH"
   },
   {
-    "name": "Lüsse Airport",
+    "name": "L\u00fcsse Airport",
     "city": "Luesse",
     "country": "Germany",
     "iata": "\\N",
@@ -41671,7 +41671,7 @@
     "icao": "EDXN"
   },
   {
-    "name": "Köthen Airport",
+    "name": "K\u00f6then Airport",
     "city": "Koethen",
     "country": "Germany",
     "iata": "KOQ",
@@ -41685,14 +41685,14 @@
     "icao": "EDXM"
   },
   {
-    "name": "Salzgitter-Drütte Airport",
+    "name": "Salzgitter-Dr\u00fctte Airport",
     "city": "Salzgitter",
     "country": "Germany",
     "iata": "\\N",
     "icao": "EDVS"
   },
   {
-    "name": "Karlshöfen Airport",
+    "name": "Karlsh\u00f6fen Airport",
     "city": "Karlshoefen",
     "country": "Germany",
     "iata": "\\N",
@@ -41713,7 +41713,7 @@
     "icao": "EDVR"
   },
   {
-    "name": "Münster-Telgte Airport",
+    "name": "M\u00fcnster-Telgte Airport",
     "city": "Muenster",
     "country": "Germany",
     "iata": "\\N",
@@ -41727,7 +41727,7 @@
     "icao": "EDXO"
   },
   {
-    "name": "Lüchow-Rehbeck Airport",
+    "name": "L\u00fcchow-Rehbeck Airport",
     "city": "Luechow",
     "country": "Germany",
     "iata": "\\N",
@@ -41769,7 +41769,7 @@
     "icao": "EDRA"
   },
   {
-    "name": "Bad Dürkheim Airport",
+    "name": "Bad D\u00fcrkheim Airport",
     "city": "Bad Duerkheim",
     "country": "Germany",
     "iata": "\\N",
@@ -42175,7 +42175,7 @@
     "icao": "ZWKN"
   },
   {
-    "name": "Capurganá Airport",
+    "name": "Capurgan\u00e1 Airport",
     "city": "Capurgana",
     "country": "Colombia",
     "iata": "CPB",
@@ -42210,21 +42210,21 @@
     "icao": "SJTC"
   },
   {
-    "name": "Ourilândia do Norte Airport",
+    "name": "Ouril\u00e2ndia do Norte Airport",
     "city": "Ourilandia do Norte",
     "country": "Brazil",
     "iata": "OIA",
     "icao": "SDOW"
   },
   {
-    "name": "Redenção Airport",
+    "name": "Reden\u00e7\u00e3o Airport",
     "city": "Redencao",
     "country": "Brazil",
     "iata": "RDC",
     "icao": "SNDC"
   },
   {
-    "name": "São Félix do Xingu Airport",
+    "name": "S\u00e3o F\u00e9lix do Xingu Airport",
     "city": "Sao Felix do Xingu",
     "country": "Brazil",
     "iata": "SXX",
@@ -42238,14 +42238,14 @@
     "icao": "SJDB"
   },
   {
-    "name": "São Félix do Araguaia Airport",
+    "name": "S\u00e3o F\u00e9lix do Araguaia Airport",
     "city": "Sao Felix do Araguaia",
     "country": "Brazil",
     "iata": "SXO",
     "icao": "SWFX"
   },
   {
-    "name": "Caçador Airport",
+    "name": "Ca\u00e7ador Airport",
     "city": "Cacador",
     "country": "Brazil",
     "iata": "CFC",
@@ -42266,21 +42266,21 @@
     "icao": "SWUY"
   },
   {
-    "name": "Eirunepé Airport",
+    "name": "Eirunep\u00e9 Airport",
     "city": "Eirunepe",
     "country": "Brazil",
     "iata": "ERN",
     "icao": "SWEI"
   },
   {
-    "name": "Concórdia Airport",
+    "name": "Conc\u00f3rdia Airport",
     "city": "Concordia",
     "country": "Brazil",
     "iata": "CCI",
     "icao": "SSCK"
   },
   {
-    "name": "Francisco Beltrão Airport",
+    "name": "Francisco Beltr\u00e3o Airport",
     "city": "Francisco Beltrao",
     "country": "Brazil",
     "iata": "FBE",
@@ -42329,7 +42329,7 @@
     "icao": "SDCG"
   },
   {
-    "name": "Humaitá Airport",
+    "name": "Humait\u00e1 Airport",
     "city": "Humaita",
     "country": "Brazil",
     "iata": "HUW",
@@ -42343,14 +42343,14 @@
     "icao": "SWTP"
   },
   {
-    "name": "Oriximiná Airport",
+    "name": "Oriximin\u00e1 Airport",
     "city": "Oriximina",
     "country": "Brazil",
     "iata": "ORX",
     "icao": "SNOX"
   },
   {
-    "name": "Hotel Transamérica Airport",
+    "name": "Hotel Transam\u00e9rica Airport",
     "city": "Una",
     "country": "Brazil",
     "iata": "UNA",
@@ -42364,7 +42364,7 @@
     "icao": "YTEF"
   },
   {
-    "name": "Gazipaşa Airport",
+    "name": "Gazipa\u015fa Airport",
     "city": "Alanya",
     "country": "Turkey",
     "iata": "GZP",
@@ -42819,7 +42819,7 @@
     "icao": "CYSP"
   },
   {
-    "name": "Hearst René Fontaine Municipal Airport",
+    "name": "Hearst Ren\u00e9 Fontaine Municipal Airport",
     "city": "Hearst",
     "country": "Canada",
     "iata": "YHF",
@@ -43631,7 +43631,7 @@
     "icao": "LOSM"
   },
   {
-    "name": "Nötsch Im Gailtal Airport",
+    "name": "N\u00f6tsch Im Gailtal Airport",
     "city": "Notsch Im Gailtal",
     "country": "Austria",
     "iata": "\\N",
@@ -43645,7 +43645,7 @@
     "icao": "EDTK"
   },
   {
-    "name": "Weinheim/Bergstraße Airport",
+    "name": "Weinheim/Bergstra\u00dfe Airport",
     "city": "Weinheim",
     "country": "Germany",
     "iata": "\\N",
@@ -43659,7 +43659,7 @@
     "icao": "LFPE"
   },
   {
-    "name": "Château-Thierry - Belleau Airfield",
+    "name": "Ch\u00e2teau-Thierry - Belleau Airfield",
     "city": "Chateau-Thierry",
     "country": "France",
     "iata": "\\N",
@@ -43813,7 +43813,7 @@
     "icao": "UUMO"
   },
   {
-    "name": "Trois-Rivières Airport",
+    "name": "Trois-Rivi\u00e8res Airport",
     "city": "Trois Rivieres",
     "country": "Canada",
     "iata": "YRQ",
@@ -43876,7 +43876,7 @@
     "icao": "KSTP"
   },
   {
-    "name": "Söderhamn Airport",
+    "name": "S\u00f6derhamn Airport",
     "city": "Soderhamn",
     "country": "Sweden",
     "iata": "SOO",
@@ -44142,14 +44142,14 @@
     "icao": "KERY"
   },
   {
-    "name": "Peenemünde Airport",
+    "name": "Peenem\u00fcnde Airport",
     "city": "Peenemunde",
     "country": "Germany",
     "iata": "PEF",
     "icao": "EDCP"
   },
   {
-    "name": "Góraszka Airport",
+    "name": "G\u00f3raszka Airport",
     "city": "Goraszka",
     "country": "Poland",
     "iata": "\\N",
@@ -44184,7 +44184,7 @@
     "icao": "SESM"
   },
   {
-    "name": "Clarksville–Montgomery County Regional Airport",
+    "name": "Clarksville\u2013Montgomery County Regional Airport",
     "city": "Clarksville",
     "country": "United States",
     "iata": "CKV",
@@ -44520,7 +44520,7 @@
     "icao": "ZGLG"
   },
   {
-    "name": "Lošinj Island Airport",
+    "name": "Lo\u0161inj Island Airport",
     "city": "Mali Losinj",
     "country": "Croatia",
     "iata": "LSZ",
@@ -44611,14 +44611,14 @@
     "icao": "UEMT"
   },
   {
-    "name": "Letiště Vysoké Mýto",
+    "name": "Leti\u0161t\u011b Vysok\u00e9 M\u00fdto",
     "city": "Vysoke Myto",
     "country": "Czech Republic",
     "iata": "\\N",
     "icao": "LKVM"
   },
   {
-    "name": "Spa (la Sauvenière) Airfield",
+    "name": "Spa (la Sauveni\u00e8re) Airfield",
     "city": "Spa",
     "country": "Belgium",
     "iata": "\\N",
@@ -44646,7 +44646,7 @@
     "icao": "KP52"
   },
   {
-    "name": "Namur-Suarlée Airfield",
+    "name": "Namur-Suarl\u00e9e Airfield",
     "city": "Namur",
     "country": "Belgium",
     "iata": "\\N",
@@ -44737,7 +44737,7 @@
     "icao": "EGTO"
   },
   {
-    "name": "Termas de Río Hondo international Airport",
+    "name": "Termas de R\u00edo Hondo international Airport",
     "city": "Rio Hondo",
     "country": "Argentina",
     "iata": "RHD",
@@ -44877,14 +44877,14 @@
     "icao": "SDBK"
   },
   {
-    "name": "Base Aérea Airport",
+    "name": "Base A\u00e9rea Airport",
     "city": "Anapolis",
     "country": "Brazil",
     "iata": "\\N",
     "icao": "SBAN"
   },
   {
-    "name": "Mário Pereira Lopes–São Carlos Airport",
+    "name": "M\u00e1rio Pereira Lopes\u2013S\u00e3o Carlos Airport",
     "city": "Sao Carlos",
     "country": "Brazil",
     "iata": "QSC",
@@ -45108,14 +45108,14 @@
     "icao": "UHWK"
   },
   {
-    "name": "Iğdır Airport",
+    "name": "I\u011fd\u0131r Airport",
     "city": "Igdir",
     "country": "Turkey",
     "iata": "IGD",
     "icao": "LTCT"
   },
   {
-    "name": "Şanlıurfa GAP Airport",
+    "name": "\u015eanl\u0131urfa GAP Airport",
     "city": "Sanliurfa",
     "country": "Turkey",
     "iata": "GNY",
@@ -45199,7 +45199,7 @@
     "icao": "LOIJ"
   },
   {
-    "name": "Thalmässing-Waizenhofen Airport",
+    "name": "Thalm\u00e4ssing-Waizenhofen Airport",
     "city": "Thalmaessing",
     "country": "Germany",
     "iata": "\\N",
@@ -45360,7 +45360,7 @@
     "icao": "EKHG"
   },
   {
-    "name": "Oberschleißheim Airfield",
+    "name": "Oberschlei\u00dfheim Airfield",
     "city": "Schleissheim",
     "country": "Germany",
     "iata": "\\N",
@@ -45619,7 +45619,7 @@
     "icao": "VCCS"
   },
   {
-    "name": "Neumünster Airport",
+    "name": "Neum\u00fcnster Airport",
     "city": "Neumuenster",
     "country": "Germany",
     "iata": "EUM",
@@ -45745,7 +45745,7 @@
     "icao": "ENRK"
   },
   {
-    "name": "Bingöl Çeltiksuyu Airport",
+    "name": "Bing\u00f6l \u00c7eltiksuyu Airport",
     "city": "Bingol",
     "country": "Turkey",
     "iata": "BGG",
@@ -45787,7 +45787,7 @@
     "icao": "K2H0"
   },
   {
-    "name": "Lüliang Airport",
+    "name": "L\u00fcliang Airport",
     "city": "Lvliang",
     "country": "China",
     "iata": "LLV",
@@ -45808,7 +45808,7 @@
     "icao": "ZLXH"
   },
   {
-    "name": "Vängsö Airport",
+    "name": "V\u00e4ngs\u00f6 Airport",
     "city": "Vangso",
     "country": "Sweden",
     "iata": "\\N",
@@ -45941,7 +45941,7 @@
     "icao": "MGQC"
   },
   {
-    "name": "Norðfjörður Airport",
+    "name": "Nor\u00f0fj\u00f6r\u00f0ur Airport",
     "city": "Nordfjordur",
     "country": "Iceland",
     "iata": "NOR",
@@ -45976,7 +45976,7 @@
     "icao": "KEWK"
   },
   {
-    "name": "La Ferté Alais Airfield",
+    "name": "La Fert\u00e9 Alais Airfield",
     "city": "La Ferte Alais",
     "country": "France",
     "iata": "\\N",
@@ -45990,7 +45990,7 @@
     "icao": "YBNS"
   },
   {
-    "name": "Taszár Air Base",
+    "name": "Tasz\u00e1r Air Base",
     "city": "Columbus",
     "country": "United States",
     "iata": "TZR",
@@ -46144,7 +46144,7 @@
     "icao": "MRGT"
   },
   {
-    "name": "Central Bolívar Airport",
+    "name": "Central Bol\u00edvar Airport",
     "city": "Sevilla",
     "country": "Spain",
     "iata": "\\N",
@@ -46340,7 +46340,7 @@
     "icao": "SPGM"
   },
   {
-    "name": "Plínio Alarcom Airport",
+    "name": "Pl\u00ednio Alarcom Airport",
     "city": "Tres Lagoas",
     "country": "Brazil",
     "iata": "TJL",
@@ -46585,7 +46585,7 @@
     "icao": "GMMD"
   },
   {
-    "name": "Şırnak Şerafettin Elçi Airport",
+    "name": "\u015e\u0131rnak \u015eerafettin El\u00e7i Airport",
     "city": "Cizre",
     "country": "Turkey",
     "iata": "NKT",
@@ -47516,7 +47516,7 @@
     "icao": "NZHT"
   },
   {
-    "name": "Meschede-Schüren Airport",
+    "name": "Meschede-Sch\u00fcren Airport",
     "city": "Meschede",
     "country": "Germany",
     "iata": "\\N",
@@ -47544,14 +47544,14 @@
     "icao": "ZYFY"
   },
   {
-    "name": "Skúvoy Heliport",
+    "name": "Sk\u00favoy Heliport",
     "city": "Skuvoy",
     "country": "Faroe Islands",
     "iata": "\\N",
     "icao": "EKSY"
   },
   {
-    "name": "Stóra Dímun Heliport",
+    "name": "St\u00f3ra D\u00edmun Heliport",
     "city": "Stora Dimun",
     "country": "Faroe Islands",
     "iata": "\\N",
@@ -48020,7 +48020,7 @@
     "icao": "24SC"
   },
   {
-    "name": "Greeley–Weld County Airport",
+    "name": "Greeley\u2013Weld County Airport",
     "city": "Greeley",
     "country": "United States",
     "iata": "GXY",
@@ -48097,14 +48097,14 @@
     "icao": "KBNG"
   },
   {
-    "name": "Gießen-Lützellinden Airport",
+    "name": "Gie\u00dfen-L\u00fctzellinden Airport",
     "city": "Giessen",
     "country": "Germany",
     "iata": "\\N",
     "icao": "EDFL"
   },
   {
-    "name": "Tököl Airport",
+    "name": "T\u00f6k\u00f6l Airport",
     "city": "Budapest",
     "country": "Hungary",
     "iata": "\\N",
@@ -48153,7 +48153,7 @@
     "icao": "SNKF"
   },
   {
-    "name": "Janaúba Airport",
+    "name": "Jana\u00faba Airport",
     "city": "Janauba",
     "country": "Brazil",
     "iata": "\\N",
@@ -48216,7 +48216,7 @@
     "icao": "SDUN"
   },
   {
-    "name": "Maricá Airport",
+    "name": "Maric\u00e1 Airport",
     "city": "Marica",
     "country": "Brazil",
     "iata": "\\N",
@@ -48265,7 +48265,7 @@
     "icao": "FZGV"
   },
   {
-    "name": "Aripuanã Airport",
+    "name": "Aripuan\u00e3 Airport",
     "city": "Aripuana",
     "country": "Brazil",
     "iata": "AIR",
@@ -48279,7 +48279,7 @@
     "icao": "SWJU"
   },
   {
-    "name": "Juína Airport",
+    "name": "Ju\u00edna Airport",
     "city": "Juina",
     "country": "Brazil",
     "iata": "JIA",
@@ -48293,14 +48293,14 @@
     "icao": "SWVC"
   },
   {
-    "name": "Inácio Luís do Nascimento Airport",
+    "name": "In\u00e1cio Lu\u00eds do Nascimento Airport",
     "city": "Juara",
     "country": "Brazil",
     "iata": "JUA",
     "icao": "SIZX"
   },
   {
-    "name": "Cáceres Airport",
+    "name": "C\u00e1ceres Airport",
     "city": "Caceres",
     "country": "Brazil",
     "iata": "CCX",
@@ -48314,7 +48314,7 @@
     "icao": "SWPL"
   },
   {
-    "name": "Tangará da Serra Airport",
+    "name": "Tangar\u00e1 da Serra Airport",
     "city": "Tangara da Serra",
     "country": "Brazil",
     "iata": "TGQ",
@@ -48328,7 +48328,7 @@
     "icao": "SWEK"
   },
   {
-    "name": "Vila Bela da Santíssima Trindade Airport",
+    "name": "Vila Bela da Sant\u00edssima Trindade Airport",
     "city": "Vila Bela da Santissima Trindade ",
     "country": "Brazil",
     "iata": "MTG",
@@ -48496,7 +48496,7 @@
     "icao": "SVFM"
   },
   {
-    "name": "São Miguel do Oeste Airport",
+    "name": "S\u00e3o Miguel do Oeste Airport",
     "city": "Sao Miguel do Oeste",
     "country": "Brazil",
     "iata": "SQX",
@@ -48573,14 +48573,14 @@
     "icao": "LTCB"
   },
   {
-    "name": "Hakkari Yüksekova Airport",
+    "name": "Hakkari Y\u00fcksekova Airport",
     "city": "Hakkari",
     "country": "Turkey",
     "iata": "YKO",
     "icao": "LTCW"
   },
   {
-    "name": "Jelenia Góra Glider Airport",
+    "name": "Jelenia G\u00f3ra Glider Airport",
     "city": "Jelenia Gora",
     "country": "Poland",
     "iata": "\\N",
@@ -48615,7 +48615,7 @@
     "icao": "USPT"
   },
   {
-    "name": "San Sebastián Airport",
+    "name": "San Sebasti\u00e1n Airport",
     "city": "San Sebastian",
     "country": "Chile",
     "iata": "\\N",
@@ -48797,7 +48797,7 @@
     "icao": "EDFG"
   },
   {
-    "name": "Ærø Airport",
+    "name": "\u00c6r\u00f8 Airport",
     "city": "Aero",
     "country": "Denmark",
     "iata": "\\N",
@@ -48832,21 +48832,21 @@
     "icao": "EDFB"
   },
   {
-    "name": "Marburg-Schönstadt Airport",
+    "name": "Marburg-Sch\u00f6nstadt Airport",
     "city": "Schoenstadt",
     "country": "Germany",
     "iata": "\\N",
     "icao": "EDFN"
   },
   {
-    "name": "Lauenbrück Airport",
+    "name": "Lauenbr\u00fcck Airport",
     "city": "Lauenbrueck",
     "country": "Germany",
     "iata": "\\N",
     "icao": "EDHU"
   },
   {
-    "name": "Hüttenbusch Airport",
+    "name": "H\u00fcttenbusch Airport",
     "city": "Huettenbusch",
     "country": "Germany",
     "iata": "\\N",
@@ -48924,7 +48924,7 @@
   },
   {
     "name": "Dolbeau St Felicien Airport",
-    "city": "Dolbeau-St-Félicien",
+    "city": "Dolbeau-St-F\u00e9licien",
     "country": "Canada",
     "iata": "YDO",
     "icao": "CYDO"
@@ -49189,22 +49189,22 @@
     "icao": "EGQK"
   },
   {
-    "name": "Biała Podlaska Airfield",
-    "city": "Biała Podlaska",
+    "name": "Bia\u0142a Podlaska Airfield",
+    "city": "Bia\u0142a Podlaska",
     "country": "Poland",
     "iata": "BXP",
     "icao": "EPBP"
   },
   {
     "name": "Cewice Air Base",
-    "city": "Lębork",
+    "city": "L\u0119bork",
     "country": "Poland",
     "iata": "\\N",
     "icao": "EPCE"
   },
   {
     "name": "Deblin Military Air Base",
-    "city": "Dęblin",
+    "city": "D\u0119blin",
     "country": "Poland",
     "iata": "\\N",
     "icao": "EPDE"
@@ -49232,14 +49232,14 @@
   },
   {
     "name": "Tomaszow Mazowiecki Military Air Base",
-    "city": "Tomaszów Mazowiecki",
+    "city": "Tomasz\u00f3w Mazowiecki",
     "country": "Poland",
     "iata": "\\N",
     "icao": "EPTM"
   },
   {
-    "name": "Björkvik Air Base",
-    "city": "Björkvik",
+    "name": "Bj\u00f6rkvik Air Base",
+    "city": "Bj\u00f6rkvik",
     "country": "Sweden",
     "iata": "\\N",
     "icao": "ESKX"
@@ -49259,22 +49259,22 @@
     "icao": "EVDA"
   },
   {
-    "name": "Jēkabpils Air Base",
-    "city": "Jēkabpils",
+    "name": "J\u0113kabpils Air Base",
+    "city": "J\u0113kabpils",
     "country": "Latvia",
     "iata": "\\N",
     "icao": "EVKA"
   },
   {
-    "name": "Jūrmala Airport",
+    "name": "J\u016brmala Airport",
     "city": "Tukums",
     "country": "Latvia",
     "iata": "\\N",
     "icao": "EVTA"
   },
   {
-    "name": "Kėdainiai Air Base",
-    "city": "Kėdainiai",
+    "name": "K\u0117dainiai Air Base",
+    "city": "K\u0117dainiai",
     "country": "Lithuania",
     "iata": "\\N",
     "icao": "EYKD"
@@ -49742,29 +49742,29 @@
     "icao": "KZZV"
   },
   {
-    "name": "Gjadër Air Base",
-    "city": "Gjadër",
+    "name": "Gjad\u00ebr Air Base",
+    "city": "Gjad\u00ebr",
     "country": "Albania",
     "iata": "\\N",
     "icao": "LAGJ"
   },
   {
-    "name": "Kukës Airport",
-    "city": "Kukës",
+    "name": "Kuk\u00ebs Airport",
+    "city": "Kuk\u00ebs",
     "country": "Albania",
     "iata": "\\N",
     "icao": "LAKU"
   },
   {
-    "name": "Kuçovë Air Base",
-    "city": "Kuçovë",
+    "name": "Ku\u00e7ov\u00eb Air Base",
+    "city": "Ku\u00e7ov\u00eb",
     "country": "Albania",
     "iata": "\\N",
     "icao": "LAKV"
   },
   {
-    "name": "Vlorë Air Base",
-    "city": "Vlorë",
+    "name": "Vlor\u00eb Air Base",
+    "city": "Vlor\u00eb",
     "country": "Albania",
     "iata": "\\N",
     "icao": "LAVL"
@@ -49812,8 +49812,8 @@
     "icao": "LECU"
   },
   {
-    "name": "Castellón-Costa Azahar Airport",
-    "city": "Castellón de la Plana",
+    "name": "Castell\u00f3n-Costa Azahar Airport",
+    "city": "Castell\u00f3n de la Plana",
     "country": "Spain",
     "iata": "CDT",
     "icao": "LEDS"
@@ -49889,15 +49889,15 @@
     "icao": "LIQW"
   },
   {
-    "name": "Câmpia Turzii Air Base",
-    "city": "Câmpia Turzii",
+    "name": "C\u00e2mpia Turzii Air Base",
+    "city": "C\u00e2mpia Turzii",
     "country": "Romania",
     "iata": "\\N",
     "icao": "LRCT"
   },
   {
-    "name": "Mărculeşti International Airport",
-    "city": "Mărculeşti",
+    "name": "M\u0103rcule\u015fti International Airport",
+    "city": "M\u0103rcule\u015fti",
     "country": "Moldova",
     "iata": "\\N",
     "icao": "LUBM"
@@ -49946,7 +49946,7 @@
   },
   {
     "name": "San Nicolas De Bari Airport",
-    "city": "San Nicolás",
+    "city": "San Nicol\u00e1s",
     "country": "Cuba",
     "iata": "QSN",
     "icao": "MUNB"
@@ -50162,7 +50162,7 @@
     "icao": "RPMQ"
   },
   {
-    "name": "Presidente Néstor Kirchner Regionsl Airport",
+    "name": "Presidente N\u00e9stor Kirchner Regionsl Airport",
     "city": "Villa Maria",
     "country": "Argentina",
     "iata": "\\N",
@@ -50176,8 +50176,8 @@
     "icao": "SBBT"
   },
   {
-    "name": "Base de Aviação de Taubaté Airport",
-    "city": "Taubaté",
+    "name": "Base de Avia\u00e7\u00e3o de Taubat\u00e9 Airport",
+    "city": "Taubat\u00e9",
     "country": "Brazil",
     "iata": "QHP",
     "icao": "SBTA"
@@ -50197,8 +50197,8 @@
     "icao": "SCHR"
   },
   {
-    "name": "Chañaral Airport",
-    "city": "Chañaral",
+    "name": "Cha\u00f1aral Airport",
+    "city": "Cha\u00f1aral",
     "country": "Chile",
     "iata": "CNR",
     "icao": "SCRA"
@@ -50232,8 +50232,8 @@
     "icao": "SKAP"
   },
   {
-    "name": "Coveñas Airport",
-    "city": "Coveñas",
+    "name": "Cove\u00f1as Airport",
+    "city": "Cove\u00f1as",
     "country": "Colombia",
     "iata": "CVE",
     "icao": "SKCV"
@@ -50267,8 +50267,8 @@
     "icao": "SKTQ"
   },
   {
-    "name": "Marandúa Air Base",
-    "city": "Marandúa",
+    "name": "Marand\u00faa Air Base",
+    "city": "Marand\u00faa",
     "country": "Colombia",
     "iata": "\\N",
     "icao": "SKUA"
@@ -50282,7 +50282,7 @@
   },
   {
     "name": "Shumba Airport",
-    "city": "Jaén",
+    "city": "Ja\u00e9n",
     "country": "Peru",
     "iata": "JAE",
     "icao": "SPJE"
@@ -51121,14 +51121,14 @@
     "icao": "DBBK"
   },
   {
-    "name": "Sokodé Airport",
+    "name": "Sokod\u00e9 Airport",
     "city": "Sokode",
     "country": "Togo",
     "iata": "\\N",
     "icao": "DXSK"
   },
   {
-    "name": "Sansanné-Mango Airport",
+    "name": "Sansann\u00e9-Mango Airport",
     "city": "Mango",
     "country": "Togo",
     "iata": "\\N",
@@ -51142,7 +51142,7 @@
     "icao": "EDNB"
   },
   {
-    "name": "Jacarepaguá - Roberto Marinho Airport",
+    "name": "Jacarepagu\u00e1 - Roberto Marinho Airport",
     "city": "Rio de Janeiro",
     "country": "Brazil",
     "iata": "\\N",
@@ -51569,7 +51569,7 @@
     "icao": "LOAU"
   },
   {
-    "name": "Klaipėda Airport",
+    "name": "Klaip\u0117da Airport",
     "city": "Klaipeda",
     "country": "Lithuania",
     "iata": "KLJ",
@@ -51611,7 +51611,7 @@
     "icao": "LYNS"
   },
   {
-    "name": "Grundarfjörður Airport",
+    "name": "Grundarfj\u00f6r\u00f0ur Airport",
     "city": "Grundarfjordur",
     "country": "Iceland",
     "iata": "GUU",
@@ -51639,7 +51639,7 @@
     "icao": "2FD7"
   },
   {
-    "name": "Tórshavn/Bodanes Heliport",
+    "name": "T\u00f3rshavn/Bodanes Heliport",
     "city": "Torshavn",
     "country": "Faroe Islands",
     "iata": "\\N",
@@ -51786,14 +51786,14 @@
     "icao": "KBGD"
   },
   {
-    "name": "Budaörs Airfield",
+    "name": "Buda\u00f6rs Airfield",
     "city": "Budaoers",
     "country": "Hungary",
     "iata": "\\N",
     "icao": "LHBS"
   },
   {
-    "name": "Jakabszállás Airport",
+    "name": "Jakabsz\u00e1ll\u00e1s Airport",
     "city": "Jakabszallas",
     "country": "Hungary",
     "iata": "\\N",
@@ -51884,7 +51884,7 @@
     "icao": "GUSI"
   },
   {
-    "name": "Nzérékoré Airport",
+    "name": "Nz\u00e9r\u00e9kor\u00e9 Airport",
     "city": "Nzerekore",
     "country": "Guinea",
     "iata": "NZE",
@@ -51933,7 +51933,7 @@
     "icao": "EDOG"
   },
   {
-    "name": "Annobón Airport",
+    "name": "Annob\u00f3n Airport",
     "city": "San Antonio de Pale",
     "country": "Equatorial Guinea",
     "iata": "NBN",
@@ -52346,7 +52346,7 @@
     "icao": "BGUT"
   },
   {
-    "name": "Olhos D`água Airport",
+    "name": "Olhos D`\u00e1gua Airport",
     "city": "Agua Boa",
     "country": "Brazil",
     "iata": "\\N",
@@ -52374,7 +52374,7 @@
     "icao": "SWKQ"
   },
   {
-    "name": "Encarnación Airport",
+    "name": "Encarnaci\u00f3n Airport",
     "city": "Encarnacion",
     "country": "Paraguay",
     "iata": "ENO",
@@ -52409,7 +52409,7 @@
     "icao": "EKAT"
   },
   {
-    "name": "St Pierre d'Oléron Airfield",
+    "name": "St Pierre d'Ol\u00e9ron Airfield",
     "city": "Saint Pierre d'Oleron",
     "country": "France",
     "iata": "\\N",
@@ -52591,7 +52591,7 @@
     "icao": "FWMY"
   },
   {
-    "name": "Suwałki Airport",
+    "name": "Suwa\u0142ki Airport",
     "city": "Suwalki",
     "country": "Poland",
     "iata": "\\N",
@@ -53116,7 +53116,7 @@
     "icao": "RPVQ"
   },
   {
-    "name": "Fazenda Várzea Funda Airport",
+    "name": "Fazenda V\u00e1rzea Funda Airport",
     "city": "PRIMAVERA D'OESTE",
     "country": "Brazil",
     "iata": "\\N",
@@ -53291,7 +53291,7 @@
     "icao": "AK06"
   },
   {
-    "name": "Comte. Rolim Adolfo Amaro–Jundiaí State Airport",
+    "name": "Comte. Rolim Adolfo Amaro\u2013Jundia\u00ed State Airport",
     "city": "Jundiai",
     "country": "Brazil",
     "iata": "\\N",
@@ -53368,7 +53368,7 @@
     "icao": "UKKH"
   },
   {
-    "name": "Fazenda São Nicolau Airport",
+    "name": "Fazenda S\u00e3o Nicolau Airport",
     "city": "COTRIGUACU",
     "country": "Brazil",
     "iata": "\\N",
@@ -53424,8 +53424,8 @@
     "icao": "CYLK"
   },
   {
-    "name": "Engeløy Airport",
-    "city": "Engeløy",
+    "name": "Engel\u00f8y Airport",
+    "city": "Engel\u00f8y",
     "country": "Norway",
     "iata": "\\N",
     "icao": "ENEN"
@@ -53474,7 +53474,7 @@
   },
   {
     "name": "Ponte de Sor Airport",
-    "city": "Ponte de Sôr",
+    "city": "Ponte de S\u00f4r",
     "country": "Portugal",
     "iata": "\\N",
     "icao": "LPSO"
@@ -53543,7 +53543,7 @@
     "icao": "YUMU"
   },
   {
-    "name": "La Araucanía Airport",
+    "name": "La Araucan\u00eda Airport",
     "city": "Temuco",
     "country": "Chile",
     "iata": "ZCO",
@@ -53606,7 +53606,7 @@
     "icao": "OJ40"
   },
   {
-    "name": "Kirkjubæjarklaustur Airport",
+    "name": "Kirkjub\u00e6jarklaustur Airport",
     "city": "Kirkjubaejarklaustur ",
     "country": "Iceland",
     "iata": "\\N",
@@ -53683,7 +53683,7 @@
     "icao": "HBBE"
   },
   {
-    "name": "Región de Murcia International Airport",
+    "name": "Regi\u00f3n de Murcia International Airport",
     "city": "Murcia",
     "country": "Spain",
     "iata": "RMU",
@@ -53768,7 +53768,7 @@
   },
   {
     "name": "Lefkoniko Airport",
-    "city": "Geçitkale",
+    "city": "Ge\u00e7itkale",
     "country": "Cyprus",
     "iata": "GEC",
     "icao": "LCGK"
@@ -53781,8 +53781,8 @@
     "icao": "HTGW"
   },
   {
-    "name": "Kalocsa/Foktő Airport",
-    "city": "Kalocsa/Foktő",
+    "name": "Kalocsa/Fokt\u0151 Airport",
+    "city": "Kalocsa/Fokt\u0151",
     "country": "Hungary",
     "iata": "\\N",
     "icao": "LHKA"

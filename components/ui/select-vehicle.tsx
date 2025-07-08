@@ -17,7 +17,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { set } from "date-fns";
 
 // Add animation style
 const animationStyles = `
@@ -68,6 +67,10 @@ export function SelectVehicle() {
     message: "",
     isError: false,
   });
+  const[maxPriceError, setMaxPriceError] = useState({
+	message: "",
+	isError: false,
+  });
 
   const handleSearch = () => {
     // Validate required fields
@@ -117,6 +120,13 @@ export function SelectVehicle() {
       });
       return;
     }
+	if (maxPrice <1) {
+		setMaxPriceError({
+			message: "Max price cannot be less than $1",
+			isError: true,
+		});
+		return;
+	}
 
     // Build query string with search parameters
     const params = new URLSearchParams();
@@ -331,7 +341,9 @@ export function SelectVehicle() {
                 />
               </TooltipTrigger>
               <TooltipContent side="bottom">
-                <p className="text-sm text-red-500">{pickupDateError.message}</p>
+                <p className="text-sm text-red-500">
+                  {pickupDateError.message}
+                </p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -346,22 +358,24 @@ export function SelectVehicle() {
             <Calendar className="mr-2 h-4 w-4 text-pink-500" />
             Pickup To
           </Label>
-		  <TooltipProvider>
+          <TooltipProvider>
             <Tooltip open={dropoffDateError.isError}>
               <TooltipTrigger asChild>
-          <input
-            type="datetime-local"
-            id="pickup-to"
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-            value={dropoffDate}
-            onChange={(e) => setDropoffDate(e.target.value)}
-            onFocus={() => {
-              setDropoffDateError({ message: "", isError: false });
-            }}
-          />
-		   </TooltipTrigger>
+                <input
+                  type="datetime-local"
+                  id="pickup-to"
+                  className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  value={dropoffDate}
+                  onChange={(e) => setDropoffDate(e.target.value)}
+                  onFocus={() => {
+                    setDropoffDateError({ message: "", isError: false });
+                  }}
+                />
+              </TooltipTrigger>
               <TooltipContent side="bottom">
-                <p className="text-sm text-red-500">{dropoffDateError.message}</p>
+                <p className="text-sm text-red-500">
+                  {dropoffDateError.message}
+                </p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -407,15 +421,29 @@ export function SelectVehicle() {
 
         <div>
           <Label htmlFor="maxPrice">Max Price (Per Day)</Label>
-          <input
-            type="number"
-            id="maxPrice"
-            value={maxPrice}
-            min={0}
-            max={200}
-            onChange={(e) => setMaxPrice(parseInt(e.target.value))}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2"
-          />
+          <TooltipProvider>
+            <Tooltip open={maxPriceError.isError}>
+              <TooltipTrigger asChild>
+                <input
+                  type="number"
+                  id="maxPrice"
+                  value={maxPrice}
+                  min={0}
+                  max={200}
+                  onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+				  onFocus={() => {
+					setMaxPriceError({ message: "", isError: false });
+				  }}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2"
+                />
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p className="text-sm text-red-500">
+                  {maxPriceError.message}
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
 
