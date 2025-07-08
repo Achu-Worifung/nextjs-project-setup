@@ -109,7 +109,7 @@ export default function CarSearchResults() {
   }, []);
 
   return (
-    <div className="w-full mx-auto p-6 bg-white my-5">
+    <div className="w-full mx-auto p-6 bg-white my-5" id="car-search-results">
       <style dangerouslySetInnerHTML={{ __html: animationStyles }} />
       
       {/* Header with back button */}
