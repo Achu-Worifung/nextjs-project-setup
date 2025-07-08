@@ -92,7 +92,7 @@ export default function Navbar() {
         <div className="hidden lg:flex items-center gap-10">
           <NavigationMenuList className={`flex gap-15 items-center text-lg font-semibold font-['Lato'] md:gap-8`}>
   {["Flights", "Hotels", "Vehicles"].map((label) => (
-    <NavigationMenuItem key={label} onClick={() => changeNav(label)}>
+    <NavigationMenuItem key={label} onClick={() => changeNav(label)} id={label.toLowerCase()}>
       <NavigationMenuTrigger
         className={`bg-transparent hover:bg-black/10 ${
           theme === "dark" ? "text-white" : "text-gray-900"

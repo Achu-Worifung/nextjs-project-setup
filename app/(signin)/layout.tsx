@@ -24,7 +24,7 @@ export default function RootLayout({
         <GoogleOAuthProvider clientId="281289914284-t1lih3lvf41mp64k702geovgn2cqngpj.apps.googleusercontent.com">
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
           >

@@ -242,7 +242,7 @@ export function SelectVehicle() {
 					</Label>
 					<input
 						type="datetime-local"
-						id="pickup-from"
+						id="pickup-from-date"
 						className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
 						value={pickupDate}
 						onChange={(e) => setPickupDate(e.target.value)}
@@ -320,6 +320,7 @@ export function SelectVehicle() {
 			{/* Search Button */}
 			<div className="flex justify-center mb-8">
 				<button
+					id="search-vehicles-button"
 					onClick={handleSearch}
 					className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
 				>
@@ -331,6 +332,7 @@ export function SelectVehicle() {
 			{pickupLocation && dropoffLocation && (
 				<div className="flex justify-end mb-2">
 					<button 
+					
 						onClick={() => {
 							setPickupLocation(dropoffLocation);
 							setDropoffLocation(pickupLocation);
