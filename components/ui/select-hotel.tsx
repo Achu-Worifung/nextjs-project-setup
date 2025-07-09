@@ -94,6 +94,12 @@ export function SelectHotel() {
     isError: false,
   });
 
+  const [counts, setCounts] = useState({ guests: 1, rooms: 1 });
+  const inc = (key: "guests" | "rooms") =>
+      setCounts((c) => ({ ...c, [key]: c[key] + 1 }));
+  const dec = (key: "guests" | "rooms") =>
+    setCounts((c) => ({ ...c, [key]: Math.max(0, c[key] - 1) }));
+
   const router = useRouter();
 
   // Effect for city suggestions
@@ -182,8 +188,9 @@ export function SelectHotel() {
       city,
       startDate: startDate ? startDate.toISOString().split("T")[0] : "",
       endDate: endDate ? endDate.toISOString().split("T")[0] : "",
-      guests: String(guests),
-      rooms: String(rooms),
+      guests: `${counts.guests} Guest${counts.guests > 1 ? "s" : ""}`,
+      rooms: `${counts.rooms} Room${counts.rooms > 1 ? "s" : ""}`
+      
     });
     router.push(`/hotel-search?${params.toString()}`);
   };
@@ -197,7 +204,7 @@ export function SelectHotel() {
         <p className="text-gray-600">Search hotels for your next adventure</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+      <div className="flex flex-wrap items-end gap-6">
         {/* Destination */}
         <div className="flex flex-col gap-2" ref={cityRef}>
           <Label
@@ -252,7 +259,7 @@ export function SelectHotel() {
         </div>
 
         {/* Check-in Date */}
-        <div className="flex flex-col gap-2">
+        <div role="group"className="flex flex-col gap-2">
           <Label
             htmlFor="checkin"
             className="flex items-center text-sm font-medium text-gray-700"
@@ -342,56 +349,74 @@ export function SelectHotel() {
         </div>
 
         {/* Guests */}
-        <div className="flex flex-col gap-2">
-          <Label
-            htmlFor="guests"
-            className="flex items-center text-sm font-medium text-gray-700"
-          >
-            <Users className="mr-2 h-4 w-4 text-pink-500" />
-            Guests
-          </Label>
+        <div
+    data-testid="guests"
+    role="group"
+    className="flex flex-col"
+  >
+    <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+      <Users className="h-4 w-4 text-pink-500" /> Guests
+    </Label>
 
-          <select
-            id="guests"
-            value={guests}
-            onChange={(e) => {
-              setGuests(Number(e.target.value));
-            }}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-          >
-            <option value="1">1 Guest</option>
-            <option value="2">2 Guests</option>
-            <option value="3">3 Guests</option>
-            <option value="4">4 Guests</option>
-            <option value="5">5+ Guests</option>
-          </select>
-        </div>
+    <div className="flex items-center h-12 space-x-4">
+      <button
+        type="button"
+        data-testid="guests-decrement"
+        disabled={counts.guests <= 1}
+        onClick={() => dec("guests")}
+        className="h-full w-12 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100"
+        aria-label="Decrease guests count"
+      >−</button>
 
-        {/* Rooms */}
-        <div className="flex flex-col gap-2">
-          <Label
-            htmlFor="rooms"
-            className="flex items-center text-sm font-medium text-gray-700"
-          >
-            <Building2 className="mr-2 h-4 w-4 text-pink-500" />
-            Rooms
-          </Label>
+      <span
+        data-testid="guests-count"
+        className="flex-1 text-center text-sm"
+      >{counts.guests}</span>
 
-          <select
-            id="rooms"
-            value={rooms}
-            onChange={(e) => {
-              setRooms(Number(e.target.value));
-            }}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-          >
-            <option value="1">1 Room</option>
-            <option value="2">2 Rooms</option>
-            <option value="3">3 Rooms</option>
-            <option value="4">4+ Rooms</option>
-          </select>
-        </div>
-      </div>
+      <button
+        type="button"
+        data-testid="guests-increment"
+        onClick={() => inc("guests")}
+        className="h-full w-12 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100"
+        aria-label="Increase guests count"
+      >+</button>
+    </div>
+  </div>
+
+  <div
+    data-testid="rooms"
+    role="group"
+    className="flex flex-col"
+  >
+    <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+      <Building2 className="h-4 w-4 text-pink-500" /> Rooms
+    </Label>
+
+    <div className="flex items-center h-12 space-x-4">
+      <button
+        type="button"
+        data-testid="rooms-decrement"
+        disabled={counts.rooms <= 1}
+        onClick={() => dec("rooms")}
+        className="h-full w-12 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100"
+        aria-label="Decrease rooms count"
+      >−</button>
+
+      <span
+        data-testid="rooms-count"
+        className="flex-1 text-center text-sm"
+      >{counts.rooms}</span>
+
+      <button
+        type="button"
+        data-testid="rooms-increment"
+        onClick={() => inc("rooms")}
+        className="h-full w-12 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100"
+        aria-label="Increase rooms count"
+      >+</button>
+    </div>
+  </div>
+</div>
 
       {/* Hotel Preferences */}
       {/* <div className="mb-6">
@@ -471,7 +496,7 @@ export function SelectHotel() {
             </div> */}
 
       {/* Search Button */}
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-6">
         <button
           className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
           onClick={() => {
