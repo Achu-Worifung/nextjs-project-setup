@@ -128,7 +128,7 @@ const HotelDetailsPage = () => {
               <CardContent className="p-0">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-4">
                   {/* Use placeholder divs since images property doesn't exist */}
-                  {[1, 2, 3, 4].map((index) => (
+                  {[1].map((index) => (
                     <div key={index} className={`relative ${index === 1 ? 'md:row-span-2' : ''}`}>
                       <div
                         className={`w-full bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg flex items-center justify-center ${

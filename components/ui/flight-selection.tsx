@@ -344,13 +344,13 @@ export function FlightSelection() {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-100 p-6 pt-10">
+    <div className="w-full max-w-6xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-100 p-4 sm:p-6 pt-6 sm:pt-10">
       {/* Flight Types */}
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
           Book Cheap Flights
         </h2>
-        <p className="text-gray-600">Search flights for your next adventure!</p>
+        <p className="text-gray-600 text-sm sm:text-base">Search flights for your next adventure!</p>
         <RadioGroup
           value={flightType}
           onValueChange={(val) => {
@@ -361,17 +361,17 @@ export function FlightSelection() {
             //   setLegToSuggestions([[]]);
             // }
           }}
-          className="grid grid-cols-2 gap-4 mt-4"
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4"
         >
           {(["one-way", "round-trip"] as const).map((val) => (
             <div
               key={val}
               onClick={() => setFlightType(val)}
               className={cn(
-                "flex items-center justify-center p-4 border rounded-lg cursor-pointer",
+                "flex items-center justify-center p-3 sm:p-4 border rounded-lg cursor-pointer transition-colors",
                 flightType === val
                   ? "border-pink-500 bg-pink-50"
-                  : "border-gray-200"
+                  : "border-gray-200 hover:border-gray-300"
               )}
             >
               <RadioGroupItem value={val} id={val} className="sr-only" />
@@ -387,9 +387,9 @@ export function FlightSelection() {
       </div>
        {/* Single-leg / Round-trip */}
       {flightType !== "multi-city" && (
-        <div className="border-t border-gray-200 pt-6 grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
+        <div className="border-t border-gray-200 pt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 items-end">
           {/* From */}
-          <div ref={fromRef} className={`${flightType === "one-way" ? "lg:col-span-3" : "lg:col-span-3"} relative overflow-visible`}>
+          <div ref={fromRef} className="md:col-span-1 lg:col-span-3 relative overflow-visible">
             <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
               <PlaneTakeoff className="h-4 w-4 text-pink-500" /> From
             </Label>
@@ -441,7 +441,7 @@ export function FlightSelection() {
 
           {/* Swap */}
           {flightType === "round-trip" && (
-            <div className="lg:col-span-1 flex justify-center">
+            <div className="hidden md:flex md:col-span-2 lg:col-span-1 justify-center order-3 md:order-2">
               <Button
                 variant="outline"
                 size="sm"
@@ -455,7 +455,7 @@ export function FlightSelection() {
           )}
 
           {/* To */}
-          <div ref={toRef} className={`${flightType === "one-way" ? "lg:col-span-3" : "lg:col-span-3"} relative overflow-visible`}>
+          <div ref={toRef} className="md:col-span-1 lg:col-span-3 relative overflow-visible order-2 md:order-3">
             <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
               <PlaneLanding className="h-4 w-4 text-pink-500" /> To
             </Label>
@@ -505,8 +505,23 @@ export function FlightSelection() {
             </div>
           </div>
 
+          {/* Mobile Swap Button */}
+          {flightType === "round-trip" && (
+            <div className="md:hidden flex justify-center order-4">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleSwap}
+                aria-label="Swap departure and destination"
+                className="p-2 rounded-full border-2 border-pink-200 hover:border-pink-500 hover:bg-pink-50"
+              >
+                <ArrowLeftRight className="h-4 w-4 text-pink-500" />
+              </Button>
+            </div>
+          )}
+
           {/* Depart */}
-          <div className={`${flightType === "one-way" ? "lg:col-span-5" : "lg:col-span-2"}`}>
+          <div className={`${flightType === "one-way" ? "md:col-span-2 lg:col-span-5" : "md:col-span-1 lg:col-span-2"} order-5`}>
             <Label
               htmlFor="departure"
               className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
@@ -542,7 +557,7 @@ export function FlightSelection() {
 
           {/* Return */}
           {flightType === "round-trip" && (
-            <div className="lg:col-span-2">
+            <div className="md:col-span-1 lg:col-span-2 order-6">
               <Label
                 htmlFor="return"
                 className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
@@ -578,17 +593,18 @@ export function FlightSelection() {
         </div>
       )}
 
-      <div className="mb-6 flex items-end space-x-4 w-full">
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-end space-y-4 sm:space-y-0 sm:space-x-4 w-full">
         {/* Adults */}
         <div
           data-testid="passenger-adults"
           role="group"
           aria-label="Adult passengers"
+          className="flex-1 min-w-0"
         >
-          <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-            <Users className="h-4 w-4 text-pink-500" /> Adults
+          <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 items-center justify-center sm:justify-start space-x-4 pt-10">
+            <Users className="h-4 w-4 text-pink-500 " /> Adults
           </Label>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-center sm:justify-start space-x-4">
             <span className="sr-only">Adults</span>
             <button
               type="button"
@@ -624,11 +640,12 @@ export function FlightSelection() {
           data-testid="passenger-children"
           role="group"
           aria-label="Child passengers"
+          className="flex-1 min-w-0"
         >
-          <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+          <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 items-center justify-center sm:justify-start space-x-4">
             <Users className="h-4 w-4 text-pink-500" /> Children
           </Label>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-center sm:justify-start space-x-4">
             <span className="sr-only">Children</span>
             <button
               type="button"
@@ -659,7 +676,7 @@ export function FlightSelection() {
         </div>
 
         {/* Class */}
-        <div className="flex-1">
+        <div className="flex-1 min-w-0 sm:min-w-[120px]">
           <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
             Class
           </Label>
@@ -685,10 +702,10 @@ export function FlightSelection() {
           {legs.map((leg, idx) => (
             <div
               key={idx}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end mb-4"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 items-end mb-4"
             >
               {/* From */}
-              <div className="lg:col-span-3 relative overflow-visible">
+              <div className="sm:col-span-1 lg:col-span-3 relative overflow-visible">
                 <Label
                   htmlFor={`from-${idx}`}
                   className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
@@ -737,7 +754,7 @@ export function FlightSelection() {
               </div>
 
               {/* Swap leg */}
-              <div className="lg:col-span-1 flex justify-center">
+              <div className="hidden lg:flex lg:col-span-1 justify-center">
                 <Button
                   variant="outline"
                   size="sm"
@@ -753,7 +770,7 @@ export function FlightSelection() {
                 </Button>
               </div>
               {/* To */}
-              <div className="lg:col-span-3 relative overflow-visible">
+              <div className="sm:col-span-1 lg:col-span-3 relative overflow-visible">
                 <Label
                   htmlFor={`to-${idx}`}
                   className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
@@ -800,8 +817,26 @@ export function FlightSelection() {
                   )}
                 </div>
               </div>
+              
+              {/* Mobile Swap Button for Multi-city */}
+              <div className="sm:col-span-2 lg:hidden flex justify-center">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const c = [...legs];
+                    [c[idx].from, c[idx].to] = [c[idx].to, c[idx].from];
+                    setLegs(c);
+                  }}
+                  aria-label="Swap departure and destination"
+                  className="p-2 rounded-full border-2 border-pink-200 hover:border-pink-500 hover:bg-pink-50"
+                >
+                  <ArrowLeftRight className="h-4 w-4 text-pink-500" />
+                </Button>
+              </div>
+              
               {/* Depart leg */}
-              <div className="lg:col-span-2">
+              <div className="sm:col-span-1 lg:col-span-2">
                 <Label
                   htmlFor={`leg-${idx}-date`}
                   className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
@@ -825,7 +860,7 @@ export function FlightSelection() {
 
               {/* Remove leg */}
               {idx > 0 && (
-                <div className="lg:col-span-1 flex justify-center">
+                <div className="sm:col-span-1 lg:col-span-1 flex justify-center">
                   <Button
                     variant="outline"
                     size="sm"
@@ -840,21 +875,21 @@ export function FlightSelection() {
           ))}
 
           {/* + Add Another Flight */}
-          <div className="lg:col-span-2 self-start flex justify-end whitespace-nowrap relative top-[-45px]">
+          <div className="flex justify-center sm:justify-end">
             <button
               type="button"
               onClick={addLeg}
               disabled={legs.length >= MAX_LEGS}
               className={cn(
-                "text-sm font-medium",
+                "text-sm font-medium px-4 py-2 rounded-lg border transition-colors",
                 legs.length >= MAX_LEGS
-                  ? "text-gray-400 cursor-not-allowed"
-                  : "text-pink-500 hover:underline"
+                  ? "text-gray-400 cursor-not-allowed border-gray-200"
+                  : "text-pink-500 hover:bg-pink-50 border-pink-200 hover:border-pink-500"
               )}
             >
               {legs.length >= MAX_LEGS
                 ? `Maximum ${MAX_LEGS} flights reached`
-                : "Add Another Flight"}
+                : "+ Add Another Flight"}
             </button>
           </div>
         </div>
@@ -865,7 +900,7 @@ export function FlightSelection() {
         <Button
           onClick={handleSearch}
           disabled={isSearching}
-          className="px-8 py-3 bg-gradient-to-r from-pink-500 to-pink-600 text-white font-semibold shadow-lg hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+          className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-gradient-to-r from-pink-500 to-pink-600 text-white font-semibold shadow-lg hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         >
           {isSearching ? (
             <>

@@ -114,7 +114,7 @@ export default function CarSearchResults() {
       
       {/* Header with back button */}
       <div className="mb-6">
-        <Link href="/car-rental" className="flex items-center text-gray-600 hover:text-pink-600 mb-4 transition-colors">
+        <Link href="/" className="flex items-center text-gray-600 hover:text-pink-600 mb-4 transition-colors">
           <ArrowLeft className="h-4 w-4 mr-2" />
           <span>Back to search</span>
         </Link>
@@ -272,12 +272,10 @@ export default function CarSearchResults() {
                   key={car.id}
                   className="border border-gray-200 rounded-lg overflow-hidden shadow hover:shadow-lg transition animate-fadeIn"
                 >
-                  <div className="relative">
-                    <img
-                      src={car.imageUrl}
-                      alt={`${car.year} ${car.make} ${car.model}`}
-                      className="w-full h-70 object-cover"
-                    />
+                  <div className="relative bg-gray-50 h-48 flex items-center justify-center">
+                    <div className="text-6xl">
+                      {car.imageUrl}
+                    </div>
                     <div className="absolute top-2 right-2 bg-white px-2 py-1 rounded text-xs font-bold text-gray-700">
                       {car.type}
                     </div>

@@ -171,22 +171,11 @@ export default function Navbar() {
     >
       {label}
     </Link>
-  ) : label === "Cars" ? (
-    <Link
-      key={label}
-      href="/carBooking"
-      className={`px-2 py-1 hover:bg-black/10 rounded ${
-        theme === "dark" ? "text-white" : "text-gray-900"
-      }`}
-      onClick={() => setMobileOpen(false)}
-    >
-      {label}
-    </Link>
   ) : (
     <div
       key={label}
       onClick={() => {
-        changeNav(label);
+        changeNav(label === "Cars" ? "Vehicles" : label);
         setMobileOpen(false);
       }}
       className={`px-2 py-1 hover:bg-black/10 rounded cursor-pointer ${
@@ -212,7 +201,7 @@ export default function Navbar() {
           <button className="p-0 bg-transparent border-none">
             <ProfileBubble
               name="Alan Rivera"
-              avatarUrl="/demoprofile.jpg"
+              avatarUrl="/demoprofile.svg"
               size={50}
             />
           </button>
