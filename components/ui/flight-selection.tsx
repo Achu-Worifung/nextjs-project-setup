@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useTransition, useMemo, useCallback, useRef } from "react";
+import React, { useState, useTransition, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
 import airports from "@/public/airports.json";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
@@ -39,9 +40,6 @@ export function FlightSelection() {
   
   // Use transition for non-blocking updates
   const [isPending, startTransition] = useTransition();
-  
-  // Search loading state
-  const [isSearching, setIsSearching] = useState(false);
 
   // Flight type
   const [flightType, setFlightType] = useState<
@@ -53,8 +51,7 @@ export function FlightSelection() {
   const [to, setTo] = useState("");
   const [departDate, setDepartDate] = useState<Date | undefined>(undefined);
   const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
- const fromRef = useRef<HTMLDivElement>(null);
- const toRef = useRef<HTMLDivElement>(null);
+
   // --------------------------------ERROR HANDLING WARNING---------------------------------------
   const [fromError, setFromError] = useState({ message: "", isError: false });
   const [toError, setToError] = useState({ message: "", isError: false });
@@ -91,77 +88,68 @@ export function FlightSelection() {
   ]);
   const [legToSuggestions, setLegToSuggestions] = useState<Airport[][]>([[]]);
 
-  // Helper to score & find airports - simplified to search entire dataset
+  // Helper to score & find airports - optimized with memoization
   const findAirport = useMemo(() => {
     return (q: string): Airport[] => {
-      if (q.length < 1) return [];
+      if (q.length < 2) return []; // Don't search for very short queries
       
       const query = q.toLowerCase();
       const results = airports
         .map((a) => {
           let score = 0;
-          
-          // Exact matches get highest priority
-          if (a.iata.toLowerCase() === query) score += 1000;
-          if (a.icao.toLowerCase() === query) score += 1000;
-          if (a.city.toLowerCase() === query) score += 900;
-          
-          // Starts with gets high priority
-          if (a.city.toLowerCase().startsWith(query)) score += 800;
-          if (a.name.toLowerCase().startsWith(query)) score += 700;
-          if (a.iata.toLowerCase().startsWith(query)) score += 600;
-          
-          // Contains gets medium priority
-          if (a.city.toLowerCase().includes(query)) score += 500;
-          if (a.name.toLowerCase().includes(query)) score += 400;
-          if (a.country.toLowerCase().includes(query)) score += 300;
-          if (a.iata.toLowerCase().includes(query)) score += 200;
-          if (a.icao.toLowerCase().includes(query)) score += 100;
-          
+          // Exact matches first
+          if (a.iata.toLowerCase() === query) score += 100;
+          if (a.icao.toLowerCase() === query) score += 100;
+          // Major airports ranking
+          if (a.name.toLowerCase().includes("international")) score += 40;
+          if (a.name.toLowerCase().includes("heathrow")) score += 50;
+          // Major cities bonus
+          const majorCities = [
+            "london",
+            "new york",
+            "paris",
+            "tokyo",
+            "beijing",
+            "dubai",
+            "los angeles",
+            "chicago",
+            "hong kong",
+            "frankfurt",
+          ];
+          if (majorCities.includes(a.city.toLowerCase())) score += 30;
+          // Partial matches
+          if (a.name.toLowerCase().includes(query)) score += 20;
+          if (a.city.toLowerCase().includes(query)) score += 15;
+          if (a.iata.toLowerCase().includes(query)) score += 15;
+          if (a.icao.toLowerCase().includes(query)) score += 15;
+          if (a.country.toLowerCase().includes(query)) score += 10;
           return { airport: a, score };
         })
         .filter((x) => x.score > 0)
         .sort((a, b) => b.score - a.score)
-        .slice(0, 20) // Show top 20 results
+        .slice(0, 10) // Limit results to improve performance
         .map((x) => x.airport);
       
       return results;
     };
   }, []);
 
-  //useEffect to handle outside click for clearing suggestions
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (fromRef.current && !fromRef.current.contains(event.target as Node)) {
-        if(airportSuggestions.length > 0) {
-          const airport = airportSuggestions[0];
-          setFrom(`${airport.name}, ${airport.city}`);
-        }
-        setAirportSuggestions([]);
-      }
-      if (toRef.current && !toRef.current.contains(event.target as Node)) {
-        if(toAirportSuggestions.length > 0) {
-          const airport = toAirportSuggestions[0];
-          setTo(`${airport.name}, ${airport.city}`);
-        }
-        setToAirportSuggestions([]);
-      }
+  // Debounced search function to prevent excessive calls
+  const debouncedSearch = useCallback((
+    searchFunction: (query: string) => void,
+    delay: number = 300
+  ) => {
+    let timeoutId: NodeJS.Timeout;
+    return (query: string) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => searchFunction(query), delay);
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [fromRef, toRef, airportSuggestions, toAirportSuggestions]);
+  }, []);
 
-  // Single-leg handlers - optimized with transitions
+  // Single-leg handlers - optimized with transitions and debouncing
   const onFromChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const v = e.target.value;
     setFrom(v);
-    
-    // Clear error when user starts typing
-    if (fromError.isError) {
-      setFromError({ isError: false, message: "" });
-    }
     
     // Clear suggestions immediately for empty input
     if (v.length === 0) {
@@ -173,16 +161,11 @@ export function FlightSelection() {
     startTransition(() => {
       setAirportSuggestions(findAirport(v));
     });
-  }, [findAirport, startTransition, fromError.isError]);
+  }, [findAirport, startTransition]);
   
   const onToChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const v = e.target.value;
     setTo(v);
-    
-    // Clear error when user starts typing
-    if (toError.isError) {
-      setToError({ isError: false, message: "" });
-    }
     
     // Clear suggestions immediately for empty input
     if (v.length === 0) {
@@ -194,7 +177,7 @@ export function FlightSelection() {
     startTransition(() => {
       setToAirportSuggestions(findAirport(v));
     });
-  }, [findAirport, startTransition, toError.isError]);
+  }, [findAirport, startTransition]);
 
   // Multi-city handlers - optimized with transitions
   const updateLeg = (idx: number, data: Partial<Leg>) => {
@@ -278,69 +261,59 @@ export function FlightSelection() {
   };
 
   // search
-  const handleSearch = async () => {
-    setIsSearching(true);
-    
-    try {
-      // Helper function to validate if input contains airport info
-      const isValidAirportInput = (input: string) => {
-        if (!input || !input.includes(',')) return false;
-        
-        // With our format: "Airport Name, City"
-        const [airportName] = input.split(',').map(s => s.trim());
-        return airports.find((airport) => airport.name === airportName);
-      };
-
-      // Validate inputs
-      if(!from) {
-        setFromError({ isError: true, message: "Please enter a departure city." });
-        return;
-      }
-      if(!isValidAirportInput(from)) {
-        setFromError({ isError: true, message: "Please select a valid departure airport." });
-        return;
-      }
-
-      if (!to) {
-        setToError({ isError: true, message: "Please enter a destination city." });
-        return;
-      }
-      if (!isValidAirportInput(to)) {
-        setToError({ isError: true, message: "Please select a valid destination airport." });
-        return;
-      }
-      
-      if(!departDate) {
-        setDepartDateError({ isError: true, message: "Please select a departure date." });
-        return;
-      }
-      // //for round trips
-      if (flightType == 'round-trip' && !returnDate) {
-        setReturnDateError({ isError: true, message: "Please select a return date." });
-        return;
-      }
-
-      //going to the search page
-      
-      //formating the date
-      const ddate = departDate ? departDate.toISOString().split('T')[0] : "";
-      const rdate = returnDate ? returnDate.toISOString().split('T')[0] : "";
-      const params = new URLSearchParams({
-        flightType,
-        from,
-        to,
-        departDate: ddate,
-        returnDate: rdate,
-        travelers: `${counts.adults} Adult${counts.adults > 1 ? "s" : ""}`,
-        classType,
-        legs: flightType === "multi-city" ? JSON.stringify(legs) : "",
-      })
-      router.push(`/flight-search?${params.toString()}`);
-    } catch (error) {
-      console.error('Search error:', error);
-    } finally {
-      setIsSearching(false);
+  const handleSearch = () => {
+    // Validate inputs
+    if(!from) {
+      setFromError({ isError: true, message: "Please enter a departure city." });
+      return;
     }
+    if(airportSuggestions.length === 0) {
+      setFromError({ isError: true, message: "Please enter a valid city." });
+      return;
+    }
+    setFrom(airportSuggestions[0].city + ", " + airportSuggestions[0].iata);
+
+    if (!to) {
+      setToError({ isError: true, message: "Please enter a destination city." });
+      return;
+    }
+    if (toAirportSuggestions.length === 0) {
+      setToError({ isError: true, message: "Please enter a valid city." });
+      return;
+    }
+    setTo(toAirportSuggestions[0].city + ", " + toAirportSuggestions[0].iata);
+    
+    if(!departDate) {
+      setDepartDateError({ isError: true, message: "Please select a departure date." });
+      return;
+    }
+    //for round trips
+    if (flightType == 'round-trip') {
+      setReturnDateError({ isError: true, message: "Please select a return date." });
+      return;
+    }
+    if (flightType === 'multi-city')
+    {
+
+    }
+    //going to the search page
+    
+    //formating the date
+    const ddate = departDate ? departDate.toISOString().split('T')[0] : "";
+    const rdate = returnDate ? returnDate.toISOString().split('T')[0] : "";
+    const params = new URLSearchParams({
+      flightType,
+      from,
+      to,
+      departDate: ddate,
+      returnDate: rdate,
+      travelers: `${counts.adults} Adult${counts.adults > 1 ? "s" : ""}`,
+      classType,
+      legs: flightType === "multi-city" ? JSON.stringify(legs) : "",
+    })
+    router.push(`/flight-search?${params.toString()}`);
+
+   
   };
 
   return (
@@ -389,7 +362,7 @@ export function FlightSelection() {
       {flightType !== "multi-city" && (
         <div className="border-t border-gray-200 pt-6 grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
           {/* From */}
-          <div ref={fromRef} className={`${flightType === "one-way" ? "lg:col-span-3" : "lg:col-span-3"} relative overflow-visible`}>
+          <div className={`${flightType === "one-way" ? "lg:col-span-3" : "lg:col-span-3"} relative overflow-visible`}>
             <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
               <PlaneTakeoff className="h-4 w-4 text-pink-500" /> From
             </Label>
@@ -455,7 +428,7 @@ export function FlightSelection() {
           )}
 
           {/* To */}
-          <div ref={toRef} className={`${flightType === "one-way" ? "lg:col-span-3" : "lg:col-span-3"} relative overflow-visible`}>
+          <div className={`${flightType === "one-way" ? "lg:col-span-3" : "lg:col-span-3"} relative overflow-visible`}>
             <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
               <PlaneLanding className="h-4 w-4 text-pink-500" /> To
             </Label>
@@ -488,7 +461,7 @@ export function FlightSelection() {
                       key={i}
                       className="px-4 py-2 hover:bg-pink-50 cursor-pointer"
                       onClick={() => {
-                        setTo(`${ap.name}, ${ap.city}`);
+                        setTo(`${ap.city}, ${ap.iata}`);
                         setToAirportSuggestions([]);
                       }}
                     >
@@ -717,7 +690,7 @@ export function FlightSelection() {
                           key={i}
                           className="px-4 py-2 hover:bg-pink-50 cursor-pointer"
                           onClick={() => {
-                            updateLeg(idx, { from: `${ap.name}, ${ap.city}` });
+                            updateLeg(idx, { from: `${ap.city}, ${ap.iata}` });
                             const s = [...legFromSuggestions];
                             s[idx] = [];
                             setLegFromSuggestions(s);
@@ -782,7 +755,7 @@ export function FlightSelection() {
                           key={i}
                           className="px-4 py-2 hover:bg-pink-50 cursor-pointer"
                           onClick={() => {
-                            updateLeg(idx, { to: `${ap.name}, ${ap.city}` });
+                            updateLeg(idx, { to: `${ap.city}, ${ap.iata}` });
                             const s = [...legToSuggestions];
                             s[idx] = [];
                             setLegToSuggestions(s);
@@ -861,22 +834,12 @@ export function FlightSelection() {
       )}
 
       {/* Search button */}
-      <div className="mt-6 flex justify-center">
+      <div className="mt-6">
         <Button
           onClick={handleSearch}
-          disabled={isSearching}
-          className="px-8 py-3 bg-gradient-to-r from-pink-500 to-pink-600 text-white font-semibold shadow-lg hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+          className="w-full bg-gradient-to-r from-pink-500 to-pink-600 text-white font-semibold shadow-lg hover:scale-105 transition"
         >
-          {isSearching ? (
-            <>
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-              Searching...
-            </>
-          ) : (
-            <>
-              <Search className="h-5 w-5 mr-2" /> Search Flights
-            </>
-          )}
+          <Search className="h-5 w-5 mr-2" /> Search
         </Button>
       </div>
     </div>
