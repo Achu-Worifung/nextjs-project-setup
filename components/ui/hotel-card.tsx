@@ -46,7 +46,7 @@ export function HotelCard({ hotel }: { hotel: hotel_type }) {
   return (
     <Card className="group overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-white"
           onClick={handleClick}>
-      <div className="relative">
+      <div data-testid="hotel-card" className="relative">
         {/* Hotel Image Section with Overlay */}
         <div className="relative h-64 w-full overflow-hidden">
           <Image

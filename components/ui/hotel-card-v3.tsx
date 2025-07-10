@@ -40,7 +40,7 @@ export function HotelCard({ hotel, onHotelClick }: HotelCardProps) {
   const hasOriginalPrice = firstRoom?.originalPrice && firstRoom.originalPrice > firstRoom.pricePerNight;
 
   return (
-    <div 
+    <div data-testid="hotel-card"
       className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer border border-gray-50 hover:border-gray-100"
       onClick={handleClick}
     >

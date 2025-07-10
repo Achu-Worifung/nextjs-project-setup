@@ -283,7 +283,7 @@ export default function HotelSearchPage() {
   };
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div data-testid="hotel-card" className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
         {/* Enhanced Search Form */}
         <div className="bg-white shadow-lg border-b sticky top-0 z-50">
           <div className="max-w-7xl mx-auto p-4 sm:p-6">
@@ -478,7 +478,8 @@ export default function HotelSearchPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div 
+    id="hotel-search" className="min-h-screen bg-gray-50">
       {/* Search Form */}
       <div className="bg-white shadow-sm border-b p-4 sm:p-6">
         <div className="max-w-7xl mx-auto">
@@ -578,7 +579,14 @@ export default function HotelSearchPage() {
       </div>
 
       {/* Main Content */}
+<<<<<<< HEAD
       <div className="p-4 sm:p-6">
+=======
+      <div 
+      id="hotel-card" 
+      data-testid="hotel-card"
+      className="p-6">
+>>>>>>> 0c55465 (added ids ffor testing)
         <div className="max-w-7xl mx-auto">
           {/* Results Header */}
           <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -642,7 +650,14 @@ export default function HotelSearchPage() {
             </div>
 
             {/* Hotels List */}
+<<<<<<< HEAD
             <div className="flex-1 min-w-0">
+=======
+            <div
+            id="hotel-card" 
+            data-testid="hotel-card"
+            className="flex-1">
+>>>>>>> 0c55465 (added ids ffor testing)
               {filteredHotels && filteredHotels.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                   {filteredHotels.map((hotel, idx) => (

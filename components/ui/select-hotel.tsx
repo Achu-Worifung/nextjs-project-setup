@@ -255,11 +255,14 @@ export function SelectHotel() {
 
         {/* Guests */}
         <div
-    data-testid="guests"
+        id="guests-count"
+    data-testid="guests-count"
     role="group"
     className="flex flex-col"
   >
-    <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+    <Label 
+    htmlFor="guests-count"
+    className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
       <Users className="h-4 w-4 text-pink-500" /> Guests
     </Label>
 
@@ -287,13 +290,16 @@ export function SelectHotel() {
       >+</button>
     </div>
   </div>
-
+{/* Rooms */}
   <div
+  id="rooms"
     data-testid="rooms"
     role="group"
     className="flex flex-col"
   >
-    <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+    <Label 
+    htmlFor="rooms"
+    className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
       <Building2 className="h-4 w-4 text-pink-500" /> Rooms
     </Label>
 
@@ -401,8 +407,11 @@ export function SelectHotel() {
             </div> */}
 
       {/* Search Button */}
-      <div className="flex justify-center mt-6">
+      <div 
+      id="search-hotels-button"
+      className="flex justify-center mt-6">
         <button
+        id="search-hotels-button"
           className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
           onClick={() => {
             handleClick();
