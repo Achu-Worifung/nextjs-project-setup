@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
- import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import EditProfileForm from "@/components/ui/editProfileForm";
 import NotificationForm from "@/components/ui/notificationForm";
 import SecurityForm from "@/components/ui/securityform";
@@ -19,11 +19,53 @@ const sidebarOptions = [
 export default function ProfileSettingPage() {
   const [activeTab, setActiveTab] = useState("edit");
 
+  const activeOption = sidebarOptions.find(option => option.key === activeTab);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="flex max-w-7xl mx-auto">
-        {/* Sidebar */}
-        <aside className="w-80 bg-white shadow-lg rounded-r-2xl flex flex-col min-h-screen">
+      <div className="flex flex-col lg:flex-row max-w-7xl mx-auto min-h-screen">
+        {/* Mobile Header with Horizontal Tabs */}
+        <div className="lg:hidden bg-white shadow-lg">
+          <div className="p-4 border-b border-gray-200">
+            <div className="text-center mb-4">
+              <h2 className="text-xl font-bold text-gray-900">Settings</h2>
+              <p className="text-sm text-gray-600">Manage your account preferences</p>
+            </div>
+          </div>
+          
+          {/* Mobile Horizontal Scrollable Tabs */}
+          <div className="px-4 pb-4 bg-white">
+            <div className="flex space-x-2 overflow-x-auto scrollbar-hide pb-2">
+              {sidebarOptions.map((option) => (
+                <button
+                  key={option.key}
+                  className={`flex-shrink-0 flex flex-col items-center gap-2 px-4 py-3 rounded-xl transition-all duration-200 min-w-[80px]
+                    ${activeTab === option.key
+                      ? "bg-blue-50 text-blue-700 border-2 border-blue-200 shadow-sm"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 border-2 border-transparent"}
+                  `}
+                  onClick={() => setActiveTab(option.key)}
+                >
+                  <div className={`p-2 rounded-lg transition-colors ${
+                    activeTab === option.key 
+                      ? "bg-blue-100" 
+                      : "bg-gray-100"
+                  }`}>
+                    <img 
+                      src={option.icon} 
+                      alt={option.label} 
+                      className="w-5 h-5"
+                    />
+                  </div>
+                  <span className="font-medium text-xs text-center leading-tight">{option.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop Sidebar */}
+        <aside className="hidden lg:flex w-80 bg-white shadow-lg rounded-r-2xl flex-col min-h-screen">
           {/* Header */}
           <div className="p-8 border-b border-gray-200">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Settings</h2>
@@ -70,9 +112,9 @@ export default function ProfileSettingPage() {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-8">
-          <div className="bg-white rounded-2xl shadow-lg min-h-[600px]">
-            <div className="p-8">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8">
+          <div className="bg-white rounded-lg lg:rounded-2xl shadow-lg min-h-[400px] lg:min-h-[600px]">
+            <div className="p-4 sm:p-6 lg:p-8">
               {activeTab === "edit" && <EditProfileForm />}
               {activeTab === "notification" && <NotificationForm />}
               {activeTab === "security" && <SecurityForm />}

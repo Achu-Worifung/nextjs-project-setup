@@ -92,6 +92,23 @@ export function SelectVehicle() {
     }
     setDropoffLocation(dropoffSuggestions[0]); // Set first suggestion as default
 
+    // Validate that both dates are required
+    if (!pickupDate) {
+      setPickupDateError({
+        message: "Pickup date is required",
+        isError: true,
+      });
+      return;
+    }
+
+    if (!dropoffDate) {
+      setDropoffDateError({
+        message: "Dropoff date is required",
+        isError: true,
+      });
+      return;
+    }
+
     //checking the dates to make sure that they are valid
     if (pickupDate && new Date(pickupDate) < new Date()) {
       setPickupDateError({
@@ -135,14 +152,8 @@ export function SelectVehicle() {
     params.set("minSeats", minSeats.toString());
     params.set("maxPrice", maxPrice.toString());
     params.set("vehicleType", selectedType);
-
-    if (pickupDate) {
-      params.set("pickupDate", pickupDate);
-    }
-
-    if (dropoffDate) {
-      params.set("dropoffDate", dropoffDate);
-    }
+    params.set("pickupDate", pickupDate);
+    params.set("dropoffDate", dropoffDate);
 
     // Navigate to search results page with query parameters
     router.push(`/car-search-results?${params.toString()}`);

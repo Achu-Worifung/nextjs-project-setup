@@ -8,12 +8,14 @@ import {
   CalendarDaysIcon, 
   XMarkIcon,
   PencilIcon,
-  EyeIcon
+  EyeIcon,
+  TrashIcon
 } from '@heroicons/react/24/solid';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { Fragment } from 'react';
 import { getCurrentUser } from '@/lib/auth-utils';
+import { bookingService } from '@/lib/booking-service';
 
 interface Trip {
   id: string;
@@ -58,6 +60,22 @@ export default function MyTrips() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [tripToDelete, setTripToDelete] = useState<Trip | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [bookingsData, setBookingsData] = useState<{
+    totalFlights: number;
+    totalHotels: number;
+    totalCars: number;
+    totalSpent: number;
+    bookedTrips: number;
+  }>({
+    totalFlights: 0,
+    totalHotels: 0,
+    totalCars: 0,
+    totalSpent: 0,
+    bookedTrips: 0,
+  });
   const { isSignedIn } = useAuth();
   const router = useRouter();
 
@@ -96,6 +114,7 @@ export default function MyTrips() {
           return;
         }
 
+        // Fetch trips
         const response = await fetch(`/api/trips?userId=${userId}`);
         
         if (!response.ok) {
@@ -104,6 +123,51 @@ export default function MyTrips() {
         
         const data = await response.json();
         setTrips(data.trips || []);
+
+        // Fetch actual booking data
+        try {
+          const allBookings = await bookingService.getUserBookings();
+          
+          // Debug: log the structure of the first booking to understand the data format
+          if (allBookings && Array.isArray(allBookings) && allBookings.length > 0) {
+            console.log('Sample booking structure:', allBookings[0]);
+            console.log('Available keys:', Object.keys(allBookings[0]));
+          }
+          
+          if (allBookings && Array.isArray(allBookings)) {
+            // Calculate statistics from actual bookings
+            const flightBookings = allBookings.filter(b => b.bookingtype === 'Flight' || b.BookingType === 'Flight');
+            const hotelBookings = allBookings.filter(b => b.bookingtype === 'Hotel' || b.BookingType === 'Hotel');
+            const carBookings = allBookings.filter(b => b.bookingtype === 'Car' || b.BookingType === 'Car');
+            
+            // Handle both lowercase and uppercase column names from the database
+            const totalSpent = allBookings.reduce((sum, booking) => {
+              // Try multiple possible property names for the total amount
+              const amount = booking.totalpaid || booking.TotalPaid || booking.total_paid || booking.totalAmount || 0;
+              const numericAmount = Number(amount);
+              console.log(`Booking ${booking.bookingid || booking.BookingID}: amount=${amount}, numericAmount=${numericAmount}`);
+              return sum + numericAmount;
+            }, 0);
+            
+            console.log('Total calculated:', totalSpent);
+            
+            // Count trips that have bookings
+            const tripsWithBookings = data.trips?.filter((trip: Trip) => 
+              trip.flight?.bookingId || trip.hotel?.bookingId || trip.car?.bookingId
+            ).length || 0;
+
+            setBookingsData({
+              totalFlights: flightBookings.length,
+              totalHotels: hotelBookings.length,
+              totalCars: carBookings.length,
+              totalSpent,
+              bookedTrips: tripsWithBookings,
+            });
+          }
+        } catch (bookingError) {
+          console.warn('Could not fetch booking data:', bookingError);
+          // Don't break the trips loading if bookings fail
+        }
       } catch (error) {
         console.error('Error loading trips:', error);
         setError('Failed to load trips. Please try again.');
@@ -125,6 +189,37 @@ export default function MyTrips() {
         return 'bg-gray-100 text-gray-800 border border-gray-200';
       case 'Cancelled':
         return 'bg-red-100 text-red-800 border border-red-200';
+      default:
+        return 'bg-gray-100 text-gray-800 border border-gray-200';
+    }
+  };
+
+  const getTripBookingStatus = (trip: Trip): string => {
+    const hasFlightBooking = trip.flight?.bookingId;
+    const hasHotelBooking = trip.hotel?.bookingId;
+    const hasCarBooking = trip.car?.bookingId;
+    
+    const bookingCount = [hasFlightBooking, hasHotelBooking, hasCarBooking].filter(Boolean).length;
+    const includedCount = [trip.flight?.included, trip.hotel?.included, trip.car?.included].filter(Boolean).length;
+    
+    if (bookingCount === 0) {
+      return 'Planning';
+    } else if (bookingCount === includedCount) {
+      return 'Fully Booked';
+    } else {
+      return 'Partially Booked';
+    }
+  };
+
+  const getTripBookingStatusColor = (trip: Trip): string => {
+    const status = getTripBookingStatus(trip);
+    switch (status) {
+      case 'Planning':
+        return 'bg-blue-100 text-blue-800 border border-blue-200';
+      case 'Partially Booked':
+        return 'bg-yellow-100 text-yellow-800 border border-yellow-200';
+      case 'Fully Booked':
+        return 'bg-green-100 text-green-800 border border-green-200';
       default:
         return 'bg-gray-100 text-gray-800 border border-gray-200';
     }
@@ -170,6 +265,38 @@ export default function MyTrips() {
       // Add the new trip to the list
       setTrips(prevTrips => [data.trip, ...prevTrips]);
       
+      // Refresh booking data after adding a new trip
+      try {
+        const allBookings = await bookingService.getUserBookings();
+        if (allBookings && Array.isArray(allBookings)) {
+          const flightBookings = allBookings.filter(b => b.bookingtype === 'Flight' || b.BookingType === 'Flight');
+          const hotelBookings = allBookings.filter(b => b.bookingtype === 'Hotel' || b.BookingType === 'Hotel');
+          const carBookings = allBookings.filter(b => b.bookingtype === 'Car' || b.BookingType === 'Car');
+          
+          // Handle both lowercase and uppercase column names from the database
+          const totalSpent = allBookings.reduce((sum, booking) => {
+            const amount = booking.totalpaid || booking.TotalPaid || booking.total_paid || booking.totalAmount || 0;
+            return sum + Number(amount);
+          }, 0);
+          
+          // Include the new trip in the count
+          const updatedTrips = [data.trip, ...trips];
+          const tripsWithBookings = updatedTrips.filter((trip: Trip) => 
+            trip.flight?.bookingId || trip.hotel?.bookingId || trip.car?.bookingId
+          ).length;
+
+          setBookingsData({
+            totalFlights: flightBookings.length,
+            totalHotels: hotelBookings.length,
+            totalCars: carBookings.length,
+            totalSpent,
+            bookedTrips: tripsWithBookings,
+          });
+        }
+      } catch (bookingError) {
+        console.warn('Could not refresh booking data:', bookingError);
+      }
+      
       // Reset form and close modal
       setNewTripForm({
         name: '',
@@ -205,18 +332,96 @@ export default function MyTrips() {
      router.push(url);
   };
 
+  const handleDeleteTrip = (trip: Trip) => {
+    setTripToDelete(trip);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDeleteTrip = async () => {
+    if (!tripToDelete) return;
+    
+    try {
+      setIsDeleting(true);
+      
+      const { userId, isAuthenticated } = getCurrentUser();
+      
+      if (!isAuthenticated || !userId) {
+        setError('User not found. Please sign in again.');
+        return;
+      }
+
+      const response = await fetch(`/api/trips/${tripToDelete.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete trip');
+      }
+
+      // Remove the trip from the local state
+      setTrips(prevTrips => prevTrips.filter(trip => trip.id !== tripToDelete.id));
+      
+      // Refresh booking data after deleting a trip
+      try {
+        const allBookings = await bookingService.getUserBookings();
+        if (allBookings && Array.isArray(allBookings)) {
+          const flightBookings = allBookings.filter(b => b.bookingtype === 'Flight' || b.BookingType === 'Flight');
+          const hotelBookings = allBookings.filter(b => b.bookingtype === 'Hotel' || b.BookingType === 'Hotel');
+          const carBookings = allBookings.filter(b => b.bookingtype === 'Car' || b.BookingType === 'Car');
+          
+          const totalSpent = allBookings.reduce((sum, booking) => {
+            const amount = booking.totalpaid || booking.TotalPaid || booking.total_paid || booking.totalAmount || 0;
+            return sum + Number(amount);
+          }, 0);
+          
+          // Update trip count after deletion
+          const updatedTrips = trips.filter(trip => trip.id !== tripToDelete.id);
+          const tripsWithBookings = updatedTrips.filter((trip: Trip) => 
+            trip.flight?.bookingId || trip.hotel?.bookingId || trip.car?.bookingId
+          ).length;
+
+          setBookingsData({
+            totalFlights: flightBookings.length,
+            totalHotels: hotelBookings.length,
+            totalCars: carBookings.length,
+            totalSpent,
+            bookedTrips: tripsWithBookings,
+          });
+        }
+      } catch (bookingError) {
+        console.warn('Could not refresh booking data:', bookingError);
+      }
+      
+      // Close modal and reset state
+      setIsDeleteModalOpen(false);
+      setTripToDelete(null);
+      
+    } catch (error) {
+      console.error('Error deleting trip:', error);
+      setError('Failed to delete trip. Please try again.');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   const closeModals = () => {
     setIsCreateModalOpen(false);
     setIsDetailModalOpen(false);
+    setIsDeleteModalOpen(false);
     setSelectedTrip(null);
+    setTripToDelete(null);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6 pb-26">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <div>
               <h1 className="text-4xl font-bold text-gray-900 mb-2">
                 My Trips
@@ -227,7 +432,7 @@ export default function MyTrips() {
             </div>
             <button
               onClick={handleCreateTrip}
-              className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors shadow-lg"
+              className="flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors shadow-lg w-full sm:w-auto"
             >
               <PlusIcon className="w-5 h-5 mr-2" />
               Create New Trip
@@ -236,11 +441,25 @@ export default function MyTrips() {
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
           <div className="bg-white rounded-xl shadow-lg p-6">
             <div className="flex items-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                <span className="text-2xl">✈️</span>
+              <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                <span className="text-2xl">💰</span>
+              </div>
+              <div className="ml-4">
+                <p className="text-sm text-gray-500">Total Spent</p>
+                <p className="text-2xl font-bold text-gray-900">
+                  ${bookingsData.totalSpent.toLocaleString()}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-lg p-6">
+            <div className="flex items-center">
+              <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
+                <span className="text-2xl">📋</span>
               </div>
               <div className="ml-4">
                 <p className="text-sm text-gray-500">Total Trips</p>
@@ -250,11 +469,11 @@ export default function MyTrips() {
           </div>
           <div className="bg-white rounded-xl shadow-lg p-6">
             <div className="flex items-center">
-              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                <span className="text-2xl">📋</span>
+              <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                <span className="text-2xl">📅</span>
               </div>
               <div className="ml-4">
-                <p className="text-sm text-gray-500">Planning</p>
+                <p className="text-sm text-gray-500">Planning Phase</p>
                 <p className="text-2xl font-bold text-gray-900">
                   {trips.filter(t => t.status === 'Planning').length}
                 </p>
@@ -263,31 +482,19 @@ export default function MyTrips() {
           </div>
           <div className="bg-white rounded-xl shadow-lg p-6">
             <div className="flex items-center">
-              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                <span className="text-2xl">🎯</span>
+              <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
+                <span className="text-2xl">✅</span>
               </div>
               <div className="ml-4">
-                <p className="text-sm text-gray-500">Booked</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {trips.filter(t => t.status === 'Booked').length}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="flex items-center">
-              <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
-                <span className="text-2xl">💰</span>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm text-gray-500">Total Budget</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  ${trips.reduce((sum, trip) => sum + trip.budget, 0).toLocaleString()}
-                </p>
+                <p className="text-sm text-gray-500">Trips with Bookings</p>
+                <p className="text-2xl font-bold text-gray-900">{bookingsData.bookedTrips}</p>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Secondary Stats */}
+     
 
         {/* Error State */}
         {error && (
@@ -332,9 +539,14 @@ export default function MyTrips() {
                         <span className="text-sm">{trip.destination}</span>
                       </div>
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(trip.status)}`}>
-                      {trip.status}
-                    </span>
+                    <div className="flex flex-col items-end space-y-1">
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(trip.status)}`}>
+                        {trip.status}
+                      </span>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getTripBookingStatusColor(trip)}`}>
+                        {getTripBookingStatus(trip)}
+                      </span>
+                    </div>
                   </div>
                   <div className="flex items-center text-blue-200">
                     <CalendarDaysIcon className="w-4 h-4 mr-1" />
@@ -348,26 +560,47 @@ export default function MyTrips() {
                 <div className="p-6">
                   <div className="grid grid-cols-3 gap-4 mb-4">
                     <div className="text-center">
-                      <div className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center mb-1 ${
-                        trip.flight?.included ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-400'
+                      <div className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center mb-1 relative ${
+                        trip.flight?.included 
+                          ? trip.flight?.bookingId 
+                            ? 'bg-green-100 text-green-600' 
+                            : 'bg-blue-100 text-blue-600'
+                          : 'bg-gray-100 text-gray-400'
                       }`}>
                         ✈️
+                        {trip.flight?.bookingId && (
+                          <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></div>
+                        )}
                       </div>
                       <span className="text-xs text-gray-500">Flight</span>
                     </div>
                     <div className="text-center">
-                      <div className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center mb-1 ${
-                        trip.hotel?.included ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'
+                      <div className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center mb-1 relative ${
+                        trip.hotel?.included 
+                          ? trip.hotel?.bookingId 
+                            ? 'bg-green-100 text-green-600' 
+                            : 'bg-orange-100 text-orange-600'
+                          : 'bg-gray-100 text-gray-400'
                       }`}>
                         🏨
+                        {trip.hotel?.bookingId && (
+                          <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></div>
+                        )}
                       </div>
                       <span className="text-xs text-gray-500">Hotel</span>
                     </div>
                     <div className="text-center">
-                      <div className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center mb-1 ${
-                        trip.car?.included ? 'bg-purple-100 text-purple-600' : 'bg-gray-100 text-gray-400'
+                      <div className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center mb-1 relative ${
+                        trip.car?.included 
+                          ? trip.car?.bookingId 
+                            ? 'bg-green-100 text-green-600' 
+                            : 'bg-purple-100 text-purple-600'
+                          : 'bg-gray-100 text-gray-400'
                       }`}>
                         🚗
+                        {trip.car?.bookingId && (
+                          <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border border-white"></div>
+                        )}
                       </div>
                       <span className="text-xs text-gray-500">Car</span>
                     </div>
@@ -386,7 +619,7 @@ export default function MyTrips() {
                   <div className="flex space-x-2">
                     <button
                       onClick={() => handleViewTrip(trip)}
-                      className={`${trip.status === 'Booked' ? 'flex-1' : 'flex-1'} flex items-center justify-center px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm`}
+                      className="flex-1 flex items-center justify-center px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
                     >
                       <EyeIcon className="w-4 h-4 mr-1" />
                       View
@@ -400,6 +633,12 @@ export default function MyTrips() {
                         Plan
                       </button>
                     )}
+                    <button
+                      onClick={() => handleDeleteTrip(trip)}
+                      className="flex items-center justify-center px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm"
+                    >
+                      <TrashIcon className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -782,6 +1021,99 @@ export default function MyTrips() {
                         </div>
                       </>
                     )}
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition>
+
+        {/* Delete Trip Confirmation Modal */}
+        <Transition appear show={isDeleteModalOpen} as={Fragment}>
+          <Dialog as="div" className="relative z-10" onClose={closeModals}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 overflow-y-auto">
+              <div className="flex min-h-full items-center justify-center p-4 text-center">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+                    <div className="bg-red-600 px-6 py-4">
+                      <div className="flex items-center justify-between">
+                        <Dialog.Title className="text-lg font-medium text-white">
+                          Delete Trip
+                        </Dialog.Title>
+                        <button
+                          onClick={closeModals}
+                          className="text-white hover:text-gray-200 transition-colors"
+                          disabled={isDeleting}
+                        >
+                          <XMarkIcon className="w-6 h-6" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="p-6">
+                      <div className="text-center">
+                        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                          <TrashIcon className="h-6 w-6 text-red-600" />
+                        </div>
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">
+                          Are you sure you want to delete this trip?
+                        </h3>
+                        {tripToDelete && (
+                          <p className="text-sm text-gray-500 mb-4">
+                            <strong>"{tripToDelete.name}"</strong> to {tripToDelete.destination} will be permanently deleted. This action cannot be undone.
+                          </p>
+                        )}
+                        
+                        <div className="mt-6 flex space-x-3 justify-center">
+                          <button
+                            type="button"
+                            onClick={closeModals}
+                            disabled={isDeleting}
+                            className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            type="button"
+                            onClick={confirmDeleteTrip}
+                            disabled={isDeleting}
+                            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 flex items-center"
+                          >
+                            {isDeleting ? (
+                              <>
+                                <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"></div>
+                                Deleting...
+                              </>
+                            ) : (
+                              <>
+                                <TrashIcon className="w-4 h-4 mr-2" />
+                                Delete Trip
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </Dialog.Panel>
                 </Transition.Child>
               </div>

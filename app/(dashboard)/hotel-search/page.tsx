@@ -19,7 +19,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { CalendarDays, MapPin, Users, Search } from "lucide-react";
+import { CalendarDays, MapPin, Users, Search, Filter } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { HotelSortBy } from "@/components/ui/hotel-sort-by";
@@ -54,6 +54,7 @@ export default function HotelSearchPage() {
     searchparams?.get("guests") || "1"
   );
   const [filters, setFilters] = useState<FilterState>(initialFilterState);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   const searchRooms = searchparams?.get("rooms") || "1";
 
@@ -285,20 +286,20 @@ export default function HotelSearchPage() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
         {/* Enhanced Search Form */}
         <div className="bg-white shadow-lg border-b sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto p-6">
+          <div className="max-w-7xl mx-auto p-4 sm:p-6">
             <div className="mb-4">
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
                 Find Your Perfect Stay
               </h1>
-              <p className="text-gray-600">
+              <p className="text-sm sm:text-base text-gray-600">
                 Search and compare hotels from hundreds of travel sites
               </p>
             </div>
 
             <Card className="border-2 border-blue-200 bg-blue-50/30">
-              <CardContent className="p-6">
-                <div className="grid gap-4 md:grid-cols-6 items-end">
-                  <div className="md:col-span-2">
+              <CardContent className="p-4 sm:p-6">
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6 items-end">
+                  <div className="sm:col-span-2 lg:col-span-2">
                     <Label
                       htmlFor="city"
                       className="text-sm font-semibold text-gray-700"
@@ -311,7 +312,7 @@ export default function HotelSearchPage() {
                       value={searchCity}
                       onChange={(e) => setSearchCity(e.target.value)}
                       placeholder="Where are you going?"
-                      className="mt-2 h-12 text-lg border-2 border-gray-200 focus:border-blue-500"
+                      className="mt-2 h-10 sm:h-12 text-base sm:text-lg border-2 border-gray-200 focus:border-blue-500"
                     />
                   </div>
 
@@ -327,14 +328,21 @@ export default function HotelSearchPage() {
                         <Button
                           variant="outline"
                           className={cn(
-                            "w-full justify-start text-left font-normal h-12 mt-2 border-2 border-gray-200 hover:border-blue-500",
+                            "w-full justify-start text-left font-normal h-10 sm:h-12 mt-2 border-2 border-gray-200 hover:border-blue-500 text-sm sm:text-base",
                             !checkInDate && "text-muted-foreground"
                           )}
                         >
                           <CalendarDays className="mr-2 h-4 w-4" />
-                          {checkInDate
-                            ? format(checkInDate, "MMM dd")
-                            : "Select date"}
+                          <span className="hidden sm:inline">
+                            {checkInDate
+                              ? format(checkInDate, "MMM dd")
+                              : "Select date"}
+                          </span>
+                          <span className="sm:hidden">
+                            {checkInDate
+                              ? format(checkInDate, "M/d")
+                              : "Check-in"}
+                          </span>
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
@@ -361,14 +369,21 @@ export default function HotelSearchPage() {
                         <Button
                           variant="outline"
                           className={cn(
-                            "w-full justify-start text-left font-normal h-12 mt-2 border-2 border-gray-200 hover:border-blue-500",
+                            "w-full justify-start text-left font-normal h-10 sm:h-12 mt-2 border-2 border-gray-200 hover:border-blue-500 text-sm sm:text-base",
                             !checkOutDate && "text-muted-foreground"
                           )}
                         >
                           <CalendarDays className="mr-2 h-4 w-4" />
-                          {checkOutDate
-                            ? format(checkOutDate, "MMM dd")
-                            : "Select date"}
+                          <span className="hidden sm:inline">
+                            {checkOutDate
+                              ? format(checkOutDate, "MMM dd")
+                              : "Select date"}
+                          </span>
+                          <span className="sm:hidden">
+                            {checkOutDate
+                              ? format(checkOutDate, "M/d")
+                              : "Check-out"}
+                          </span>
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
@@ -400,16 +415,17 @@ export default function HotelSearchPage() {
                       max="10"
                       value={searchGuests}
                       onChange={(e) => setSearchGuests(e.target.value)}
-                      className="mt-2 h-12 border-2 border-gray-200 focus:border-blue-500"
+                      className="mt-2 h-10 sm:h-12 border-2 border-gray-200 focus:border-blue-500"
                     />
                   </div>
 
                   <Button
                     onClick={handleSearch}
-                    className="h-12 px-8 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200"
+                    className="h-10 sm:h-12 px-4 sm:px-8 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold text-sm sm:text-lg shadow-lg hover:shadow-xl transition-all duration-200 sm:col-span-2 lg:col-span-1"
                   >
-                    <Search className="mr-2 h-5 w-5" />
-                    Search
+                    <Search className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                    <span className="hidden sm:inline">Search</span>
+                    <span className="sm:hidden">Go</span>
                   </Button>
                 </div>
 
@@ -430,17 +446,17 @@ export default function HotelSearchPage() {
         </div>
 
         {/* Enhanced Loading Content */}
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center py-16">
+            <div className="text-center py-8 sm:py-16">
               <div className="relative">
-                <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200 border-t-blue-600 mx-auto mb-6"></div>
-                <div className="absolute inset-0 rounded-full bg-blue-100 animate-pulse mx-auto h-16 w-16 opacity-20"></div>
+                <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-4 border-blue-200 border-t-blue-600 mx-auto mb-4 sm:mb-6"></div>
+                <div className="absolute inset-0 rounded-full bg-blue-100 animate-pulse mx-auto h-12 w-12 sm:h-16 sm:w-16 opacity-20"></div>
               </div>
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">
                 Generating hotel options...
               </h2>
-              <p className="text-gray-600 mb-4">
+              <p className="text-sm sm:text-base text-gray-600 mb-4 px-4">
                 We&apos;re creating personalized hotel recommendations for you in {searchCity}
               </p>
               <div className="flex justify-center space-x-2">
@@ -464,9 +480,9 @@ export default function HotelSearchPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Search Form */}
-      <div className="bg-white shadow-sm border-b p-6">
+      <div className="bg-white shadow-sm border-b p-4 sm:p-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid gap-4 md:grid-cols-5 items-end">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5 items-end">
             <div>
               <Label htmlFor="city">Destination</Label>
               <Input
@@ -474,6 +490,7 @@ export default function HotelSearchPage() {
                 value={searchCity}
                 onChange={(e) => setSearchCity(e.target.value)}
                 placeholder="Enter city name"
+                className="h-10 sm:h-auto"
               />
             </div>
             <div>
@@ -483,12 +500,17 @@ export default function HotelSearchPage() {
                   <Button
                     variant="outline"
                     className={cn(
-                      "w-full justify-start text-left font-normal",
+                      "w-full justify-start text-left font-normal h-10 sm:h-auto",
                       !checkInDate && "text-muted-foreground"
                     )}
                   >
                     <CalendarDays className="mr-2 h-4 w-4" />
-                    {checkInDate ? format(checkInDate, "PPP") : "Select date"}
+                    <span className="hidden sm:inline">
+                      {checkInDate ? format(checkInDate, "PPP") : "Select date"}
+                    </span>
+                    <span className="sm:hidden">
+                      {checkInDate ? format(checkInDate, "M/d") : "Check-in"}
+                    </span>
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
@@ -508,12 +530,17 @@ export default function HotelSearchPage() {
                   <Button
                     variant="outline"
                     className={cn(
-                      "w-full justify-start text-left font-normal",
+                      "w-full justify-start text-left font-normal h-10 sm:h-auto",
                       !checkOutDate && "text-muted-foreground"
                     )}
                   >
                     <CalendarDays className="mr-2 h-4 w-4" />
-                    {checkOutDate ? format(checkOutDate, "PPP") : "Select date"}
+                    <span className="hidden sm:inline">
+                      {checkOutDate ? format(checkOutDate, "PPP") : "Select date"}
+                    </span>
+                    <span className="sm:hidden">
+                      {checkOutDate ? format(checkOutDate, "M/d") : "Check-out"}
+                    </span>
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
@@ -535,35 +562,48 @@ export default function HotelSearchPage() {
                 max="10"
                 value={searchGuests}
                 onChange={(e) => setSearchGuests(e.target.value)}
+                className="h-10 sm:h-auto"
               />
             </div>
             <Button
               onClick={handleSearch}
-              className="bg-blue-600 hover:bg-blue-700"
+              className="bg-blue-600 hover:bg-blue-700 h-10 sm:h-auto sm:col-span-2 lg:col-span-1"
             >
               <Search className="mr-2 h-4 w-4" />
-              Search Hotels
+              <span className="hidden sm:inline">Search Hotels</span>
+              <span className="sm:hidden">Search</span>
             </Button>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <div className="max-w-7xl mx-auto">
           {/* Results Header */}
-          <div className="mb-6 flex justify-between items-center">
+          <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
                 Hotels in {searchparams?.get("city") || "New York City"}
               </h1>
-              <p className="text-gray-600">
+              <p className="text-sm sm:text-base text-gray-600">
                 {filteredHotels?.length || 0} hotel
                 {(filteredHotels?.length || 0) !== 1 ? "s" : ""} found
               </p>
             </div>
-            <div>
-              <HotelSortBy sortByfunction={sortByfunction} />
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+              {/* Mobile Filter Button */}
+              <Button
+                variant="outline"
+                onClick={() => setShowMobileFilters(!showMobileFilters)}
+                className="lg:hidden flex items-center justify-center gap-2 h-10"
+              >
+                <Filter className="h-4 w-4" />
+                Filters
+              </Button>
+              <div className="w-full sm:w-auto">
+                <HotelSortBy sortByfunction={sortByfunction} />
+              </div>
             </div>
           </div>
 
@@ -573,16 +613,38 @@ export default function HotelSearchPage() {
             </div>
           )}
 
-          <div className="flex gap-8">
-            {/* Filter Sidebar */}
-            <div className="w-72 flex-shrink-0">
-              <HotelFilterSidebar filters={filters} setFilters={setFilters} />
+          {/* Mobile Filter Dropdown */}
+          {showMobileFilters && (
+            <div className="lg:hidden mb-6 bg-white border rounded-lg shadow-sm">
+              <div className="p-4 border-b flex justify-between items-center">
+                <h3 className="font-semibold text-gray-900">Filters</h3>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowMobileFilters(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  ✕
+                </Button>
+              </div>
+              <div className="p-4">
+                <HotelFilterSidebar filters={filters} setFilters={setFilters} />
+              </div>
+            </div>
+          )}
+
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+            {/* Filter Sidebar - Hidden on mobile, visible on large screens */}
+            <div className="hidden lg:block w-full lg:w-72 lg:flex-shrink-0">
+              <div className="lg:sticky lg:top-6">
+                <HotelFilterSidebar filters={filters} setFilters={setFilters} />
+              </div>
             </div>
 
             {/* Hotels List */}
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               {filteredHotels && filteredHotels.length > 0 ? (
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                   {filteredHotels.map((hotel, idx) => (
                     <HotelCard 
                       key={idx} 
@@ -603,8 +665,8 @@ export default function HotelSearchPage() {
               ) : (
                 <div className="text-center py-12">
                   <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-xl text-gray-600 mb-2">No hotels found</p>
-                  <p className="text-gray-500">
+                  <p className="text-lg sm:text-xl text-gray-600 mb-2">No hotels found</p>
+                  <p className="text-sm sm:text-base text-gray-500">
                     Try adjusting your search criteria or filters
                   </p>
                 </div>

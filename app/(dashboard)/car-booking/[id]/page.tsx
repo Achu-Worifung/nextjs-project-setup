@@ -165,7 +165,7 @@ export default function CarBookingPage() {
     }
     else {
       // Final step, redirect to confirmation or dashboard
-      router.push('/car-rental');
+      router.push('/');
     }
   };
 
@@ -422,6 +422,7 @@ export default function CarBookingPage() {
             >
               Return to Homepage
             </button>
+           
           </div>
         );
       default:
@@ -637,12 +638,14 @@ export default function CarBookingPage() {
                     Back
                   </button>
                 )}
-                <button
-                  type="submit"
-                  className={`bg-pink-500 hover:bg-pink-600 text-white py-2 px-6 rounded-md transition-colors ml-auto ${bookingStep === 3 ? 'mx-auto' : ''}`}
-                >
-                  {bookingStep === 1 ? 'Continue to Payment' : bookingStep === 2 ? 'Complete Booking' : 'Return to Homepage'}
-                </button>
+                {bookingStep < 3 && (
+                  <button
+                    type="submit"
+                    className="bg-pink-500 hover:bg-pink-600 text-white py-2 px-6 rounded-md transition-colors ml-auto"
+                  >
+                    {bookingStep === 1 ? 'Continue to Payment' : 'Complete Booking'}
+                  </button>
+                )}
               </div>
             </form>
           </div>
