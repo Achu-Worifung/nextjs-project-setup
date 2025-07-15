@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
-import { CarData, mockAvailableCars } from "@/data/car-rental-data";
+import { CarData, mockAvailableCars } from "@/fake-data/car-rental-data";
 import { Calendar, MapPin, Check, CreditCard, ArrowLeft, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { Label } from "@/components/ui/label";

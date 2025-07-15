@@ -9,7 +9,7 @@ import {
   getLocationSuggestions,
   carTypes,
   type CarData,
-} from "@/data/car-rental-data";
+} from "@/fake-data/car-rental-data";
 
 import {
   Tooltip,

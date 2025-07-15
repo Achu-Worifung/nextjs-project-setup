@@ -1,14 +1,76 @@
-'use client';
+"use client";
 import { Label } from "@/components/ui/label";
 import { MapPin, Calendar, Users, Building2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+
+// Mock location suggestions function (similar to select-vehicle)
+const getLocationSuggestions = async (query: string): Promise<string[]> => {
+  // Simulate API call with common cities
+  const cities = [
+    "New York, NY",
+    "Los Angeles, CA",
+    "Chicago, IL",
+    "Houston, TX",
+    "Phoenix, AZ",
+    "Philadelphia, PA",
+    "San Antonio, TX",
+    "San Diego, CA",
+    "Dallas, TX",
+    "San Jose, CA",
+    "Austin, TX",
+    "Jacksonville, FL",
+    "Fort Worth, TX",
+    "Columbus, OH",
+    "Charlotte, NC",
+    "San Francisco, CA",
+    "Indianapolis, IN",
+    "Seattle, WA",
+    "Denver, CO",
+    "Washington, DC",
+    "Boston, MA",
+    "El Paso, TX",
+    "Nashville, TN",
+    "Detroit, MI",
+    "Oklahoma City, OK",
+    "Portland, OR",
+    "Las Vegas, NV",
+    "Memphis, TN",
+    "Louisville, KY",
+    "Baltimore, MD",
+    "Milwaukee, WI",
+    "Albuquerque, NM",
+    "Tucson, AZ",
+    "Fresno, CA",
+    "Mesa, AZ",
+    "Sacramento, CA",
+    "Atlanta, GA",
+    "Kansas City, MO",
+    "Colorado Springs, CO",
+    "Omaha, NE",
+    "Raleigh, NC",
+    "Miami, FL",
+    "Long Beach, CA",
+    "Virginia Beach, VA",
+    "Oakland, CA",
+    "Minneapolis, MN",
+    "Tulsa, OK",
+    "Tampa, FL",
+    "Arlington, TX",
+    "New Orleans, LA",
+  ];
+
+  return cities
+    .filter((city) => city.toLowerCase().includes(query.toLowerCase()))
+    .slice(0, 5);
+};
+
 export function SelectHotel() {
   const [city, setCity] = useState("");
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -133,12 +195,14 @@ export function SelectHotel() {
     router.push(`/hotel-search?${params.toString()}`);
   };
 
-    return (
-        <div className="w-full max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-            <div className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Find Your Perfect Hotel</h2>
-                <p className="text-gray-600">Search hotels for your next adventure</p>
-            </div>
+  return (
+    <div className="w-full max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          Find Your Perfect Hotel
+        </h2>
+        <p className="text-gray-600">Search hotels for your next adventure</p>
+      </div>
 
       <div className="flex flex-wrap items-end gap-6">
         {/* Destination */}
@@ -238,20 +302,51 @@ export function SelectHotel() {
           </TooltipProvider>
         </div>
 
-                {/* Check-out Date */}
-                <div className="flex flex-col gap-2">
-                    <Label htmlFor="checkout" className="flex items-center text-sm font-medium text-gray-700">
-                        <Calendar className="mr-2 h-4 w-4 text-pink-500" />
-                        Check-out
-                    </Label>
-                    <input
-                        type="date"
-                        id="checkout"
-                        value={endDate ? endDate.toISOString().split('T')[0] : ''}
-                        onChange={e => setEndDate(e.target.value ? new Date(e.target.value) : null)}
-                        className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                    />
+        {/* Check-out Date */}
+        <div className="flex flex-col gap-2">
+          <Label
+            htmlFor="checkout"
+            className="flex items-center text-sm font-medium text-gray-700"
+          >
+            <Calendar className="mr-2 h-4 w-4 text-pink-500" />
+            Check-out
+          </Label>
+          <TooltipProvider>
+            <Tooltip open={endDateError.isError}>
+              <TooltipTrigger asChild>
+                <div className="relative">
+                  <input
+                    type="date"
+                    id="checkout"
+                    value={endDate ? endDate.toISOString().split("T")[0] : ""}
+                    onChange={(e) => {
+                      setEndDate(
+                        e.target.value ? new Date(e.target.value) : null
+                      );
+                      setEndDateError({ message: "", isError: false });
+                    }}
+                    onFocus={() => {
+                      setEndDateError({ message: "", isError: false });
+                    }}
+                    min={
+                      startDate
+                        ? startDate.toISOString().split("T")[0]
+                        : new Date().toISOString().split("T")[0]
+                    }
+                    className="w-full p-3 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-white hover:border-pink-300 transition-colors cursor-pointer text-gray-700"
+                    style={{
+                      colorScheme: "light",
+                    }}
+                  />
+                  <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
                 </div>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p className="text-sm text-red-500">{endDateError.message}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
 
         {/* Guests */}
         <div
@@ -329,12 +424,12 @@ export function SelectHotel() {
   </div>
 </div>
 
-            {/* Hotel Preferences */}
-            {/* <div className="mb-6">
+      {/* Hotel Preferences */}
+      {/* <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Hotel Preferences</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"> */}
-                    {/* Budget */}
-                    {/* <div className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 hover:shadow-md transition-all cursor-pointer">
+      {/* Budget */}
+      {/* <div className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 hover:shadow-md transition-all cursor-pointer">
                         <div className="text-center">
                             <div className="text-2xl mb-2">💰</div>
                             <h4 className="font-semibold text-gray-900">Budget</h4>
@@ -343,8 +438,8 @@ export function SelectHotel() {
                         </div>
                     </div> */}
 
-                    {/* Mid-Range */}
-                    {/* <div className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 hover:shadow-md transition-all cursor-pointer">
+      {/* Mid-Range */}
+      {/* <div className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 hover:shadow-md transition-all cursor-pointer">
                         <div className="text-center">
                             <div className="text-2xl mb-2">🏨</div>
                             <h4 className="font-semibold text-gray-900">Mid-Range</h4>
@@ -353,8 +448,8 @@ export function SelectHotel() {
                         </div>
                     </div> */}
 
-                    {/* Luxury */}
-                    {/* <div className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 hover:shadow-md transition-all cursor-pointer">
+      {/* Luxury */}
+      {/* <div className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 hover:shadow-md transition-all cursor-pointer">
                         <div className="text-center">
                             <div className="text-2xl mb-2">✨</div>
                             <h4 className="font-semibold text-gray-900">Luxury</h4>
@@ -363,8 +458,8 @@ export function SelectHotel() {
                         </div>
                     </div> */}
 
-                    {/* Resort */}
-                    {/* <div className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 hover:shadow-md transition-all cursor-pointer">
+      {/* Resort */}
+      {/* <div className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 hover:shadow-md transition-all cursor-pointer">
                         <div className="text-center">
                             <div className="text-2xl mb-2">🏖️</div>
                             <h4 className="font-semibold text-gray-900">Resort</h4>
@@ -372,11 +467,11 @@ export function SelectHotel() {
                             <p className="text-lg font-bold text-pink-500">$200+/night</p>
                         </div>
                     </div> */}
-                {/* </div>
+      {/* </div>
             </div> */}
 
-            {/* Additional Filters */}
-            {/* <div className="mb-6">
+      {/* Additional Filters */}
+      {/* <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Amenities</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
                     <label className="flex items-center space-x-2 cursor-pointer">
