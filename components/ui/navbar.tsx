@@ -17,7 +17,6 @@ import {
   NavigationMenuTrigger,
   //  NavigationMenuContent,
   // NavigationMenuLink,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu"
 import {ModeToggle} from '@/components/mode-to-toggle'
 import { useTheme } from "next-themes";
