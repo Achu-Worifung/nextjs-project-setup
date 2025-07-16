@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { jwtDecode } from "jwt-decode";
-import { MapPin, Mail, User, Globe, Building2, HomeIcon } from "lucide-react";
+import { MapPin, User, Globe, Building2, HomeIcon } from "lucide-react";
 import {useAuth} from "@/context/AuthContext"
-import { decode } from "punycode";
-
+import { JwtPayload } from 'jsonwebtoken';
 
 interface UserData {
   userId: string;
@@ -21,50 +20,10 @@ const defaultUserData: UserData = {
   email: "",
 };
 
+
 export default function EditProfileForm() {
   const [userData, setUserData] = useState<UserData>(defaultUserData);
-  const [loading, setLoading] = useState(true);
-  const [countries, setCountries] = useState<string[]>([]);
-  const [states, setStates] = useState<string[]>([]);
-  const [cities, setCities] = useState<string[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [selectedState, setSelectedState] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
-  const {token, isSignedIn} = useAuth();
-  const [decodedToken, setDecodedToken] = useState<any>(null);
-
-  useEffect(() => {
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        setDecodedToken(decoded);
-      } catch (error) {
-        console.error("Error decoding token:", error);
-      }
-    }
-  }, [token]);
-
-  useEffect(() => {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODliZjUxMy1lOTQ3LTQzZDQtODhiMy02ZjJmOWRjMDUxMjQiLCJmaXJzdE5hbWUiOiJBbGFuIiwibGFzdE5hbWUiOiJSaXZlcmEiLCJlbWFpbCI6ImFsYW5yaXZlcmExMjM0QGdtYWlsLmNvbSIsImlhdCI6MTc1MTkyMDY2MH0.Cj8uz2jBPnz0H9hKh97dLghYqeQcu_LLh0Td33NM0Qc";
-
-    const initializeProfile = () => {
-      try {
-        // Decode JWT token to get user data
-        const decoded = jwtDecode(token) as UserData;
-        setUserData(decoded);
-
-        console.log("Decoded JWT payload:", decoded);
-      } catch (error) {
-        console.error("Error decoding token:", error);
-        // Fallback to default data if token is invalid
-        setUserData(defaultUserData);
-      }
-
-      // Mock countries data
-      const mockCountries = [
+  const [countries, setCountries] = useState<string[]>( [
         "United States",
         "Canada",
         "United Kingdom",
@@ -75,14 +34,29 @@ export default function EditProfileForm() {
         "Brazil",
         "Mexico",
         "India",
-      ];
+      ]);
+  const [states, setStates] = useState<string[]>([]);
+  const [cities, setCities] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-      setCountries(mockCountries);
-      setLoading(false);
-    };
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const {token, isSignedIn} = useAuth();
+  const [decodedToken, setDecodedToken] = useState<JwtPayload | null>(null);
 
-    initializeProfile();
-  }, []);
+  useEffect(() => {
+    if (token  && isSignedIn) {
+      try {
+        const decoded = jwtDecode(token);
+        setDecodedToken(decoded);
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
+    }
+  }, [token]);
+
+
 
   useEffect(() => {
     if (selectedCountry) {
@@ -194,16 +168,10 @@ export default function EditProfileForm() {
     }, 1000);
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
-      </div>
-    );
-  }
+
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 py-6 px-4 sm:py-12">
+    <div className="min-h-screen  py-6  sm:py-12">
       <div className="max-w-4xl mx-auto">
         <div className="   overflow-hidden ">
           <h1 className="text-2xl sm:text-3xl font-bold text-black mb-2">
@@ -242,7 +210,7 @@ export default function EditProfileForm() {
                     <input
                       type="text"
                       className="w-full pl-1 pr-1 py-3   focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white"
-                      value={decodedToken?.firstName || decodedToken?.fname}
+                      value={decodedToken?.firstName || decodedToken?.fname || ""}
                       onChange={(e) =>
                         setUserData({ ...userData, firstName: e.target.value })
                       }
@@ -259,7 +227,7 @@ export default function EditProfileForm() {
                     <input
                       type="text"
                       className="w-full pl-1 pr-1 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md cursor-text  "
-                      value={decodedToken?.lastName || decodedToken?.lname}
+                      value={decodedToken?.lastName || decodedToken?.lname || ""}
                       onChange={(e) =>
                         setUserData({ ...userData, lastName: e.target.value })
                       }
@@ -276,7 +244,7 @@ export default function EditProfileForm() {
                     <input
                       type="email"
                       className="w-full pl-1 pr-1 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white"
-                      value={decodedToken?.email || decodedToken?.email}
+                      value={decodedToken?.email || decodedToken?.email || ""}
                       onChange={(e) =>
                         setUserData({ ...userData, email: e.target.value })
                       }
@@ -309,7 +277,7 @@ export default function EditProfileForm() {
                   <div className="relative">
                     <Globe className="absolute left-3 top-3 w-5 h-5 text-gray-400 group-focus-within:text-purple-500 transition-colors" />
                     <select
-                      className="w-full pl-11 pr-8 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-sm sm:text-base bg-white/50 backdrop-blur-sm hover:bg-white focus:bg-white appearance-none"
+                      className="w-full pl-2 pr-8 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-sm sm:text-base bg-white/50 backdrop-blur-sm hover:bg-white focus:bg-white appearance-none"
                       value={selectedCountry}
                       onChange={(e) => setSelectedCountry(e.target.value)}
                     >
@@ -345,7 +313,7 @@ export default function EditProfileForm() {
                   <div className="relative">
                     <Building2 className="absolute left-3 top-3 w-5 h-5 text-gray-400 group-focus-within:text-purple-500 transition-colors" />
                     <select
-                      className="w-full pl-11 pr-8 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-sm sm:text-base bg-white/50 backdrop-blur-sm hover:bg-white focus:bg-white appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full pl-2 pr-8 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-sm sm:text-base bg-white/50 backdrop-blur-sm hover:bg-white focus:bg-white appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
                       value={selectedState}
                       onChange={(e) => setSelectedState(e.target.value)}
                       disabled={!selectedCountry}
@@ -382,7 +350,7 @@ export default function EditProfileForm() {
                   <div className="relative">
                     <HomeIcon className="absolute left-3 top-3 w-5 h-5 text-gray-400 group-focus-within:text-purple-500 transition-colors" />
                     <select
-                      className="w-full pl-11 pr-8 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-sm sm:text-base bg-white/50 backdrop-blur-sm hover:bg-white focus:bg-white appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full pl-2 pr-8 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-sm sm:text-base bg-white/50 backdrop-blur-sm hover:bg-white focus:bg-white appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
                       value={selectedCity}
                       onChange={(e) => setSelectedCity(e.target.value)}
                       disabled={!selectedState}

@@ -1,14 +1,14 @@
+'use client';
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DeleteAccountDialog } from "@/components/ui/delete-account-dialog";
 import { SignOutDialog } from "@/components/ui/sign-out-dialog";
-import { useRouter } from "next/router";
+
 export default function SecurityForm() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isSignOutDialogOpen, setIsSignOutDialogOpen] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
-  const router = useRouter();
 
   const handleDeleteAccount = async () => {
     setIsDeleting(true);
@@ -17,7 +17,7 @@ export default function SecurityForm() {
     localStorage.removeItem("isSignedIn");
     setIsDeleting(false);
     setIsDeleteDialogOpen(false);
-    router.push("/");
+    window.location.href = "/";
   };
 
   const handleSignOut = async () => {
@@ -27,12 +27,12 @@ export default function SecurityForm() {
     localStorage.removeItem("isSignedIn");
     setIsSigningOut(false);
     setIsSignOutDialogOpen(false);
-    router.push("/");
+    window.location.href = "/";
   };
 
   return (
     <>
-      <form className="max-w-xl mx-auto rounded ">
+      <form className="max-w-xl rounded ">
         <h2 className="text-2xl font-bold mb-6">Security Settings</h2>
         <p>Update your password and enhance your account security.</p>
         <hr className="my-6 text-black h-0.5 border border-black" />
