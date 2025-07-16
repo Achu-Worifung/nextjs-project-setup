@@ -184,7 +184,7 @@ export function FlightSelection() {
               )}
             >
               <RadioGroupItem value={val} id={val} className="sr-only" />
-              <Label htmlFor={val} className="text-sm font-medium cursor-pointer capitalize">
+              <Label htmlFor={val} className="text-sm font-medium cursor-pointer capitalize text-black">
                 {val.replace("-", " ")}
               </Label>
             </div>
@@ -205,17 +205,17 @@ export function FlightSelection() {
         type="button"
         data-testid="adults-decrement"
         onClick={() => dec("adults")}
-        className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
-        aria-label="Decrease adult count"
+        className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100 text-gray-700"
+        aria-label="Decrease adult count "
       >
         −
       </button>
-      <span data-testid="adults-count" className="w-8 text-center text-sm">{counts.adults}</span>
+      <span data-testid="adults-count" className="w-8 text-center text-sm  text-gray-700">{counts.adults}</span>
       <button
         type="button"
         data-testid="adults-increment"
         onClick={() => inc("adults")}
-        className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+        className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100  text-gray-700"
         aria-label="Increase adult count"
       >
         +
@@ -235,17 +235,17 @@ export function FlightSelection() {
         type="button"
         data-testid="children-decrement"
         onClick={() => dec("children")}
-        className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+        className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100  text-gray-700"
         aria-label="Decrease children count"
       >
         −
       </button>
-      <span data-testid="children-count" className="w-8 text-center text-sm">{counts.children}</span>
+      <span data-testid="children-count" className="w-8 text-center text-sm  text-gray-700 ">{counts.children}</span>
       <button
         type="button"
         data-testid="children-increment"
         onClick={() => inc("children")}
-        className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+        className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100  text-gray-700"
         aria-label="Increase children count"
       >
         +
@@ -262,7 +262,7 @@ export function FlightSelection() {
     <select
       value={classType}
       onChange={e => setClassType(e.target.value)}
-      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm"
+      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2   text-gray-700 focus:ring-pink-500 text-sm"
     >
       <option>Economy</option>
       <option>Premium Economy</option>
@@ -288,7 +288,7 @@ export function FlightSelection() {
                 onFocus={() => setAirportSuggestions([])}
                 onChange={onFromChange}
                 placeholder="Departure city"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm"
+                className="w-full  text-gray-700 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm"
               />
               <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
               {airportSuggestions.length > 0 && from && (
@@ -338,7 +338,7 @@ export function FlightSelection() {
                 onFocus={() => setToAirportSuggestions([])}
                 onChange={onToChange}
                 placeholder="Destination city"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm"
+                className="w-full  text-gray-700 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm"
               />
               <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
               {toAirportSuggestions.length > 0 && to && (
@@ -372,14 +372,14 @@ export function FlightSelection() {
               value={departDate ? departDate.toISOString().split('T')[0] : ''}
               onChange={e => setDepartDate(e.target.value ? new Date(e.target.value) : undefined)}
               min={new Date().toISOString().split('T')[0]}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
+              className="w-full px-4   text-gray-700 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
             />
           </div>
 
           {/* Return */}
           {flightType === "round-trip" && (
             <div className="lg:col-span-2">
-              <Label htmlFor="return" className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+              <Label htmlFor="return" className="flex  text-gray-700 items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                 <Calendar className="h-4 w-4 text-pink-500" /> Return date
               </Label>
               <input
@@ -388,7 +388,7 @@ export function FlightSelection() {
                 value={returnDate ? returnDate.toISOString().split('T')[0] : ''}
                 onChange={e => setReturnDate(e.target.value ? new Date(e.target.value) : undefined)}
                 min={(departDate || new Date()).toISOString().split('T')[0]}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
+                className="w-full px-4 py-3  text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
               />
             </div>
           )}

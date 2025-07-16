@@ -2,14 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { decodeJWT } from "@/lib/auth-utils";
 import pg from "pg";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  try {
-    const { id: bookingId } = await params;
+export async function GET(request: NextRequest, { params }: any) {
+  const bookingId = params.id;
 
-    // Get authorization header
+  try {
     const authorization = request.headers.get("authorization");
     if (!authorization || !authorization.startsWith("Bearer ")) {
       return NextResponse.json(
@@ -29,16 +25,19 @@ export async function GET(
     }
 
     const userId = payload.userId;
+
     const client = new pg.Client({
       user: process.env.PGUSER,
       host: process.env.PGHOST,
       database: process.env.PGDATABASE,
       password: process.env.PGPASSWORD,
       port: Number(process.env.PGPORT) || 5432,
-      ssl: {
-        rejectUnauthorized: false,
-        require: true,
-      },
+      ssl:
+        process.env.PGSSLMODE === "disable"
+          ? false
+          : {
+              rejectUnauthorized: false,
+            },
       connectionTimeoutMillis: 15000,
       query_timeout: 10000,
     });
@@ -46,7 +45,6 @@ export async function GET(
     await client.connect();
 
     try {
-      // First, check if the booking exists in the main bookings table
       const mainBookingResult = await client.query(
         `SELECT * FROM ManageBookings.Bookings 
          WHERE BookingID = $1 AND UserID = $2`,
@@ -61,8 +59,7 @@ export async function GET(
       }
 
       const mainBooking = mainBookingResult.rows[0];
-      
-      // Return the basic booking information from the main table
+
       const booking = {
         bookingId: mainBooking.bookingid,
         userId: mainBooking.userid,
@@ -72,13 +69,12 @@ export async function GET(
         bookingDateTime: mainBooking.bookingdatetime || new Date().toISOString(),
         location: mainBooking.location || "Unknown Location",
         provider: mainBooking.provider || "Unknown Provider",
-        // Flight specific defaults
         flightNumber: "N/A",
         airline: mainBooking.provider || "Unknown Airline",
         departureTime: new Date().toISOString(),
-        arrivalTime: new Date(Date.now() + 2*60*60*1000).toISOString(), // Default to 2 hours later
+        arrivalTime: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(),
         flightClass: "Economy",
-        numberOfSeats: 1
+        numberOfSeats: 1,
       };
 
       return NextResponse.json({
@@ -103,14 +99,10 @@ export async function GET(
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  try {
-    const { id: bookingId } = await params;
+export async function DELETE(request: NextRequest, { params }: any) {
+  const bookingId = params.id;
 
-    // Get authorization header
+  try {
     const authorization = request.headers.get("authorization");
     if (!authorization || !authorization.startsWith("Bearer ")) {
       return NextResponse.json(
@@ -130,16 +122,19 @@ export async function DELETE(
     }
 
     const userId = payload.userId;
+
     const client = new pg.Client({
       user: process.env.PGUSER,
       host: process.env.PGHOST,
       database: process.env.PGDATABASE,
       password: process.env.PGPASSWORD,
       port: Number(process.env.PGPORT) || 5432,
-      ssl: {
-        rejectUnauthorized: false,
-        require: true,
-      },
+      ssl:
+        process.env.PGSSLMODE === "disable"
+          ? false
+          : {
+              rejectUnauthorized: false,
+            },
       connectionTimeoutMillis: 15000,
       query_timeout: 10000,
     });
@@ -147,9 +142,8 @@ export async function DELETE(
     await client.connect();
 
     try {
-      await client.query('BEGIN');
+      await client.query("BEGIN");
 
-      // First, check if the booking exists and belongs to the user in main table
       const checkResult = await client.query(
         `SELECT BookingID, BookingType FROM ManageBookings.Bookings 
          WHERE BookingID = $1 AND UserID = $2`,
@@ -157,14 +151,13 @@ export async function DELETE(
       );
 
       if (checkResult.rows.length === 0) {
-        await client.query('ROLLBACK');
+        await client.query("ROLLBACK");
         return NextResponse.json(
           { error: "Booking not found or access denied" },
           { status: 404 }
         );
       }
 
-      // Update the status in the main bookings table
       const updateResult = await client.query(
         `UPDATE ManageBookings.Bookings 
          SET BookingStatus = 'Cancelled' 
@@ -173,21 +166,21 @@ export async function DELETE(
       );
 
       if (updateResult.rowCount === 0) {
-        await client.query('ROLLBACK');
+        await client.query("ROLLBACK");
         return NextResponse.json(
           { error: "Failed to cancel booking" },
           { status: 500 }
         );
       }
 
-      await client.query('COMMIT');
+      await client.query("COMMIT");
 
       return NextResponse.json({
         success: true,
         message: "Booking cancelled successfully",
       });
     } catch (dbError) {
-      await client.query('ROLLBACK');
+      await client.query("ROLLBACK");
       console.error("Database error:", dbError);
       return NextResponse.json(
         { error: "Failed to cancel booking" },

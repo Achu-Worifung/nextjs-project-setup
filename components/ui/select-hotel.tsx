@@ -26,7 +26,7 @@ export function SelectHotel() {
     }
 
     return (
-        <div className="w-full max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+        <div className="w-full max-w-6xl  text-gray-700 mx-auto p-6 bg-white rounded-lg shadow-lg">
             <div className="mb-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">Find Your Perfect Hotel</h2>
                 <p className="text-gray-600">Search hotels for your next adventure</p>

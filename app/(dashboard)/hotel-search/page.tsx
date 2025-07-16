@@ -462,11 +462,11 @@ export default function HotelSearchPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen text-gray-700 bg-gray-50">
       {/* Search Form */}
-      <div className="bg-white shadow-sm border-b p-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid gap-4 md:grid-cols-5 items-end">
+      <div className="bg-white  text-gray-700 shadow-sm border-b p-6">
+        <div className="max-w-7xl  text-gray-700 mx-auto">
+          <div className="grid  gap-4 md:grid-cols-5 items-end">
             <div>
               <Label htmlFor="city">Destination</Label>
               <Input

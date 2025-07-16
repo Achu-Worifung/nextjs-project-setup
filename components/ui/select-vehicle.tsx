@@ -136,7 +136,7 @@ export function SelectVehicle() {
 	}, []);
 
 	return (
-		<div className="w-full max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg my-5">
+		<div className="w-full  text-gray-700 max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg my-5">
 			<style dangerouslySetInnerHTML={{ __html: animationStyles }} />
 			<div className="mb-8">
 				<h2 className="text-2xl font-bold text-gray-900 mb-2">

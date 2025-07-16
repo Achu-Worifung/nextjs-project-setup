@@ -1,15 +1,16 @@
+
 import { NextRequest, NextResponse } from "next/server";
 import { decodeJWT } from "@/lib/auth-utils";
 import pg from "pg";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  try {
-    const { id: bookingId } = await params;
 
-    // Get authorization header
+
+
+export async function GET(request: NextRequest, context: any) {
+  const { params } = context;
+  try {
+    const bookingId = params.id;
+
     const authorization = request.headers.get("authorization");
     if (!authorization || !authorization.startsWith("Bearer ")) {
       return NextResponse.json(
@@ -29,6 +30,7 @@ export async function GET(
     }
 
     const userId = payload.userId;
+
     const client = new pg.Client({
       user: process.env.PGUSER,
       host: process.env.PGHOST,
@@ -37,7 +39,6 @@ export async function GET(
       port: Number(process.env.PGPORT) || 5432,
       ssl: {
         rejectUnauthorized: false,
-        require: true,
       },
       connectionTimeoutMillis: 15000,
       query_timeout: 10000,
@@ -46,48 +47,41 @@ export async function GET(
     await client.connect();
 
     try {
-      // First, check if the booking exists in the main bookings table
-      const mainBookingResult = await client.query(
+      const result = await client.query(
         `SELECT * FROM ManageBookings.Bookings 
          WHERE BookingID = $1 AND UserID = $2`,
         [bookingId, userId]
       );
 
-      if (mainBookingResult.rows.length === 0) {
+      if (result.rows.length === 0) {
         return NextResponse.json(
           { error: "Booking not found or access denied" },
           { status: 404 }
         );
       }
 
-      const mainBooking = mainBookingResult.rows[0];
-      
-      // For now, return the basic booking information from the main table
-      // We can enhance this later to join with specific car booking details
+      const row = result.rows[0];
+
       const booking = {
-        bookingId: mainBooking.bookingid,
-        userId: mainBooking.userid,
-        bookingType: mainBooking.bookingtype,
-        totalPaid: parseFloat(mainBooking.totalpaid) || 0,
-        status: mainBooking.bookingstatus || "Confirmed",
-        bookingDateTime: mainBooking.bookingdatetime || new Date().toISOString(),
-        location: mainBooking.location || "Unknown Location",
-        provider: mainBooking.provider || "Unknown Provider",
-        // Car specific defaults - these would ideally come from car booking table
-        companyName: mainBooking.provider || "Unknown Company",
+        bookingId: row.bookingid,
+        userId: row.userid,
+        bookingType: row.bookingtype,
+        totalPaid: parseFloat(row.totalpaid) || 0,
+        status: row.bookingstatus || "Confirmed",
+        bookingDateTime: row.bookingdatetime || new Date().toISOString(),
+        location: row.location || "Unknown Location",
+        provider: row.provider || "Unknown Provider",
+        companyName: row.provider || "Unknown Company",
         vehicle: "Car Rental",
-        pickupLocation: mainBooking.location || "Unknown",
-        dropoffLocation: mainBooking.location || "Unknown", 
+        pickupLocation: row.location || "Unknown",
+        dropoffLocation: row.location || "Unknown",
         pickupDate: new Date().toISOString(),
-        dropoffDate: new Date(Date.now() + 24*60*60*1000).toISOString(), // Default to next day
+        dropoffDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
         days: 1,
-        numberPassengers: 1
+        numberPassengers: 1,
       };
 
-      return NextResponse.json({
-        success: true,
-        booking,
-      });
+      return NextResponse.json({ success: true, booking });
     } catch (dbError) {
       console.error("Database error:", dbError);
       return NextResponse.json(
@@ -95,25 +89,19 @@ export async function GET(
         { status: 500 }
       );
     } finally {
-      client.end();
+      await client.end();
     }
   } catch (error) {
     console.error("Error fetching booking details:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: NextRequest, context: any) {
+  const { params } = context;
   try {
-    const { id: bookingId } = await params;
+    const bookingId = params.id;
 
-    // Get authorization header
     const authorization = request.headers.get("authorization");
     if (!authorization || !authorization.startsWith("Bearer ")) {
       return NextResponse.json(
@@ -133,6 +121,7 @@ export async function DELETE(
     }
 
     const userId = payload.userId;
+
     const client = new pg.Client({
       user: process.env.PGUSER,
       host: process.env.PGHOST,
@@ -141,7 +130,6 @@ export async function DELETE(
       port: Number(process.env.PGPORT) || 5432,
       ssl: {
         rejectUnauthorized: false,
-        require: true,
       },
       connectionTimeoutMillis: 15000,
       query_timeout: 10000,
@@ -150,61 +138,55 @@ export async function DELETE(
     await client.connect();
 
     try {
-      await client.query('BEGIN');
+      await client.query("BEGIN");
 
-      // First, check if the booking exists and belongs to the user in main table
-      const checkResult = await client.query(
-        `SELECT BookingID, BookingType FROM ManageBookings.Bookings 
+      const result = await client.query(
+        `SELECT BookingID FROM ManageBookings.Bookings 
          WHERE BookingID = $1 AND UserID = $2`,
         [bookingId, userId]
       );
 
-      if (checkResult.rows.length === 0) {
-        await client.query('ROLLBACK');
+      if (result.rows.length === 0) {
+        await client.query("ROLLBACK");
         return NextResponse.json(
           { error: "Booking not found or access denied" },
           { status: 404 }
         );
       }
 
-      // For now, we'll just update the status in the main bookings table
-      // Later we can add logic to also delete from specific booking tables
-      const updateResult = await client.query(
+      const update = await client.query(
         `UPDATE ManageBookings.Bookings 
          SET BookingStatus = 'Cancelled' 
          WHERE BookingID = $1 AND UserID = $2`,
         [bookingId, userId]
       );
 
-      if (updateResult.rowCount === 0) {
-        await client.query('ROLLBACK');
+      if (update.rowCount === 0) {
+        await client.query("ROLLBACK");
         return NextResponse.json(
           { error: "Failed to cancel booking" },
           { status: 500 }
         );
       }
 
-      await client.query('COMMIT');
+      await client.query("COMMIT");
 
       return NextResponse.json({
         success: true,
         message: "Car booking cancelled successfully",
       });
     } catch (dbError) {
-      await client.query('ROLLBACK');
+      await client.query("ROLLBACK");
       console.error("Database error:", dbError);
       return NextResponse.json(
         { error: "Failed to cancel booking" },
         { status: 500 }
       );
     } finally {
-      client.end();
+      await client.end();
     }
   } catch (error) {
     console.error("Error cancelling booking:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

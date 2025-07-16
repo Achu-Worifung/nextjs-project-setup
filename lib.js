@@ -1,7 +1,7 @@
 import { Pool } from 'pg'
 
 // In development, avoid creating a new pool on every hot-reload
-// eslint-disable-next-line no-var
+ 
 var pgPool
 
 const connectionString = process.env.DATABASE_URL

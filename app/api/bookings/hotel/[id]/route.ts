@@ -4,10 +4,11 @@ import pg from "pg";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: bookingId } = await params;
+    const params = await context.params;
+    const bookingId = params.id;
 
     // Get authorization header
     const authorization = request.headers.get("authorization");
@@ -37,7 +38,6 @@ export async function GET(
       port: Number(process.env.PGPORT) || 5432,
       ssl: {
         rejectUnauthorized: false,
-        require: true,
       },
       connectionTimeoutMillis: 15000,
       query_timeout: 10000,
@@ -61,7 +61,7 @@ export async function GET(
       }
 
       const mainBooking = mainBookingResult.rows[0];
-      
+
       // Return the basic booking information from the main table
       const booking = {
         bookingId: mainBooking.bookingid,
@@ -76,9 +76,9 @@ export async function GET(
         hotelName: mainBooking.provider || "Unknown Hotel",
         roomType: "Standard Room",
         checkInDate: new Date().toISOString(),
-        checkOutDate: new Date(Date.now() + 24*60*60*1000).toISOString(), // Default to next day
+        checkOutDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // Default to next day
         nights: 1,
-        guests: 1
+        guests: 1,
       };
 
       return NextResponse.json({
@@ -92,7 +92,7 @@ export async function GET(
         { status: 500 }
       );
     } finally {
-      client.end();
+      await client.end();
     }
   } catch (error) {
     console.error("Error fetching booking details:", error);
@@ -105,10 +105,11 @@ export async function GET(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: bookingId } = await params;
+    const params = await context.params;
+    const bookingId = params.id;
 
     // Get authorization header
     const authorization = request.headers.get("authorization");
@@ -138,7 +139,6 @@ export async function DELETE(
       port: Number(process.env.PGPORT) || 5432,
       ssl: {
         rejectUnauthorized: false,
-        require: true,
       },
       connectionTimeoutMillis: 15000,
       query_timeout: 10000,
@@ -147,7 +147,7 @@ export async function DELETE(
     await client.connect();
 
     try {
-      await client.query('BEGIN');
+      await client.query("BEGIN");
 
       // First, check if the booking exists and belongs to the user in main table
       const checkResult = await client.query(
@@ -157,7 +157,7 @@ export async function DELETE(
       );
 
       if (checkResult.rows.length === 0) {
-        await client.query('ROLLBACK');
+        await client.query("ROLLBACK");
         return NextResponse.json(
           { error: "Booking not found or access denied" },
           { status: 404 }
@@ -173,28 +173,28 @@ export async function DELETE(
       );
 
       if (updateResult.rowCount === 0) {
-        await client.query('ROLLBACK');
+        await client.query("ROLLBACK");
         return NextResponse.json(
           { error: "Failed to cancel booking" },
           { status: 500 }
         );
       }
 
-      await client.query('COMMIT');
+      await client.query("COMMIT");
 
       return NextResponse.json({
         success: true,
         message: "Hotel booking cancelled successfully",
       });
     } catch (dbError) {
-      await client.query('ROLLBACK');
+      await client.query("ROLLBACK");
       console.error("Database error:", dbError);
       return NextResponse.json(
         { error: "Failed to cancel booking" },
         { status: 500 }
       );
     } finally {
-      client.end();
+      await client.end();
     }
   } catch (error) {
     console.error("Error cancelling booking:", error);
