@@ -1,7 +1,7 @@
 import { MapPinHouse, User, MoveRight, Star, Wifi, Car, Coffee } from 'lucide-react';
 
 export function HotelDestinationCard({
-  image, // This prop is not currently used in the visual, but kept for interface consistency
+  image, 
   title,
   price,
   description,

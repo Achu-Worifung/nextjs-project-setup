@@ -32,8 +32,7 @@ export default function Navbar() {
 
   const router = useRouter();
 
-  // // TODO: Replace this with your actual authentication logic
-  // const isSignedIn = false;
+
 
   const changeNav = (route: string) =>
   {
@@ -195,19 +194,7 @@ export default function Navbar() {
         Sign In
       </Link>
     )}
-    {isSignedIn && (
-      <div className="mt-4">
-        <Link href="/profileSetting" onClick={() => setMobileOpen(false)}>
-          <button className="p-0 bg-transparent border-none">
-            <ProfileBubble
-              name="Alan Rivera"
-              avatarUrl="/demoprofile.svg"
-              size={50}
-            />
-          </button>
-        </Link>
-      </div>
-    )}
+    {isSignedIn && token && renderAuthButton()}
   </div>
 )}
 
