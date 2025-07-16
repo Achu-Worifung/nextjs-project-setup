@@ -3,24 +3,20 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import EditProfileForm from "@/components/ui/editProfileForm";
-import NotificationForm from "@/components/ui/notificationForm";
 import SecurityForm from "@/components/ui/securityform";
 import AppearanceForm from "@/components/ui/appearanceForm";
-import HelpForm from "@/components/ui/helpForm";
 
-import { UserLock, Pencil , CreditCard , Bell } from 'lucide-react';
+
+import { UserLock, Pencil , CreditCard  } from 'lucide-react';
 
 const sidebarOptions = [
   { key: "edit", label: "Edit profile", icon: <Pencil className="size-5"/> },
-  { key: "notification", label: "Notification", icon: <Bell className="size-5"/> },
+  { key: "payment", label: "Payment", icon: <CreditCard className="size-5"/> },
   { key: "security", label: "Security", icon: <UserLock className="size-5"/> },
-  { key: "appearance", label: "Appearance", icon: "/setting-gear.svg" },
-  { key: "help", label: "Help", icon: "/help.svg" },
 ];
 
 export default function ProfileSettingPage() {
   const [activeTab, setActiveTab] = useState("edit");
-
   const activeOption = sidebarOptions.find(option => option.key === activeTab);
 
   return (
@@ -113,10 +109,8 @@ export default function ProfileSettingPage() {
         <div className="flex-1 p-4 sm:p-6 lg:p-8 min-h-[400px] lg:min-h-[600px]" >
             <div className="p-4 sm:p-6 lg:p-8"> 
               {activeTab === "edit" && <EditProfileForm />}
-              {activeTab === "notification" && <NotificationForm />}
               {activeTab === "security" && <SecurityForm />}
-              {activeTab === "appearance" && <AppearanceForm />}
-              {activeTab === "help" && <HelpForm />}
+              {activeTab === "payment" && <AppearanceForm />}
           </div>
         </div>
       </div>

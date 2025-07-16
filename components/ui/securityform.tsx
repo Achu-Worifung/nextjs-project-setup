@@ -1,27 +1,38 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DeleteAccountDialog } from "@/components/ui/delete-account-dialog";
-
+import { SignOutDialog } from "@/components/ui/sign-out-dialog";
+import { useRouter } from "next/router";
 export default function SecurityForm() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isSignOutDialogOpen, setIsSignOutDialogOpen] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
+  const router = useRouter();
 
   const handleDeleteAccount = async () => {
     setIsDeleting(true);
-    
-    // Simulate API call delay
-    setTimeout(() => {
-      // Here you would actually call your delete account API
-      console.log("Account deletion confirmed");
-      alert("Account would be deleted (this is just a demo)");
-      setIsDeleting(false);
-      setIsDeleteDialogOpen(false);
-    }, 2000);
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("isSignedIn");
+    setIsDeleting(false);
+    setIsDeleteDialogOpen(false);
+    router.push("/");
+  };
+
+  const handleSignOut = async () => {
+    setIsSigningOut(true);
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("isSignedIn");
+    setIsSigningOut(false);
+    setIsSignOutDialogOpen(false);
+    router.push("/");
   };
 
   return (
     <>
-      <form className="max-w-xl mx-auto p-8  rounded shadow">
+      <form className="max-w-xl mx-auto rounded ">
         <h2 className="text-2xl font-bold mb-6">Security Settings</h2>
         <p>Update your password and enhance your account security.</p>
         <hr className="my-6 text-black h-0.5 border border-black" />
@@ -57,19 +68,31 @@ export default function SecurityForm() {
           <Button type="submit" variant="default">
             Save
           </Button>
-          <Button type="button" variant="secondary">
-            Cancel
-          </Button>
         </div>
       </form>
       <hr className="my-6 text-black h-0.5 border border-black" />
       <div>
+        <p className="text-2xl font-bold mb-6">Sign out</p>
+        <p>Log out and end your session on this device</p>
+        <Button
+          type="button"
+          variant="secondary"
+          className="mt-4 bg-blue-600 hover:bg-blue-700 text-white"
+          onClick={() => setIsSignOutDialogOpen(true)}
+        >
+          Sign Out
+        </Button>
+      </div>
+      <hr className="my-6 text-black h-0.5 border border-black" />
+      <div>
         <h2 className="text-2xl font-bold mb-4">Delete Account</h2>
-        <p className="text-gray-600 mb-4">Permanently delete your account and all associated data.</p>
+        <p className="text-gray-600 mb-4">
+          Permanently delete your account and all associated data.
+        </p>
         <Button
           type="button"
           variant="destructive"
-          className="mt-4"
+          className="mt-4 bg-red-600 hover:bg-red-700 text-white"
           onClick={() => setIsDeleteDialogOpen(true)}
         >
           Delete Account
@@ -81,6 +104,13 @@ export default function SecurityForm() {
         onClose={() => setIsDeleteDialogOpen(false)}
         onConfirm={handleDeleteAccount}
         isLoading={isDeleting}
+      />
+
+      <SignOutDialog
+        isOpen={isSignOutDialogOpen}
+        onClose={() => setIsSignOutDialogOpen(false)}
+        onConfirm={handleSignOut}
+        isLoading={isSigningOut}
       />
     </>
   );
