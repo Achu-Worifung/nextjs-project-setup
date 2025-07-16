@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Label } from "@/components/ui/label";
 import { MapPin, Calendar } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { apiHelpers, API_ENDPOINTS } from '../../lib/api-config';
 import {
   mockAvailableCars,
   getLocationSuggestions,

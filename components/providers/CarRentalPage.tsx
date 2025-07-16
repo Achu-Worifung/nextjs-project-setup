@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Header from "../ui/Header";
 import VehicleCard from "../ui/VehicleCard";
+import { apiHelpers, API_ENDPOINTS } from '../../lib/api-config';
 
 
 interface Car {

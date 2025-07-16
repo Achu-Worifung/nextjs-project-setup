@@ -1,6 +1,7 @@
 "use server";
 import Amadeus from "amadeus";
 import test from "@/public/test.json";
+import { apiHelpers, API_ENDPOINTS } from '../../../lib/api-config';
 
 // const amadeus = new Amadeus({
 //   clientId: process.env.AMADEUS_CLIENT_ID,
