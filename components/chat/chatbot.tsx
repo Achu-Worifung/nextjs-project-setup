@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import ChatInput from "./chatinput"; 
+import { apiHelpers, API_ENDPOINTS } from '../../lib/api-config'; 
 
 export default function Chatbot() {
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);

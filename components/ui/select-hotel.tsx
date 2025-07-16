@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import { MapPin, Calendar, Users, Building2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import { apiHelpers, API_ENDPOINTS } from '../../lib/api-config';
 import {
   Tooltip,
   TooltipContent,
