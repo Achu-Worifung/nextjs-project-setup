@@ -58,6 +58,7 @@ export function FlightSelection() {
     start: Date | null;
     end: Date | null;
   }>({ start: null, end: null });
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
 
   // --------------------------------ERROR HANDLING WARNING---------------------------------------
   const [fromError, setFromError] = useState({ message: "", isError: false });
@@ -325,13 +326,14 @@ export function FlightSelection() {
       </div>
 
       {/* Main Search Form - Horizontal Layout */}
-      <div className="rounded-xl p-2 sm:p-6 mx-2 sm:mx-0  transition-all duration-300">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+      <div className="rounded-xl p-2 sm:p-6 mx-2 sm:mx-0 transition-all duration-300">
+        {/* Switch to flex layout for horizontal row */}
+        <div className="flex flex-row flex-wrap gap-2 sm:gap-4 items-center w-full transition-all duration-500">
           {/* From */}
-          <div className="lg:col-span-3 relative" ref={fromDropdownRef}>
+          <div className="flex-1 min-w-[120px] relative transition-all duration-300" ref={fromDropdownRef}>
             <div className="relative">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10">
-                <PlaneTakeoff className="h-4 w-4 text-brand-pink-500" />
+              <div className="absolute left-2 top-1/2 -translate-y-1/2 z-10">
+                <PlaneTakeoff className="h-3 w-3 text-brand-pink-500" />
               </div>
               <input
                 type="text"
@@ -342,7 +344,7 @@ export function FlightSelection() {
                 }}
                 onChange={onFromChange}
                 placeholder="From where?"
-                className="w-full pl-10 pr-4 py-3 border-2 border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 dark:text-white dark:placeholder-brand-gray-400"
+                className="w-full pl-8 pr-2 py-2 border border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-md focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-xs font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 dark:text-white dark:placeholder-brand-gray-400"
               />
               {fromError.isError && (
                 <p className="text-xs text-brand-error mt-1">
@@ -374,20 +376,21 @@ export function FlightSelection() {
           </div>
 
           {/* Swap Button */}
-          <div className="lg:col-span-1 flex justify-center">
+          <div className="flex-none flex justify-center items-center transition-all duration-300" style={{ minWidth: 60 }}>
             <button
               onClick={handleSwap}
-              className="p-3 bg-white dark:bg-[rgb(25,30,36)] rounded-full shadow-md hover:shadow-lg dark:shadow-brand-dark dark:hover:shadow-brand-dark-lg transition-all duration-200 hover:scale-105 border border-brand-gray-200 dark:border-brand-gray-600 dark:glow-brand-pink"
+              className="p-2 bg-white dark:bg-[rgb(25,30,36)] rounded-full shadow-sm hover:shadow-md dark:shadow-brand-dark dark:hover:shadow-brand-dark-lg transition-all duration-200 hover:scale-105 border border-brand-gray-200 dark:border-brand-gray-600 dark:glow-brand-pink"
+              style={{ margin: '0 2px' }}
             >
-              <ArrowLeftRight className="h-4 w-4 text-brand-pink-500 dark:text-brand-pink-400" />
+              <ArrowLeftRight className="h-3 w-3 text-brand-pink-500 dark:text-brand-pink-400" />
             </button>
           </div>
 
           {/* To */}
-          <div className="lg:col-span-3 relative" ref={toDropdownRef}>
+          <div className="flex-1 min-w-[120px] relative transition-all duration-300" ref={toDropdownRef}>
             <div className="relative">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10">
-                <PlaneLanding className="h-4 w-4 text-brand-pink-500" />
+              <div className="absolute left-2 top-1/2 -translate-y-1/2 z-10">
+                <PlaneLanding className="h-3 w-3 text-brand-pink-500" />
               </div>
               <input
                 type="text"
@@ -398,7 +401,7 @@ export function FlightSelection() {
                 }}
                 onChange={onToChange}
                 placeholder="To where?"
-                className="w-full pl-10 pr-4 py-3 border-2 border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 dark:text-white dark:placeholder-brand-gray-400"
+                className="w-full pl-8 pr-2 py-2 border border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-md focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-xs font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 dark:text-white dark:placeholder-brand-gray-400"
               />
               {toError.isError && (
                 <p className="text-xs text-brand-error mt-1">
@@ -429,129 +432,98 @@ export function FlightSelection() {
             )}
           </div>
 
-          {/* Date Range (for round-trip) or Single Date (for one-way) */}
-          {flightType === "round-trip" ? (
-            <div className="lg:col-span-3">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full justify-start text-left font-medium text-sm py-4 px-4 bg-white border-2 border-brand-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500",
-                      !dateRange.start && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarDays className="mr-2 h-4 w-4 text-brand-pink-500" />
-                    {dateRange.start && dateRange.end
-                      ? `${format(dateRange.start, "MMM dd")} - ${format(
-                          dateRange.end,
-                          "MMM dd"
-                        )}`
-                      : dateRange.start
-                      ? `${format(dateRange.start, "MMM dd")} - Return date`
-                      : "Select date range"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <div className="p-4">
-                    <div className="flex flex-col lg:flex-row gap-4">
-                      <div>
-                        <Label className="text-sm font-medium mb-2 block">
-                          Departure Date
-                        </Label>
-                        <Calendar
-                          mode="single"
-                          selected={dateRange.start || undefined}
-                          onSelect={(date) => {
-                            setDateRange((prev) => ({
-                              ...prev,
-                              start: date || null,
-                            }));
-                            setDepartDate(date);
-                            setDepartDateError({ isError: false, message: "" });
-                          }}
-                          disabled={(date) => date < new Date()}
-                          initialFocus
-                        />
-                      </div>
-                      <div>
-                        <Label className="text-sm font-medium mb-2 block">
-                          Return Date
-                        </Label>
-                        <Calendar
-                          mode="single"
-                          selected={dateRange.end || undefined}
-                          onSelect={(date) => {
-                            setDateRange((prev) => ({
-                              ...prev,
-                              end: date || null,
-                            }));
-                            setReturnDate(date);
-                            setReturnDateError({ isError: false, message: "" });
-                          }}
-                          disabled={(date) =>
-                            date < (dateRange.start || new Date())
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </PopoverContent>
-              </Popover>
-              {(departDateError.isError || returnDateError.isError) && (
-                <p className="text-xs text-red-500 mt-1">
-                  {departDateError.message || returnDateError.message}
-                </p>
+          <div className={`flex-1 flex flex-row gap-2 sm:gap-4 items-center transition-all duration-500`}>
+            {/* Departure Date */}
+            <div className="relative flex-1 min-w-[120px] transition-all duration-500">
+              {!departDate && (
+                <span className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none text-xs">
+                  Departure date
+                </span>
               )}
-            </div>
-          ) : (
-            <div className="lg:col-span-3">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full justify-start text-left font-medium text-sm py-4 px-4 bg-white border-2 border-brand-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500",
-                      !departDate && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarDays className="mr-2 h-4 w-4 text-brand-pink-500" />
-                    {departDate
-                      ? format(departDate, "MMM dd, yyyy")
-                      : "Select departure date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <div className="p-4">
-                    <Label className="text-sm font-medium mb-2 block">
-                      Departure Date
-                    </Label>
-                    <Calendar
-                      mode="single"
-                      selected={departDate}
-                      onSelect={(date) => {
-                        setDepartDate(date);
-                        setDepartDateError({ isError: false, message: "" });
-                      }}
-                      disabled={(date) => date < new Date()}
-                      initialFocus
-                    />
-                  </div>
-                </PopoverContent>
-              </Popover>
+              <input
+                type="date"
+                value={departDate ? departDate.toISOString().split("T")[0] : ""}
+                onChange={(e) => {
+                  const selectedDate = new Date(e.target.value);
+                  if (isNaN(selectedDate.getTime())) {
+                    setDepartDateError({
+                      isError: true,
+                      message: "Invalid date",
+                    });
+                  } else {
+                    setDepartDate(selectedDate);
+                    setDepartDateError({ isError: false, message: "" });
+                  }
+                }}
+                min={new Date().toISOString().split("T")[0]}
+                className={`w-full border border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-md py-2 px-3 text-xs font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 ${
+                  !departDate ? "text-transparent" : "text-black dark:text-white"
+                } transition-all duration-500`}
+              />
               {departDateError.isError && (
                 <p className="text-xs text-brand-error mt-1">
                   {departDateError.message}
                 </p>
               )}
             </div>
-          )}
+
+            {/* Return Date - Animate removal by flex-grow and width */}
+            <div
+              className={`relative transition-all duration-500 ${
+                flightType === "round-trip" ? "flex-1 min-w-[120px] opacity-100" : "w-0 min-w-0 opacity-0 pointer-events-none"
+              }`}
+              style={{
+                transitionProperty: 'width, min-width, opacity',
+                width: flightType === 'round-trip' ? '100%' : '0px',
+                minWidth: flightType === 'round-trip' ? 120 : 0,
+                opacity: flightType === 'round-trip' ? 1 : 0,
+                overflow: 'hidden',
+              }}
+            >
+              {flightType === "round-trip" && !returnDate && (
+                <span className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none text-xs">
+                  Return date
+                </span>
+              )}
+              {flightType === "round-trip" && (
+                <input
+                  type="date"
+                  value={returnDate ? returnDate.toISOString().split("T")[0] : ""}
+                  onChange={(e) => {
+                    const selectedDate = new Date(e.target.value);
+                    if (isNaN(selectedDate.getTime())) {
+                      setReturnDateError({
+                        isError: true,
+                        message: "Invalid date",
+                      });
+                    } else {
+                      setReturnDate(selectedDate);
+                      setReturnDateError({ isError: false, message: "" });
+                    }
+                  }}
+                  min={
+                    departDate
+                      ? departDate.toISOString().split("T")[0]
+                      : new Date().toISOString().split("T")[0]
+                  }
+                  className={`w-full border border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-md py-2 px-3 text-xs font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 focus:ring-2 focus:ring-brand-pink-500 focus:border-pink-500 ${
+                    !returnDate ? "text-transparent" : "text-black dark:text-white"
+                  } transition-all duration-500`}
+                />
+              )}
+              {flightType === "round-trip" && returnDateError.isError && (
+                <p className="text-xs text-brand-error mt-1">
+                  {returnDateError.message}
+                </p>
+              )}
+            </div>
+          </div>
 
           {/* Search Button - Desktop Only */}
-          <div className="hidden lg:block lg:col-span-2">
+          <div className="hidden lg:block flex-none" style={{ minWidth: 120 }}>
             <Button
               onClick={handleSearch}
-          className="w-full max-w-sm bg-pink-500 hover:bg-pink-600 dark:bg-pink-400 dark:hover:bg-pink-500 text-white font-semibold py-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+              className="w-full max-w-sm bg-pink-500 hover:bg-pink-600 dark:bg-pink-400 dark:hover:bg-pink-500 text-white font-semibold py-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
             >
               <Search className="h-4 w-4 mr-2" />
               Search
@@ -588,7 +560,7 @@ export function FlightSelection() {
           </div>
         </div>
         {/* Class */}
-        <div className="flex items-center  rounded-lg px-4 py-2 shadow-sm ">
+        <div className="flex items-center  rounded-lg px-4 py-2  ">
           <span className="text-sm font-medium mr-3 text-brand-gray-700 dark:text-brand-gray-300">
             Class:
           </span>
