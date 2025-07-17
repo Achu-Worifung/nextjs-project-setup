@@ -9,22 +9,14 @@ import React, {
   useEffect,
 } from "react";
 import { useRouter } from "next/navigation";
-import { format } from "date-fns";
 import airports from "@/public/airports.json";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
 
 import {
   Search,
   Users,
-  CalendarDays,
   PlaneTakeoff,
   PlaneLanding,
   ArrowLeftRight,
@@ -54,11 +46,7 @@ export function FlightSelection() {
   const [to, setTo] = useState("");
   const [departDate, setDepartDate] = useState<Date | undefined>(undefined);
   const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
-  const [dateRange, setDateRange] = useState<{
-    start: Date | null;
-    end: Date | null;
-  }>({ start: null, end: null });
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
+
 
   // --------------------------------ERROR HANDLING WARNING---------------------------------------
   const [fromError, setFromError] = useState({ message: "", isError: false });
@@ -236,21 +224,21 @@ export function FlightSelection() {
 
     // Validate dates based on flight type
     if (flightType === "round-trip") {
-      if (!dateRange.start) {
+      if (!departDate) {
         setDepartDateError({
           isError: true,
           message: "Please select a departure date.",
         });
         return;
       }
-      if (!dateRange.end) {
+      if (!returnDate) {
         setReturnDateError({
           isError: true,
           message: "Please select a return date.",
         });
         return;
       }
-      if (dateRange.end <= dateRange.start) {
+      if (returnDate <= departDate) {
         setReturnDateError({
           isError: true,
           message: "Return date must be after departure date.",
@@ -268,18 +256,8 @@ export function FlightSelection() {
     }
 
     // Format the dates
-    const ddate =
-      flightType === "round-trip" && dateRange.start
-        ? dateRange.start.toISOString().split("T")[0]
-        : departDate
-        ? departDate.toISOString().split("T")[0]
-        : "";
-    const rdate =
-      flightType === "round-trip" && dateRange.end
-        ? dateRange.end.toISOString().split("T")[0]
-        : returnDate
-        ? returnDate.toISOString().split("T")[0]
-        : "";
+    const ddate = departDate ? departDate.toISOString().split("T")[0] : "";
+    const rdate = returnDate ? returnDate.toISOString().split("T")[0] : "";
 
     const params = new URLSearchParams({
       flightType,

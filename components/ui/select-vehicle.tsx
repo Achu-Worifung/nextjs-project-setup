@@ -202,7 +202,7 @@ export function SelectVehicle() {
                 }}
                 onChange={(e) => setPickupLocation(e.target.value)}
                 placeholder="Pickup location"
-                className="w-full pl-10 pr-4 py-3 border-2 border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 dark:text-white dark:placeholder-brand-gray-400"
+                className="w-full pl-10 pr-4 py-2 border-2 border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 dark:text-white dark:placeholder-brand-gray-400"
               />
               {pickupError.isError && (
                 <p className="text-xs text-brand-error mt-1">{pickupError.message}</p>
@@ -232,8 +232,9 @@ export function SelectVehicle() {
           <div className="lg:col-span-1 flex justify-center">
             <button
               onClick={handleSwap}
-              className="p-3 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-105 border border-brand-gray-200"
-            >
+              className="p-2 bg-white dark:bg-[rgb(25,30,36)] rounded-full shadow-sm hover:shadow-md dark:shadow-brand-dark dark:hover:shadow-brand-dark-lg transition-all duration-200 hover:scale-105 border border-brand-gray-200 dark:border-brand-gray-600 dark:glow-brand-pink"
+              style={{ margin: '0 2px' }}
+              >
               <ArrowLeftRight className="h-4 w-4 text-pink-500" />
             </button>
           </div>
@@ -253,7 +254,7 @@ export function SelectVehicle() {
                 }}
                 onChange={(e) => setDropoffLocation(e.target.value)}
                 placeholder="Dropoff location"
-                className="w-full pl-10 pr-4 py-3 border-2 border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 dark:text-white dark:placeholder-brand-gray-400"
+                className="w-full pl-10 pr-4 py-1 border-2 border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 dark:text-white dark:placeholder-brand-gray-400"
               />
               {dropoffError.isError && (
                 <p className="text-xs text-brand-error mt-1">{dropoffError.message}</p>
@@ -279,61 +280,72 @@ export function SelectVehicle() {
             )}
           </div>
 
-          {/* Date Range */}
-          <div className="lg:col-span-3">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-full justify-start text-left font-medium text-sm py-4 px-4 bg-white dark:bg-[rgb(25,30,36)] border-2 border-brand-gray-200 dark:border-brand-gray-600 rounded-lg shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 dark:text-white",
-                    !dateRange.start && "text-muted-foreground dark:text-brand-gray-400"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4 text-pink-500" />
-                  {dateRange.start && dateRange.end
-                    ? `${format(dateRange.start, "MMM dd")} - ${format(dateRange.end, "MMM dd")}`
-                    : dateRange.start
-                    ? `${format(dateRange.start, "MMM dd")} - Return date`
-                    : "Select rental period"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0 bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-200 dark:border-brand-gray-600 shadow-xl dark:shadow-brand-dark-lg" align="start">
-                <div className="p-4">
-                  <div className="flex flex-col lg:flex-row gap-4">
-                    <div>
-                      <Label className="text-sm font-medium mb-2 block dark:text-white">Pickup Date</Label>
-                      <Calendar
-                        mode="single"
-                        selected={dateRange.start || undefined}
-                        onSelect={(date) => {
-                          setDateRange(prev => ({ ...prev, start: date || null }));
-                          setDateError({ isError: false, message: "" });
-                        }}
-                        disabled={(date) => date < new Date()}
-                        initialFocus
-                        className="dark:text-white"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-sm font-medium mb-2 block dark:text-white">Dropoff Date</Label>
-                      <Calendar
-                        mode="single"
-                        selected={dateRange.end || undefined}
-                        onSelect={(date) => {
-                          setDateRange(prev => ({ ...prev, end: date || null }));
-                          setDateError({ isError: false, message: "" });
-                        }}
-                        disabled={(date) =>
-                          date < (dateRange.start || new Date())
-                        }
-                        className="dark:text-white"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </PopoverContent>
-            </Popover>
+          {/* Pickup and Dropoff Date Calendars */}
+          <div className="lg:col-span-3 flex gap-4">
+            <div className="relative flex-1 min-w-[120px] transition-all duration-500">
+              {!dateRange.start && (
+                <span className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none text-xs">
+                  Pickup date
+                </span>
+              )}
+              <input
+                type="date"
+                value={dateRange.start ? dateRange.start.toISOString().split("T")[0] : ""}
+                onChange={(e) => {
+                  const selectedDate = new Date(e.target.value);
+                  if (isNaN(selectedDate.getTime())) {
+                    setDateError({
+                      isError: true,
+                      message: "Invalid date",
+                    });
+                  } else {
+                    setDateRange(prev => ({ ...prev, start: selectedDate }));
+                    setDateError({ isError: false, message: "" });
+                    // Reset dropoff if before pickup
+                    if (dateRange.end && selectedDate >= dateRange.end) {
+                      setDateRange(prev => ({ ...prev, end: null }));
+                      setDateError({ isError: false, message: "" });
+                    }
+                  }
+                }}
+                min={new Date().toISOString().split("T")[0]}
+                className={`w-full border border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-md py-2 px-3 text-xs font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 focus:ring-2 focus:ring-pink-500 focus:border-brand-pink-500 ${
+                  !dateRange.start ? "text-transparent" : "text-black dark:text-white"
+                } transition-all duration-500`}
+              />
+            </div>
+            <div className="relative flex-1 min-w-[120px] transition-all duration-500">
+              {!dateRange.end && (
+                <span className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none text-xs">
+                  Dropoff date
+                </span>
+              )}
+              <input
+                type="date"
+                value={dateRange.end ? dateRange.end.toISOString().split("T")[0] : ""}
+                onChange={(e) => {
+                  const selectedDate = new Date(e.target.value);
+                  if (isNaN(selectedDate.getTime())) {
+                    setDateError({
+                      isError: true,
+                      message: "Invalid date",
+                    });
+                  } else if (dateRange.start && selectedDate <= dateRange.start) {
+                    setDateError({
+                      isError: true,
+                      message: "Dropoff must be after pickup.",
+                    });
+                  } else {
+                    setDateRange(prev => ({ ...prev, end: selectedDate }));
+                    setDateError({ isError: false, message: "" });
+                  }
+                }}
+                min={dateRange.start ? dateRange.start.toISOString().split("T")[0] : new Date().toISOString().split("T")[0]}
+                className={`w-full border border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-md py-2 px-3 text-xs font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 ${
+                  !dateRange.end ? "text-transparent" : "text-black dark:text-white"
+                } transition-all duration-500`}
+              />
+            </div>
             {dateError.isError && (
               <p className="text-xs text-brand-error mt-1">{dateError.message}</p>
             )}

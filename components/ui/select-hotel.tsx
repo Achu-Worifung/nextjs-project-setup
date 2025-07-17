@@ -1,13 +1,9 @@
 "use client";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { MapPin, Calendar as CalendarIcon, Users, Building2, Search } from "lucide-react";
+import { MapPin, Users, Building2, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+
 
 // Mock location suggestions function (similar to select-vehicle)
 const getLocationSuggestions = async (query: string): Promise<string[]> => {
@@ -195,7 +191,7 @@ export function SelectHotel() {
                 }}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Where are you going?"
-                className="w-full pl-10 pr-4 py-3 border-2 border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 dark:text-white"
+                className="w-full pl-10 pr-4 py-1 border-2 border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 dark:text-white"
               />
               {cityError.isError && (
                 <p className="text-xs text-brand-error mt-1">{cityError.message}</p>
@@ -222,66 +218,82 @@ export function SelectHotel() {
             )}
           </div>
 
-          {/* Date Range */}
-          <div className="lg:col-span-4">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-full justify-start text-left font-medium text-sm py-4 px-4 bg-white dark:bg-[rgb(25,30,36)] border-2 border-brand-gray-200 dark:border-brand-gray-600 rounded-lg shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 dark:text-white",
-                    !dateRange.start && "text-muted-foreground dark:text-brand-gray-400"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4 text-pink-500" />
-                  {dateRange.start && dateRange.end
-                    ? `${format(dateRange.start, "MMM dd")} - ${format(dateRange.end, "MMM dd")}`
-                    : dateRange.start
-                    ? `${format(dateRange.start, "MMM dd")} - Check-out date`
-                    : "Select date range"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0 bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-200 dark:border-brand-gray-600 shadow-xl dark:shadow-brand-dark-lg" align="start">
-                <div className="p-4">
-                  <div className="flex flex-col lg:flex-row gap-4">
-                    <div>
-                      <Label className="text-sm font-medium mb-2 block dark:text-white">Check-in Date</Label>
-                      <Calendar
-                        mode="single"
-                        selected={dateRange.start || undefined}
-                        onSelect={(date) => {
-                          setDateRange(prev => ({ ...prev, start: date || null }));
-                          setCheckInDateError({ isError: false, message: "" });
-                        }}
-                        disabled={(date) => date < new Date()}
-                        initialFocus
-                        className="dark:text-white"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-sm font-medium mb-2 block dark:text-white">Check-out Date</Label>
-                      <Calendar
-                        mode="single"
-                        selected={dateRange.end || undefined}
-                        onSelect={(date) => {
-                          setDateRange(prev => ({ ...prev, end: date || null }));
-                          setCheckOutDateError({ isError: false, message: "" });
-                        }}
-                        disabled={(date) =>
-                          date < (dateRange.start || new Date())
-                        }
-                        className="dark:text-white"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </PopoverContent>
-            </Popover>
-            {(checkInDateError.isError || checkOutDateError.isError) && (
-              <p className="text-xs text-brand-error mt-1">
-                {checkInDateError.message || checkOutDateError.message}
-              </p>
-            )}
+          {/* Check-in and Check-out Date Inputs */}
+          <div className="lg:col-span-4 flex gap-4">
+            <div className="relative flex-1 min-w-[120px] transition-all duration-500">
+              {!dateRange.start && (
+                <span className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none text-xs">
+                  Check-in date
+                </span>
+              )}
+              <input
+                type="date"
+                value={dateRange.start ? dateRange.start.toISOString().split("T")[0] : ""}
+                onChange={(e) => {
+                  const selectedDate = new Date(e.target.value);
+                  if (isNaN(selectedDate.getTime())) {
+                    setCheckInDateError({
+                      isError: true,
+                      message: "Invalid date",
+                    });
+                  } else {
+                    setDateRange(prev => ({ ...prev, start: selectedDate }));
+                    setCheckInDateError({ isError: false, message: "" });
+                    // Reset check-out if before check-in
+                    if (dateRange.end && selectedDate >= dateRange.end) {
+                      setDateRange(prev => ({ ...prev, end: null }));
+                      setCheckOutDateError({ isError: false, message: "" });
+                    }
+                  }
+                }}
+                min={new Date().toISOString().split("T")[0]}
+                className={`w-full border border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-md py-2 px-3 text-xs font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 ${
+                  !dateRange.start ? "text-transparent" : "text-black dark:text-white"
+                } transition-all duration-500`}
+              />
+              {checkInDateError.isError && (
+                <p className="text-xs text-brand-error mt-1">
+                  {checkInDateError.message}
+                </p>
+              )}
+            </div>
+            <div className="relative flex-1 min-w-[120px] transition-all duration-500">
+              {!dateRange.end && (
+                <span className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none text-xs">
+                  Check-out date
+                </span>
+              )}
+              <input
+                type="date"
+                value={dateRange.end ? dateRange.end.toISOString().split("T")[0] : ""}
+                onChange={(e) => {
+                  const selectedDate = new Date(e.target.value);
+                  if (isNaN(selectedDate.getTime())) {
+                    setCheckOutDateError({
+                      isError: true,
+                      message: "Invalid date",
+                    });
+                  } else if (dateRange.start && selectedDate <= dateRange.start) {
+                    setCheckOutDateError({
+                      isError: true,
+                      message: "Check-out must be after check-in.",
+                    });
+                  } else {
+                    setDateRange(prev => ({ ...prev, end: selectedDate }));
+                    setCheckOutDateError({ isError: false, message: "" });
+                  }
+                }}
+                min={dateRange.start ? dateRange.start.toISOString().split("T")[0] : new Date().toISOString().split("T")[0]}
+                className={`w-full border border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-md py-2 px-3 text-xs font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 ${
+                  !dateRange.end ? "text-transparent" : "text-black dark:text-white"
+                } transition-all duration-500`}
+              />
+              {checkOutDateError.isError && (
+                <p className="text-xs text-brand-error mt-1">
+                  {checkOutDateError.message}
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Search Button - Desktop Only */}
