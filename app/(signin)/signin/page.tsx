@@ -8,10 +8,7 @@ import {
   EyeOff,
   Mail,
   Lock,
-  Plane,
-
   ChevronsLeft 
-  
 } from "lucide-react";
 import {SignInBg} from "@/components/ui/signin-bg";
 
@@ -26,7 +23,6 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [warning, setWarning] = useState<boolean>(false);
-  const[gwarning, setgWarning] = useState<boolean>(false);
 
   const { setToken } = useAuth();
   const router = useRouter();
@@ -80,8 +76,8 @@ export default function LoginPage() {
       <SignInBg />
 
         <button 
-          onClick={() => router.push("/")} className="text-sm flex justify-center items-center absolute top-10 left-24 text-white/70 hover:text-white px-4 z-10 bg-black/50 rounded-full p-2 hover:bg-black/80 cursor-pointer">
-          <ChevronsLeft className="w-6 h-6 " />  Go Home
+          onClick={() => router.back()} className="text-sm flex justify-center items-center absolute top-5 left-3 text-white/70 hover:text-white px-4 z-10 bg-black/50 rounded-full p-2 hover:bg-black/80 cursor-pointer">
+          <ChevronsLeft className="w-6 h-6 " />  Go Back
         </button>
       <div className="relative z-10 w-full max-w-md mx-4">
         <Card className="glass-morphism shadow-2xl border-0 rounded-3xl animate-pulse-glow overflow-hidden">
@@ -92,11 +88,7 @@ export default function LoginPage() {
           
           <CardContent className="p-10 relative">
             <div className="text-center mb-10">
-              <div className="flex justify-center mb-6">
-                <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-2xl animate-pulse-glow">
-                  <Plane className="w-10 h-10 text-white drop-shadow-lg" />
-                </div>
-              </div>
+
               <h1 className="text-4xl font-bold text-white mb-3 ">
                 Welcome Back
               </h1>
@@ -166,11 +158,7 @@ export default function LoginPage() {
                     Invalid email or password
                   </p>
                 )}
-                {gwarning && (
-                  <p className="text-red-600  mt-2 font-semibold">
-                    User not found, please sign up
-                  </p>
-                )}
+
               </div>
 
               <Button

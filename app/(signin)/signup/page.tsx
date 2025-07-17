@@ -12,9 +12,7 @@ import {
   User,
   ChevronsLeft,
   AlertCircleIcon
-
 } from "lucide-react";
-
 
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
@@ -133,7 +131,7 @@ const handleSignUpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       {/* Enhanced Glamoric Background */}
       <SignInBg />
         <button 
-          onClick={() => router.push("/")} className="text-sm flex justify-center items-center absolute top-10 left-24 text-white/70 hover:text-white px-4 z-10 bg-black/50 rounded-full p-2 hover:bg-black/80 cursor-pointer">
+          onClick={() => router.push("/")} className="text-sm flex justify-center items-center absolute top-3 left-5 sm:top-10 sm:left-25 text-white/70 hover:text-white px-4 z-10 bg-black/50 rounded-full p-2 hover:bg-black/80 cursor-pointer">
           <ChevronsLeft className="w-6 h-6 " />  Go Home
         </button>
         <Card className="glass-morphism shadow-2xl border-0 rounded-3xl animate-pulse-glow overflow-hidden">
