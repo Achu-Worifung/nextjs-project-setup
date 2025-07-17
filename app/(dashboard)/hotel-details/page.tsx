@@ -465,3 +465,4 @@ const HotelDetailsPage = () => {
 };
 
 export default HotelDetailsPage;
+

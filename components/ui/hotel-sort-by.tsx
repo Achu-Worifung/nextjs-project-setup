@@ -28,3 +28,5 @@ export function HotelSortBy({sortByfunction}: { sortByfunction: (value: string) 
     </div>
   );
 }
+
+

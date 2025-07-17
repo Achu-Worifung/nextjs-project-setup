@@ -295,7 +295,7 @@ export default function HotelSearchPage() {
               </p>
             </div>
 
-            <Card className="border-2 border-blue-200 bg-blue-50/30">
+            <Card className="border-2 border-brand-pink-200 bg-blue-50/30">
               <CardContent className="p-6">
                 <div className="grid gap-4 md:grid-cols-6 items-end">
                   <div className="md:col-span-2">
@@ -311,7 +311,7 @@ export default function HotelSearchPage() {
                       value={searchCity}
                       onChange={(e) => setSearchCity(e.target.value)}
                       placeholder="Where are you going?"
-                      className="mt-2 h-12 text-lg border-2 border-gray-200 focus:border-blue-500"
+                      className="mt-2 h-12 text-lg border-2 border-brand-gray-200 focus:border-blue-500"
                     />
                   </div>
 
@@ -327,7 +327,7 @@ export default function HotelSearchPage() {
                         <Button
                           variant="outline"
                           className={cn(
-                            "w-full justify-start text-left font-normal h-12 mt-2 border-2 border-gray-200 hover:border-blue-500",
+                            "w-full justify-start text-left font-normal h-12 mt-2 border-2 border-brand-gray-200 hover:border-blue-500",
                             !checkInDate && "text-muted-foreground"
                           )}
                         >
@@ -361,7 +361,7 @@ export default function HotelSearchPage() {
                         <Button
                           variant="outline"
                           className={cn(
-                            "w-full justify-start text-left font-normal h-12 mt-2 border-2 border-gray-200 hover:border-blue-500",
+                            "w-full justify-start text-left font-normal h-12 mt-2 border-2 border-brand-gray-200 hover:border-blue-500",
                             !checkOutDate && "text-muted-foreground"
                           )}
                         >
@@ -400,7 +400,7 @@ export default function HotelSearchPage() {
                       max="10"
                       value={searchGuests}
                       onChange={(e) => setSearchGuests(e.target.value)}
-                      className="mt-2 h-12 border-2 border-gray-200 focus:border-blue-500"
+                      className="mt-2 h-12 border-2 border-brand-gray-200 focus:border-blue-500"
                     />
                   </div>
 
@@ -417,7 +417,7 @@ export default function HotelSearchPage() {
                   <div className="mt-4 text-center">
                     <Badge
                       variant="secondary"
-                      className="bg-blue-100 text-blue-700 px-3 py-1"
+                      className="bg-brand-pink-100 text-blue-700 px-3 py-1"
                     >
                       {nights} night{nights > 1 ? "s" : ""} • {searchGuests}{" "}
                       guest{parseInt(searchGuests) > 1 ? "s" : ""}
@@ -434,8 +434,8 @@ export default function HotelSearchPage() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center py-16">
               <div className="relative">
-                <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200 border-t-blue-600 mx-auto mb-6"></div>
-                <div className="absolute inset-0 rounded-full bg-blue-100 animate-pulse mx-auto h-16 w-16 opacity-20"></div>
+                <div className="animate-spin rounded-full h-16 w-16 border-4 border-brand-pink-200 border-t-blue-600 mx-auto mb-6"></div>
+                <div className="absolute inset-0 rounded-full bg-brand-pink-100 animate-pulse mx-auto h-16 w-16 opacity-20"></div>
               </div>
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">
                 Generating hotel options...
@@ -572,7 +572,7 @@ export default function HotelSearchPage() {
           </div>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div className="mb-6 p-4 bg-red-50 border border-brand-error/30 rounded-lg">
               <p className="text-red-700">{error}</p>
             </div>
           )}
@@ -623,3 +623,4 @@ export default function HotelSearchPage() {
     </div>
   );
 }
+

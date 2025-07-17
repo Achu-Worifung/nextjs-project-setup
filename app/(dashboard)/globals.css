@@ -76,40 +76,101 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Travel Booking App Color Palette - Light Mode */
+  /* Pink Brand Colors */
+  --brand-pink-400: oklch(0.8 0.14 330);    /* Lighter pink */
+  --brand-pink-500: oklch(0.7 0.17 330);    /* Main brand pink */
+  --brand-pink-600: oklch(0.6 0.17 330);    /* Darker pink */
+  --brand-pink-700: oklch(0.5 0.17 330);    /* Dark pink */
+
+  /* Gray Scale Palette */
+  --brand-gray-50: oklch(0.98 0 0);         /* Very light gray backgrounds */
+  --brand-gray-100: oklch(0.96 0 0);        /* Light gray containers */
+  --brand-gray-200: oklch(0.92 0 0);        /* Input borders */
+  --brand-gray-300: oklch(0.85 0 0);        /* Default borders */
+  --brand-gray-400: oklch(0.7 0 0);         /* Disabled text */
+  --brand-gray-500: oklch(0.6 0 0);         /* Muted text */
+  --brand-gray-600: oklch(0.45 0 0);        /* Tertiary text */
+  --brand-gray-700: oklch(0.35 0 0);        /* Secondary text */
+  --brand-gray-900: oklch(0.15 0 0);        /* Primary text */
+
+  /* Semantic Colors */
+  --brand-error: oklch(0.6 0.17 25);        /* Error red */
+  --brand-success: oklch(0.6 0.14 140);     /* Success green */
+  --brand-warning: oklch(0.7 0.15 80);      /* Warning yellow */
+
+  /* Background Colors */
+  --brand-bg-primary: oklch(1 0 0);         /* White */
+  --brand-bg-secondary: oklch(0.98 0 0);    /* Off-white */
+  --brand-bg-muted: oklch(0.96 0 0);        /* Light gray */
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Core System Colors - Soft Dark Mode (Easy on Eyes) */
+  --background: rgb(29, 35, 42);             /* Soft dark blue-gray background */
+  --foreground: rgb(235, 233, 252);          /* Soft light text */
+  --card: rgb(25, 30, 36);                   /* Slightly darker cards */
+  --card-foreground: rgb(235, 233, 252);     /* Card text */
+  --popover: rgb(25, 30, 36);                /* Popover background */
+  --popover-foreground: rgb(235, 233, 252);  /* Popover text */
+  --primary: oklch(0.85 0.20 330);           /* Vibrant pink primary */
+  --primary-foreground: rgb(29, 35, 42);     /* Dark text on primary */
+  --secondary: rgb(51, 55, 59);              /* Secondary backgrounds */
+  --secondary-foreground: rgb(200, 200, 220); /* Secondary text */
+  --muted: rgb(45, 52, 58);                  /* Muted backgrounds */
+  --muted-foreground: rgb(180, 180, 200);    /* Muted text */
+  --accent: rgb(51, 55, 59);                 /* Accent backgrounds */
+  --accent-foreground: rgb(220, 220, 240);   /* Accent text */
+  --destructive: oklch(0.78 0.22 28);        /* Bright error red */
+  --border: rgb(51, 55, 59);                 /* Soft borders */
+  --input: rgb(35, 42, 48);                  /* Input backgrounds */
+  --ring: oklch(0.85 0.20 330);              /* Focus ring - brand pink */
+  
+  /* Chart Colors - Vibrant for Dark Mode */
+  --chart-1: oklch(0.75 0.22 330);           /* Pink */
+  --chart-2: rgb(59, 130, 246);              /* Blue */
+  --chart-3: oklch(0.70 0.20 140);           /* Green */
+  --chart-4: rgb(255, 133, 51);              /* Orange highlight */
+  --chart-5: oklch(0.73 0.21 285);           /* Purple */
+  
+  /* Sidebar Colors */
+  --sidebar: rgb(25, 30, 36);                /* Sidebar background */
+  --sidebar-foreground: rgb(220, 220, 240);  /* Sidebar text */
+  --sidebar-primary: oklch(0.85 0.20 330);   /* Sidebar primary - brand pink */
+  --sidebar-primary-foreground: rgb(29, 35, 42);
+  --sidebar-accent: rgb(35, 42, 48);         /* Sidebar accent */
+  --sidebar-accent-foreground: rgb(200, 200, 220);
+  --sidebar-border: rgb(51, 55, 59);         /* Sidebar borders */
+  --sidebar-ring: oklch(0.85 0.20 330);      /* Sidebar focus ring */
+
+  /* Travel Booking App Color Palette - Soft Dark Mode */
+  /* Pink Brand Colors (Balanced vibrancy) */
+  --brand-pink-400: oklch(0.85 0.20 330);   /* Bright pink for highlights */
+  --brand-pink-500: oklch(0.80 0.18 330);   /* Primary brand - comfortable vibrancy */
+  --brand-pink-600: oklch(0.75 0.18 330);   /* Hover states */
+  --brand-pink-700: oklch(0.70 0.16 330);   /* Pressed states */
+
+  /* Gray Scale Palette (Soft and comfortable) */
+  --brand-gray-50: rgb(25, 30, 36);         /* Deepest containers */
+  --brand-gray-100: rgb(35, 42, 48);        /* Very dark containers */
+  --brand-gray-200: rgb(45, 52, 58);        /* Input borders */
+  --brand-gray-300: rgb(51, 55, 59);        /* Default borders */
+  --brand-gray-400: rgb(120, 125, 135);     /* Disabled text */
+  --brand-gray-500: rgb(160, 165, 175);     /* Muted text */
+  --brand-gray-600: rgb(180, 185, 195);     /* Tertiary text */
+  --brand-gray-700: rgb(200, 205, 215);     /* Secondary text */
+  --brand-gray-900: rgb(235, 233, 252);     /* Primary text - soft white */
+
+  /* Semantic Colors (Comfortable visibility) */
+  --brand-error: oklch(0.75 0.20 25);       /* Comfortable error red */
+  --brand-success: oklch(0.70 0.18 140);    /* Comfortable success green */
+  --brand-warning: rgb(255, 133, 51);       /* Orange highlight */
+
+  /* Background Colors (Soft hierarchy) */
+  --brand-bg-primary: rgb(29, 35, 42);      /* Main background */
+  --brand-bg-secondary: rgb(25, 30, 36);    /* Card backgrounds */
+  --brand-bg-muted: rgb(35, 42, 48);        /* Elevated surfaces */
 }
 
 .dark nav .nav-link {
@@ -155,4 +216,135 @@
       transform: translateY(0px);
     }
   }
+
+  /* Brand Color Utilities */
+  /* Pink Variants */
+  .text-brand-pink-400 { color: var(--brand-pink-400); }
+  .text-brand-pink-500 { color: var(--brand-pink-500); }
+  .text-brand-pink-600 { color: var(--brand-pink-600); }
+  .text-brand-pink-700 { color: var(--brand-pink-700); }
+  
+  .bg-brand-pink-400 { background-color: var(--brand-pink-400); }
+  .bg-brand-pink-500 { background-color: var(--brand-pink-500); }
+  .bg-brand-pink-600 { background-color: var(--brand-pink-600); }
+  .bg-brand-pink-700 { background-color: var(--brand-pink-700); }
+  
+  .border-brand-pink-400 { border-color: var(--brand-pink-400); }
+  .border-brand-pink-500 { border-color: var(--brand-pink-500); }
+  .border-brand-pink-600 { border-color: var(--brand-pink-600); }
+  .border-brand-pink-700 { border-color: var(--brand-pink-700); }
+
+  /* Gray Scale Variants */
+  .text-brand-gray-50 { color: var(--brand-gray-50); }
+  .text-brand-gray-100 { color: var(--brand-gray-100); }
+  .text-brand-gray-200 { color: var(--brand-gray-200); }
+  .text-brand-gray-300 { color: var(--brand-gray-300); }
+  .text-brand-gray-400 { color: var(--brand-gray-400); }
+  .text-brand-gray-500 { color: var(--brand-gray-500); }
+  .text-brand-gray-600 { color: var(--brand-gray-600); }
+  .text-brand-gray-700 { color: var(--brand-gray-700); }
+  .text-brand-gray-900 { color: var(--brand-gray-900); }
+  
+  .bg-brand-gray-50 { background-color: var(--brand-gray-50); }
+  .bg-brand-gray-100 { background-color: var(--brand-gray-100); }
+  .bg-brand-gray-200 { background-color: var(--brand-gray-200); }
+  .bg-brand-gray-300 { background-color: var(--brand-gray-300); }
+  .bg-brand-gray-400 { background-color: var(--brand-gray-400); }
+  .bg-brand-gray-500 { background-color: var(--brand-gray-500); }
+  .bg-brand-gray-600 { background-color: var(--brand-gray-600); }
+  .bg-brand-gray-700 { background-color: var(--brand-gray-700); }
+  .bg-brand-gray-900 { background-color: var(--brand-gray-900); }
+  
+  .border-brand-gray-50 { border-color: var(--brand-gray-50); }
+  .border-brand-gray-100 { border-color: var(--brand-gray-100); }
+  .border-brand-gray-200 { border-color: var(--brand-gray-200); }
+  .border-brand-gray-300 { border-color: var(--brand-gray-300); }
+  .border-brand-gray-400 { border-color: var(--brand-gray-400); }
+  .border-brand-gray-500 { border-color: var(--brand-gray-500); }
+  .border-brand-gray-600 { border-color: var(--brand-gray-600); }
+  .border-brand-gray-700 { border-color: var(--brand-gray-700); }
+  .border-brand-gray-900 { border-color: var(--brand-gray-900); }
+
+  /* Semantic Colors */
+  .text-brand-error { color: var(--brand-error); }
+  .text-brand-success { color: var(--brand-success); }
+  .text-brand-warning { color: var(--brand-warning); }
+  
+  .bg-brand-error { background-color: var(--brand-error); }
+  .bg-brand-success { background-color: var(--brand-success); }
+  .bg-brand-warning { background-color: var(--brand-warning); }
+
+  /* Background Utilities */
+  .bg-brand-primary { background-color: var(--brand-bg-primary); }
+  .bg-brand-secondary { background-color: var(--brand-bg-secondary); }
+  .bg-brand-muted { background-color: var(--brand-bg-muted); }
+
+  /* Dark Mode Specific Card Backgrounds */
+  .dark\:bg-brand-card { background-color: rgb(25, 30, 36); }
+  .dark\:bg-brand-card-elevated { background-color: rgb(35, 42, 48); }
+  .dark\:bg-brand-surface { background-color: rgb(35, 42, 48); }
+  .dark\:bg-brand-elevated { background-color: rgb(45, 52, 58); }
+  .dark\:bg-brand-overlay { background-color: rgb(51, 55, 59); }
+
+  /* Focus Ring Utilities */
+  .focus-brand-pink:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--brand-pink-500);
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+    --tw-ring-offset-width: 2px;
+    --tw-ring-offset-color: var(--brand-bg-primary);
+  }
+
+  /* Hover Utilities */
+  .hover-brand-pink-500:hover { background-color: var(--brand-pink-500); }
+  .hover-brand-pink-600:hover { background-color: var(--brand-pink-600); }
+  .hover-brand-pink-700:hover { background-color: var(--brand-pink-700); }
+
+  /* Dark Mode Specific Utilities */
+  .dark\:bg-brand-gray-800 { background-color: rgb(35, 42, 48); }
+  .dark\:text-brand-gray-200 { color: rgb(180, 185, 195); }
+  .dark\:border-brand-gray-700 { border-color: rgb(51, 55, 59); }
+  
+  /* Enhanced Shadow for Dark Mode - Softer shadows */
+  .dark\:shadow-brand-dark { 
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2); 
+  }
+  .dark\:shadow-brand-dark-lg { 
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3); 
+  }
+  .dark\:shadow-brand-dark-xl { 
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4); 
+  }
+
+  /* Improved Focus States for Dark Mode */
+  .dark\:focus-brand-pink:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    --tw-ring-color: var(--brand-pink-500);
+    box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.3);
+  }
+
+  /* Dark Mode Glow Effects - Softer glows */
+  .dark\:glow-brand-pink {
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.15);
+  }
+  .dark\:glow-brand-pink-strong {
+    box-shadow: 0 0 25px rgba(255, 105, 180, 0.25);
+  }
+
+  /* Enhanced Dark Mode Text Contrast */
+  .dark\:text-brand-ultra-white { color: rgb(235, 233, 252); }
+  .dark\:text-brand-soft-white { color: rgb(220, 220, 240); }
+  
+  /* Better Dark Mode Backgrounds */
+  .dark\:bg-brand-surface { background-color: rgb(35, 42, 48); }
+  .dark\:bg-brand-elevated { background-color: rgb(45, 52, 58); }
+  .dark\:bg-brand-overlay { background-color: rgb(51, 55, 59); }
+
+  /* Improved Dark Mode Borders */
+  .dark\:border-brand-subtle { border-color: rgb(45, 52, 58); }
+  .dark\:border-brand-medium { border-color: rgb(51, 55, 59); }
+  .dark\:border-brand-strong { border-color: rgb(60, 65, 70); }
 }

@@ -78,7 +78,7 @@ const FlightDetailsPage = () => {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <div className="w-12 h-12 bg-brand-pink-100 rounded-lg flex items-center justify-center">
                       <span className="text-blue-600 font-bold text-sm">
                         {flight.airline.substring(0, 2)}
                       </span>
@@ -110,7 +110,7 @@ const FlightDetailsPage = () => {
                   {/* Route */}
                   <div className="flex items-center justify-center">
                     <div className="flex items-center gap-2 text-center">
-                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-brand-pink-100 rounded-full flex items-center justify-center">
                         <Plane className="h-4 w-4 text-blue-600" />
                       </div>
                       <div className="flex-1 h-px bg-gray-300"></div>
@@ -120,7 +120,7 @@ const FlightDetailsPage = () => {
                           : `${flight.numberOfStops} stop${flight.numberOfStops > 1 ? "s" : ""}`}
                       </div>
                       <div className="flex-1 h-px bg-gray-300"></div>
-                      <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-brand-success/20 rounded-full flex items-center justify-center">
                         <MapPin className="h-4 w-4 text-green-600" />
                       </div>
                     </div>
@@ -265,3 +265,4 @@ const FlightDetailsPage = () => {
 };
 
 export default FlightDetailsPage;
+

@@ -44,7 +44,7 @@ export function HotelCard({ hotel }: { hotel: hotel_type }) {
   };
 
   return (
-    <Card className="group overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-white"
+    <Card className="group overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer bg-white dark:bg-[rgb(25,30,36)]"
           onClick={handleClick}>
       <div data-testid="hotel-card" className="relative">
         {/* Hotel Image Section with Overlay */}
@@ -67,7 +67,7 @@ export function HotelCard({ hotel }: { hotel: hotel_type }) {
               className="h-8 w-8 bg-white/90 hover:bg-white shadow-lg"
               onClick={(e) => e.stopPropagation()}
             >
-              <Heart className="h-4 w-4 text-gray-600" />
+              <Heart className="h-4 w-4 text-brand-gray-600" />
             </Button>
             
             {hotel.property.priceBreakdown.strikethroughPrice && (
@@ -93,13 +93,13 @@ export function HotelCard({ hotel }: { hotel: hotel_type }) {
         </div>
 
         {/* Additional hover animations and responsive improvements */}
-        <div className="absolute inset-0 bg-gradient-to-t from-blue-600/0 to-blue-600/0 group-hover:from-blue-600/10 group-hover:to-transparent transition-all duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-t from-blue-600/0 to-brand-pink-600/0 group-hover:from-blue-600/10 group-hover:to-transparent transition-all duration-300" />
 
         <CardContent className="p-6">
           {/* Hotel Name and Rating */}
           <div className="flex justify-between items-start mb-4">
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+              <h3 className="text-xl font-bold text-brand-gray-900 mb-2 line-clamp-2 group-hover:text-brand-pink-600 transition-colors">
                 {hotel.property.name}
               </h3>
               
@@ -108,7 +108,7 @@ export function HotelCard({ hotel }: { hotel: hotel_type }) {
                 <div className="flex">
                   {renderStars(hotel.property.propertyClass || 4)}
                 </div>
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-brand-gray-500">
                   {hotel.property.propertyClass || 4} Star Hotel
                 </span>
               </div>
@@ -124,10 +124,10 @@ export function HotelCard({ hotel }: { hotel: hotel_type }) {
                 </span>
               </div>
               <div>
-                <p className="text-sm font-semibold text-gray-900">
+                <p className="text-sm font-semibold text-brand-gray-900">
                   {hotel.property.reviewScoreWord}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-brand-gray-500">
                   {hotel.property.reviewCount?.toLocaleString()} reviews
                 </p>
               </div>
@@ -143,11 +143,11 @@ export function HotelCard({ hotel }: { hotel: hotel_type }) {
             {hotel.property.priceBreakdown.benefitBadges
               ?.slice(0, 2)
               .map((badge, index) => (
-                <Badge key={index} variant="outline" className="text-gray-600">
+                <Badge key={index} variant="outline" className="text-brand-gray-600">
                   {badge.text}
                 </Badge>
               ))}
-            <Badge variant="outline" className="text-blue-600">
+            <Badge variant="outline" className="text-brand-pink-600">
               {diffDays} night{diffDays > 1 ? 's' : ''}
             </Badge>
           </div>
@@ -164,16 +164,16 @@ export function HotelCard({ hotel }: { hotel: hotel_type }) {
                     ).toLocaleString()}
                   </span>
                 )}
-                <span className="text-3xl font-bold text-gray-900">
+                <span className="text-3xl font-bold text-brand-gray-900">
                   $
                   {Math.round(
                     hotel.property.priceBreakdown.grossPrice.value / diffDays
                   ).toLocaleString()}
                 </span>
-                <span className="text-sm text-gray-600">/ night</span>
+                <span className="text-sm text-brand-gray-600">/ night</span>
               </div>
               
-              <div className="text-sm text-gray-600 mt-1">
+              <div className="text-sm text-brand-gray-600 mt-1">
                 <span className="font-semibold">
                   $
                   {hotel.property.priceBreakdown.grossPrice.value.toLocaleString()}{" "}
@@ -202,3 +202,5 @@ export function HotelCard({ hotel }: { hotel: hotel_type }) {
     </Card>
   );
 }
+
+

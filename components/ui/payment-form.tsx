@@ -108,10 +108,10 @@ export default function PaymentMethodsForm() {
     <TooltipProvider>
       <div className="max-w-4xl mx-auto p-2 sm:p-6 lg:p-8">
         <div className="mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-brand-gray-900 mb-2">
             Payment Methods
           </h2>
-          <p className="text-sm sm:text-base text-gray-600">
+          <p className="text-sm sm:text-base text-brand-gray-600">
             Manage your saved payment methods for faster checkout
           </p>
         </div>
@@ -215,59 +215,59 @@ export default function PaymentMethodsForm() {
         {!showAddForm ? (
           <button
             onClick={() => setShowAddForm(true)}
-            className="w-full border-2 border-dashed border-gray-300 rounded-xl p-6 sm:p-8 hover:border-blue-500 hover:bg-blue-50 transition-all duration-300 group"
+            className="w-full border-2 border-dashed border-brand-gray-300 rounded-xl p-6 sm:p-8 hover:border-brand-pink-500 hover:bg-brand-pink-50 transition-all duration-300 group"
           >
             <div className="flex flex-col items-center space-y-3">
-              <div className="bg-blue-100 group-hover:bg-blue-200 rounded-full p-3 transition-colors">
-                <Plus className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+              <div className="bg-brand-pink-100 group-hover:bg-blue-200 rounded-full p-3 transition-colors">
+                <Plus className="w-5 h-5 sm:w-6 sm:h-6 text-brand-pink-600" />
               </div>
               <div className="text-center">
-                <p className="font-semibold text-sm sm:text-base text-gray-900">
+                <p className="font-semibold text-sm sm:text-base text-brand-gray-900">
                   Add New Payment Method
                 </p>
-                <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                <p className="text-xs sm:text-sm text-brand-gray-500 mt-1">
                   Add a credit or debit card for faster checkout
                 </p>
               </div>
             </div>
           </button>
         ) : (
-          <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 sm:mb-6">
+          <div className="bg-white rounded-xl border border-brand-gray-200 p-4 sm:p-6 shadow-sm">
+            <h3 className="text-lg font-semibold text-brand-gray-900 mb-4 sm:mb-6">
               Add New Payment Method
             </h3>
 
             <form className="space-y-4">
               <div className="grid grid-cols-1 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
                     Card Number
                   </label>
                   <input
                     type="text"
                     placeholder="1234 5678 9012 3456"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all cursor-text text-sm sm:text-base"
+                    className="w-full p-3 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all cursor-text text-sm sm:text-base"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
                     Cardholder Name
                   </label>
                   <input
                     type="text"
                     placeholder="John Doe"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all cursor-text text-sm sm:text-base"
+                    className="w-full p-3 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all cursor-text text-sm sm:text-base"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
                     Expiry Month
                   </label>
-                  <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base">
+                  <select className="w-full p-3 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base">
                     <option value="">Month</option>
                     {Array.from({ length: 12 }, (_, i) => (
                       <option key={i + 1} value={String(i + 1).padStart(2, "0")}>
@@ -278,10 +278,10 @@ export default function PaymentMethodsForm() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
                     Expiry Year
                   </label>
-                  <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base">
+                  <select className="w-full p-3 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base">
                     <option value="">Year</option>
                     {Array.from({ length: 10 }, (_, i) => {
                       const year = new Date().getFullYear() + i;
@@ -296,14 +296,14 @@ export default function PaymentMethodsForm() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-brand-gray-700 mb-2">
                   CVV
                 </label>
                 <input
                   type="text"
                   placeholder="123"
                   maxLength={4}
-                  className="w-full sm:w-32 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all cursor-text text-sm sm:text-base"
+                  className="w-full sm:w-32 p-3 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all cursor-text text-sm sm:text-base"
                 />
               </div>
 
@@ -311,9 +311,9 @@ export default function PaymentMethodsForm() {
                 <input
                   type="checkbox"
                   id="setDefault"
-                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-0.5"
+                  className="w-4 h-4 text-brand-pink-600 border-brand-gray-300 rounded focus:ring-brand-pink-500 mt-0.5"
                 />
-                <label htmlFor="setDefault" className="text-sm text-gray-700 leading-5">
+                <label htmlFor="setDefault" className="text-sm text-brand-gray-700 leading-5">
                   Set as default payment method
                 </label>
               </div>
@@ -340,9 +340,9 @@ export default function PaymentMethodsForm() {
         )}
 
         {/* Security Notice */}
-        <div className="mt-6 sm:mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div className="mt-6 sm:mt-8 bg-blue-50 border border-brand-pink-200 rounded-lg p-4">
           <div className="flex items-start space-x-3">
-            <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+            <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-brand-pink-600 flex-shrink-0 mt-0.5" />
             <div>
               <p className="text-sm font-medium text-blue-900">
                 Secure Payment Processing
@@ -358,3 +358,5 @@ export default function PaymentMethodsForm() {
     </TooltipProvider>
   );
 }
+
+

@@ -81,7 +81,7 @@ export function DialogHeader({ children }: DialogHeaderProps) {
 // Dialog Title
 export function DialogTitle({ children }: DialogTitleProps) {
   return (
-    <h2 className="text-lg font-semibold text-gray-900">
+    <h2 className="text-lg font-semibold text-brand-gray-900">
       {children}
     </h2>
   );
@@ -90,7 +90,7 @@ export function DialogTitle({ children }: DialogTitleProps) {
 // Dialog Description
 export function DialogDescription({ children }: DialogDescriptionProps) {
   return (
-    <p className="text-sm text-gray-600 mb-6">
+    <p className="text-sm text-brand-gray-600 mb-6">
       {children}
     </p>
   );
@@ -114,9 +114,11 @@ export function DialogClose({ onClick }: DialogCloseProps) {
   return (
     <button
       onClick={onClick}
-      className="text-gray-400 hover:text-gray-600 transition-colors"
+      className="text-gray-400 hover:text-brand-gray-600 transition-colors"
     >
       <X className="w-5 h-5" />
     </button>
   );
 }
+
+

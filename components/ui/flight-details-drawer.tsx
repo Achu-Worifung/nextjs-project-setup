@@ -194,10 +194,10 @@ export function FlightDetailsDrawer({
           <div className="pb-2 px-6 pt-4">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">
+                <h2 className="text-2xl font-bold text-brand-gray-900">
                   {flight.airline} {flight.flightNumber}
                 </h2>
-                <p className="text-gray-600">{flight.departureAirport} → {flight.destinationAirport}</p>
+                <p className="text-brand-gray-600">{flight.departureAirport} → {flight.destinationAirport}</p>
               </div>
               <Button variant="ghost" size="icon" className="rounded-full" onClick={onClose}>
                 <X className="h-5 w-5" />
@@ -208,7 +208,7 @@ export function FlightDetailsDrawer({
               <Badge variant="secondary" className="bg-green-100 text-green-700">
                 {flight.status}
               </Badge>
-              <div className="flex items-center gap-1 text-gray-600">
+              <div className="flex items-center gap-1 text-brand-gray-600">
                 <MapPin className="w-4 h-4" />
                 <span className="text-sm">Gate {flight.gate} • Terminal {flight.terminal}</span>
               </div>
@@ -234,11 +234,11 @@ export function FlightDetailsDrawer({
                           <div className="flex items-center justify-between">
                             <div>
                               <div className="font-semibold text-lg">{flight.departureTime}</div>
-                              <div className="text-gray-600">{flight.departureAirport}</div>
+                              <div className="text-brand-gray-600">{flight.departureAirport}</div>
                             </div>
                             <div className="text-right">
-                              <div className="text-sm text-gray-500">Departure</div>
-                              <div className="text-sm text-gray-600">Gate {flight.gate}</div>
+                              <div className="text-sm text-brand-gray-500">Departure</div>
+                              <div className="text-sm text-brand-gray-600">Gate {flight.gate}</div>
                             </div>
                           </div>
                         </div>
@@ -250,11 +250,11 @@ export function FlightDetailsDrawer({
                           <Plane className="w-4 h-4 text-gray-400" />
                         </div>
                         <div className="flex-1 flex items-center justify-between">
-                          <div className="text-gray-600">
+                          <div className="text-brand-gray-600">
                             <Clock className="w-4 h-4 inline mr-1" />
                             {flight.duration} • {formatStops(flight.numberOfStops)}
                           </div>
-                          <div className="text-sm text-gray-500">{flight.aircraft}</div>
+                          <div className="text-sm text-brand-gray-500">{flight.aircraft}</div>
                         </div>
                       </div>
 
@@ -267,11 +267,11 @@ export function FlightDetailsDrawer({
                           <div className="flex items-center justify-between">
                             <div>
                               <div className="font-semibold text-lg">{flight.arrivalTime}</div>
-                              <div className="text-gray-600">{flight.destinationAirport}</div>
+                              <div className="text-brand-gray-600">{flight.destinationAirport}</div>
                             </div>
                             <div className="text-right">
-                              <div className="text-sm text-gray-500">Arrival</div>
-                              <div className="text-sm text-gray-600">Terminal {flight.terminal}</div>
+                              <div className="text-sm text-brand-gray-500">Arrival</div>
+                              <div className="text-sm text-brand-gray-600">Terminal {flight.terminal}</div>
                             </div>
                           </div>
                         </div>
@@ -287,10 +287,10 @@ export function FlightDetailsDrawer({
                       <h3 className="text-lg font-semibold mb-4">Layover Information</h3>
                       <div className="space-y-3">
                         {flight.stops.map((stop, index) => (
-                          <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                          <div key={index} className="flex items-center justify-between p-3 bg-brand-gray-50 rounded-lg">
                             <div>
                               <div className="font-medium">{stop.airport}</div>
-                              <div className="text-sm text-gray-600">
+                              <div className="text-sm text-brand-gray-600">
                                 {stop.arrivalTime} - {stop.departureTime}
                               </div>
                             </div>
@@ -311,8 +311,8 @@ export function FlightDetailsDrawer({
                     <div className="grid grid-cols-2 gap-4">
                       {getClassFeatures(selectedClass).map((feature, index) => (
                         <div key={index} className="flex items-center gap-3">
-                          <feature.icon className="w-5 h-5 text-blue-600" />
-                          <span className="text-sm text-gray-900">{feature.text}</span>
+                          <feature.icon className="w-5 h-5 text-brand-pink-600" />
+                          <span className="text-sm text-brand-gray-900">{feature.text}</span>
                         </div>
                       ))}
                     </div>
@@ -339,25 +339,25 @@ export function FlightDetailsDrawer({
                             key={classType}
                             className={`p-4 border rounded-lg cursor-pointer transition-all ${
                               isSelected 
-                                ? 'border-blue-500 bg-blue-50' 
+                                ? 'border-brand-pink-500 bg-blue-50' 
                                 : isAvailable
-                                ? 'border-gray-200 hover:border-gray-300'
-                                : 'border-gray-100 bg-gray-50 cursor-not-allowed'
+                                ? 'border-brand-gray-200 hover:border-brand-gray-300'
+                                : 'border-gray-100 bg-brand-gray-50 cursor-not-allowed'
                             }`}
                             onClick={() => isAvailable && setSelectedClass(classType)}
                           >
                             <div className="flex items-center justify-between">
                               <div>
-                                <div className="font-medium text-gray-900">{classType}</div>
-                                <div className="text-sm text-gray-600">
+                                <div className="font-medium text-brand-gray-900">{classType}</div>
+                                <div className="text-sm text-brand-gray-600">
                                   {isAvailable ? `${availableSeats} seats left` : 'Sold out'}
                                 </div>
                               </div>
                               <div className="text-right">
-                                <div className="text-lg font-bold text-gray-900">
+                                <div className="text-lg font-bold text-brand-gray-900">
                                   ${price}
                                 </div>
-                                {isSelected && <CheckCircle className="w-4 h-4 text-blue-600 mt-1" />}
+                                {isSelected && <CheckCircle className="w-4 h-4 text-brand-pink-600 mt-1" />}
                               </div>
                             </div>
                           </div>
@@ -367,7 +367,7 @@ export function FlightDetailsDrawer({
 
                     {/* Seat Selection */}
                     <div className="mb-6">
-                      <h4 className="font-medium text-gray-900 mb-3">Number of Seats</h4>
+                      <h4 className="font-medium text-brand-gray-900 mb-3">Number of Seats</h4>
                       <div className="flex items-center gap-3">
                         <Button 
                           variant="outline" 
@@ -388,7 +388,7 @@ export function FlightDetailsDrawer({
                         >
                           +
                         </Button>
-                        <span className="text-sm text-gray-500 ml-2">
+                        <span className="text-sm text-brand-gray-500 ml-2">
                           (Max: {flight.availableSeats[selectedClass]} available)
                         </span>
                       </div>
@@ -447,8 +447,8 @@ export function FlightDetailsDrawer({
 
                     {/* Features */}
                     <div className="mt-6 pt-4 border-t">
-                      <h4 className="font-medium text-gray-900 mb-3">Included</h4>
-                      <div className="space-y-2 text-sm text-gray-600">
+                      <h4 className="font-medium text-brand-gray-900 mb-3">Included</h4>
+                      <div className="space-y-2 text-sm text-brand-gray-600">
                         <div className="flex items-center gap-2">
                           <Shield className="w-4 h-4 text-green-600" />
                           <span>Free cancellation 24h</span>
@@ -490,3 +490,5 @@ export function FlightDetailsDrawer({
     </div>
   );
 }
+
+

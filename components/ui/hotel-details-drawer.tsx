@@ -198,7 +198,7 @@ export function HotelDetailsDrawer({
         <div className="mx-auto w-full max-w-6xl">
           <div className="pb-2 px-6 pt-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="text-2xl font-bold text-brand-gray-900">
                 {hotel.name}
               </h2>
               <Button variant="ghost" size="icon" className="rounded-full" onClick={onClose}>
@@ -210,7 +210,7 @@ export function HotelDetailsDrawer({
               <div className="flex items-center gap-1">
                 {renderStars(hotel.reviewSummary.averageRating)}
                 <span className="ml-2 text-sm font-medium">{hotel.reviewSummary.averageRating}</span>
-                <span className="text-sm text-gray-500">({hotel.reviewSummary.totalReviews} reviews)</span>
+                <span className="text-sm text-brand-gray-500">({hotel.reviewSummary.totalReviews} reviews)</span>
               </div>
               <Badge variant="secondary" className="bg-green-100 text-green-700">
                 {hotel.reviewSummary.averageRating >= 4.5 ? 'Excellent' : 
@@ -219,7 +219,7 @@ export function HotelDetailsDrawer({
               </Badge>
             </div>
             
-            <div className="flex items-center gap-1 text-gray-600 mt-1">
+            <div className="flex items-center gap-1 text-brand-gray-600 mt-1">
               <MapPin className="w-4 h-4" />
               <span className="text-sm">{hotel.address}</span>
             </div>
@@ -264,7 +264,7 @@ export function HotelDetailsDrawer({
                 <Card>
                   <CardContent className="p-6">
                     <h3 className="text-lg font-semibold mb-3">About this hotel</h3>
-                    <p className="text-gray-600 leading-relaxed">
+                    <p className="text-brand-gray-600 leading-relaxed">
                       {hotel.description}
                     </p>
                   </CardContent>
@@ -278,7 +278,7 @@ export function HotelDetailsDrawer({
                       {mockAmenities.map((amenity) => (
                         <div key={amenity.name} className="flex items-center gap-3">
                           <amenity.icon className={`w-5 h-5 ${amenity.available ? 'text-green-600' : 'text-gray-400'}`} />
-                          <span className={`text-sm ${amenity.available ? 'text-gray-900' : 'text-gray-400'}`}>
+                          <span className={`text-sm ${amenity.available ? 'text-brand-gray-900' : 'text-gray-400'}`}>
                             {amenity.name}
                           </span>
                           {amenity.available && <CheckCircle className="w-4 h-4 text-green-600" />}
@@ -300,14 +300,14 @@ export function HotelDetailsDrawer({
                               <div className="flex items-center gap-1">
                                 {renderStars(typeof review.rating === 'number' ? review.rating : 0)}
                               </div>
-                              <span className="font-medium text-gray-900">
+                              <span className="font-medium text-brand-gray-900">
                                 {typeof review.username === 'string' ? review.username : 'Anonymous'}
                               </span>
-                              <span className="text-sm text-gray-500">
+                              <span className="text-sm text-brand-gray-500">
                                 {typeof review.date === 'string' ? review.date : 'Date not available'}
                               </span>
                             </div>
-                            <p className="text-gray-600 text-sm leading-relaxed">
+                            <p className="text-brand-gray-600 text-sm leading-relaxed">
                               {typeof review.comment === 'string' ? review.comment : 'Review not available'}
                             </p>
                           </div>
@@ -325,10 +325,10 @@ export function HotelDetailsDrawer({
                       <div className="space-y-4">
                         {displayFaqs.map((faq, index) => (
                           <div key={index} className="border-b border-gray-100 last:border-b-0 pb-4 last:pb-0">
-                            <h4 className="font-medium text-gray-900 mb-2">
+                            <h4 className="font-medium text-brand-gray-900 mb-2">
                               {typeof faq.question === 'string' ? faq.question : 'Question not available'}
                             </h4>
-                            <p className="text-gray-600 text-sm leading-relaxed">
+                            <p className="text-brand-gray-600 text-sm leading-relaxed">
                               {typeof faq.answer === 'string' ? faq.answer : 'Answer not available'}
                             </p>
                           </div>
@@ -344,37 +344,37 @@ export function HotelDetailsDrawer({
                     <h3 className="text-lg font-semibold mb-4">Policies & Information</h3>
                     <div className="space-y-4">
                       <div className="flex items-start gap-3">
-                        <Users className="w-5 h-5 text-gray-600 mt-0.5" />
+                        <Users className="w-5 h-5 text-brand-gray-600 mt-0.5" />
                         <div>
-                          <div className="font-medium text-gray-900">Check-in</div>
-                          <div className="text-sm text-gray-600">
+                          <div className="font-medium text-brand-gray-900">Check-in</div>
+                          <div className="text-sm text-brand-gray-600">
                             {hotel.policies?.checkIn?.startTime || '3:00 PM'} - {hotel.policies?.checkIn?.endTime || '12:00 AM'}
                           </div>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
-                        <Users className="w-5 h-5 text-gray-600 mt-0.5" />
+                        <Users className="w-5 h-5 text-brand-gray-600 mt-0.5" />
                         <div>
-                          <div className="font-medium text-gray-900">Check-out</div>
-                          <div className="text-sm text-gray-600">
+                          <div className="font-medium text-brand-gray-900">Check-out</div>
+                          <div className="text-sm text-brand-gray-600">
                             {hotel.policies?.checkOut?.time || '12:00 PM'}
                           </div>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
-                        <Shield className="w-5 h-5 text-gray-600 mt-0.5" />
+                        <Shield className="w-5 h-5 text-brand-gray-600 mt-0.5" />
                         <div>
-                          <div className="font-medium text-gray-900">Pet Policy</div>
-                          <div className="text-sm text-gray-600">
+                          <div className="font-medium text-brand-gray-900">Pet Policy</div>
+                          <div className="text-sm text-brand-gray-600">
                             {hotel.policies?.petsAllowed ? 'Pets allowed' : 'Pets not allowed'}
                           </div>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
-                        <Users className="w-5 h-5 text-gray-600 mt-0.5" />
+                        <Users className="w-5 h-5 text-brand-gray-600 mt-0.5" />
                         <div>
-                          <div className="font-medium text-gray-900">Children</div>
-                          <div className="text-sm text-gray-600">
+                          <div className="font-medium text-brand-gray-900">Children</div>
+                          <div className="text-sm text-brand-gray-600">
                             {hotel.policies?.childrenPolicy || 'Children up to 12 stay free with existing bedding'}
                           </div>
                         </div>
@@ -391,8 +391,8 @@ export function HotelDetailsDrawer({
                     <h3 className="text-lg font-semibold mb-4">Choose your room</h3>
                     
                     {/* Booking Summary */}
-                    <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                      <div className="text-sm text-gray-600 space-y-1">
+                    <div className="bg-brand-gray-50 rounded-lg p-4 mb-4">
+                      <div className="text-sm text-brand-gray-600 space-y-1">
                         <div className="flex justify-between">
                           <span>Check-in:</span>
                           <span className="font-medium">{checkInDate?.toLocaleDateString()}</span>
@@ -418,7 +418,7 @@ export function HotelDetailsDrawer({
                         <Card 
                           key={index} 
                           className={`cursor-pointer transition-all ${
-                            selectedRoom === index ? 'ring-2 ring-blue-500 border-blue-500' : 'hover:shadow-md'
+                            selectedRoom === index ? 'ring-2 ring-blue-500 border-brand-pink-500' : 'hover:shadow-md'
                           }`}
                           onClick={() => setSelectedRoom(index)}
                         >
@@ -426,16 +426,16 @@ export function HotelDetailsDrawer({
                             <div className="flex justify-between items-start mb-2">
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-1">
-                                  <h4 className="font-semibold text-gray-900">{room.type}</h4>
+                                  <h4 className="font-semibold text-brand-gray-900">{room.type}</h4>
                                   {room.mostPopular && (
                                     <Badge variant="secondary" className="bg-orange-100 text-orange-700 text-xs">
                                       Most Popular
                                     </Badge>
                                   )}
                                 </div>
-                                <p className="text-sm text-gray-600 mb-2">Comfortable accommodation with modern amenities</p>
+                                <p className="text-sm text-brand-gray-600 mb-2">Comfortable accommodation with modern amenities</p>
                                 
-                                <div className="flex items-center gap-4 text-xs text-gray-500 mb-2">
+                                <div className="flex items-center gap-4 text-xs text-brand-gray-500 mb-2">
                                   <span className="flex items-center gap-1">
                                     <Bed className="w-3 h-3" />
                                     {room.bedCount} bed{room.bedCount > 1 ? 's' : ''}
@@ -470,15 +470,15 @@ export function HotelDetailsDrawer({
                                       ${room.originalPrice}/night
                                     </div>
                                   )}
-                                  <div className="text-lg font-bold text-gray-900">
+                                  <div className="text-lg font-bold text-brand-gray-900">
                                     ${room.pricePerNight}
-                                    <span className="text-sm font-normal text-gray-500">/night</span>
+                                    <span className="text-sm font-normal text-brand-gray-500">/night</span>
                                   </div>
                                 </div>
-                                <div className="text-sm text-gray-600 mb-2">
+                                <div className="text-sm text-brand-gray-600 mb-2">
                                   Total: ${room.pricePerNight * nights}
                                 </div>
-                                <div className="text-xs text-gray-500 mb-3">
+                                <div className="text-xs text-brand-gray-500 mb-3">
                                   {room.availableRooms} room{room.availableRooms > 1 ? 's' : ''} left
                                 </div>
                                 
@@ -519,13 +519,13 @@ export function HotelDetailsDrawer({
                     <div className="border-t my-4 pt-4">
                       {/* Contact Info */}
                       <div className="space-y-3">
-                        <h4 className="font-semibold text-gray-900">Need help?</h4>
+                        <h4 className="font-semibold text-brand-gray-900">Need help?</h4>
                         <div className="space-y-2 text-sm">
-                          <div className="flex items-center gap-2 text-gray-600">
+                          <div className="flex items-center gap-2 text-brand-gray-600">
                             <Phone className="w-4 h-4" />
                             <span>+1 (555) 123-4567</span>
                           </div>
-                          <div className="flex items-center gap-2 text-gray-600">
+                          <div className="flex items-center gap-2 text-brand-gray-600">
                             <Mail className="w-4 h-4" />
                             <span>reservations@hotel.com</span>
                           </div>
@@ -557,3 +557,5 @@ export function HotelDetailsDrawer({
     </div>
   );
 }
+
+

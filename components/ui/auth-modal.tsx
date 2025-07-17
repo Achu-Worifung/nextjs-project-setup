@@ -36,20 +36,20 @@ export function AuthModal({
         <CardHeader className="text-center space-y-2 pb-4">
           <div className="flex justify-between items-start">
             <div className="flex-1">
-              <div className="mx-auto w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <Lock className="w-6 h-6 text-blue-600" />
+              <div className="mx-auto w-12 h-12 bg-brand-pink-100 rounded-full flex items-center justify-center mb-4">
+                <Lock className="w-6 h-6 text-brand-pink-600" />
               </div>
-              <CardTitle className="text-xl font-semibold text-gray-900">
+              <CardTitle className="text-xl font-semibold text-brand-gray-900">
                 {title}
               </CardTitle>
-              <CardDescription className="text-gray-600 mt-2">
+              <CardDescription className="text-brand-gray-600 mt-2">
                 {message}
               </CardDescription>
             </div>
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 rounded-full hover:bg-gray-100"
+              className="h-8 w-8 rounded-full hover:bg-brand-gray-100"
               onClick={onClose}
             >
               <X className="h-4 w-4" />
@@ -70,10 +70,10 @@ export function AuthModal({
           {/* Divider */}
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-gray-200" />
+              <span className="w-full border-t border-brand-gray-200" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-2 text-gray-500 font-medium">
+              <span className="bg-white px-2 text-brand-gray-500 font-medium">
                 or
               </span>
             </div>
@@ -83,7 +83,7 @@ export function AuthModal({
           <Button
             onClick={onSignUp}
             variant="outline"
-            className="w-full h-12 border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition-colors duration-200"
+            className="w-full h-12 border-brand-gray-300 hover:bg-brand-gray-50 text-brand-gray-700 font-medium rounded-lg transition-colors duration-200"
           >
             <UserPlus className="w-4 h-4 mr-2" />
             Create New Account
@@ -91,7 +91,7 @@ export function AuthModal({
           
           {/* Additional Info */}
           <div className="text-center pt-4 border-t border-gray-100">
-            <p className="text-xs text-gray-500 flex items-center justify-center">
+            <p className="text-xs text-brand-gray-500 flex items-center justify-center">
               <Mail className="w-3 h-3 mr-1" />
               Secure booking with encrypted data
             </p>
@@ -101,3 +101,5 @@ export function AuthModal({
     </div>
   );
 }
+
+

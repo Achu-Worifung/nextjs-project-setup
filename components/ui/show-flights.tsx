@@ -216,21 +216,21 @@ const FlightSearchPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-brand-gray-50">
       {" "}
       {/* Header with Search Summary */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-2xl font-bold text-brand-gray-900">
               Flight Search Results
             </h1>
-            <Badge className="bg-blue-100 text-blue-800">
+            <Badge className="bg-brand-pink-100 text-brand-pink-800">
               {filteredFlights.length} flights found
             </Badge>
           </div>
           {/* Search Form - Compact Single Line Design */}
-          <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 mb-6">
+          <div className="bg-white rounded-xl shadow-lg border border-brand-gray-200 p-6 mb-6">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
               {/* Trip Type Dropdown */}
               <div className="lg:col-span-2">
@@ -240,7 +240,7 @@ const FlightSearchPage = () => {
                 <select
                   value={editFlightType}
                   onChange={(e) => setEditFlightType(e.target.value as "one-way" | "round-trip")}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12"
+                  className="w-full px-4 py-3 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12"
                 >
                   <option value="one-way">One Way</option>
                   <option value="round-trip">Round Trip</option>
@@ -250,7 +250,7 @@ const FlightSearchPage = () => {
               {/* From */}
               <div className="lg:col-span-2">
                 <Label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
-                  <PlaneTakeoff className="h-4 w-4 text-blue-600" />
+                  <PlaneTakeoff className="h-4 w-4 text-brand-pink-600" />
                   From
                 </Label>
                 <div className="relative">
@@ -258,7 +258,7 @@ const FlightSearchPage = () => {
                     type="text"
                     value={editFrom}
                     onChange={(e) => setEditFrom(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12"
+                    className="w-full px-4 py-3 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12"
                     placeholder="Departure city"
                   />
                 </div>
@@ -272,16 +272,16 @@ const FlightSearchPage = () => {
                   variant="outline"
                   size="sm"
                   onClick={handleSwapLocations}
-                  className="p-3 rounded-full h-12 w-12 border-2 border-blue-200 hover:border-blue-500 hover:bg-blue-50 transition-all duration-200"
+                  className="p-3 rounded-full h-12 w-12 border-2 border-brand-pink-200 hover:border-brand-pink-500 hover:bg-brand-pink-50 transition-all duration-200"
                 >
-                  <ArrowLeftRight className="h-5 w-5 text-blue-600" />
+                  <ArrowLeftRight className="h-5 w-5 text-brand-pink-600" />
                 </Button>
               </div>
 
               {/* To */}
               <div className="lg:col-span-2">
                 <Label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
-                  <PlaneLanding className="h-4 w-4 text-blue-600" />
+                  <PlaneLanding className="h-4 w-4 text-brand-pink-600" />
                   To
                 </Label>
                 <div className="relative">
@@ -289,7 +289,7 @@ const FlightSearchPage = () => {
                     type="text"
                     value={editTo}
                     onChange={(e) => setEditTo(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12"
+                    className="w-full px-4 py-3 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12"
                     placeholder="Destination city"
                   />
                 </div>
@@ -298,7 +298,7 @@ const FlightSearchPage = () => {
               {/* Date Range Picker */}
               <div className="lg:col-span-2">
                 <Label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
-                  <CalendarDays className="h-4 w-4 text-blue-600" />
+                  <CalendarDays className="h-4 w-4 text-brand-pink-600" />
                   {editFlightType === "round-trip" ? "Departure & Return" : "Departure"}
                 </Label>
                 <Popover>
@@ -310,7 +310,7 @@ const FlightSearchPage = () => {
                         !editDepartDate && "text-muted-foreground"
                       )}
                     >
-                      <CalendarDays className="mr-2 h-4 w-4 text-blue-600" />
+                      <CalendarDays className="mr-2 h-4 w-4 text-brand-pink-600" />
                       {editDepartDate && editFlightType === "round-trip" && editReturnDate
                         ? `${format(editDepartDate, "MMM dd")} - ${format(editReturnDate, "MMM dd")}`
                         : editDepartDate
@@ -364,13 +364,13 @@ const FlightSearchPage = () => {
               {/* Travelers */}
               <div className="lg:col-span-2">
                 <Label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
-                  <Users className="h-4 w-4 text-blue-600" />
+                  <Users className="h-4 w-4 text-brand-pink-600" />
                   Travelers & Class
                 </Label>
                 <select
                   value={editTravelers}
                   onChange={(e) => setEditTravelers(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12"
+                  className="w-full px-4 py-3 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12"
                 >
                   <option value="1 adult, Economy">1 Adult, Economy</option>
                   <option value="1 adult, Business">1 Adult, Business</option>
@@ -386,7 +386,7 @@ const FlightSearchPage = () => {
                 <div className="mb-2 h-5"></div>
                 <Button
                   onClick={handleNewSearch}
-                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white h-12 px-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                  className="w-full bg-gradient-to-r from-brand-pink-600 to-brand-pink-700 hover:from-brand-pink-700 hover:to-brand-pink-800 text-white h-12 px-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
                 >
                   <Search className="h-5 w-5" />
                 </Button>
@@ -418,7 +418,7 @@ const FlightSearchPage = () => {
                     step={50}
                     className="mb-2"
                   />
-                  <div className="flex justify-between text-sm text-gray-600">
+                  <div className="flex justify-between text-sm text-brand-gray-600">
                     <span>${priceRange[0]}</span>
                     <span>${priceRange[1]}</span>
                   </div>
@@ -444,7 +444,7 @@ const FlightSearchPage = () => {
                           htmlFor={airline}
                           className="flex items-center gap-2 text-sm cursor-pointer"
                         >
-                          <span className="w-5 h-5 bg-blue-100 rounded text-xs flex items-center justify-center">
+                          <span className="w-5 h-5 bg-brand-pink-100 rounded text-xs flex items-center justify-center">
                             {airline.substring(0, 2)}
                           </span>
                           {airline}
@@ -515,10 +515,10 @@ const FlightSearchPage = () => {
               <Card className="text-center py-12">
                 <CardContent>
                   <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  <h3 className="text-lg font-medium text-brand-gray-900 mb-2">
                     No flights found
                   </h3>
-                  <p className="text-gray-600 mb-4">
+                  <p className="text-brand-gray-600 mb-4">
                     Try adjusting your filters or search criteria
                   </p>{" "}
                   <Button
@@ -542,3 +542,5 @@ const FlightSearchPage = () => {
 };
 
 export default FlightSearchPage;
+
+

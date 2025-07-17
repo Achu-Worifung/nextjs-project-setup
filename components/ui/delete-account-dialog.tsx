@@ -40,7 +40,7 @@ export function DeleteAccountDialog({
             <DialogDescription>
               Are you absolutely sure you want to delete your account? This action cannot be undone.
             </DialogDescription>
-            <div className="text-sm text-gray-500 mt-2">
+            <div className="text-sm text-brand-gray-500 mt-2">
               <p>This will permanently:</p>
               <ul className="list-disc list-inside mt-1 space-y-1">
                 <li>Delete all your personal information</li>
@@ -107,3 +107,5 @@ export function DeleteAccountDialog({
     </Dialog>
   );
 }
+
+

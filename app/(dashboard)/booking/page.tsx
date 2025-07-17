@@ -486,7 +486,7 @@ const BookingPage = () => {
                 {/* Flight Details */}
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-brand-pink-100 rounded-lg flex items-center justify-center">
                       <span className="text-blue-600 font-bold text-xs">
                         {flight.airline.substring(0, 2)}
                       </span>
@@ -555,3 +555,4 @@ const BookingPage = () => {
 };
 
 export default BookingPage;
+

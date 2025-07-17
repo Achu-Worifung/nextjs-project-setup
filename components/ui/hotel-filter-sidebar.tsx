@@ -96,10 +96,10 @@ export default function HotelFilterSidebar({
       <CardContent className="p-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
-            <Filter className="w-5 h-5 text-blue-600" />
-            <h3 className="font-semibold text-lg text-gray-900">Filters</h3>
+            <Filter className="w-5 h-5 text-brand-pink-600" />
+            <h3 className="font-semibold text-lg text-brand-gray-900">Filters</h3>
             {activeFiltersCount > 0 && (
-              <Badge variant="secondary" className="bg-blue-100 text-blue-700 text-xs">
+              <Badge variant="secondary" className="bg-brand-pink-100 text-blue-700 text-xs">
                 {activeFiltersCount}
               </Badge>
             )}
@@ -108,7 +108,7 @@ export default function HotelFilterSidebar({
             variant="ghost" 
             size="sm"
             onClick={resetFilters}
-            className="text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+            className="text-brand-gray-500 hover:text-brand-gray-700 hover:bg-brand-gray-100"
           >
             <RotateCcw className="w-4 h-4 mr-1" />
             Clear All
@@ -117,8 +117,8 @@ export default function HotelFilterSidebar({
 
         {/* Price Range Filter */}
         <div className="mb-6">
-          <Label className="text-sm font-semibold text-gray-700 mb-3 block">Price per night</Label>
-          <div className="bg-gray-50 p-4 rounded-lg">
+          <Label className="text-sm font-semibold text-brand-gray-700 mb-3 block">Price per night</Label>
+          <div className="bg-brand-gray-50 p-4 rounded-lg">
             <Slider
               value={filters.priceRange}
               onValueChange={(value) => setFilters(prev => ({ ...prev, priceRange: value as [number, number] }))}
@@ -127,7 +127,7 @@ export default function HotelFilterSidebar({
               step={50}
               className="w-full"
             />
-            <div className="flex justify-between items-center text-sm text-gray-600 mt-3">
+            <div className="flex justify-between items-center text-sm text-brand-gray-600 mt-3">
               <div className="bg-white px-3 py-1 rounded-md border font-medium">
                 ${filters.priceRange[0]}
               </div>
@@ -140,10 +140,10 @@ export default function HotelFilterSidebar({
 
         {/* Star Rating Filter */}
         <div className="mb-6">
-          <Label className="text-sm font-semibold text-gray-700 mb-3 block">Star Rating</Label>
+          <Label className="text-sm font-semibold text-brand-gray-700 mb-3 block">Star Rating</Label>
           <div className="space-y-3">
             {[5, 4, 3, 2, 1].map((stars) => (
-              <div key={stars} className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+              <div key={stars} className="flex items-center space-x-3 p-2 hover:bg-brand-gray-50 rounded-lg transition-colors">
                 <Checkbox
                   id={`stars-${stars}`}
                   checked={filters.starRating.includes(stars)}
@@ -175,10 +175,10 @@ export default function HotelFilterSidebar({
 
         {/* Hotel Vendors Filter */}
         <div className="mb-6">
-          <Label className="text-sm font-semibold text-gray-700 mb-3 block">Hotel Chain</Label>
+          <Label className="text-sm font-semibold text-brand-gray-700 mb-3 block">Hotel Chain</Label>
           <div className="space-y-2  overflow-y-auto">
             {['Hilton', 'Marriott', 'Hyatt', 'Wyndham', 'Choice Hotels', 'InterContinental', 'Best Western Hotels & Resorts', 'IHG Hotels & Resorts'].map((vendor) => (
-              <div key={vendor} className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+              <div key={vendor} className="flex items-center space-x-3 p-2 hover:bg-brand-gray-50 rounded-lg transition-colors">
                 <Checkbox
                   id={`vendor-${vendor}`}
                   checked={filters.vendors.includes(vendor)}
@@ -198,7 +198,7 @@ export default function HotelFilterSidebar({
                   className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
                 />
                 <label htmlFor={`vendor-${vendor}`} className="text-sm cursor-pointer flex-1 font-medium">
-                  <Building2 className="w-4 h-4 inline-block mr-2 text-gray-500" />
+                  <Building2 className="w-4 h-4 inline-block mr-2 text-brand-gray-500" />
                   {vendor}
                 </label>
               </div>
@@ -208,7 +208,7 @@ export default function HotelFilterSidebar({
 
         {/* Amenities Filter */}
         <div className="mb-6">
-          <Label className="text-sm font-semibold text-gray-700 mb-3 block">Amenities</Label>
+          <Label className="text-sm font-semibold text-brand-gray-700 mb-3 block">Amenities</Label>
           <div className="space-y-2">
             {[
               { name: 'Free WiFi', icon: Wifi },
@@ -219,7 +219,7 @@ export default function HotelFilterSidebar({
               { name: 'Coffee Maker', icon: Coffee },
               { name: 'Airport Shuttle', icon: CarTaxiFront }
             ].map(({ name, icon: Icon }) => (
-              <div key={name} className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+              <div key={name} className="flex items-center space-x-3 p-2 hover:bg-brand-gray-50 rounded-lg transition-colors">
                 <Checkbox
                   id={`amenity-${name}`}
                   checked={filters.amenities.includes(name)}
@@ -239,7 +239,7 @@ export default function HotelFilterSidebar({
                   className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
                 />
                 <label htmlFor={`amenity-${name}`} className="text-sm cursor-pointer flex-1 font-medium">
-                  <Icon className="w-4 h-4 inline-block mr-2 text-gray-500" />
+                  <Icon className="w-4 h-4 inline-block mr-2 text-brand-gray-500" />
                   {name}
                 </label>
               </div>
@@ -249,9 +249,9 @@ export default function HotelFilterSidebar({
 
         {/* Special Features Filter */}
         <div className="mb-6">
-          <Label className="text-sm font-semibold text-gray-700 mb-3 block">Special Features</Label>
+          <Label className="text-sm font-semibold text-brand-gray-700 mb-3 block">Special Features</Label>
           <div className="space-y-3">
-            <div className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+            <div className="flex items-center space-x-3 p-2 hover:bg-brand-gray-50 rounded-lg transition-colors">
               <Checkbox
                 id="pets-allowed"
                 checked={filters.petsAllowed}
@@ -261,11 +261,11 @@ export default function HotelFilterSidebar({
                 className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
               />
               <label htmlFor="pets-allowed" className="text-sm cursor-pointer flex-1 font-medium">
-                <Heart className="w-4 h-4 inline-block mr-2 text-gray-500" />
+                <Heart className="w-4 h-4 inline-block mr-2 text-brand-gray-500" />
                 Pet Friendly
               </label>
             </div>
-            <div className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+            <div className="flex items-center space-x-3 p-2 hover:bg-brand-gray-50 rounded-lg transition-colors">
               <Checkbox
                 id="breakfast-included"
                 checked={filters.breakfastIncluded}
@@ -275,11 +275,11 @@ export default function HotelFilterSidebar({
                 className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
               />
               <label htmlFor="breakfast-included" className="text-sm cursor-pointer flex-1 font-medium">
-                <Coffee className="w-4 h-4 inline-block mr-2 text-gray-500" />
+                <Coffee className="w-4 h-4 inline-block mr-2 text-brand-gray-500" />
                 Free Breakfast
               </label>
             </div>
-            <div className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+            <div className="flex items-center space-x-3 p-2 hover:bg-brand-gray-50 rounded-lg transition-colors">
               <Checkbox
                 id="instant-book"
                 checked={filters.instantBook}
@@ -289,7 +289,7 @@ export default function HotelFilterSidebar({
                 className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
               />
               <label htmlFor="instant-book" className="text-sm cursor-pointer flex-1 font-medium">
-                <Shield className="w-4 h-4 inline-block mr-2 text-gray-500" />
+                <Shield className="w-4 h-4 inline-block mr-2 text-brand-gray-500" />
                 Instant Booking
               </label>
             </div>
@@ -298,10 +298,10 @@ export default function HotelFilterSidebar({
 
         {/* Accessibility Features Filter */}
         <div className="mb-6">
-          <Label className="text-sm font-semibold text-gray-700 mb-3 block">Accessibility</Label>
+          <Label className="text-sm font-semibold text-brand-gray-700 mb-3 block">Accessibility</Label>
           <div className="space-y-2">
             {['Wheelchair Accessible', 'Elevator Access', 'Roll-in Showers', 'Accessible Parking', 'Visual Alarms', 'Grab Bars'].map((feature) => (
-              <div key={feature} className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+              <div key={feature} className="flex items-center space-x-3 p-2 hover:bg-brand-gray-50 rounded-lg transition-colors">
                 <Checkbox
                   id={`accessibility-${feature}`}
                   checked={filters.accessibilityFeatures.includes(feature)}
@@ -321,7 +321,7 @@ export default function HotelFilterSidebar({
                   className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
                 />
                 <label htmlFor={`accessibility-${feature}`} className="text-sm cursor-pointer flex-1 font-medium">
-                  <Users className="w-4 h-4 inline-block mr-2 text-gray-500" />
+                  <Users className="w-4 h-4 inline-block mr-2 text-brand-gray-500" />
                   {feature}
                 </label>
               </div>
@@ -331,8 +331,8 @@ export default function HotelFilterSidebar({
 
         {/* Distance from Center */}
         <div className="mb-6">
-          <Label className="text-sm font-semibold text-gray-700 mb-3 block">Distance from City Center</Label>
-          <div className="bg-gray-50 p-4 rounded-lg">
+          <Label className="text-sm font-semibold text-brand-gray-700 mb-3 block">Distance from City Center</Label>
+          <div className="bg-brand-gray-50 p-4 rounded-lg">
             <Slider
               value={[filters.distanceFromCenter]}
               onValueChange={(value) => setFilters(prev => ({ ...prev, distanceFromCenter: value[0] }))}
@@ -354,10 +354,10 @@ export default function HotelFilterSidebar({
         {/* Active Filters */}
         {activeFiltersCount > 0 && (
           <div className="mb-6">
-            <Label className="text-sm font-semibold text-gray-700 mb-3 block">Active Filters</Label>
+            <Label className="text-sm font-semibold text-brand-gray-700 mb-3 block">Active Filters</Label>
             <div className="flex flex-wrap gap-2">
               {filters.starRating.map((stars) => (
-                <Badge key={`star-${stars}`} variant="secondary" className="flex items-center gap-1 bg-blue-100 text-blue-700 hover:bg-blue-200">
+                <Badge key={`star-${stars}`} variant="secondary" className="flex items-center gap-1 bg-brand-pink-100 text-blue-700 hover:bg-blue-200">
                   {stars} Star{stars > 1 ? 's' : ''}
                   <X 
                     className="w-3 h-3 cursor-pointer hover:text-blue-900" 
@@ -393,7 +393,7 @@ export default function HotelFilterSidebar({
                 </Badge>
               ))}
               {filters.amenities.length > 3 && (
-                <Badge variant="secondary" className="bg-gray-100 text-gray-600">
+                <Badge variant="secondary" className="bg-brand-gray-100 text-brand-gray-600">
                   +{filters.amenities.length - 3} more amenities
                 </Badge>
               )}
@@ -410,7 +410,7 @@ export default function HotelFilterSidebar({
                 </Badge>
               ))}
               {filters.accessibilityFeatures.length > 2 && (
-                <Badge variant="secondary" className="bg-gray-100 text-gray-600">
+                <Badge variant="secondary" className="bg-brand-gray-100 text-brand-gray-600">
                   +{filters.accessibilityFeatures.length - 2} more accessibility
                 </Badge>
               )}
@@ -457,3 +457,4 @@ export default function HotelFilterSidebar({
     </Card>
   );
 }
+

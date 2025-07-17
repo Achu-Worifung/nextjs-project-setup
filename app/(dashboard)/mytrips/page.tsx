@@ -182,15 +182,15 @@ export default function MyTrips() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Planning':
-        return 'bg-blue-100 text-blue-800 border border-blue-200';
+        return 'bg-brand-pink-100 text-brand-pink-800 border border-brand-pink-200';
       case 'Booked':
-        return 'bg-green-100 text-green-800 border border-green-200';
+        return 'bg-brand-success/20 text-brand-success border border-brand-success/30';
       case 'Completed':
-        return 'bg-gray-100 text-gray-800 border border-gray-200';
+        return 'bg-brand-gray-100 text-brand-gray-800 border border-brand-gray-200';
       case 'Cancelled':
-        return 'bg-red-100 text-red-800 border border-red-200';
+        return 'bg-brand-error/20 text-brand-error border border-brand-error/30';
       default:
-        return 'bg-gray-100 text-gray-800 border border-gray-200';
+        return 'bg-brand-gray-100 text-brand-gray-800 border border-brand-gray-200';
     }
   };
 
@@ -215,13 +215,13 @@ export default function MyTrips() {
     const status = getTripBookingStatus(trip);
     switch (status) {
       case 'Planning':
-        return 'bg-blue-100 text-blue-800 border border-blue-200';
+        return 'bg-brand-pink-100 text-brand-pink-800 border border-brand-pink-200';
       case 'Partially Booked':
-        return 'bg-yellow-100 text-yellow-800 border border-yellow-200';
+        return 'bg-brand-warning/20 text-brand-warning border border-brand-warning/30';
       case 'Fully Booked':
-        return 'bg-green-100 text-green-800 border border-green-200';
+        return 'bg-brand-success/20 text-brand-success border border-brand-success/30';
       default:
-        return 'bg-gray-100 text-gray-800 border border-gray-200';
+        return 'bg-brand-gray-100 text-brand-gray-800 border border-brand-gray-200';
     }
   };
 
@@ -444,7 +444,7 @@ export default function MyTrips() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
           <div className="bg-white rounded-xl shadow-lg p-6">
             <div className="flex items-center">
-              <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-brand-warning/20 rounded-xl flex items-center justify-center">
                 <span className="text-2xl">💰</span>
               </div>
               <div className="ml-4">
@@ -563,9 +563,9 @@ export default function MyTrips() {
                       <div className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center mb-1 relative ${
                         trip.flight?.included 
                           ? trip.flight?.bookingId 
-                            ? 'bg-green-100 text-green-600' 
-                            : 'bg-blue-100 text-blue-600'
-                          : 'bg-gray-100 text-gray-400'
+                            ? 'bg-brand-success/20 text-green-600' 
+                            : 'bg-brand-pink-100 text-blue-600'
+                          : 'bg-brand-gray-100 text-gray-400'
                       }`}>
                         ✈️
                         {trip.flight?.bookingId && (
@@ -578,9 +578,9 @@ export default function MyTrips() {
                       <div className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center mb-1 relative ${
                         trip.hotel?.included 
                           ? trip.hotel?.bookingId 
-                            ? 'bg-green-100 text-green-600' 
+                            ? 'bg-brand-success/20 text-green-600' 
                             : 'bg-orange-100 text-orange-600'
-                          : 'bg-gray-100 text-gray-400'
+                          : 'bg-brand-gray-100 text-gray-400'
                       }`}>
                         🏨
                         {trip.hotel?.bookingId && (
@@ -593,9 +593,9 @@ export default function MyTrips() {
                       <div className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center mb-1 relative ${
                         trip.car?.included 
                           ? trip.car?.bookingId 
-                            ? 'bg-green-100 text-green-600' 
+                            ? 'bg-brand-success/20 text-green-600' 
                             : 'bg-purple-100 text-purple-600'
-                          : 'bg-gray-100 text-gray-400'
+                          : 'bg-brand-gray-100 text-gray-400'
                       }`}>
                         🚗
                         {trip.car?.bookingId && (
@@ -619,7 +619,7 @@ export default function MyTrips() {
                   <div className="flex space-x-2">
                     <button
                       onClick={() => handleViewTrip(trip)}
-                      className="flex-1 flex items-center justify-center px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+                      className="flex-1 flex items-center justify-center px-3 py-2 bg-brand-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
                     >
                       <EyeIcon className="w-4 h-4 mr-1" />
                       View
@@ -635,7 +635,7 @@ export default function MyTrips() {
                     )}
                     <button
                       onClick={() => handleDeleteTrip(trip)}
-                      className="flex items-center justify-center px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm"
+                      className="flex items-center justify-center px-3 py-2 bg-brand-error/20 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm"
                     >
                       <TrashIcon className="w-4 h-4" />
                     </button>
@@ -914,7 +914,7 @@ export default function MyTrips() {
                               <div>
                                 <h4 className="font-semibold text-gray-900 mb-2">Trip Components</h4>
                                 <div className="space-y-3">
-                                  <div className={`p-3 rounded-lg border ${selectedTrip.flight?.included ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 border-gray-200'}`}>
+                                  <div className={`p-3 rounded-lg border ${selectedTrip.flight?.included ? 'bg-blue-50 border-brand-pink-200' : 'bg-gray-50 border-brand-gray-200'}`}>
                                     <div className="flex items-center justify-between">
                                       <div className="flex items-center">
                                         <span className="text-lg mr-2">✈️</span>
@@ -939,7 +939,7 @@ export default function MyTrips() {
                                     )}
                                   </div>
 
-                                  <div className={`p-3 rounded-lg border ${selectedTrip.hotel?.included ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'}`}>
+                                  <div className={`p-3 rounded-lg border ${selectedTrip.hotel?.included ? 'bg-green-50 border-brand-success/30' : 'bg-gray-50 border-brand-gray-200'}`}>
                                     <div className="flex items-center justify-between">
                                       <div className="flex items-center">
                                         <span className="text-lg mr-2">🏨</span>
@@ -966,7 +966,7 @@ export default function MyTrips() {
                                     )}
                                   </div>
 
-                                  <div className={`p-3 rounded-lg border ${selectedTrip.car?.included ? 'bg-purple-50 border-purple-200' : 'bg-gray-50 border-gray-200'}`}>
+                                  <div className={`p-3 rounded-lg border ${selectedTrip.car?.included ? 'bg-purple-50 border-purple-200' : 'bg-gray-50 border-brand-gray-200'}`}>
                                     <div className="flex items-center justify-between">
                                       <div className="flex items-center">
                                         <span className="text-lg mr-2">🚗</span>
@@ -1072,7 +1072,7 @@ export default function MyTrips() {
 
                     <div className="p-6">
                       <div className="text-center">
-                        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-brand-error/20 mb-4">
                           <TrashIcon className="h-6 w-6 text-red-600" />
                         </div>
                         <h3 className="text-lg font-medium text-gray-900 mb-2">
@@ -1124,3 +1124,4 @@ export default function MyTrips() {
     </div>
   );
 }
+

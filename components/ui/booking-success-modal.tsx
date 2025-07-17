@@ -68,19 +68,19 @@ export function BookingSuccessModal({
             <CheckCircle className="w-8 h-8 text-green-600" />
           </div>
           
-          <CardTitle className="text-2xl font-bold text-gray-900 mb-2">
+          <CardTitle className="text-2xl font-bold text-brand-gray-900 mb-2">
             Booking Confirmed!
           </CardTitle>
-          <CardDescription className="text-gray-600">
+          <CardDescription className="text-brand-gray-600">
             Your flight has been successfully booked
           </CardDescription>
         </CardHeader>
         
         <CardContent className="p-6 space-y-6">
           {/* Booking Reference */}
-          <div className="text-center p-4 bg-gray-50 rounded-lg">
-            <p className="text-sm text-gray-600 mb-1">Booking Reference</p>
-            <p className="text-lg font-mono font-semibold text-gray-900 select-all">
+          <div className="text-center p-4 bg-brand-gray-50 rounded-lg">
+            <p className="text-sm text-brand-gray-600 mb-1">Booking Reference</p>
+            <p className="text-lg font-mono font-semibold text-brand-gray-900 select-all">
               {booking.bookingId.split('-')[0].toUpperCase()}
             </p>
           </div>
@@ -88,14 +88,14 @@ export function BookingSuccessModal({
           {/* Flight Details */}
           <div className="space-y-4">
             <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-              <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                <Plane className="w-5 h-5 text-blue-600" />
+              <div className="w-10 h-10 bg-brand-pink-100 rounded-full flex items-center justify-center">
+                <Plane className="w-5 h-5 text-brand-pink-600" />
               </div>
               <div className="flex-1">
-                <p className="font-semibold text-gray-900">
+                <p className="font-semibold text-brand-gray-900">
                   {booking.airline} {booking.flightNumber}
                 </p>
-                <p className="text-sm text-gray-600">{booking.route}</p>
+                <p className="text-sm text-brand-gray-600">{booking.route}</p>
               </div>
               <Badge variant="secondary" className="bg-green-100 text-green-700">
                 {booking.status}
@@ -104,21 +104,21 @@ export function BookingSuccessModal({
 
             {/* Trip Details Grid */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
-                <Calendar className="w-4 h-4 text-gray-500" />
+              <div className="flex items-center gap-2 p-3 bg-brand-gray-50 rounded-lg">
+                <Calendar className="w-4 h-4 text-brand-gray-500" />
                 <div>
-                  <p className="text-xs text-gray-500">Departure</p>
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-xs text-brand-gray-500">Departure</p>
+                  <p className="text-sm font-medium text-brand-gray-900">
                     {formatDateTime(booking.departureTime)}
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
-                <Users className="w-4 h-4 text-gray-500" />
+              <div className="flex items-center gap-2 p-3 bg-brand-gray-50 rounded-lg">
+                <Users className="w-4 h-4 text-brand-gray-500" />
                 <div>
-                  <p className="text-xs text-gray-500">Passengers</p>
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-xs text-brand-gray-500">Passengers</p>
+                  <p className="text-sm font-medium text-brand-gray-900">
                     {booking.numberOfSeats} × {booking.flightClass}
                   </p>
                 </div>
@@ -126,12 +126,12 @@ export function BookingSuccessModal({
             </div>
 
             {/* Total Amount */}
-            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
+            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-brand-pink-200">
               <div className="flex items-center gap-2">
-                <CreditCard className="w-5 h-5 text-blue-600" />
-                <span className="font-medium text-gray-900">Total Paid</span>
+                <CreditCard className="w-5 h-5 text-brand-pink-600" />
+                <span className="font-medium text-brand-gray-900">Total Paid</span>
               </div>
-              <span className="text-xl font-bold text-blue-600">
+              <span className="text-xl font-bold text-brand-pink-600">
                 {formatCurrency(booking.totalPaid)}
               </span>
             </div>
@@ -152,7 +152,7 @@ export function BookingSuccessModal({
                 onClose();
                 router.push('/mybookings');
               }}
-              className="flex-1 border-gray-300 hover:bg-gray-50"
+              className="flex-1 border-brand-gray-300 hover:bg-brand-gray-50"
             >
               View Bookings
             </Button>
@@ -160,7 +160,7 @@ export function BookingSuccessModal({
 
           {/* Additional Info */}
           <div className="text-center pt-4 border-t border-gray-100">
-            <p className="text-xs text-gray-500 flex items-center justify-center gap-1">
+            <p className="text-xs text-brand-gray-500 flex items-center justify-center gap-1">
               <MapPin className="w-3 h-3" />
               Confirmation email sent to your registered address
             </p>
@@ -170,3 +170,5 @@ export function BookingSuccessModal({
     </div>
   );
 }
+
+

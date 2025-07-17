@@ -50,7 +50,7 @@ const FlightFilters = ({
             step={10}
             className="mb-2"
           />
-          <div className="flex justify-between text-sm text-gray-600">
+          <div className="flex justify-between text-sm text-brand-gray-600">
             <span>${priceRange[0]}</span>
             <span>${priceRange[1]}</span>
           </div>
@@ -118,3 +118,5 @@ const FlightFilters = ({
 };
 
 export default FlightFilters;
+
+

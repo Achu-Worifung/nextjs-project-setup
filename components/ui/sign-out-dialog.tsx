@@ -33,14 +33,14 @@ export function SignOutDialog({
         </DialogHeader>
         
         <div className="flex items-start gap-3 mb-4">
-          <div className="bg-blue-100 rounded-full p-2 flex-shrink-0">
-            <LogOut className="w-5 h-5 text-blue-600" />
+          <div className="bg-brand-pink-100 rounded-full p-2 flex-shrink-0">
+            <LogOut className="w-5 h-5 text-brand-pink-600" />
           </div>
           <div>
             <DialogDescription>
               Are you sure you want to sign out of your account?
             </DialogDescription>
-            <div className="text-sm text-gray-500 mt-2">
+            <div className="text-sm text-brand-gray-500 mt-2">
               <p>You will need to sign in again to access your account and:</p>
               <ul className="list-disc list-inside mt-1 space-y-1">
                 <li>View your booking history</li>
@@ -52,7 +52,7 @@ export function SignOutDialog({
           </div>
         </div>
 
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-6">
+        <div className="bg-blue-50 border border-brand-pink-200 rounded-lg p-3 mb-6">
           <p className="text-sm text-blue-800">
             <strong>Note:</strong> You can always sign back in using your email and password.
           </p>
@@ -107,3 +107,5 @@ export function SignOutDialog({
     </Dialog>
   );
 }
+
+

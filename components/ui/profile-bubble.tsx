@@ -54,3 +54,4 @@ export const ProfileBubble: React.FC<ProfileBubbleProps> = ({
 );
 
 export default ProfileBubble;
+

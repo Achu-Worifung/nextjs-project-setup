@@ -82,7 +82,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-4 cursor-pointer">
           <Image src="/logo.svg" alt="Logo" width={60} height={60} />
           <h2 className={`text-xl md:text-3xl font-bold font-['Philosopher'] ${
-              theme === "dark" ? "text-white" : "text-gray-900"
+              theme === "dark" ? "text-white" : "text-brand-gray-900"
             }`}>
             Infosys | Booking
           </h2>
@@ -92,8 +92,10 @@ export default function Navbar() {
   {["Flights", "Hotels", "Vehicles"].map((label) => (
     <NavigationMenuItem key={label} onClick={() => changeNav(label)} id={label.toLowerCase()}>
       <NavigationMenuTrigger
-        className={`bg-transparent hover:bg-black/10 ${
-          theme === "dark" ? "text-white" : "text-gray-900"
+        className={`bg-transparent transition-all duration-200 ${
+          theme === "dark" 
+            ? "text-white hover:bg-[rgb(35,42,49)] hover:text-brand-pink-400" 
+            : "text-brand-gray-900 hover:bg-brand-gray-100 hover:text-brand-pink-600"
         }`}
       >
         {label === "Flights" && <Plane className="mr-2" />} 
@@ -106,8 +108,10 @@ export default function Navbar() {
   <NavigationMenuItem>
     <Link href={token ? "/mybookings" : "/signin"}>
       <NavigationMenuTrigger
-        className={`bg-transparent hover:bg-black/10 ${
-          theme === "dark" ? "text-white" : "text-gray-900"
+        className={`bg-transparent transition-all duration-200 ${
+          theme === "dark" 
+            ? "text-white hover:bg-[rgb(35,42,49)] hover:text-brand-pink-400" 
+            : "text-brand-gray-900 hover:bg-brand-gray-100 hover:text-brand-pink-600"
         }`}
       >
         MyBooking
@@ -123,23 +127,26 @@ export default function Navbar() {
         <div className="lg:hidden">
   <button
     onClick={() => setMobileOpen(!mobileOpen)}
-    className="relative w-8 h-6 flex flex-col justify-between items-center z-50 focus:outline-none absolute right-4 top-3"
+    className="absolute right-4 top-3 w-8 h-6 flex flex-col justify-between items-center z-50 focus:outline-none"
     aria-label="Toggle menu"
     type="button"
   >
     <span
-      className={`block h-[3px] w-8 bg-black rounded transition-all duration-300 
+      className={`block h-[3px] w-8 rounded transition-all duration-300 
         ${mobileOpen ? "translate-y-[10px] rotate-45" : ""}
+        ${theme === "dark" ? "bg-white" : "bg-black"}
       `}
     />
     <span
-      className={`block h-[3px] w-8 bg-black rounded transition-all duration-300 
+      className={`block h-[3px] w-8 rounded transition-all duration-300 
         ${mobileOpen ? "opacity-0" : ""}
+        ${theme === "dark" ? "bg-white" : "bg-black"}
       `}
     />
     <span
-      className={`block h-[3px] w-8 bg-black rounded transition-all duration-300 
+      className={`block h-[3px] w-8 rounded transition-all duration-300 
         ${mobileOpen ? "-translate-y-[13px] -rotate-45" : ""}
+        ${theme === "dark" ? "bg-white" : "bg-black"}
       `}
     />
   </button>
@@ -148,11 +155,17 @@ export default function Navbar() {
 
       {mobileOpen && (
   <div
-    className="fixed top-0 left-0 w-full h-full bg-white/95 z-30 flex flex-col gap-4 pt-24 px-6 text-black text-lg font-['Lato'] animate-slide-down transition-all duration-300 ease-in-out lg:hidden"
+    className={`fixed top-0 left-0 w-full h-full z-30 flex flex-col gap-4 pt-24 px-6 text-lg font-['Lato'] animate-slide-down transition-all duration-300 ease-in-out lg:hidden shadow-xl
+      ${theme === "dark" 
+        ? "bg-[rgb(25,30,36)]/95 backdrop-blur-sm text-white" 
+        : "bg-white/95 backdrop-blur-sm text-black"
+      }`}
   >
     <button
       onClick={() => setMobileOpen(false)}
-      className="absolute top-6 right-6 text-black z-40"
+      className={`absolute top-6 right-6 z-40 ${
+        theme === "dark" ? "text-white" : "text-black"
+      }`}
       aria-label="Close menu"
     >
      
@@ -162,8 +175,10 @@ export default function Navbar() {
     <Link
       key={label}
       href="/mybookings"
-      className={`px-2 py-1 hover:bg-black/10 rounded ${
-        theme === "dark" ? "text-white" : "text-gray-900"
+      className={`px-4 py-3 rounded-lg transition-all duration-200 font-medium ${
+        theme === "dark" 
+          ? "text-white hover:bg-[rgb(35,42,49)] hover:text-brand-pink-400" 
+          : "text-brand-gray-900 hover:bg-brand-gray-100 hover:text-brand-pink-600"
       }`}
       onClick={() => setMobileOpen(false)}
     >
@@ -176,8 +191,10 @@ export default function Navbar() {
         changeNav(label === "Cars" ? "Vehicles" : label);
         setMobileOpen(false);
       }}
-      className={`px-2 py-1 hover:bg-black/10 rounded cursor-pointer ${
-        theme === "dark" ? "text-white" : "text-gray-900"
+      className={`px-4 py-3 rounded-lg cursor-pointer transition-all duration-200 font-medium ${
+        theme === "dark" 
+          ? "text-white hover:bg-[rgb(35,42,49)] hover:text-brand-pink-400" 
+          : "text-brand-gray-900 hover:bg-brand-gray-100 hover:text-brand-pink-600"
       }`}
     >
       {label}
@@ -187,7 +204,11 @@ export default function Navbar() {
          {!isSignedIn && (
       <Link
         href="/loginSignin"
-        className="px-2 py-1 hover:bg-black/10 rounded"
+        className={`px-4 py-3 rounded-lg transition-all duration-200 font-medium ${
+          theme === "dark" 
+            ? "text-white hover:bg-[rgb(35,42,49)] hover:text-brand-pink-400" 
+            : "text-brand-gray-900 hover:bg-brand-gray-100 hover:text-brand-pink-600"
+        }`}
         onClick={() => setMobileOpen(false)}
       >
         Sign In
@@ -200,3 +221,4 @@ export default function Navbar() {
     </NavigationMenu>
   );
 }
+

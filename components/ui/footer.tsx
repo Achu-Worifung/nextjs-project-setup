@@ -10,10 +10,10 @@ export function Footer() {
             <Image src="/logo.svg" alt="logo" width={40} height={40} />
             <p className="font-bold text-xl sm:text-2xl">Infosys | Booking</p>
           </span>
-          <p className="text-sm sm:text-base text-gray-500 max-w-md mx-auto lg:mx-0">
+          <p className="text-sm sm:text-base text-brand-gray-500 max-w-md mx-auto lg:mx-0">
             © 2025 Infosys Booking. All rights reserved.
           </p>
-          <span className="[&>button]:bg-white [&>button]:border [&>button]:border-gray-300 [&>button]:rounded-full [&>button]:p-2 [&>button]:hover:bg-gray-100 flex items-center gap-2 mt-4 justify-center lg:justify-start">
+          <span className="[&>button]:bg-white [&>button]:border [&>button]:border-brand-gray-300 [&>button]:rounded-full [&>button]:p-2 [&>button]:hover:bg-brand-gray-100 flex items-center gap-2 mt-4 justify-center lg:justify-start">
             <button aria-label="Facebook">
               <Facebook className="h-5 w-5" />
             </button>
@@ -38,25 +38,25 @@ export function Footer() {
                   <th className="pb-4 font-bold text-lg lg:text-2xl">Other</th>
                 </tr>
               </thead>
-              <tbody className="text-gray-600">
+              <tbody className="text-brand-gray-600">
                 <tr>
-                  <td className="py-2 hover:text-pink-500 cursor-pointer transition-colors">How to Book</td>
-                  <td className="py-2 hover:text-pink-500 cursor-pointer transition-colors">Flights</td>
-                  <td className="py-2 hover:text-pink-500 cursor-pointer transition-colors">Blog</td>
+                  <td className="py-2 hover:text-brand-pink-500 cursor-pointer transition-colors">How to Book</td>
+                  <td className="py-2 hover:text-brand-pink-500 cursor-pointer transition-colors">Flights</td>
+                  <td className="py-2 hover:text-brand-pink-500 cursor-pointer transition-colors">Blog</td>
                 </tr>
                 <tr>
-                  <td className="py-2 hover:text-pink-500 cursor-pointer transition-colors">Contact Us</td>
-                  <td className="py-2 hover:text-pink-500 cursor-pointer transition-colors">Hotels</td>
-                  <td className="py-2 hover:text-pink-500 cursor-pointer transition-colors">Privacy Notice</td>
+                  <td className="py-2 hover:text-brand-pink-500 cursor-pointer transition-colors">Contact Us</td>
+                  <td className="py-2 hover:text-brand-pink-500 cursor-pointer transition-colors">Hotels</td>
+                  <td className="py-2 hover:text-brand-pink-500 cursor-pointer transition-colors">Privacy Notice</td>
                 </tr>
                 <tr>
-                  <td className="py-2 hover:text-pink-500 cursor-pointer transition-colors">Help Center</td>
-                  <td className="py-2 hover:text-pink-500 cursor-pointer transition-colors">Trains</td>
+                  <td className="py-2 hover:text-brand-pink-500 cursor-pointer transition-colors">Help Center</td>
+                  <td className="py-2 hover:text-brand-pink-500 cursor-pointer transition-colors">Trains</td>
                   <td className="py-2"></td>
                 </tr>
                 <tr>
-                  <td className="py-2 hover:text-pink-500 cursor-pointer transition-colors">Career</td>
-                  <td className="py-2 hover:text-pink-500 cursor-pointer transition-colors">Villas</td>
+                  <td className="py-2 hover:text-brand-pink-500 cursor-pointer transition-colors">Career</td>
+                  <td className="py-2 hover:text-brand-pink-500 cursor-pointer transition-colors">Villas</td>
                   <td className="py-2"></td>
                 </tr>
               </tbody>
@@ -68,26 +68,26 @@ export function Footer() {
             <div>
               <h3 className="font-bold text-lg mb-3 text-center">About</h3>
               <div className="space-y-2 text-center">
-                <div className="py-1 hover:text-pink-500 cursor-pointer transition-colors text-gray-600">How to Book</div>
-                <div className="py-1 hover:text-pink-500 cursor-pointer transition-colors text-gray-600">Contact Us</div>
-                <div className="py-1 hover:text-pink-500 cursor-pointer transition-colors text-gray-600">Help Center</div>
-                <div className="py-1 hover:text-pink-500 cursor-pointer transition-colors text-gray-600">Career</div>
+                <div className="py-1 hover:text-brand-pink-500 cursor-pointer transition-colors text-brand-gray-600">How to Book</div>
+                <div className="py-1 hover:text-brand-pink-500 cursor-pointer transition-colors text-brand-gray-600">Contact Us</div>
+                <div className="py-1 hover:text-brand-pink-500 cursor-pointer transition-colors text-brand-gray-600">Help Center</div>
+                <div className="py-1 hover:text-brand-pink-500 cursor-pointer transition-colors text-brand-gray-600">Career</div>
               </div>
             </div>
             <div>
               <h3 className="font-bold text-lg mb-3 text-center">Products</h3>
               <div className="space-y-2 text-center">
-                <div className="py-1 hover:text-pink-500 cursor-pointer transition-colors text-gray-600">Flights</div>
-                <div className="py-1 hover:text-pink-500 cursor-pointer transition-colors text-gray-600">Hotels</div>
-                <div className="py-1 hover:text-pink-500 cursor-pointer transition-colors text-gray-600">Trains</div>
-                <div className="py-1 hover:text-pink-500 cursor-pointer transition-colors text-gray-600">Villas</div>
+                <div className="py-1 hover:text-brand-pink-500 cursor-pointer transition-colors text-brand-gray-600">Flights</div>
+                <div className="py-1 hover:text-brand-pink-500 cursor-pointer transition-colors text-brand-gray-600">Hotels</div>
+                <div className="py-1 hover:text-brand-pink-500 cursor-pointer transition-colors text-brand-gray-600">Trains</div>
+                <div className="py-1 hover:text-brand-pink-500 cursor-pointer transition-colors text-brand-gray-600">Villas</div>
               </div>
             </div>
             <div>
               <h3 className="font-bold text-lg mb-3 text-center">Other</h3>
               <div className="space-y-2 text-center">
-                <div className="py-1 hover:text-pink-500 cursor-pointer transition-colors text-gray-600">Blog</div>
-                <div className="py-1 hover:text-pink-500 cursor-pointer transition-colors text-gray-600">Privacy Notice</div>
+                <div className="py-1 hover:text-brand-pink-500 cursor-pointer transition-colors text-brand-gray-600">Blog</div>
+                <div className="py-1 hover:text-brand-pink-500 cursor-pointer transition-colors text-brand-gray-600">Privacy Notice</div>
               </div>
             </div>
           </div>
@@ -96,3 +96,5 @@ export function Footer() {
     </div>
   );
 }
+
+

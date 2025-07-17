@@ -126,7 +126,7 @@ export default function CarSearchResults() {
       </div>
       
       {/* Journey details card */}
-      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-8">
+      <div className="bg-gray-50 border border-brand-gray-200 rounded-lg p-4 mb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
             <p className="text-sm font-medium text-gray-600">Pickup Location</p>
@@ -165,7 +165,7 @@ export default function CarSearchResults() {
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Filters sidebar */}
         <div className="w-full lg:w-1/4">
-          <div className="border border-gray-200 rounded-lg p-4">
+          <div className="border border-brand-gray-200 rounded-lg p-4">
             <div className="flex items-center mb-4">
               <Filter className="h-5 w-5 mr-2 text-gray-700" />
               <h2 className="text-lg font-semibold">Filters</h2>
@@ -247,7 +247,7 @@ export default function CarSearchResults() {
           {isLoading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="border border-gray-200 rounded-lg overflow-hidden">
+                <div key={i} className="border border-brand-gray-200 rounded-lg overflow-hidden">
                   <div className="h-55 bg-gray-300 animate-pulse"></div>
                   <div className="p-4 space-y-3">
                     <div className="h-6 bg-gray-300 rounded animate-pulse w-3/4"></div>
@@ -270,7 +270,7 @@ export default function CarSearchResults() {
               {availableCars.map((car) => (
                 <div
                   key={car.id}
-                  className="border border-gray-200 rounded-lg overflow-hidden shadow hover:shadow-lg transition animate-fadeIn"
+                  className="border border-brand-gray-200 rounded-lg overflow-hidden shadow hover:shadow-lg transition animate-fadeIn"
                 >
                   <div className="relative bg-gray-50 h-48 flex items-center justify-center">
                     <div className="text-6xl">
@@ -297,13 +297,13 @@ export default function CarSearchResults() {
                     </div>
 
                     <div className="flex items-center my-2 text-xs text-gray-600">
-                      <span className="mr-3 border border-gray-200 rounded-full px-2 py-1">
+                      <span className="mr-3 border border-brand-gray-200 rounded-full px-2 py-1">
                         {car.transmission}
                       </span>
-                      <span className="mr-3 border border-gray-200 rounded-full px-2 py-1">
+                      <span className="mr-3 border border-brand-gray-200 rounded-full px-2 py-1">
                         {car.fuelType}
                       </span>
-                      <span className="border border-gray-200 rounded-full px-2 py-1">
+                      <span className="border border-brand-gray-200 rounded-full px-2 py-1">
                         {car.seats} seats
                       </span>
                     </div>
@@ -324,7 +324,7 @@ export default function CarSearchResults() {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-10 bg-gray-50 rounded-lg border border-gray-200">
+            <div className="flex flex-col items-center justify-center py-10 bg-gray-50 rounded-lg border border-brand-gray-200">
               <div className="rounded-full bg-gray-200 p-6 mb-4">
                 <Filter className="h-8 w-8 text-gray-400" />
               </div>
@@ -356,3 +356,4 @@ export default function CarSearchResults() {
     </div>
   );
 }
+

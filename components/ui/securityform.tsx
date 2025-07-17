@@ -86,7 +86,7 @@ export default function SecurityForm() {
       <hr className="my-6 text-black h-0.5 border border-black" />
       <div>
         <h2 className="text-2xl font-bold mb-4">Delete Account</h2>
-        <p className="text-gray-600 mb-4">
+        <p className="text-brand-gray-600 mb-4">
           Permanently delete your account and all associated data.
         </p>
         <Button
@@ -115,3 +115,5 @@ export default function SecurityForm() {
     </>
   );
 }
+
+

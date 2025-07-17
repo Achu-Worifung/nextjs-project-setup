@@ -1,14 +1,13 @@
 "use client";
 import { Label } from "@/components/ui/label";
-import { MapPin, Calendar, Users, Building2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { MapPin, Calendar as CalendarIcon, Users, Building2, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 // Mock location suggestions function (similar to select-vehicle)
 const getLocationSuggestions = async (query: string): Promise<string[]> => {
@@ -73,23 +72,19 @@ const getLocationSuggestions = async (query: string): Promise<string[]> => {
 
 export function SelectHotel() {
   const [city, setCity] = useState("");
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
-  const [guests, setGuests] = useState<number>(1);
-  const [rooms, setRooms] = useState<number>(1);
+  const [dateRange, setDateRange] = useState<{start: Date | null, end: Date | null}>({start: null, end: null});
 
   // City suggestions state
   const [citySuggestions, setCitySuggestions] = useState<string[]>([]);
-  const [isCityFocused, setIsCityFocused] = useState(false);
   const cityRef = useRef<HTMLDivElement>(null);
 
   // Error states
   const [cityError, setCityError] = useState({ message: "", isError: false });
-  const [startDateError, setStartDateError] = useState({
+  const [checkInDateError, setCheckInDateError] = useState({
     message: "",
     isError: false,
   });
-  const [endDateError, setEndDateError] = useState({
+  const [checkOutDateError, setCheckOutDateError] = useState({
     message: "",
     isError: false,
   });
@@ -98,7 +93,7 @@ export function SelectHotel() {
   const inc = (key: "guests" | "rooms") =>
       setCounts((c) => ({ ...c, [key]: c[key] + 1 }));
   const dec = (key: "guests" | "rooms") =>
-    setCounts((c) => ({ ...c, [key]: Math.max(0, c[key] - 1) }));
+    setCounts((c) => ({ ...c, [key]: Math.max(1, c[key] - 1) }));
 
   const router = useRouter();
 
@@ -120,7 +115,7 @@ export function SelectHotel() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (cityRef.current && !cityRef.current.contains(event.target as Node)) {
-        setIsCityFocused(false);
+        setCitySuggestions([]);
       }
     };
 
@@ -130,54 +125,31 @@ export function SelectHotel() {
     };
   }, []);
 
-  const handleClick = () => {
-    // Get today's date for validation
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Set to start of day for accurate comparison
-
+  const handleSearch = () => {
     // Validation
     if (!city.trim()) {
       setCityError({ message: "Please enter a destination", isError: true });
       return;
     }
 
-    if (!startDate) {
-      setStartDateError({
+    if (!dateRange.start) {
+      setCheckInDateError({
         message: "Please select a check-in date",
         isError: true,
       });
       return;
     }
 
-    if (!endDate) {
-      setEndDateError({
+    if (!dateRange.end) {
+      setCheckOutDateError({
         message: "Please select a check-out date",
         isError: true,
       });
       return;
     }
 
-    // Check if check-in date is in the past
-    if (startDate && new Date(startDate) < today) {
-      setStartDateError({
-        message: "Check-in date cannot be in the past",
-        isError: true,
-      });
-      return;
-    }
-
-    // Check if check-out date is in the past
-    if (endDate && new Date(endDate) < today) {
-      setEndDateError({
-        message: "Check-out date cannot be in the past",
-        isError: true,
-      });
-      return;
-    }
-
-    // Check if check-out date is after check-in date
-    if (endDate && new Date(endDate) <= new Date(startDate)) {
-      setEndDateError({
+    if (dateRange.end <= dateRange.start) {
+      setCheckOutDateError({
         message: "Check-out date must be after check-in date",
         isError: true,
       });
@@ -186,335 +158,205 @@ export function SelectHotel() {
 
     const params = new URLSearchParams({
       city,
-      startDate: startDate ? startDate.toISOString().split("T")[0] : "",
-      endDate: endDate ? endDate.toISOString().split("T")[0] : "",
+      checkIn: dateRange.start.toISOString().split("T")[0],
+      checkOut: dateRange.end.toISOString().split("T")[0],
       guests: `${counts.guests} Guest${counts.guests > 1 ? "s" : ""}`,
       rooms: `${counts.rooms} Room${counts.rooms > 1 ? "s" : ""}`
-      
     });
     router.push(`/hotel-search?${params.toString()}`);
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+    <div className="w-full max-w-7xl mx-auto bg-white dark:bg-[rgb(25,30,36)] transition-all duration-300 p-0 sm:p-6">
+      {/* Header */}
+      <div className="text-center px-4 sm:px-0">
+        <h2 className="text-2xl sm:text-3xl font-bold text-brand-gray-900 dark:text-white">
           Find Your Perfect Hotel
         </h2>
-        <p className="text-gray-600">Search hotels for your next adventure</p>
+        <p className="text-brand-gray-600 dark:text-brand-gray-300">Search hotels for your next adventure</p>
       </div>
 
-      <div className="flex flex-wrap items-end gap-6">
-        {/* Destination */}
-        <div className="flex flex-col gap-2" ref={cityRef}>
-          <Label
-            htmlFor="destination"
-            className="flex items-center text-sm font-medium text-gray-700"
-          >
-            <MapPin className="mr-2 h-4 w-4 text-pink-500" />
-            Destination
-          </Label>
-          <div className="relative">
-            <TooltipProvider>
-              <Tooltip open={cityError.isError}>
-                <TooltipTrigger asChild>
-                  <input
-                    type="text"
-                    id="destination"
-                    placeholder="Where are you going?"
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    onFocus={() => {
-                      setIsCityFocused(true);
-                      setCityError({ message: "", isError: false });
-                    }}
-                  />
-                </TooltipTrigger>
-                <TooltipContent side="bottom">
-                  <p className="text-sm text-red-500">{cityError.message}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            {isCityFocused && citySuggestions.length > 0 && (
-              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+      {/* Main Search Form - Horizontal Layout */}
+      <div className=" rounded-xl p-2 sm:p-6 mx-2 sm:mx-0  transition-all duration-300">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+          
+          {/* Destination */}
+          <div className="lg:col-span-4 relative" ref={cityRef}>
+            <div className="relative">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10">
+                <MapPin className="h-4 w-4 text-pink-500" />
+              </div>
+              <input
+                type="text"
+                value={city}
+                onFocus={() => {
+                  setCitySuggestions([]);
+                  setCityError({ isError: false, message: "" });
+                }}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder="Where are you going?"
+                className="w-full pl-10 pr-4 py-3 border-2 border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 dark:text-white"
+              />
+              {cityError.isError && (
+                <p className="text-xs text-brand-error mt-1">{cityError.message}</p>
+              )}
+            </div>
+            {citySuggestions.length > 0 && city && (
+              <div className="absolute top-full left-0 w-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-200 dark:border-brand-gray-600 rounded-lg shadow-xl dark:shadow-brand-dark-lg mt-1 max-h-48 overflow-y-auto z-50">
                 {citySuggestions.map((suggestion, index) => (
                   <div
                     key={index}
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    className="px-4 py-3 hover:bg-pink-50 dark:hover:bg-[rgb(35,42,49)] cursor-pointer border-b border-gray-100 dark:border-brand-gray-600 last:border-0 dark:text-white"
                     onClick={() => {
                       setCity(suggestion);
-                      setIsCityFocused(false);
+                      setCitySuggestions([]);
                     }}
                   >
                     <div className="flex items-center">
-                      <MapPin className="mr-2 h-4 w-4 text-pink-500" />
-                      {suggestion}
+                      <MapPin className="h-4 w-4 text-pink-500 mr-2" />
+                      <span className="text-sm font-medium">{suggestion}</span>
                     </div>
                   </div>
                 ))}
               </div>
             )}
           </div>
-        </div>
 
-        {/* Check-in Date */}
-        <div role="group"className="flex flex-col gap-2">
-          <Label
-            htmlFor="checkin"
-            className="flex items-center text-sm font-medium text-gray-700"
-          >
-            <Calendar className="mr-2 h-4 w-4 text-pink-500" />
-            Check-in
-          </Label>
-          <TooltipProvider>
-            <Tooltip open={startDateError.isError}>
-              <TooltipTrigger asChild>
-                <div className="relative">
-                  <input
-                    type="date"
-                    id="checkin"
-                    value={
-                      startDate ? startDate.toISOString().split("T")[0] : ""
-                    }
-                    onChange={(e) => {
-                      setStartDate(
-                        e.target.value ? new Date(e.target.value) : null
-                      );
-                      setStartDateError({ message: "", isError: false });
-                    }}
-                    onFocus={() => {
-                      setStartDateError({ message: "", isError: false });
-                    }}
-                    min={new Date().toISOString().split("T")[0]}
-                    className="w-full p-3 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-white hover:border-pink-300 transition-colors cursor-pointer text-gray-700"
-                    style={{
-                      colorScheme: "light",
-                    }}
-                  />
-                  <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+          {/* Date Range */}
+          <div className="lg:col-span-4">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full justify-start text-left font-medium text-sm py-4 px-4 bg-white dark:bg-[rgb(25,30,36)] border-2 border-brand-gray-200 dark:border-brand-gray-600 rounded-lg shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 dark:text-white",
+                    !dateRange.start && "text-muted-foreground dark:text-brand-gray-400"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4 text-pink-500" />
+                  {dateRange.start && dateRange.end
+                    ? `${format(dateRange.start, "MMM dd")} - ${format(dateRange.end, "MMM dd")}`
+                    : dateRange.start
+                    ? `${format(dateRange.start, "MMM dd")} - Check-out date`
+                    : "Select date range"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0 bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-200 dark:border-brand-gray-600 shadow-xl dark:shadow-brand-dark-lg" align="start">
+                <div className="p-4">
+                  <div className="flex flex-col lg:flex-row gap-4">
+                    <div>
+                      <Label className="text-sm font-medium mb-2 block dark:text-white">Check-in Date</Label>
+                      <Calendar
+                        mode="single"
+                        selected={dateRange.start || undefined}
+                        onSelect={(date) => {
+                          setDateRange(prev => ({ ...prev, start: date || null }));
+                          setCheckInDateError({ isError: false, message: "" });
+                        }}
+                        disabled={(date) => date < new Date()}
+                        initialFocus
+                        className="dark:text-white"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium mb-2 block dark:text-white">Check-out Date</Label>
+                      <Calendar
+                        mode="single"
+                        selected={dateRange.end || undefined}
+                        onSelect={(date) => {
+                          setDateRange(prev => ({ ...prev, end: date || null }));
+                          setCheckOutDateError({ isError: false, message: "" });
+                        }}
+                        disabled={(date) =>
+                          date < (dateRange.start || new Date())
+                        }
+                        className="dark:text-white"
+                      />
+                    </div>
+                  </div>
                 </div>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p className="text-sm text-red-500">{startDateError.message}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
+              </PopoverContent>
+            </Popover>
+            {(checkInDateError.isError || checkOutDateError.isError) && (
+              <p className="text-xs text-brand-error mt-1">
+                {checkInDateError.message || checkOutDateError.message}
+              </p>
+            )}
+          </div>
 
-        {/* Check-out Date */}
-        <div className="flex flex-col gap-2">
-          <Label
-            htmlFor="checkout"
-            className="flex items-center text-sm font-medium text-gray-700"
-          >
-            <Calendar className="mr-2 h-4 w-4 text-pink-500" />
-            Check-out
-          </Label>
-          <TooltipProvider>
-            <Tooltip open={endDateError.isError}>
-              <TooltipTrigger asChild>
-                <div className="relative">
-                  <input
-                    type="date"
-                    id="checkout"
-                    value={endDate ? endDate.toISOString().split("T")[0] : ""}
-                    onChange={(e) => {
-                      setEndDate(
-                        e.target.value ? new Date(e.target.value) : null
-                      );
-                      setEndDateError({ message: "", isError: false });
-                    }}
-                    onFocus={() => {
-                      setEndDateError({ message: "", isError: false });
-                    }}
-                    min={
-                      startDate
-                        ? startDate.toISOString().split("T")[0]
-                        : new Date().toISOString().split("T")[0]
-                    }
-                    className="w-full p-3 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-white hover:border-pink-300 transition-colors cursor-pointer text-gray-700"
-                    style={{
-                      colorScheme: "light",
-                    }}
-                  />
-                  <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p className="text-sm text-red-500">{endDateError.message}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
+          {/* Search Button - Desktop Only */}
+          <div className="hidden lg:block lg:col-span-4">
+            <Button
+              onClick={handleSearch}
+              className="w-full bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-semibold py-4 rounded-lg shadow-lg hover:shadow-xl dark:hover:shadow-brand-dark-xl transition-all"
+            >
+              <Search className="h-4 w-4 mr-2" />
+              Search Hotels
+            </Button>
+          </div>
 
+        </div>
+      </div>
+
+      {/* Guests & Rooms Selection */}
+      <div className="flex flex-wrap justify-center gap-4 px-4 sm:px-0">
         {/* Guests */}
-        <div
-        id="guests-count"
-    data-testid="guests-count"
-    role="group"
-    className="flex flex-col"
-  >
-    <Label 
-    htmlFor="guests-count"
-    className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-      <Users className="h-4 w-4 text-pink-500" /> Guests
-    </Label>
+        <div className="flex items-center rounded-lg px-4 py-2 ">
+          <Users className="h-4 w-4 text-pink-500 mr-2" />
+          <span className="text-sm font-medium mr-3 dark:text-white">Guests:</span>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => dec("guests")}
+              disabled={counts.guests <= 1}
+              className="w-6 h-6 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] disabled:opacity-50 dark:text-white transition-colors"
+            >
+              −
+            </button>
+            <span className="text-sm font-medium px-2 dark:text-white">{counts.guests}</span>
+            <button
+              onClick={() => inc("guests")}
+              className="w-6 h-6 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] dark:text-white transition-colors"
+            >
+              +
+            </button>
+          </div>
+        </div>
 
-    <div className="flex items-center h-12 space-x-4">
-      <button
-        type="button"
-        data-testid="guests-decrement"
-        disabled={counts.guests <= 1}
-        onClick={() => dec("guests")}
-        className="h-full w-12 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100"
-        aria-label="Decrease guests count"
-      >−</button>
+        {/* Rooms */}
+        <div className="flex items-center rounded-lg px-4 py-2 ">
+          <Building2 className="h-4 w-4 text-pink-500 mr-2" />
+          <span className="text-sm font-medium mr-3 dark:text-white">Rooms:</span>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => dec("rooms")}
+              disabled={counts.rooms <= 1}
+              className="w-6 h-6 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] disabled:opacity-50 dark:text-white transition-colors"
+            >
+              −
+            </button>
+            <span className="text-sm font-medium px-2 dark:text-white">{counts.rooms}</span>
+            <button
+              onClick={() => inc("rooms")}
+              className="w-6 h-6 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] dark:text-white transition-colors"
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </div>
 
-      <span
-        data-testid="guests-count"
-        className="flex-1 text-center text-sm"
-      >{counts.guests}</span>
-
-      <button
-        type="button"
-        data-testid="guests-increment"
-        onClick={() => inc("guests")}
-        className="h-full w-12 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100"
-        aria-label="Increase guests count"
-      >+</button>
-    </div>
-  </div>
-{/* Rooms */}
-  <div
-  id="rooms"
-    data-testid="rooms"
-    role="group"
-    className="flex flex-col"
-  >
-    <Label 
-    htmlFor="rooms"
-    className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-      <Building2 className="h-4 w-4 text-pink-500" /> Rooms
-    </Label>
-
-    <div className="flex items-center h-12 space-x-4">
-      <button
-        type="button"
-        data-testid="rooms-decrement"
-        disabled={counts.rooms <= 1}
-        onClick={() => dec("rooms")}
-        className="h-full w-12 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100"
-        aria-label="Decrease rooms count"
-      >−</button>
-
-      <span
-        data-testid="rooms-count"
-        className="flex-1 text-center text-sm"
-      >{counts.rooms}</span>
-
-      <button
-        type="button"
-        data-testid="rooms-increment"
-        onClick={() => inc("rooms")}
-        className="h-full w-12 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100"
-        aria-label="Increase rooms count"
-      >+</button>
-    </div>
-  </div>
-</div>
-
-      {/* Hotel Preferences */}
-      {/* <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Hotel Preferences</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"> */}
-      {/* Budget */}
-      {/* <div className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 hover:shadow-md transition-all cursor-pointer">
-                        <div className="text-center">
-                            <div className="text-2xl mb-2">💰</div>
-                            <h4 className="font-semibold text-gray-900">Budget</h4>
-                            <p className="text-sm text-gray-600 mb-2">Economy hotels</p>
-                            <p className="text-lg font-bold text-pink-500">$30-60/night</p>
-                        </div>
-                    </div> */}
-
-      {/* Mid-Range */}
-      {/* <div className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 hover:shadow-md transition-all cursor-pointer">
-                        <div className="text-center">
-                            <div className="text-2xl mb-2">🏨</div>
-                            <h4 className="font-semibold text-gray-900">Mid-Range</h4>
-                            <p className="text-sm text-gray-600 mb-2">Comfort & amenities</p>
-                            <p className="text-lg font-bold text-pink-500">$60-120/night</p>
-                        </div>
-                    </div> */}
-
-      {/* Luxury */}
-      {/* <div className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 hover:shadow-md transition-all cursor-pointer">
-                        <div className="text-center">
-                            <div className="text-2xl mb-2">✨</div>
-                            <h4 className="font-semibold text-gray-900">Luxury</h4>
-                            <p className="text-sm text-gray-600 mb-2">Premium experience</p>
-                            <p className="text-lg font-bold text-pink-500">$120-300/night</p>
-                        </div>
-                    </div> */}
-
-      {/* Resort */}
-      {/* <div className="border border-gray-200 rounded-lg p-4 hover:border-pink-500 hover:shadow-md transition-all cursor-pointer">
-                        <div className="text-center">
-                            <div className="text-2xl mb-2">🏖️</div>
-                            <h4 className="font-semibold text-gray-900">Resort</h4>
-                            <p className="text-sm text-gray-600 mb-2">All-inclusive</p>
-                            <p className="text-lg font-bold text-pink-500">$200+/night</p>
-                        </div>
-                    </div> */}
-      {/* </div>
-            </div> */}
-
-      {/* Additional Filters */}
-      {/* <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Amenities</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-                    <label className="flex items-center space-x-2 cursor-pointer">
-                        <input type="checkbox" className="rounded border-gray-300 text-pink-500 focus:ring-pink-500" />
-                        <span className="text-sm text-gray-700">WiFi</span>
-                    </label>
-                    <label className="flex items-center space-x-2 cursor-pointer">
-                        <input type="checkbox" className="rounded border-gray-300 text-pink-500 focus:ring-pink-500" />
-                        <span className="text-sm text-gray-700">Pool</span>
-                    </label>
-                    <label className="flex items-center space-x-2 cursor-pointer">
-                        <input type="checkbox" className="rounded border-gray-300 text-pink-500 focus:ring-pink-500" />
-                        <span className="text-sm text-gray-700">Gym</span>
-                    </label>
-                    <label className="flex items-center space-x-2 cursor-pointer">
-                        <input type="checkbox" className="rounded border-gray-300 text-pink-500 focus:ring-pink-500" />
-                        <span className="text-sm text-gray-700">Spa</span>
-                    </label>
-                    <label className="flex items-center space-x-2 cursor-pointer">
-                        <input type="checkbox" className="rounded border-gray-300 text-pink-500 focus:ring-pink-500" />
-                        <span className="text-sm text-gray-700">Parking</span>
-                    </label>
-                    <label className="flex items-center space-x-2 cursor-pointer">
-                        <input type="checkbox" className="rounded border-gray-300 text-pink-500 focus:ring-pink-500" />
-                        <span className="text-sm text-gray-700">Restaurant</span>
-                    </label>
-                </div>
-            </div> */}
-
-      {/* Search Button */}
-      <div 
-      id="search-hotels-button"
-      className="flex justify-center mt-6">
-        <button
-        id="search-hotels-button"
-          className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
-          onClick={() => {
-            handleClick();
-          }}
+      {/* Search Button - Mobile Only */}
+      <div className="lg:hidden px-4 sm:px-0 flex justify-center">
+        <Button
+          onClick={handleSearch}
+          className="w-full max-w-sm bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-semibold py-4 rounded-lg shadow-lg hover:shadow-xl dark:hover:shadow-brand-dark-xl transition-all"
         >
+          <Search className="h-4 w-4 mr-2" />
           Search Hotels
-        </button>
+        </Button>
       </div>
     </div>
   );
 }
+
+

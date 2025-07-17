@@ -50,11 +50,11 @@ const FlightSearchFormCompact = ({
   onSwapLocations,
 }: FlightSearchFormCompactProps) => {
   return (
-    <div className="p-4 bg-gray-50 rounded-lg">
+    <div className="p-4 bg-brand-gray-50 rounded-lg">
       <div className="flex flex-wrap gap-3 items-end">
         {/* Flight Type */}
         <div className="flex-shrink-0">
-          <Label className="text-sm font-medium text-gray-700 mb-2 block">Flight Type</Label>
+          <Label className="text-sm font-medium text-brand-gray-700 mb-2 block">Flight Type</Label>
           <div className="flex gap-2">
             <RadioGroup value={flightType} onValueChange={setFlightType} className="flex gap-4">
               <div className="flex items-center space-x-1">
@@ -71,15 +71,15 @@ const FlightSearchFormCompact = ({
         
         {/* From */}
         <div className="flex-shrink-0 min-w-[140px]">
-          <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
-            <PlaneTakeoff className="h-3 w-3 text-blue-500" />
+          <Label className="flex items-center gap-1 text-sm font-medium text-brand-gray-700 mb-2">
+            <PlaneTakeoff className="h-3 w-3 text-brand-pink-500" />
             From
           </Label>
           <input
             type="text"
             value={from}
             onChange={(e) => setFrom(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm h-10"
+            className="w-full px-3 py-2 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent text-sm h-10"
             placeholder="Departure city"
           />
         </div>
@@ -100,23 +100,23 @@ const FlightSearchFormCompact = ({
 
         {/* To */}
         <div className="flex-shrink-0 min-w-[140px]">
-          <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
-            <PlaneLanding className="h-3 w-3 text-blue-500" />
+          <Label className="flex items-center gap-1 text-sm font-medium text-brand-gray-700 mb-2">
+            <PlaneLanding className="h-3 w-3 text-brand-pink-500" />
             To
           </Label>
           <input
             type="text"
             value={to}
             onChange={(e) => setTo(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm h-10"
+            className="w-full px-3 py-2 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent text-sm h-10"
             placeholder="Destination city"
           />
         </div>
 
         {/* Depart Date */}
         <div className="flex-shrink-0 min-w-[140px]">
-          <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
-            <CalendarDays className="h-3 w-3 text-blue-500" />
+          <Label className="flex items-center gap-1 text-sm font-medium text-brand-gray-700 mb-2">
+            <CalendarDays className="h-3 w-3 text-brand-pink-500" />
             Depart
           </Label>
           <Popover>
@@ -147,8 +147,8 @@ const FlightSearchFormCompact = ({
         {/* Return Date (if round-trip) */}
         {flightType === "round-trip" && (
           <div className="flex-shrink-0 min-w-[140px]">
-            <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
-              <CalendarDays className="h-3 w-3 text-blue-500" />
+            <Label className="flex items-center gap-1 text-sm font-medium text-brand-gray-700 mb-2">
+              <CalendarDays className="h-3 w-3 text-brand-pink-500" />
               Return
             </Label>
             <Popover>
@@ -179,14 +179,14 @@ const FlightSearchFormCompact = ({
 
         {/* Travelers */}
         <div className="flex-shrink-0 min-w-[140px]">
-          <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
-            <Users className="h-3 w-3 text-blue-500" />
+          <Label className="flex items-center gap-1 text-sm font-medium text-brand-gray-700 mb-2">
+            <Users className="h-3 w-3 text-brand-pink-500" />
             Travelers
           </Label>
           <select
             value={travelers}
             onChange={(e) => setTravelers(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm h-10"
+            className="w-full px-3 py-2 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent text-sm h-10"
           >
             <option value="1 adult, Economy">1 Adult, Economy</option>
             <option value="1 adult, Business">1 Adult, Business</option>
@@ -214,3 +214,5 @@ const FlightSearchFormCompact = ({
 };
 
 export default FlightSearchFormCompact;
+
+

@@ -138,7 +138,7 @@ const handleSignUpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         <CardContent className="p-8">
           <div className="text-center mb-8">
             <div className="flex justify-center mb-4">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+              <div className="w-16 h-16 bg-brand-success/20 rounded-full flex items-center justify-center">
                 <User className="w-8 h-8 text-green-600" />
               </div>
             </div>
@@ -371,3 +371,4 @@ const handleSignUpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // </div>
   );
 }
+

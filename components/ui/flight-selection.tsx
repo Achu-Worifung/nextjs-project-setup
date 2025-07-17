@@ -1,28 +1,33 @@
 "use client";
 
-import React, { useState, useTransition, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useTransition,
+  useMemo,
+  useCallback,
+  useRef,
+  useEffect,
+} from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import airports from "@/public/airports.json";
 import { cn } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Calendar } from "@/components/ui/calendar";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 import {
   Search,
   Users,
-  Calendar,
+  CalendarDays,
   PlaneTakeoff,
   PlaneLanding,
   ArrowLeftRight,
-  MapPin,
 } from "lucide-react";
 
 type Airport = {
@@ -32,25 +37,27 @@ type Airport = {
   iata: string;
   icao: string;
 };
-type Leg = { from: string; to: string; date?: Date };
 
 export function FlightSelection() {
   const router = useRouter();
-  const MAX_LEGS = 5;
-  
+
   // Use transition for non-blocking updates
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   // Flight type
-  const [flightType, setFlightType] = useState<
-    "one-way" | "round-trip" | "multi-city"
-  >("round-trip");
+  const [flightType, setFlightType] = useState<"one-way" | "round-trip">(
+    "round-trip"
+  );
 
   // Single-leg inputs
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [departDate, setDepartDate] = useState<Date | undefined>(undefined);
   const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
+  const [dateRange, setDateRange] = useState<{
+    start: Date | null;
+    end: Date | null;
+  }>({ start: null, end: null });
 
   // --------------------------------ERROR HANDLING WARNING---------------------------------------
   const [fromError, setFromError] = useState({ message: "", isError: false });
@@ -79,20 +86,38 @@ export function FlightSelection() {
     []
   );
 
-  // Multi-city legs
-  const [legs, setLegs] = useState<Leg[]>([
-    { from: "", to: "", date: undefined },
-  ]);
-  const [legFromSuggestions, setLegFromSuggestions] = useState<Airport[][]>([
-    [],
-  ]);
-  const [legToSuggestions, setLegToSuggestions] = useState<Airport[][]>([[]]);
+  // Refs for click outside detection
+  const fromDropdownRef = useRef<HTMLDivElement>(null);
+  const toDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        fromDropdownRef.current &&
+        !fromDropdownRef.current.contains(event.target as Node)
+      ) {
+        setAirportSuggestions([]);
+      }
+      if (
+        toDropdownRef.current &&
+        !toDropdownRef.current.contains(event.target as Node)
+      ) {
+        setToAirportSuggestions([]);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Helper to score & find airports - optimized with memoization
   const findAirport = useMemo(() => {
     return (q: string): Airport[] => {
       if (q.length < 2) return []; // Don't search for very short queries
-      
+
       const query = q.toLowerCase();
       const results = airports
         .map((a) => {
@@ -129,130 +154,49 @@ export function FlightSelection() {
         .sort((a, b) => b.score - a.score)
         .slice(0, 10) // Limit results to improve performance
         .map((x) => x.airport);
-      
+
       return results;
     };
   }, []);
 
-  // Debounced search function to prevent excessive calls
-  const debouncedSearch = useCallback((
-    searchFunction: (query: string) => void,
-    delay: number = 300
-  ) => {
-    let timeoutId: NodeJS.Timeout;
-    return (query: string) => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => searchFunction(query), delay);
-    };
-  }, []);
+  // Single-leg handlers - optimized with transitions
+  const onFromChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const v = e.target.value;
+      setFrom(v);
 
-  // Single-leg handlers - optimized with transitions and debouncing
-  const onFromChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const v = e.target.value;
-    setFrom(v);
-    
-    // Clear suggestions immediately for empty input
-    if (v.length === 0) {
-      setAirportSuggestions([]);
-      return;
-    }
-    
-    // Use transition to prevent blocking the UI
-    startTransition(() => {
-      setAirportSuggestions(findAirport(v));
-    });
-  }, [findAirport, startTransition]);
-  
-  const onToChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const v = e.target.value;
-    setTo(v);
-    
-    // Clear suggestions immediately for empty input
-    if (v.length === 0) {
-      setToAirportSuggestions([]);
-      return;
-    }
-    
-    // Use transition to prevent blocking the UI
-    startTransition(() => {
-      setToAirportSuggestions(findAirport(v));
-    });
-  }, [findAirport, startTransition]);
+      // Clear suggestions immediately for empty input
+      if (v.length === 0) {
+        setAirportSuggestions([]);
+        return;
+      }
 
-  // Multi-city handlers - optimized with transitions
-  const updateLeg = (idx: number, data: Partial<Leg>) => {
-    setLegs((prev) => {
-      const copy = [...prev];
-      copy[idx] = { ...copy[idx], ...data };
-      return copy;
-    });
-  };
-  
-  const onLegFromChange = useCallback((
-    idx: number,
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const v = e.target.value;
-    updateLeg(idx, { from: v });
-    
-    // Clear suggestions immediately for empty input
-    if (v.length === 0) {
-      setLegFromSuggestions((s) => {
-        const copy = [...s];
-        copy[idx] = [];
-        return copy;
+      // Use transition to prevent blocking the UI
+      startTransition(() => {
+        setAirportSuggestions(findAirport(v));
       });
-      return;
-    }
-    
-    // Use transition to prevent blocking the UI
-    startTransition(() => {
-      setLegFromSuggestions((s) => {
-        const copy = [...s];
-        copy[idx] = findAirport(v);
-        return copy;
+    },
+    [findAirport, startTransition]
+  );
+
+  const onToChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const v = e.target.value;
+      setTo(v);
+
+      // Clear suggestions immediately for empty input
+      if (v.length === 0) {
+        setToAirportSuggestions([]);
+        return;
+      }
+
+      // Use transition to prevent blocking the UI
+      startTransition(() => {
+        setToAirportSuggestions(findAirport(v));
       });
-    });
-  }, [findAirport, startTransition]);
-  
-  const onLegToChange = useCallback((
-    idx: number,
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const v = e.target.value;
-    updateLeg(idx, { to: v });
-    
-    // Clear suggestions immediately for empty input
-    if (v.length === 0) {
-      setLegToSuggestions((s) => {
-        const copy = [...s];
-        copy[idx] = [];
-        return copy;
-      });
-      return;
-    }
-    
-    // Use transition to prevent blocking the UI
-    startTransition(() => {
-      setLegToSuggestions((s) => {
-        const copy = [...s];
-        copy[idx] = findAirport(v);
-        return copy;
-      });
-    });
-  }, [findAirport, startTransition]);
-  const onLegDateChange = (idx: number, date?: Date) =>
-    updateLeg(idx, { date });
-  const addLeg = () => {
-    setLegs((prev) => [...prev, { from: "", to: "", date: undefined }]);
-    setLegFromSuggestions((s) => [...s, []]);
-    setLegToSuggestions((s) => [...s, []]);
-  };
-  const removeLeg = (idx: number) => {
-    setLegs((prev) => prev.filter((_, i) => i !== idx));
-    setLegFromSuggestions((s) => s.filter((_, i) => i !== idx));
-    setLegToSuggestions((s) => s.filter((_, i) => i !== idx));
-  };
+    },
+    [findAirport, startTransition]
+  );
 
   // Swap for single-leg
   const handleSwap = () => {
@@ -263,18 +207,24 @@ export function FlightSelection() {
   // search
   const handleSearch = () => {
     // Validate inputs
-    if(!from) {
-      setFromError({ isError: true, message: "Please enter a departure city." });
+    if (!from) {
+      setFromError({
+        isError: true,
+        message: "Please enter a departure city.",
+      });
       return;
     }
-    if(airportSuggestions.length === 0) {
+    if (airportSuggestions.length === 0) {
       setFromError({ isError: true, message: "Please enter a valid city." });
       return;
     }
     setFrom(airportSuggestions[0].city + ", " + airportSuggestions[0].iata);
 
     if (!to) {
-      setToError({ isError: true, message: "Please enter a destination city." });
+      setToError({
+        isError: true,
+        message: "Please enter a destination city.",
+      });
       return;
     }
     if (toAirportSuggestions.length === 0) {
@@ -282,25 +232,54 @@ export function FlightSelection() {
       return;
     }
     setTo(toAirportSuggestions[0].city + ", " + toAirportSuggestions[0].iata);
-    
-    if(!departDate) {
-      setDepartDateError({ isError: true, message: "Please select a departure date." });
-      return;
-    }
-    //for round trips
-    if (flightType == 'round-trip') {
-      setReturnDateError({ isError: true, message: "Please select a return date." });
-      return;
-    }
-    if (flightType === 'multi-city')
-    {
 
+    // Validate dates based on flight type
+    if (flightType === "round-trip") {
+      if (!dateRange.start) {
+        setDepartDateError({
+          isError: true,
+          message: "Please select a departure date.",
+        });
+        return;
+      }
+      if (!dateRange.end) {
+        setReturnDateError({
+          isError: true,
+          message: "Please select a return date.",
+        });
+        return;
+      }
+      if (dateRange.end <= dateRange.start) {
+        setReturnDateError({
+          isError: true,
+          message: "Return date must be after departure date.",
+        });
+        return;
+      }
+    } else {
+      if (!departDate) {
+        setDepartDateError({
+          isError: true,
+          message: "Please select a departure date.",
+        });
+        return;
+      }
     }
-    //going to the search page
-    
-    //formating the date
-    const ddate = departDate ? departDate.toISOString().split('T')[0] : "";
-    const rdate = returnDate ? returnDate.toISOString().split('T')[0] : "";
+
+    // Format the dates
+    const ddate =
+      flightType === "round-trip" && dateRange.start
+        ? dateRange.start.toISOString().split("T")[0]
+        : departDate
+        ? departDate.toISOString().split("T")[0]
+        : "";
+    const rdate =
+      flightType === "round-trip" && dateRange.end
+        ? dateRange.end.toISOString().split("T")[0]
+        : returnDate
+        ? returnDate.toISOString().split("T")[0]
+        : "";
+
     const params = new URLSearchParams({
       flightType,
       from,
@@ -309,572 +288,372 @@ export function FlightSelection() {
       returnDate: rdate,
       travelers: `${counts.adults} Adult${counts.adults > 1 ? "s" : ""}`,
       classType,
-      legs: flightType === "multi-city" ? JSON.stringify(legs) : "",
-    })
+    });
     router.push(`/flight-search?${params.toString()}`);
-
-   
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-100 p-4 sm:p-6 pt-6 sm:pt-10">
-      {/* Flight Types */}
-      <div className="mb-6">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-          Book Cheap Flights
+    <div className="w-full max-w-7xl mx-auto bg-white dark:bg-[rgb(25,30,36)]   transition-all duration-300 p-0 sm:p-6">
+      {/* Header */}
+      <div className="text-center px-4 sm:px-0">
+        <h2 className="text-2xl sm:text-3xl font-bold text-brand-gray-900 dark:text-white">
+          Find Your Perfect Flight
         </h2>
-        <p className="text-gray-600 text-sm sm:text-base">Search flights for your next adventure!</p>
-        <RadioGroup
-          value={flightType}
-          onValueChange={(val) => {
-            setFlightType(val as "one-way" | "round-trip" | "multi-city");
-            // if (val !== "multi-city") {
-            //   setLegs([{ from: "", to: "", date: undefined }]);
-            //   setLegFromSuggestions([[]]);
-            //   setLegToSuggestions([[]]);
-            // }
-          }}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4"
-        >
+        <p className="text-brand-gray-600 dark:text-brand-gray-300">
+          Search and compare flights from hundreds of airlines
+        </p>
+      </div>
+
+      {/* Flight Type Selector - Simplified */}
+      <div className="flex justify-center px-4 sm:px-0">
+        <div className="inline-flex bg-brand-gray-100 dark:bg-[rgb(35,42,49)] rounded-lg p-1 shadow-sm dark:shadow-brand-dark">
           {(["one-way", "round-trip"] as const).map((val) => (
-            <div
+            <button
               key={val}
               onClick={() => setFlightType(val)}
               className={cn(
-                "flex items-center justify-center p-3 sm:p-4 border rounded-lg cursor-pointer transition-colors",
+                "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200",
                 flightType === val
-                  ? "border-pink-500 bg-pink-50"
-                  : "border-gray-200 hover:border-gray-300"
+                  ? "bg-white dark:bg-[rgb(25,30,36)] text-brand-pink-600 dark:text-brand-pink-400 shadow-sm dark:shadow-brand-dark"
+                  : "text-brand-gray-600 dark:text-brand-gray-300 hover:text-brand-gray-900 dark:hover:text-white hover:bg-brand-gray-50 dark:hover:bg-[rgb(35,42,49)]"
               )}
             >
-              <RadioGroupItem value={val} id={val} className="sr-only" />
-              <Label
-                htmlFor={val}
-                className="text-sm font-medium cursor-pointer capitalize"
-              >
-                {val.replace("-", " ")}
-              </Label>
-            </div>
+              {val === "one-way" ? "One Way" : "Round Trip"}
+            </button>
           ))}
-        </RadioGroup>
+        </div>
       </div>
-       {/* Single-leg / Round-trip */}
-      {flightType !== "multi-city" && (
-        <div className="border-t border-gray-200 pt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 items-end">
+
+      {/* Main Search Form - Horizontal Layout */}
+      <div className="rounded-xl p-2 sm:p-6 mx-2 sm:mx-0  transition-all duration-300">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
           {/* From */}
-          <div className={`${flightType === "one-way" ? "lg:col-span-3" : "lg:col-span-3"} relative overflow-visible`}>
-            <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-              <PlaneTakeoff className="h-4 w-4 text-pink-500" /> From
-            </Label>
+          <div className="lg:col-span-3 relative" ref={fromDropdownRef}>
             <div className="relative">
-              <TooltipProvider>
-                <Tooltip open={fromError.isError}>
-                  <TooltipTrigger asChild>
-                    <input
-                      type="text"
-                      value={from}
-                      onFocus={() => {
-                        setAirportSuggestions([]);
-                        setFromError({ isError: false, message: "" });
-                      }}
-                      onChange={onFromChange}
-                      placeholder="Departure city"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm"
-                    />
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">
-                    <p className="text-sm text-red-500">{fromError.message}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              <MapPin className={`absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 ${isPending ? 'animate-pulse text-pink-500' : 'text-gray-400'}`} />
-              {airportSuggestions.length > 0 && from && (
-                <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-lg shadow-lg mt-1 max-h-32 overflow-y-auto z-10">
-                  {airportSuggestions.map((ap, i) => (
-                    <div
-                      key={i}
-                      className="px-4 py-2 hover:bg-pink-50 cursor-pointer"
-                      onClick={() => {
-                        setFrom(`${ap.name}, ${ap.city}`);
-                        setAirportSuggestions([]);
-                      }}
-                    >
-                      <div className="text-sm font-medium">
-                        {ap.name} ({ap.iata})
-                      </div>
-                      <div className="text-xs text-gray-500">
-                        {ap.city}, {ap.country}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10">
+                <PlaneTakeoff className="h-4 w-4 text-brand-pink-500" />
+              </div>
+              <input
+                type="text"
+                value={from}
+                onFocus={() => {
+                  setAirportSuggestions([]);
+                  setFromError({ isError: false, message: "" });
+                }}
+                onChange={onFromChange}
+                placeholder="From where?"
+                className="w-full pl-10 pr-4 py-3 border-2 border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 dark:text-white dark:placeholder-brand-gray-400"
+              />
+              {fromError.isError && (
+                <p className="text-xs text-brand-error mt-1">
+                  {fromError.message}
+                </p>
               )}
             </div>
+            {airportSuggestions.length > 0 && from && (
+              <div className="absolute top-full left-0 w-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-200 dark:border-brand-gray-600 rounded-lg shadow-xl dark:shadow-brand-dark-lg mt-1 max-h-48 overflow-y-auto z-50">
+                {airportSuggestions.map((ap, i) => (
+                  <div
+                    key={i}
+                    className="px-4 py-3 hover:bg-brand-pink-50 dark:hover:bg-[rgb(35,42,49)] cursor-pointer border-b border-brand-gray-100 dark:border-brand-gray-600 last:border-0"
+                    onClick={() => {
+                      setFrom(`${ap.name}, ${ap.city}`);
+                      setAirportSuggestions([]);
+                    }}
+                  >
+                    <div className="text-sm font-semibold text-brand-gray-900 dark:text-white">
+                      {ap.name} ({ap.iata})
+                    </div>
+                    <div className="text-xs text-brand-gray-500 dark:text-brand-gray-400">
+                      {ap.city}, {ap.country}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Swap */}
-          {flightType === "round-trip" && (
-            <div className="hidden md:flex md:col-span-2 lg:col-span-1 justify-center order-3 md:order-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleSwap}
-                aria-label="Swap departure and destination"
-                className="p-2 rounded-full border-2 border-pink-200 hover:border-pink-500 hover:bg-pink-50"
-              >
-                <ArrowLeftRight className="h-4 w-4 text-pink-500" />
-              </Button>
-            </div>
-          )}
+          {/* Swap Button */}
+          <div className="lg:col-span-1 flex justify-center">
+            <button
+              onClick={handleSwap}
+              className="p-3 bg-white dark:bg-[rgb(25,30,36)] rounded-full shadow-md hover:shadow-lg dark:shadow-brand-dark dark:hover:shadow-brand-dark-lg transition-all duration-200 hover:scale-105 border border-brand-gray-200 dark:border-brand-gray-600 dark:glow-brand-pink"
+            >
+              <ArrowLeftRight className="h-4 w-4 text-brand-pink-500 dark:text-brand-pink-400" />
+            </button>
+          </div>
 
           {/* To */}
-          <div className={`${flightType === "one-way" ? "lg:col-span-3" : "lg:col-span-3"} relative overflow-visible`}>
-            <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-              <PlaneLanding className="h-4 w-4 text-pink-500" /> To
-            </Label>
+          <div className="lg:col-span-3 relative" ref={toDropdownRef}>
             <div className="relative">
-              <TooltipProvider>
-                <Tooltip open={toError.isError}>
-                  <TooltipTrigger asChild>
-                    <input
-                      type="text"
-                      value={to}
-                      onFocus={() => {
-                        setToAirportSuggestions([]);
-                        setToError({ isError: false, message: "" });
-                      }}
-                      onChange={onToChange}
-                      placeholder="Destination city"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm"
-                    />
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">
-                    <p className="text-sm text-red-500">{toError.message}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              <MapPin className={`absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 ${isPending ? 'animate-pulse text-pink-500' : 'text-gray-400'}`} />
-              {toAirportSuggestions.length > 0 && to && (
-                <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-lg shadow-lg mt-1 max-h-32 overflow-y-auto z-10">
-                  {toAirportSuggestions.map((ap, i) => (
-                    <div
-                      key={i}
-                      className="px-4 py-2 hover:bg-pink-50 cursor-pointer"
-                      onClick={() => {
-                        setTo(`${ap.city}, ${ap.iata}`);
-                        setToAirportSuggestions([]);
-                      }}
-                    >
-                      <div className="text-sm font-medium">
-                        {ap.name} ({ap.iata})
-                      </div>
-                      <div className="text-xs text-gray-500">
-                        {ap.city}, {ap.country}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10">
+                <PlaneLanding className="h-4 w-4 text-brand-pink-500" />
+              </div>
+              <input
+                type="text"
+                value={to}
+                onFocus={() => {
+                  setToAirportSuggestions([]);
+                  setToError({ isError: false, message: "" });
+                }}
+                onChange={onToChange}
+                placeholder="To where?"
+                className="w-full pl-10 pr-4 py-3 border-2 border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 dark:text-white dark:placeholder-brand-gray-400"
+              />
+              {toError.isError && (
+                <p className="text-xs text-brand-error mt-1">
+                  {toError.message}
+                </p>
               )}
             </div>
+            {toAirportSuggestions.length > 0 && to && (
+              <div className="absolute top-full left-0 w-full bg-white border border-brand-gray-200 rounded-lg shadow-xl mt-1 max-h-48 overflow-y-auto z-50">
+                {toAirportSuggestions.map((ap, i) => (
+                  <div
+                    key={i}
+                    className="px-4 py-3 hover:bg-brand-pink-50 cursor-pointer border-b border-brand-gray-100 last:border-0"
+                    onClick={() => {
+                      setTo(`${ap.city}, ${ap.iata}`);
+                      setToAirportSuggestions([]);
+                    }}
+                  >
+                    <div className="text-sm font-semibold text-brand-gray-900">
+                      {ap.name} ({ap.iata})
+                    </div>
+                    <div className="text-xs text-brand-gray-500">
+                      {ap.city}, {ap.country}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Mobile Swap Button */}
-          {flightType === "round-trip" && (
-            <div className="md:hidden flex justify-center order-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleSwap}
-                aria-label="Swap departure and destination"
-                className="p-2 rounded-full border-2 border-pink-200 hover:border-pink-500 hover:bg-pink-50"
-              >
-                <ArrowLeftRight className="h-4 w-4 text-pink-500" />
-              </Button>
+          {/* Date Range (for round-trip) or Single Date (for one-way) */}
+          {flightType === "round-trip" ? (
+            <div className="lg:col-span-3">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-medium text-sm py-4 px-4 bg-white border-2 border-brand-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500",
+                      !dateRange.start && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarDays className="mr-2 h-4 w-4 text-brand-pink-500" />
+                    {dateRange.start && dateRange.end
+                      ? `${format(dateRange.start, "MMM dd")} - ${format(
+                          dateRange.end,
+                          "MMM dd"
+                        )}`
+                      : dateRange.start
+                      ? `${format(dateRange.start, "MMM dd")} - Return date`
+                      : "Select date range"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <div className="p-4">
+                    <div className="flex flex-col lg:flex-row gap-4">
+                      <div>
+                        <Label className="text-sm font-medium mb-2 block">
+                          Departure Date
+                        </Label>
+                        <Calendar
+                          mode="single"
+                          selected={dateRange.start || undefined}
+                          onSelect={(date) => {
+                            setDateRange((prev) => ({
+                              ...prev,
+                              start: date || null,
+                            }));
+                            setDepartDate(date);
+                            setDepartDateError({ isError: false, message: "" });
+                          }}
+                          disabled={(date) => date < new Date()}
+                          initialFocus
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-sm font-medium mb-2 block">
+                          Return Date
+                        </Label>
+                        <Calendar
+                          mode="single"
+                          selected={dateRange.end || undefined}
+                          onSelect={(date) => {
+                            setDateRange((prev) => ({
+                              ...prev,
+                              end: date || null,
+                            }));
+                            setReturnDate(date);
+                            setReturnDateError({ isError: false, message: "" });
+                          }}
+                          disabled={(date) =>
+                            date < (dateRange.start || new Date())
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+              {(departDateError.isError || returnDateError.isError) && (
+                <p className="text-xs text-red-500 mt-1">
+                  {departDateError.message || returnDateError.message}
+                </p>
+              )}
+            </div>
+          ) : (
+            <div className="lg:col-span-3">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-medium text-sm py-4 px-4 bg-white border-2 border-brand-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500",
+                      !departDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarDays className="mr-2 h-4 w-4 text-brand-pink-500" />
+                    {departDate
+                      ? format(departDate, "MMM dd, yyyy")
+                      : "Select departure date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <div className="p-4">
+                    <Label className="text-sm font-medium mb-2 block">
+                      Departure Date
+                    </Label>
+                    <Calendar
+                      mode="single"
+                      selected={departDate}
+                      onSelect={(date) => {
+                        setDepartDate(date);
+                        setDepartDateError({ isError: false, message: "" });
+                      }}
+                      disabled={(date) => date < new Date()}
+                      initialFocus
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
+              {departDateError.isError && (
+                <p className="text-xs text-brand-error mt-1">
+                  {departDateError.message}
+                </p>
+              )}
             </div>
           )}
 
-          {/* Depart */}
-          <div className={`${flightType === "one-way" ? "md:col-span-2 lg:col-span-5" : "md:col-span-1 lg:col-span-2"} order-5`}>
-            <Label
-              htmlFor="departure"
-              className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
+          {/* Search Button - Desktop Only */}
+          <div className="hidden lg:block lg:col-span-2">
+            <Button
+              onClick={handleSearch}
+          className="w-full max-w-sm bg-pink-500 hover:bg-pink-600 dark:bg-pink-400 dark:hover:bg-pink-500 text-white font-semibold py-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
             >
-              <Calendar className="h-4 w-4 text-pink-500" /> Departure date
-            </Label>
-            <TooltipProvider>
-              <Tooltip open={departDateError.isError}>
-                <TooltipTrigger asChild>
-                  <input
-                    type="date"
-                    id="departure"
-                    value={
-                      departDate ? departDate.toISOString().split("T")[0] : ""
-                    }
-                    onChange={(e) =>
-                      setDepartDate(
-                        e.target.value ? new Date(e.target.value) : undefined
-                      )
-                    }
-                    min={new Date().toISOString().split("T")[0]}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
-                  />
-                </TooltipTrigger>
-                <TooltipContent side="bottom">
-                  <p className="text-sm text-red-500">
-                    {departDateError.message}
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+              <Search className="h-4 w-4 mr-2" />
+              Search
+            </Button>
           </div>
 
-          {/* Return */}
-          {flightType === "round-trip" && (
-            <div className="md:col-span-1 lg:col-span-2 order-6">
-              <Label
-                htmlFor="return"
-                className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
-              >
-                <Calendar className="h-4 w-4 text-pink-500" /> Return date
-              </Label>
-               <TooltipProvider>
-                <Tooltip open={returnDateError.isError}>
-                  <TooltipTrigger asChild>
-              <input
-                type="date"
-                id="return"
-                value={returnDate ? returnDate.toISOString().split("T")[0] : ""}
-                onChange={(e) =>
-                  setReturnDate(
-                    e.target.value ? new Date(e.target.value) : undefined
-                  )
-                }
-                onFocus={() => {
-                  setReturnDateError({ isError: false, message: "" });
-                }}
-                min={(departDate || new Date()).toISOString().split("T")[0]}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
-              />
-               </TooltipTrigger>
-                  <TooltipContent side="bottom">
-                    <p className="text-sm text-red-500">{returnDateError.message}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-          )}
-        </div>
-      )}
-
-      <div className="mb-6 flex flex-col sm:flex-row sm:items-end space-y-4 sm:space-y-0 sm:space-x-4 w-full">
-        {/* Adults */}
-        <div
-          data-testid="passenger-adults"
-          role="group"
-          aria-label="Adult passengers"
-          className="flex-1 min-w-0"
-        >
-          <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 items-center justify-center sm:justify-start space-x-4 pt-10">
-            <Users className="h-4 w-4 text-pink-500 " /> Adults
-          </Label>
-          <div className="flex items-center justify-center sm:justify-start space-x-4">
-            <span className="sr-only">Adults</span>
-            <button
-              type="button"
-              data-testid="adults-decrement"
-              disabled={counts.adults <= 1}
-              onClick={() => dec("adults")}
-              className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
-              aria-label="Decrease adult count"
-            >
-              −
-            </button>
-            <span
-              data-testid="adults-count"
-              className="w-8 text-center text-sm"
-            >
-              {counts.adults}
-            </span>
-            <button
-              type="button"
-              data-testid="adults-increment"
-              onClick={() => inc("adults")}
-              className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
-              aria-label="Increase adult count"
-            >
-              +
-            </button>
-            <span className="sr-only">Adults</span>
-          </div>
-        </div>
-
-        {/* Children */}
-        <div
-          data-testid="passenger-children"
-          role="group"
-          aria-label="Child passengers"
-          className="flex-1 min-w-0"
-        >
-          <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 items-center justify-center sm:justify-start space-x-4">
-            <Users className="h-4 w-4 text-pink-500" /> Children
-          </Label>
-          <div className="flex items-center justify-center sm:justify-start space-x-4">
-            <span className="sr-only">Children</span>
-            <button
-              type="button"
-              data-testid="children-decrement"
-              onClick={() => dec("children")}
-              className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
-              aria-label="Decrease children count"
-            >
-              −
-            </button>
-            <span
-              data-testid="children-count"
-              className="w-8 text-center text-sm"
-            >
-              {counts.children}
-            </span>
-            <button
-              type="button"
-              data-testid="children-increment"
-              onClick={() => inc("children")}
-              className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
-              aria-label="Increase children count"
-            >
-              +
-            </button>
-            <span className="sr-only">Children</span>
-          </div>
-        </div>
-
-        {/* Class */}
-        <div className="flex-1 min-w-0 sm:min-w-[120px]">
-          <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-            Class
-          </Label>
-          <select
-            value={classType}
-            onChange={(e) => setClassType(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm"
-          >
-            <option>Economy</option>
-            <option>Premium Economy</option>
-            <option>Business</option>
-            <option>First</option>
-          </select>
+          {/* Remove search button from round-trip inline position */}
         </div>
       </div>
 
-     
-      
-
-      {/* Multi-city Legs */}
-      {flightType === "multi-city" && (
-        <div className="mt-6">
-          {legs.map((leg, idx) => (
-            <div
-              key={idx}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 items-end mb-4"
-            >
-              {/* From */}
-              <div className="sm:col-span-1 lg:col-span-3 relative overflow-visible">
-                <Label
-                  htmlFor={`from-${idx}`}
-                  className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
-                >
-                  <PlaneTakeoff className="h-4 w-4 text-pink-500" /> From
-                </Label>
-                <div className="relative">
-                  <input
-                    id={`from-${idx}`}
-                    type="text"
-                    value={leg.from}
-                    onFocus={() => {
-                      const s = [...legFromSuggestions];
-                      s[idx] = [];
-                      setLegFromSuggestions(s);
-                    }}
-                    onChange={(e) => onLegFromChange(idx, e)}
-                    placeholder="Departure city"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm"
-                  />
-                  <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  {legFromSuggestions[idx].length > 0 && leg.from && (
-                    <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-lg shadow-lg mt-1 max-h-32 overflow-y-auto z-10">
-                      {legFromSuggestions[idx].map((ap, i) => (
-                        <div
-                          key={i}
-                          className="px-4 py-2 hover:bg-pink-50 cursor-pointer"
-                          onClick={() => {
-                            updateLeg(idx, { from: `${ap.city}, ${ap.iata}` });
-                            const s = [...legFromSuggestions];
-                            s[idx] = [];
-                            setLegFromSuggestions(s);
-                          }}
-                        >
-                          <div className="text-sm font-medium">
-                            {ap.name} ({ap.iata})
-                          </div>
-                          <div className="text-xs text-gray-500">
-                            {ap.city}, {ap.country}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Swap leg */}
-              <div className="hidden lg:flex lg:col-span-1 justify-center">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    const c = [...legs];
-                    [c[idx].from, c[idx].to] = [c[idx].to, c[idx].from];
-                    setLegs(c);
-                  }}
-                  aria-label="Swap departure and destination"
-                  className="p-2 rounded-full border-2 border-pink-200 hover:border-pink-500 hover:bg-pink-50"
-                >
-                  <ArrowLeftRight className="h-4 w-4 text-pink-500" />
-                </Button>
-              </div>
-              {/* To */}
-              <div className="sm:col-span-1 lg:col-span-3 relative overflow-visible">
-                <Label
-                  htmlFor={`to-${idx}`}
-                  className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
-                >
-                  <PlaneLanding className="h-4 w-4 text-pink-500" /> To
-                </Label>
-                <div className="relative">
-                  <input
-                    id={`to-${idx}`}
-                    type="text"
-                    value={leg.to}
-                    onFocus={() => {
-                      const s = [...legToSuggestions];
-                      s[idx] = [];
-                      setLegToSuggestions(s);
-                    }}
-                    onChange={(e) => onLegToChange(idx, e)}
-                    placeholder="Destination city"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm"
-                  />
-                  <MapPin className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  {legToSuggestions[idx].length > 0 && leg.to && (
-                    <div className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-lg shadow-lg mt-1 max-h-32 overflow-y-auto z-10">
-                      {legToSuggestions[idx].map((ap, i) => (
-                        <div
-                          key={i}
-                          className="px-4 py-2 hover:bg-pink-50 cursor-pointer"
-                          onClick={() => {
-                            updateLeg(idx, { to: `${ap.city}, ${ap.iata}` });
-                            const s = [...legToSuggestions];
-                            s[idx] = [];
-                            setLegToSuggestions(s);
-                          }}
-                        >
-                          <div className="text-sm font-medium">
-                            {ap.name} ({ap.iata})
-                          </div>
-                          <div className="text-xs text-gray-500">
-                            {ap.city}, {ap.country}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-              
-              {/* Mobile Swap Button for Multi-city */}
-              <div className="sm:col-span-2 lg:hidden flex justify-center">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    const c = [...legs];
-                    [c[idx].from, c[idx].to] = [c[idx].to, c[idx].from];
-                    setLegs(c);
-                  }}
-                  aria-label="Swap departure and destination"
-                  className="p-2 rounded-full border-2 border-pink-200 hover:border-pink-500 hover:bg-pink-50"
-                >
-                  <ArrowLeftRight className="h-4 w-4 text-pink-500" />
-                </Button>
-              </div>
-              
-              {/* Depart leg */}
-              <div className="sm:col-span-1 lg:col-span-2">
-                <Label
-                  htmlFor={`leg-${idx}-date`}
-                  className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
-                >
-                  <Calendar className="h-4 w-4 text-pink-500" /> Departure date
-                </Label>
-                <input
-                  type="date"
-                  id={`leg-${idx}-date`}
-                  value={leg.date ? leg.date.toISOString().split("T")[0] : ""}
-                  onChange={(e) =>
-                    onLegDateChange(
-                      idx,
-                      e.target.value ? new Date(e.target.value) : undefined
-                    )
-                  }
-                  min={new Date().toISOString().split("T")[0]}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
-                />
-              </div>
-
-              {/* Remove leg */}
-              {idx > 0 && (
-                <div className="sm:col-span-1 lg:col-span-1 flex justify-center">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => removeLeg(idx)}
-                    className="w-10 h-10 p-2 rounded-full text-red-500 hover:bg-red-50 flex items-center justify-center z-10"
-                  >
-                    x
-                  </Button>
-                </div>
-              )}
-            </div>
-          ))}
-
-          {/* + Add Another Flight */}
-          <div className="flex justify-center sm:justify-end">
+      {/* Simplified Passenger & Class Selection */}
+      <div className="flex flex-wrap justify-center gap-4 px-4 sm:px-0">
+        {/* Passengers */}
+        <div className="flex items-center rounded-lg px-4 py-2">
+          <Users className="h-4 w-4 text-brand-pink-500 mr-2" />
+          <span className="text-sm font-medium mr-3">Passengers:</span>
+          <div className="flex items-center space-x-2">
             <button
-              type="button"
-              onClick={addLeg}
-              disabled={legs.length >= MAX_LEGS}
-              className={cn(
-                "text-sm font-medium px-4 py-2 rounded-lg border transition-colors",
-                legs.length >= MAX_LEGS
-                  ? "text-gray-400 cursor-not-allowed border-gray-200"
-                  : "text-pink-500 hover:bg-pink-50 border-pink-200 hover:border-pink-500"
-              )}
+              onClick={() => dec("adults")}
+              disabled={counts.adults <= 1}
+              className="w-6 h-6 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] disabled:opacity-50 text-brand-gray-700 dark:text-brand-gray-300 transition-all duration-200 shadow-sm dark:shadow-brand-dark"
             >
-              {legs.length >= MAX_LEGS
-                ? `Maximum ${MAX_LEGS} flights reached`
-                : "+ Add Another Flight"}
+              −
+            </button>
+            <span className="text-sm font-medium px-2 text-brand-gray-700 dark:text-brand-gray-300">
+              {counts.adults + counts.children}
+            </span>
+            <button
+              onClick={() => inc("adults")}
+              className="w-6 h-6 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] text-brand-gray-700 dark:text-brand-gray-300 transition-all duration-200 shadow-sm dark:shadow-brand-dark"
+            >
+              +
             </button>
           </div>
         </div>
-      )}
+        {/* Class */}
+        <div className="flex items-center  rounded-lg px-4 py-2 shadow-sm ">
+          <span className="text-sm font-medium mr-3 text-brand-gray-700 dark:text-brand-gray-300">
+            Class:
+          </span>
+          <div className="relative">
+            <select
+              value={classType}
+              onChange={(e) => setClassType(e.target.value)}
+              className="bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-200 dark:border-brand-gray-600 rounded-md px-3 py-1.5 text-sm font-medium text-pink-600 dark:text-pink-400 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none appearance-none pr-8 min-w-[120px] shadow-sm dark:shadow-brand-dark transition-all duration-200"
+            >
+              <option
+                value="Economy"
+                className="dark:bg-[rgb(25,30,36)] dark:text-white"
+              >
+                Economy
+              </option>
+              <option
+                value="Premium Economy"
+                className="dark:bg-[rgb(25,30,36)] dark:text-white"
+              >
+                Premium Economy
+              </option>
+              <option
+                value="Business"
+                className="dark:bg-[rgb(25,30,36)] dark:text-white"
+              >
+                Business
+              </option>
+              <option
+                value="First"
+                className="dark:bg-[rgb(25,30,36)] dark:text-white"
+              >
+                First
+              </option>
+            </select>
+            {/* Custom dropdown arrow */}
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
+              <svg
+                className="w-4 h-4 text-pink-500 dark:text-pink-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>{" "}
+      </div>
 
-      {/* Search button */}
-      <div className="mt-6">
+      {/* Search Button for All Flight Types - Mobile Only (After Passenger Controls) */}
+      <div className="lg:hidden px-4 sm:px-0 flex justify-center">
         <Button
           onClick={handleSearch}
-          className="w-full bg-gradient-to-r from-pink-500 to-pink-600 text-white font-semibold shadow-lg hover:scale-105 transition"
+          className="w-full max-w-sm bg-pink-500 hover:bg-pink-600 dark:bg-pink-400 dark:hover:bg-pink-500 text-white font-semibold py-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
         >
-          <Search className="h-5 w-5 mr-2" /> Search
+          Search
+          <Search className="h-4 w-4 mr-2" />
+          {flightType === "one-way"
+            ? "Search Flights"
+            : "Search Round-Trip Flights"}
         </Button>
       </div>
     </div>

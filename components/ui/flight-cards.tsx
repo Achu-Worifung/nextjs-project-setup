@@ -50,8 +50,8 @@ export function FlightCards({ flight, selectedClass = 'economy' }: FlightCardPro
           <div className="md:col-span-2">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                  <span className="text-blue-600 font-bold text-sm">
+                <div className="w-10 h-10 bg-brand-pink-100 rounded-full flex items-center justify-center">
+                  <span className="text-brand-pink-600 font-bold text-sm">
                     {flight.airline.substring(0, 2).toUpperCase()}
                   </span>
                 </div>
@@ -59,12 +59,12 @@ export function FlightCards({ flight, selectedClass = 'economy' }: FlightCardPro
                   <span className="font-semibold text-sm">
                     {flight.airline} {flight.flightNumber}
                   </span>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-brand-gray-500">
                     {flight.aircraft}
                   </span>
                 </div>
               </div>
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-brand-gray-500">
                 {availableSeats} seats left
               </div>
             </div>
@@ -75,19 +75,19 @@ export function FlightCards({ flight, selectedClass = 'economy' }: FlightCardPro
                 <div className="text-xl font-bold">
                   {formatTime(flight.departureTime)}
                 </div>
-                <div className="text-sm text-gray-600 font-medium">
+                <div className="text-sm text-brand-gray-600 font-medium">
                   {flight.departureAirport}
                 </div>
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-brand-gray-500">
                   {formatDate(flight.departureTime)}
                 </div>
                 {flight.terminal && (
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-brand-gray-500">
                     Terminal {flight.terminal}
                   </div>
                 )}
                 {flight.gate && (
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-brand-gray-500">
                     Gate {flight.gate}
                   </div>
                 )}
@@ -106,7 +106,7 @@ export function FlightCards({ flight, selectedClass = 'economy' }: FlightCardPro
                     <Clock className="w-3 h-3" />
                     {flight.duration}
                   </div>
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-brand-gray-500">
                     {flight.numberOfStops === 0
                       ? "Non-stop"
                       : `${flight.numberOfStops} stop${flight.numberOfStops > 1 ? "s" : ""}`}
@@ -124,10 +124,10 @@ export function FlightCards({ flight, selectedClass = 'economy' }: FlightCardPro
                 <div className="text-xl font-bold">
                   {formatTime(flight.arrivalTime)}
                 </div>
-                <div className="text-sm text-gray-600 font-medium">
+                <div className="text-sm text-brand-gray-600 font-medium">
                   {flight.destinationAirport}
                 </div>
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-brand-gray-500">
                   {formatDate(flight.arrivalTime)}
                 </div>
               </div>
@@ -141,7 +141,7 @@ export function FlightCards({ flight, selectedClass = 'economy' }: FlightCardPro
                   <span>Meal included</span>
                 </div>
               )}
-              <div className="flex items-center gap-1 text-xs text-blue-600">
+              <div className="flex items-center gap-1 text-xs text-brand-pink-600">
                 <Luggage className="w-4 h-4" />
                 <span>Baggage included</span>
               </div>
@@ -153,18 +153,18 @@ export function FlightCards({ flight, selectedClass = 'economy' }: FlightCardPro
             <Badge variant="outline" className="mb-2 capitalize">
               {selectedClass}
             </Badge>
-            <div className="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded">
+            <div className="text-xs text-brand-gray-500 bg-brand-gray-50 px-2 py-1 rounded">
               {flight.aircraft}
             </div>
           </div>
 
           {/* Price and Book Button */}
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600 mb-1">
+            <div className="text-2xl font-bold text-brand-pink-600 mb-1">
               ${price.toLocaleString()}
             </div>
-            <div className="text-sm text-gray-600 mb-3">per person</div>
-            <div className="text-sm text-blue-600 font-medium cursor-pointer hover:text-blue-700">
+            <div className="text-sm text-brand-gray-600 mb-3">per person</div>
+            <div className="text-sm text-brand-pink-600 font-medium cursor-pointer hover:text-blue-700">
               Click to view details →
             </div>
           </div>
@@ -173,3 +173,5 @@ export function FlightCards({ flight, selectedClass = 'economy' }: FlightCardPro
     </Card>
   );
 }
+
+

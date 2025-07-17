@@ -24,7 +24,7 @@ export default function ProfileSettingPage() {
       <div className="flex flex-col lg:flex-row max-w-7xl mx-auto min-h-screen">
         {/* Mobile Header with Horizontal Tabs */}
         <div className="lg:hidden bg-white shadow-lg">
-          <div className="p-4 border-b border-gray-200">
+          <div className="p-4 border-b border-brand-gray-200">
             <div className="text-center mb-4">
               <h2 className="text-xl font-bold text-gray-900">Settings</h2>
               <p className="text-sm text-gray-600">Manage your account preferences</p>
@@ -39,7 +39,7 @@ export default function ProfileSettingPage() {
                   key={option.key}
                   className={`pt-2 flex-shrink-0 flex flex-col items-center gap-2 px-4 py-3 rounded-xl transition-all duration-200 min-w-[80px]
                     ${activeTab === option.key
-                      ? "bg-blue-50 text-blue-700 border-2 border-blue-200 shadow-sm"
+                      ? "bg-blue-50 text-blue-700 border-2 border-brand-pink-200 shadow-sm"
                       : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 border-2 border-transparent"}
                   `}
                   onClick={() => setActiveTab(option.key)}
@@ -55,7 +55,7 @@ export default function ProfileSettingPage() {
         {/* Desktop Sidebar */}
         <aside className="hidden lg:flex w-80  flex-col min-h-screen">
           {/* Header */}
-          <div className="p-8 border-b border-gray-200">
+          <div className="p-8 border-b border-brand-gray-200">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Settings</h2>
             <p className="text-gray-600">Manage your account preferences</p>
           </div>
@@ -68,15 +68,15 @@ export default function ProfileSettingPage() {
                   <button
                     className={`w-full flex items-center gap-4 px-4 py-1 rounded-xl transition-all duration-200 group
                       ${activeTab === option.key
-                        ? "bg-blue-50 text-blue-700 shadow-sm border border-blue-200"
+                        ? "bg-blue-50 text-blue-700 shadow-sm border border-brand-pink-200"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"}
                     `}
                     onClick={() => setActiveTab(option.key)}
                   >
                     <div className={`p-2 rounded-lg transition-colors ${
                       activeTab === option.key 
-                        ? "bg-blue-100" 
-                        : "bg-gray-100 group-hover:bg-gray-200"
+                        ? "bg-brand-pink-100" 
+                        : "bg-brand-gray-100 group-hover:bg-gray-200"
                     }`}>
                       {option.icon}
                     </div>

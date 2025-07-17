@@ -24,9 +24,9 @@ export function TravelPoint() {
         />
       </div>
       <div className="flex flex-col gap-2">
-        <p className="text-xl  text-pink-600">Travel Points</p>
+        <p className="text-xl  text-brand-pink-600">Travel Points</p>
         <p className={`text-3xl md:text-4xl font-bold leading-tight ${
-              theme === "dark" ? "text-white" : "text-gray-900"
+              theme === "dark" ? "text-white" : "text-brand-gray-900"
             }`}>
           We help you find your <br /> dream destination
         </p>
@@ -38,34 +38,36 @@ export function TravelPoint() {
         </p>
         <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
           <div className="text-center">
-            <div className="text-2xl md:text-3xl font-bold text-pink-500 mb-1">
+            <div className="text-2xl md:text-3xl font-bold text-brand-pink-500 mb-1">
               50+
             </div>
-            <div className="text-gray-600 text-sm">Destinations</div>
+            <div className="text-brand-gray-600 text-sm">Destinations</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl md:text-3xl font-bold text-pink-500 mb-1">
+            <div className="text-2xl md:text-3xl font-bold text-brand-pink-500 mb-1">
               10k+
             </div>
-            <div className="text-gray-600 text-sm">Happy Travelers</div>
+            <div className="text-brand-gray-600 text-sm">Happy Travelers</div>
           </div>
           <div className="text-center">
             <div className="flex items-center justify-center gap-1 mb-1">
-              <span className="text-2xl md:text-3xl font-bold text-pink-500">
+              <span className="text-2xl md:text-3xl font-bold text-brand-pink-500">
                 4.9
               </span>
               <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
             </div>
-            <div className="text-gray-600 text-sm">Rating</div>
+            <div className="text-brand-gray-600 text-sm">Rating</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl md:text-3xl font-bold text-pink-500 mb-1">
+            <div className="text-2xl md:text-3xl font-bold text-brand-pink-500 mb-1">
               24/7
             </div>
-            <div className="text-gray-600 text-sm">Support</div>
+            <div className="text-brand-gray-600 text-sm">Support</div>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+

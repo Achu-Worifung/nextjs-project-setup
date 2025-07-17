@@ -183,13 +183,13 @@ export default function MyBooking() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Confirmed':
-        return 'bg-green-100 text-green-800 border border-green-200';
+        return 'bg-brand-success/20 text-brand-success border border-brand-success/30';
       case 'Pending':
-        return 'bg-yellow-100 text-yellow-800 border border-yellow-200';
+        return 'bg-brand-warning/20 text-brand-warning border border-brand-warning/30';
       case 'Cancelled':
-        return 'bg-red-100 text-red-800 border border-red-200';
+        return 'bg-brand-error/20 text-brand-error border border-brand-error/30';
       default:
-        return 'bg-gray-100 text-gray-800 border border-gray-200';
+        return 'bg-brand-gray-100 text-brand-gray-800 border border-brand-gray-200';
     }
   };
 
@@ -252,7 +252,7 @@ export default function MyBooking() {
                 placeholder="Search bookings by ID, type, location, or provider..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-12 pr-4 py-3 w-full rounded-xl border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 bg-gray-50 text-sm sm:text-base"
+                className="pl-12 pr-4 py-3 w-full rounded-xl border border-brand-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 bg-gray-50 text-sm sm:text-base"
               />
             </div>
 
@@ -307,7 +307,7 @@ export default function MyBooking() {
         {/* Bookings Table */}
         {!loading && !error && (
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
+          <div className="px-4 sm:px-6 py-4 border-b border-brand-gray-200">
             <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
               {filteredBookings.length} Booking{filteredBookings.length !== 1 ? 's' : ''} Found
             </h2>
@@ -345,7 +345,7 @@ export default function MyBooking() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
-                          <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                          <div className="h-10 w-10 rounded-full bg-brand-pink-100 flex items-center justify-center">
                             <span className="text-lg">{getTypeIcon(booking.bookingtype)}</span>
                           </div>
                         </div>
@@ -383,7 +383,7 @@ export default function MyBooking() {
               >
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0">
-                    <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
+                    <div className="h-12 w-12 rounded-full bg-brand-pink-100 flex items-center justify-center">
                       <span className="text-xl">{getTypeIcon(booking.bookingtype)}</span>
                     </div>
                   </div>

@@ -2,8 +2,13 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Label } from "@/components/ui/label";
-import { MapPin, Calendar } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { MapPin, Calendar as CalendarIcon, Search, ArrowLeftRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 import {
   mockAvailableCars,
   getLocationSuggestions,
@@ -11,46 +16,21 @@ import {
   type CarData,
 } from "@/fake-data/car-rental-data";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-
-// Add animation style
-const animationStyles = `
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .animate-fadeIn {
-    animation: fadeIn 0.3s ease-in-out;
-  }
-`;
-
 export function SelectVehicle() {
   const router = useRouter();
-  const [minSeats, setMinSeats] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(100);
   const [selectedType, setSelectedType] = useState("All");
-
-  // Date state
-  const [pickupDate, setPickupDate] = useState("");
-  const [dropoffDate, setDropoffDate] = useState("");
+  const [dateRange, setDateRange] = useState<{start: Date | null, end: Date | null}>({start: null, end: null});
 
   // Location state
   const [pickupLocation, setPickupLocation] = useState("");
   const [dropoffLocation, setDropoffLocation] = useState("");
   const [pickupSuggestions, setPickupSuggestions] = useState<string[]>([]);
   const [dropoffSuggestions, setDropoffSuggestions] = useState<string[]>([]);
-  const [isPickupFocused, setIsPickupFocused] = useState(false);
-  const [isDropoffFocused, setIsDropoffFocused] = useState(false);
 
   const pickupRef = useRef<HTMLDivElement>(null);
   const dropoffRef = useRef<HTMLDivElement>(null);
 
-  // ----------------------------------FORM ERROR HANDLING----------------------------------
+  // Error states
   const [pickupError, setPickupError] = useState({
     message: "",
     isError: false,
@@ -59,104 +39,73 @@ export function SelectVehicle() {
     message: "",
     isError: false,
   });
-  const [pickupDateError, setPickupDateError] = useState({
+  const [dateError, setDateError] = useState({
     message: "",
     isError: false,
   });
-  const [dropoffDateError, setDropoffDateError] = useState({
-    message: "",
-    isError: false,
-  });
-  const[maxPriceError, setMaxPriceError] = useState({
-	message: "",
-	isError: false,
-  });
+
+  // Filter states
+  const [minSeats, setMinSeats] = useState(2);
+  const [maxPrice, setMaxPrice] = useState(100);
 
   const handleSearch = () => {
-    // Validate required fields
-    if (pickupSuggestions.length == 0) {
+    // Validation
+    if (!pickupLocation.trim()) {
       setPickupError({
-        message: "Please enter a valid pickup location",
+        message: "Please enter a pickup location",
         isError: true,
       });
       return;
     }
-    setPickupLocation(pickupSuggestions[0]); // Set first suggestion as default
 
-    if (dropoffSuggestions.length == 0) {
+    if (!dropoffLocation.trim()) {
       setDropoffError({
-        message: "Please enter a valid dropoff location",
-        isError: true,
-      });
-      return;
-    }
-    setDropoffLocation(dropoffSuggestions[0]); // Set first suggestion as default
-
-    // Validate that both dates are required
-    if (!pickupDate) {
-      setPickupDateError({
-        message: "Pickup date is required",
+        message: "Please enter a dropoff location",
         isError: true,
       });
       return;
     }
 
-    if (!dropoffDate) {
-      setDropoffDateError({
-        message: "Dropoff date is required",
+    if (!dateRange.start) {
+      setDateError({
+        message: "Please select a pickup date",
         isError: true,
       });
       return;
     }
 
-    //checking the dates to make sure that they are valid
-    if (pickupDate && new Date(pickupDate) < new Date()) {
-      setPickupDateError({
-        message: "Pickup date cannot be in the past",
+    if (!dateRange.end) {
+      setDateError({
+        message: "Please select a dropoff date",
         isError: true,
       });
       return;
     }
 
-    if (dropoffDate && new Date(dropoffDate) < new Date()) {
-      setDropoffDateError({
-        message: "Dropoff date cannot be in the past",
+    if (dateRange.end <= dateRange.start) {
+      setDateError({
+        message: "Dropoff date must be after pickup date",
         isError: true,
       });
       return;
     }
 
-    if (
-      pickupDate &&
-      dropoffDate &&
-      new Date(dropoffDate) < new Date(pickupDate)
-    ) {
-      setDropoffDateError({
-        message: "Dropoff date cannot be before pickup date",
-        isError: true,
-      });
-      return;
-    }
-	if (maxPrice <1) {
-		setMaxPriceError({
-			message: "Max price cannot be less than $1",
-			isError: true,
-		});
-		return;
-	}
-
-    // Build query string with search parameters
-    const params = new URLSearchParams();
-    params.set("pickup", pickupLocation);
-    params.set("dropoff", dropoffLocation);
-    params.set("minSeats", minSeats.toString());
-    params.set("maxPrice", maxPrice.toString());
-    params.set("vehicleType", selectedType);
-    params.set("pickupDate", pickupDate);
-    params.set("dropoffDate", dropoffDate);
-
-    // Navigate to search results page with query parameters
+    const params = new URLSearchParams({
+      pickup: pickupLocation,
+      dropoff: dropoffLocation,
+      pickupDate: dateRange.start.toISOString().split("T")[0],
+      dropoffDate: dateRange.end.toISOString().split("T")[0],
+      minSeats: minSeats.toString(),
+      maxPrice: maxPrice.toString(),
+      vehicleType: selectedType,
+    });
     router.push(`/car-search-results?${params.toString()}`);
+  };
+
+  // Swap locations
+  const handleSwap = () => {
+    setPickupLocation(dropoffLocation);
+    setDropoffLocation(pickupLocation);
   };
 
   // Effect for pickup location suggestions
@@ -190,17 +139,11 @@ export function SelectVehicle() {
   // Click outside handlers
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        pickupRef.current &&
-        !pickupRef.current.contains(event.target as Node)
-      ) {
-        setIsPickupFocused(false);
+      if (pickupRef.current && !pickupRef.current.contains(event.target as Node)) {
+        setPickupSuggestions([]);
       }
-      if (
-        dropoffRef.current &&
-        !dropoffRef.current.contains(event.target as Node)
-      ) {
-        setIsDropoffFocused(false);
+      if (dropoffRef.current && !dropoffRef.current.contains(event.target as Node)) {
+        setDropoffSuggestions([]);
       }
     };
 
@@ -211,292 +154,269 @@ export function SelectVehicle() {
   }, []);
 
   return (
-    <div className="w-full max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg my-5">
-      <style dangerouslySetInnerHTML={{ __html: animationStyles }} />
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+    <div className="w-full max-w-7xl mx-auto bg-white dark:bg-[rgb(25,30,36)]  transition-all duration-300 p-0 sm:p-6">
+      {/* Header */}
+      <div className="text-center px-4 sm:px-0">
+        <h2 className="text-2xl sm:text-3xl font-bold text-brand-gray-900 dark:text-white">
           Book Your Ride
         </h2>
-        <p className="text-gray-600">Select your pickup and dropoff details</p>
+        <p className="text-brand-gray-600 dark:text-brand-gray-300">Select your pickup and dropoff details</p>
       </div>
 
-      {/* Input Fields */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        {/* Pickup Location */}
-        <div className="flex flex-col gap-2" ref={pickupRef}>
-          <Label
-            htmlFor="pickup-location"
-            className="flex items-center text-sm font-medium text-gray-700"
-          >
-            <MapPin className="mr-2 h-4 w-4 text-pink-500" />
-            Pickup Location
-          </Label>
-          <div className="relative flex flex-col">
-            <TooltipProvider>
-              <Tooltip open={pickupError.isError}>
-                <TooltipTrigger asChild>
-                  <input
-                    type="text"
-                    id="pickup-location"
-                    placeholder="Enter pickup location"
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                    value={pickupLocation}
-                    onChange={(e) => setPickupLocation(e.target.value)}
-                    onFocus={() => {
-                      setIsPickupFocused(true);
-                      setPickupError({ message: "", isError: false });
-                    }}
-                  />
-                </TooltipTrigger>
-                <TooltipContent side="bottom">
-                  <p className="text-sm text-red-500">{pickupError.message}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            {isPickupFocused && pickupSuggestions.length > 0 && (
-              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
-                {pickupSuggestions.map((location, index) => (
+      {/* Vehicle Type Selector */}
+      <div className="flex justify-center px-4 sm:px-0">
+        <div className="inline-flex bg-brand-gray-100 dark:bg-[rgb(35,42,49)] rounded-lg p-1 overflow-x-auto shadow-sm dark:shadow-brand-dark">
+          {carTypes.slice(0, 4).map((type) => (
+            <button
+              key={type}
+              onClick={() => setSelectedType(type)}
+              className={cn(
+                "px-3 py-2 text-xs font-medium rounded-md transition-all whitespace-nowrap",
+                selectedType === type
+                  ? "bg-white dark:bg-[rgb(25,30,36)] text-pink-600 dark:text-pink-400 shadow-sm dark:shadow-brand-dark"
+                  : "text-brand-gray-600 dark:text-brand-gray-300 hover:text-brand-gray-900 dark:hover:text-white"
+              )}
+            >
+              {type === "All" ? "All Types" : type}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Main Search Form - Horizontal Layout */}
+      <div className=" rounded-xl p-2 sm:p-6 mx-2 sm:mx-0  transition-all duration-300">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+          
+          {/* Pickup Location */}
+          <div className="lg:col-span-3 relative" ref={pickupRef}>
+            <div className="relative">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10">
+                <MapPin className="h-4 w-4 text-pink-500" />
+              </div>
+              <input
+                type="text"
+                value={pickupLocation}
+                onFocus={() => {
+                  setPickupSuggestions([]);
+                  setPickupError({ isError: false, message: "" });
+                }}
+                onChange={(e) => setPickupLocation(e.target.value)}
+                placeholder="Pickup location"
+                className="w-full pl-10 pr-4 py-3 border-2 border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 dark:text-white dark:placeholder-brand-gray-400"
+              />
+              {pickupError.isError && (
+                <p className="text-xs text-brand-error mt-1">{pickupError.message}</p>
+              )}
+            </div>
+            {pickupSuggestions.length > 0 && pickupLocation && (
+              <div className="absolute top-full left-0 w-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-200 dark:border-brand-gray-600 rounded-lg shadow-xl dark:shadow-brand-dark-lg mt-1 max-h-48 overflow-y-auto z-50">
+                {pickupSuggestions.map((suggestion, index) => (
                   <div
                     key={index}
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    className="px-4 py-3 hover:bg-pink-50 dark:hover:bg-[rgb(35,42,49)] cursor-pointer border-b border-gray-100 dark:border-brand-gray-600 last:border-0 dark:text-white"
                     onClick={() => {
-                      setPickupLocation(location);
-                      setIsPickupFocused(false);
+                      setPickupLocation(suggestion);
+                      setPickupSuggestions([]);
                     }}
                   >
-                    <div className="flex items-center">
-                      <MapPin className="mr-2 h-4 w-4 text-pink-500" />
-                      {location}
+                    <div className="text-sm font-semibold text-brand-gray-900">
+                      {suggestion}
                     </div>
                   </div>
                 ))}
               </div>
             )}
           </div>
-        </div>
 
-        {/* Dropoff Location */}
-        <div className="flex flex-col gap-2" ref={dropoffRef}>
-          <Label
-            htmlFor="dropoff-location"
-            className="flex items-center text-sm font-medium text-gray-700"
-          >
-            <MapPin className="mr-2 h-4 w-4 text-pink-500" />
-            Dropoff Location
-          </Label>
-          <div className="relative">
-            <TooltipProvider>
-              <Tooltip open={dropoffError.isError}>
-                <TooltipTrigger asChild>
-                  <input
-                    type="text"
-                    id="dropoff-location"
-                    placeholder="Enter dropoff location"
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                    value={dropoffLocation}
-                    onChange={(e) => setDropoffLocation(e.target.value)}
-                    onFocus={() => {
-                      setIsDropoffFocused(true);
-                      setDropoffError({ message: "", isError: false });
-                    }}
-                  />
-                </TooltipTrigger>
-                <TooltipContent side="bottom">
-                  <p className="text-sm text-red-500">{dropoffError.message}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            {isDropoffFocused && dropoffSuggestions.length > 0 && (
-              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
-                {dropoffSuggestions.map((location, index) => (
+          {/* Swap Button */}
+          <div className="lg:col-span-1 flex justify-center">
+            <button
+              onClick={handleSwap}
+              className="p-3 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-105 border border-brand-gray-200"
+            >
+              <ArrowLeftRight className="h-4 w-4 text-pink-500" />
+            </button>
+          </div>
+
+          {/* Dropoff Location */}
+          <div className="lg:col-span-3 relative" ref={dropoffRef}>
+            <div className="relative">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10">
+                <MapPin className="h-4 w-4 text-pink-500" />
+              </div>
+              <input
+                type="text"
+                value={dropoffLocation}
+                onFocus={() => {
+                  setDropoffSuggestions([]);
+                  setDropoffError({ isError: false, message: "" });
+                }}
+                onChange={(e) => setDropoffLocation(e.target.value)}
+                placeholder="Dropoff location"
+                className="w-full pl-10 pr-4 py-3 border-2 border-brand-gray-200 dark:border-brand-gray-600 bg-white dark:bg-[rgb(25,30,36)] rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm font-medium shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 dark:text-white dark:placeholder-brand-gray-400"
+              />
+              {dropoffError.isError && (
+                <p className="text-xs text-brand-error mt-1">{dropoffError.message}</p>
+              )}
+            </div>
+            {dropoffSuggestions.length > 0 && dropoffLocation && (
+              <div className="absolute top-full left-0 w-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-200 dark:border-brand-gray-600 rounded-lg shadow-xl dark:shadow-brand-dark-lg mt-1 max-h-48 overflow-y-auto z-50">
+                {dropoffSuggestions.map((suggestion, index) => (
                   <div
                     key={index}
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    className="px-4 py-3 hover:bg-pink-50 dark:hover:bg-[rgb(35,42,49)] cursor-pointer border-b border-gray-100 dark:border-brand-gray-600 last:border-0 dark:text-white"
                     onClick={() => {
-                      setDropoffLocation(location);
-                      setIsDropoffFocused(false);
+                      setDropoffLocation(suggestion);
+                      setDropoffSuggestions([]);
                     }}
                   >
-                    <div className="flex items-center">
-                      <MapPin className="mr-2 h-4 w-4 text-pink-500" />
-                      {location}
+                    <div className="text-sm font-semibold text-brand-gray-900">
+                      {suggestion}
                     </div>
                   </div>
                 ))}
               </div>
             )}
           </div>
-        </div>
 
-        {/* Pickup Date */}
-        <div className="flex flex-col gap-2">
-          <Label
-            htmlFor="pickup-from"
-            className="flex items-center text-sm font-medium text-gray-700"
-          >
-            <Calendar className="mr-2 h-4 w-4 text-pink-500" />
-            Pickup From
-          </Label>
-          <TooltipProvider>
-            <Tooltip open={pickupDateError.isError}>
-              <TooltipTrigger asChild>
-                <input
-                  type="datetime-local"
-                  id="pickup-from pickup-date"
-                  className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                  value={pickupDate}
-                  onChange={(e) => setPickupDate(e.target.value)}
-                  onFocus={() => {
-                    setPickupDateError({ message: "", isError: false });
-                  }}
-                />
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p className="text-sm text-red-500">
-                  {pickupDateError.message}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
+          {/* Date Range */}
+          <div className="lg:col-span-3">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full justify-start text-left font-medium text-sm py-4 px-4 bg-white dark:bg-[rgb(25,30,36)] border-2 border-brand-gray-200 dark:border-brand-gray-600 rounded-lg shadow-sm hover:shadow-md dark:hover:shadow-brand-dark transition-all duration-200 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 dark:text-white",
+                    !dateRange.start && "text-muted-foreground dark:text-brand-gray-400"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4 text-pink-500" />
+                  {dateRange.start && dateRange.end
+                    ? `${format(dateRange.start, "MMM dd")} - ${format(dateRange.end, "MMM dd")}`
+                    : dateRange.start
+                    ? `${format(dateRange.start, "MMM dd")} - Return date`
+                    : "Select rental period"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0 bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-200 dark:border-brand-gray-600 shadow-xl dark:shadow-brand-dark-lg" align="start">
+                <div className="p-4">
+                  <div className="flex flex-col lg:flex-row gap-4">
+                    <div>
+                      <Label className="text-sm font-medium mb-2 block dark:text-white">Pickup Date</Label>
+                      <Calendar
+                        mode="single"
+                        selected={dateRange.start || undefined}
+                        onSelect={(date) => {
+                          setDateRange(prev => ({ ...prev, start: date || null }));
+                          setDateError({ isError: false, message: "" });
+                        }}
+                        disabled={(date) => date < new Date()}
+                        initialFocus
+                        className="dark:text-white"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium mb-2 block dark:text-white">Dropoff Date</Label>
+                      <Calendar
+                        mode="single"
+                        selected={dateRange.end || undefined}
+                        onSelect={(date) => {
+                          setDateRange(prev => ({ ...prev, end: date || null }));
+                          setDateError({ isError: false, message: "" });
+                        }}
+                        disabled={(date) =>
+                          date < (dateRange.start || new Date())
+                        }
+                        className="dark:text-white"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+            {dateError.isError && (
+              <p className="text-xs text-brand-error mt-1">{dateError.message}</p>
+            )}
+          </div>
 
-        {/* Dropoff Date */}
-        <div className="flex flex-col gap-2">
-          <Label
-            htmlFor="pickup-to"
-            className="flex items-center text-sm font-medium text-gray-700"
-          >
-            <Calendar className="mr-2 h-4 w-4 text-pink-500" />
-            Pickup To
-          </Label>
-          <TooltipProvider>
-            <Tooltip open={dropoffDateError.isError}>
-              <TooltipTrigger asChild>
-                <input
-                  type="datetime-local"
-                  id="pickup-to"
-                  className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                  value={dropoffDate}
-                  onChange={(e) => setDropoffDate(e.target.value)}
-                  onFocus={() => {
-                    setDropoffDateError({ message: "", isError: false });
-                  }}
-                />
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p className="text-sm text-red-500">
-                  {dropoffDateError.message}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          {/* Search Button - Desktop Only */}
+          <div className="hidden lg:block lg:col-span-2">
+            <Button
+              onClick={handleSearch}
+              className="w-full bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-semibold py-4 rounded-lg shadow-lg hover:shadow-xl dark:hover:shadow-brand-dark-xl transition-all"
+            >
+              <Search className="h-4 w-4 mr-2" />
+              Search
+            </Button>
+          </div>
+
         </div>
       </div>
 
       {/* Filter Controls */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-6 ">
-        <div>
-          <Label htmlFor="minSeats">Minimum Seats</Label>
-          <select
-            id="minSeats"
-            value={minSeats}
-            onChange={(e) => setMinSeats(parseInt(e.target.value))}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2"
-          >
-            <option value={0}>Any</option>
-            <option value={2}>2+</option>
-            <option value={4}>4+</option>
-            <option value={6}>6+</option>
-            <option value={8}>8+</option>
-          </select>
-        </div>
-
-        <div>
-          <Label htmlFor="vehicleType">Vehicle Type</Label>
-          <select
-            id="vehicleType"
-            value={selectedType}
-            onChange={(e) => setSelectedType(e.target.value)}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2"
-          >
-            <option value="All">All Types</option>
-            {carTypes
-              .filter((type) => type !== "All")
-              .map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-          </select>
-        </div>
-
-        <div>
-          <Label htmlFor="maxPrice">Max Price (Per Day)</Label>
-          <TooltipProvider>
-            <Tooltip open={maxPriceError.isError}>
-              <TooltipTrigger asChild>
-                <input
-                  type="number"
-                  id="maxPrice"
-                  value={maxPrice}
-                  min={0}
-                  max={200}
-                  onChange={(e) => setMaxPrice(parseInt(e.target.value))}
-				  onFocus={() => {
-					setMaxPriceError({ message: "", isError: false });
-				  }}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2"
-                />
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p className="text-sm text-red-500">
-                  {maxPriceError.message}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      </div>
-
-      {/* Search Button */}
-      <div className="flex justify-center mb-8">
-        <button
-          id="search-vehicles-button"
-          onClick={handleSearch}
-          className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
-        >
-          Search Available Vehicles
-        </button>
-      </div>
-
-      {/* Quick location swap option */}
-      {pickupLocation && dropoffLocation && (
-        <div className="flex justify-end mb-2">
-          <button
-            onClick={() => {
-              setPickupLocation(dropoffLocation);
-              setDropoffLocation(pickupLocation);
-            }}
-            className="text-xs text-pink-500 hover:text-pink-700 flex items-center"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 mr-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+      <div className="flex flex-wrap justify-center gap-4 px-4 sm:px-0">
+        {/* Min Seats */}
+        <div className="flex items-center rounded-lg px-4 py-2 ">
+          <span className="text-sm font-medium mr-3 text-brand-gray-700 dark:text-brand-gray-300">Min Seats:</span>
+          <div className="relative">
+            <select
+              value={minSeats}
+              onChange={(e) => setMinSeats(parseInt(e.target.value))}
+              className="bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-200 dark:border-brand-gray-600 rounded-md px-3 py-1.5 text-sm font-medium text-pink-600 dark:text-pink-400 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none appearance-none pr-8 min-w-[80px]"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
-              />
-            </svg>
-            Swap pickup & dropoff locations
-          </button>
+              <option value={1}>1+</option>
+              <option value={2}>2+</option>
+              <option value={4}>4+</option>
+              <option value={6}>6+</option>
+              <option value={8}>8+</option>
+            </select>
+            {/* Custom dropdown arrow */}
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
+              <svg className="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
         </div>
-      )}
+
+        {/* Max Price */}
+        <div className="flex items-center rounded-lg px-4 py-2 ">
+          <span className="text-sm font-medium mr-3 text-brand-gray-700 dark:text-brand-gray-300">Max Price:</span>
+          <div className="relative">
+            <select
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+              className="bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-200 dark:border-brand-gray-600 rounded-md px-3 py-1.5 text-sm font-medium text-pink-600 dark:text-pink-400 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none appearance-none pr-8 min-w-[100px]"
+            >
+              <option value={50}>$50/day</option>
+              <option value={75}>$75/day</option>
+              <option value={100}>$100/day</option>
+              <option value={150}>$150/day</option>
+              <option value={200}>$200/day</option>
+              <option value={300}>$300/day</option>
+            </select>
+            {/* Custom dropdown arrow */}
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
+              <svg className="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Search Button - Mobile Only */}
+      <div className="lg:hidden px-4 sm:px-0 flex justify-center">
+        <Button
+          onClick={handleSearch}
+          className="w-full max-w-sm bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-semibold py-4 rounded-lg shadow-lg hover:shadow-xl dark:hover:shadow-brand-dark-xl transition-all"
+        >
+          <Search className="h-4 w-4 mr-2" />
+          Search Vehicles
+        </Button>
+      </div>
     </div>
   );
 }
+
+

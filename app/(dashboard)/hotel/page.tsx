@@ -148,7 +148,7 @@ export default function HotelPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-3">
                   <div className="flex items-center">
-                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                    <div className="w-8 h-8 bg-brand-pink-100 rounded-lg flex items-center justify-center mr-3">
                       <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
                       </svg>
@@ -160,7 +160,7 @@ export default function HotelPage() {
                     </div>
                   </div>
                   <div className="flex items-center">
-                    <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                    <div className="w-8 h-8 bg-brand-success/20 rounded-lg flex items-center justify-center mr-3">
                       <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"/>
                       </svg>
@@ -412,7 +412,7 @@ export default function HotelPage() {
                   };
 
                   return (
-                    <div key={i} className="flex items-center p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors border border-gray-200">
+                    <div key={i} className="flex items-center p-2 bg-gray-50 rounded-lg hover:bg-brand-gray-100 transition-colors border border-brand-gray-200">
                       <div className="w-6 h-6 bg-white rounded-lg flex items-center justify-center mr-2 shadow-sm">
                         {getIcon(fac.name)}
                       </div>
@@ -551,7 +551,7 @@ export default function HotelPage() {
                   {hotel.booking_home.house_rules.map((rule, i) => (
                     <li key={i} className="p-3 bg-red-50 rounded-lg border-l-4 border-red-500">
                       <strong className="text-red-900 text-sm">{rule.title}:</strong>
-                      <span className="text-red-800 ml-2 text-sm">{rule.description}</span>
+                      <span className="text-brand-error ml-2 text-sm">{rule.description}</span>
                     </li>
                   ))}
                 </ul>
@@ -728,3 +728,4 @@ export default function HotelPage() {
     </div>
   );
 }
+

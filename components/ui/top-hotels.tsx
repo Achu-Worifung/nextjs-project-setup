@@ -119,19 +119,20 @@ export function TopHotels() {
   }, [canScrollRight]);
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-8">
-      <div className="grid grid-cols-2 items-center justify-between w-full mb-4">
+    <div className="w-full max-w-7xl mx-auto px-4 py-8 dark:py-10">
+      <div className="grid grid-cols-2 items-center justify-between w-full mb-4 dark:mb-6">
         <span>
-          <h1 className="text-xl font-bold text-pink-500 flex "><Hotel/>Top Hotels</h1>
+          <h1 className="text-xl font-bold text-brand-pink-500 dark:text-brand-pink-400 flex "><Hotel/>Top Hotels</h1>
           <h1 className={`text-3xl md:text-4xl font-bold leading-tight ${
-              theme === "dark" ? "text-white" : "text-gray-900"
+              theme === "dark" ? "text-white" : "text-brand-gray-900"
             }`}>Explore top hotels</h1>
-        </span>        <span className="flex items-end justify-end gap-2">
+        </span>        
+        <span className="flex items-end justify-end gap-2">
           <button
             onClick={scrollLeft}
             disabled={!canScrollLeft}
-            className={`size-9 rounded-full border-2 border-pink-500 text-white hover:bg-pink-600 transition-colors flex items-center justify-center cursor-pointer ${
-              canScrollLeft ? 'bg-pink-500' : 'bg-gray-300 border-gray-300 cursor-not-allowed'
+            className={`size-9 rounded-full border-2 border-brand-pink-500 dark:border-brand-pink-400 text-white hover:bg-brand-pink-600 dark:hover:bg-brand-pink-500 transition-colors duration-300 flex items-center justify-center cursor-pointer dark:hover:shadow-brand-dark dark:hover:glow-brand-pink hover:scale-105 ${
+              canScrollLeft ? 'bg-brand-pink-500 dark:bg-brand-pink-500' : 'bg-brand-gray-300 dark:bg-brand-gray-300 border-brand-gray-300 dark:border-brand-gray-300 cursor-not-allowed'
             }`}
           >
             <ChevronLeft />
@@ -139,8 +140,8 @@ export function TopHotels() {
           <button
             onClick={scrollRight}
             disabled={!canScrollRight}
-            className={`size-9 rounded-full border-2 border-pink-500 text-white hover:bg-pink-600 transition-colors flex items-center justify-center cursor-pointer ${
-              canScrollRight ? 'bg-pink-500' : 'bg-gray-300 border-gray-300 cursor-not-allowed'
+            className={`size-9 rounded-full border-2 border-brand-pink-500 dark:border-brand-pink-400 text-white hover:bg-brand-pink-600 dark:hover:bg-brand-pink-500 transition-colors duration-300 flex items-center justify-center cursor-pointer dark:hover:shadow-brand-dark dark:hover:glow-brand-pink hover:scale-105 ${
+              canScrollRight ? 'bg-brand-pink-500 dark:bg-brand-pink-500' : 'bg-brand-gray-300 dark:bg-brand-gray-300 border-brand-gray-300 dark:border-brand-gray-300 cursor-not-allowed'
             }`}
           >
             <ChevronRight />
@@ -150,7 +151,7 @@ export function TopHotels() {
         <div
           ref={containerRef}
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
+          className="flex gap-6 overflow-x-auto pb-4 dark:pb-6 scrollbar-hide"
         >
           {topHotels.map((hotel, index) => (
             <div 
@@ -174,3 +175,5 @@ export function TopHotels() {
     </div>
   );
 }
+
+

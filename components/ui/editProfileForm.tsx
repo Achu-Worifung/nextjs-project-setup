@@ -193,8 +193,8 @@ export default function EditProfileForm() {
             {/* Personal Information */}
             <div className=" rounded-xl mt-4">
               <div className="flex items-center mb-6">
-                <div className="bg-blue-100 rounded-lg p-2 mr-3">
-                  <User className="w-5 h-5 text-blue-600" />
+                <div className="bg-brand-pink-100 rounded-lg p-2 mr-3">
+                  <User className="w-5 h-5 text-brand-pink-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-800">
                   Personal Information
@@ -203,13 +203,13 @@ export default function EditProfileForm() {
 
               <div className="space-y-5">
                 <div className="group">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
                     First Name
                   </label>
                   <div className="relative">
                     <input
                       type="text"
-                      className="w-full pl-1 pr-1 py-3   focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white"
+                      className="w-full pl-1 pr-1 py-3   focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white"
                       value={decodedToken?.firstName || decodedToken?.fname || ""}
                       onChange={(e) =>
                         setUserData({ ...userData, firstName: e.target.value })
@@ -220,13 +220,13 @@ export default function EditProfileForm() {
                 </div>
 
                 <div className="group">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
                     Last Name
                   </label>
                   <div className="relative">
                     <input
                       type="text"
-                      className="w-full pl-1 pr-1 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md cursor-text  "
+                      className="w-full pl-1 pr-1 py-3 focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md cursor-text  "
                       value={decodedToken?.lastName || decodedToken?.lname || ""}
                       onChange={(e) =>
                         setUserData({ ...userData, lastName: e.target.value })
@@ -237,13 +237,13 @@ export default function EditProfileForm() {
                 </div>
 
                 <div className="group">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
                     Email Address
                   </label>
                   <div className="relative">
                     <input
                       type="email"
-                      className="w-full pl-1 pr-1 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white"
+                      className="w-full pl-1 pr-1 py-3 focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white"
                       value={decodedToken?.email || decodedToken?.email || ""}
                       onChange={(e) =>
                         setUserData({ ...userData, email: e.target.value })
@@ -271,13 +271,13 @@ export default function EditProfileForm() {
 
               <div className="space-y-5">
                 <div className="group">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
                     Country
                   </label>
                   <div className="relative">
                     <Globe className="absolute left-3 top-3 w-5 h-5 text-gray-400 group-focus-within:text-purple-500 transition-colors" />
                     <select
-                      className="w-full pl-2 pr-8 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-sm sm:text-base bg-white/50 backdrop-blur-sm hover:bg-white focus:bg-white appearance-none"
+                      className="w-full pl-2 pr-8 py-3 rounded-lg border border-brand-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-sm sm:text-base bg-white/50 backdrop-blur-sm hover:bg-white focus:bg-white appearance-none"
                       value={selectedCountry}
                       onChange={(e) => setSelectedCountry(e.target.value)}
                     >
@@ -307,13 +307,13 @@ export default function EditProfileForm() {
                 </div>
 
                 <div className="group">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
                     State/Province
                   </label>
                   <div className="relative">
                     <Building2 className="absolute left-3 top-3 w-5 h-5 text-gray-400 group-focus-within:text-purple-500 transition-colors" />
                     <select
-                      className="w-full pl-2 pr-8 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-sm sm:text-base bg-white/50 backdrop-blur-sm hover:bg-white focus:bg-white appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full pl-2 pr-8 py-3 rounded-lg border border-brand-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-sm sm:text-base bg-white/50 backdrop-blur-sm hover:bg-white focus:bg-white appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
                       value={selectedState}
                       onChange={(e) => setSelectedState(e.target.value)}
                       disabled={!selectedCountry}
@@ -344,13 +344,13 @@ export default function EditProfileForm() {
                 </div>
 
                 <div className="group">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
                     City
                   </label>
                   <div className="relative">
                     <HomeIcon className="absolute left-3 top-3 w-5 h-5 text-gray-400 group-focus-within:text-purple-500 transition-colors" />
                     <select
-                      className="w-full pl-2 pr-8 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-sm sm:text-base bg-white/50 backdrop-blur-sm hover:bg-white focus:bg-white appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full pl-2 pr-8 py-3 rounded-lg border border-brand-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-sm sm:text-base bg-white/50 backdrop-blur-sm hover:bg-white focus:bg-white appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
                       value={selectedCity}
                       onChange={(e) => setSelectedCity(e.target.value)}
                       disabled={!selectedState}
@@ -388,7 +388,7 @@ export default function EditProfileForm() {
             <Button
               type="button"
               variant="outline"
-              className="w-full sm:w-auto px-6 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors"
+              className="w-full sm:w-auto px-6 py-2 rounded-lg border border-brand-gray-300 hover:bg-brand-gray-50 transition-colors"
             >
               Cancel
             </Button>
@@ -432,3 +432,5 @@ export default function EditProfileForm() {
     </div>
   );
 }
+
+

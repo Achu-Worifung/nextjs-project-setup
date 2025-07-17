@@ -15,7 +15,6 @@ export function TopDestinations() {
 
   const destinations = [
     {
-      image: "/des1.jpg",
       title: "Rome, Italy",
       price: "2.3",
       days: "7 days",
@@ -23,7 +22,6 @@ export function TopDestinations() {
         "Explore ancient history and stunning architecture in the Eternal City",
     },
     {
-      image: "/des5.webp",
       title: "Kyoto, Japan",
       price: "3.4",
       days: "10 days",
@@ -31,7 +29,6 @@ export function TopDestinations() {
         "Discover traditional temples, zen gardens, and authentic Japanese culture",
     },
     {
-      image: "/des4.jpg",
       title: "London, UK",
       price: "2.8",
       days: "7 days",
@@ -39,7 +36,6 @@ export function TopDestinations() {
         "Experience royal heritage, world-class museums, and vibrant city life",
     },
     {
-      image: "/des6.png",
       title: "Sydney, Australia",
       price: "4.2",
       days: "12 days",
@@ -47,14 +43,12 @@ export function TopDestinations() {
         "Enjoy iconic landmarks, beautiful beaches, and unique wildlife",
     },
     {
-      image: "/des2.jpg",
       title: "Paris, France",
       price: "3.1",
       days: "8 days",
       description: "Romance, art, cuisine, and the city of lights await you",
     },
     {
-      image: "/des7.webp",
       title: "Bali, Indonesia",
       price: "1.8",
       days: "14 days",
@@ -118,24 +112,24 @@ export function TopDestinations() {
   }, [canScrollRight]);
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-8 pt-16">
+    <div className="w-full max-w-7xl mx-auto px-4 py-8 dark:py-10">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 dark:mb-10">
         <div className="mb-4 md:mb-0">
           <div className="flex items-center gap-2 mb-2">
-            <Plane className="w-5 h-5 text-pink-500" />
-            <span className="text-pink-500 font-semibold text-sm uppercase tracking-wide">
+            <Plane className="w-5 h-5 text-brand-pink-500" />
+            <span className="text-brand-pink-500 font-semibold text-sm uppercase tracking-wide">
               Top Destinations
             </span>
           </div>
           <h2
             className={`text-3xl md:text-4xl font-bold leading-tight ${
-              theme === "dark" ? "text-white" : "text-gray-900"
+              theme === "dark" ? "text-white" : "text-brand-gray-900"
             }`}
           >
             Explore top destinations
           </h2>
-          <p className="text-gray-600 mt-2 max-w-md">
+          <p className="text-brand-gray-600 dark:text-brand-gray-500 mt-2 max-w-md">
             Discover amazing places around the world with our curated collection
             of premium destinations
           </p>
@@ -149,8 +143,8 @@ export function TopDestinations() {
             disabled={!canScrollLeft}
             className={`group relative size-9 rounded-full border-2 transition-all duration-300 flex items-center justify-center ${
               !canScrollLeft
-                ? "border-gray-300 text-gray-400 cursor-not-allowed"
-                : "border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white hover:shadow-lg hover:scale-105"
+                ? "border-brand-gray-300 dark:border-brand-gray-300 text-brand-gray-400 dark:text-brand-gray-400 cursor-not-allowed"
+                : "border-brand-pink-500 dark:border-brand-pink-400 text-brand-pink-500 dark:text-brand-pink-400 hover:bg-brand-pink-500 dark:hover:bg-brand-pink-500 hover:text-white dark:hover:text-white hover:shadow-lg dark:hover:shadow-brand-dark dark:hover:glow-brand-pink hover:scale-105"
             }`}
           >
             <ChevronLeft className="w-5 h-5" />
@@ -160,8 +154,8 @@ export function TopDestinations() {
             disabled={!canScrollRight}
             className={`group relative size-9 rounded-full border-2 transition-all duration-300 flex items-center justify-center ${
               !canScrollRight
-                ? "border-gray-300 text-gray-400 cursor-not-allowed"
-                : "border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white hover:shadow-lg hover:scale-105"
+                ? "border-brand-gray-300 dark:border-brand-gray-300 text-brand-gray-400 dark:text-brand-gray-400 cursor-not-allowed"
+                : "border-brand-pink-500 dark:border-brand-pink-400 text-brand-pink-500 dark:text-brand-pink-400 hover:bg-brand-pink-500 dark:hover:bg-brand-pink-500 hover:text-white dark:hover:text-white hover:shadow-lg dark:hover:shadow-brand-dark dark:hover:glow-brand-pink hover:scale-105"
             }`}
           >
             <ChevronRight className="w-5 h-5" />
@@ -172,7 +166,7 @@ export function TopDestinations() {
       <div className="relative">
         <div
           ref={containerRef}
-          className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
+          className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-4 dark:pb-6"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {destinations.map((destination, index) => (
@@ -188,7 +182,7 @@ export function TopDestinations() {
               }
             >
               <DestinationCard
-                image={destination.image}
+                image={""}
                 title={destination.title}
                 price={destination.price}
                 days={destination.days}
@@ -202,3 +196,5 @@ export function TopDestinations() {
     </div>
   );
 }
+
+

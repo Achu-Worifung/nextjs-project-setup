@@ -73,7 +73,7 @@ custom-input:-webkit-autofill:focus {
           {/* Large floating orbs */}
           <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-blue-400/25 to-indigo-400/25 rounded-full blur-xl animate-float"></div>
           <div className="absolute top-40 right-32 w-48 h-48 bg-gradient-to-r from-indigo-400/15 to-blue-400/15 rounded-full blur-2xl animate-float delay-1000"></div>
-          <div className="absolute bottom-32 left-32 w-40 h-40 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 rounded-full blur-xl animate-float delay-2000"></div>
+          <div className="absolute bottom-32 left-32 w-40 h-40 bg-gradient-to-r from-brand-pink-500/20 to-indigo-500/20 rounded-full blur-xl animate-float delay-2000"></div>
           <div className="absolute bottom-20 right-20 w-24 h-24 bg-gradient-to-r from-indigo-400/25 to-blue-400/25 rounded-full blur-lg animate-float delay-3000"></div>
           
           {/* Sparkle effects */}
@@ -108,3 +108,4 @@ custom-input:-webkit-autofill:focus {
       </div>
     )
 }
+

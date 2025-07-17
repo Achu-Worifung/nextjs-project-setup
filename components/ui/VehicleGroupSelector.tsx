@@ -27,3 +27,4 @@ const VehicleGroupSelector: React.FC = () => {
 };
 
 export default VehicleGroupSelector;
+
