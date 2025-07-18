@@ -44,7 +44,7 @@ export default function MyBooking() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cancelLoading, setCancelLoading] = useState(false);
   const [detailsLoading, setDetailsLoading] = useState(false);
-  const { isSignedIn } = useAuth();
+  const { token,isSignedIn } = useAuth();
   const router = useRouter();
 
   // Fetch user bookings on component mount
@@ -58,8 +58,24 @@ export default function MyBooking() {
       try {
         setLoading(true);
         setError(null);
+        //fetching all of the the user's bookings
+        const url = 'http://localhost:8004/bookings';
+        const res = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Client-ID': `${token}`,
+            'Authorization': `Bearer ${token}`
+          },
+        });
+        if (res.status !== 200) {
+          console.error('Failed to fetch bookings:', res.statusText);
+        setError('Failed to load bookings. Please try again.');
+        }
+        console.log('Fetching all bookings for user');
+        const bookingsData = await res.json();
+        const allBookings: Booking[] = bookingsData.bookings || [];
 
-        const allBookings: Booking[] = await bookingService.getUserBookings();
 
         console.log('Fetched all bookings:', allBookings);
 
@@ -173,12 +189,14 @@ export default function MyBooking() {
     setSelectedBooking(null);
   };
 
-  const filteredBookings = bookings.filter(booking =>
-    booking.bookingid.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    booking.bookingtype.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (booking.location && booking.location.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (booking.provider && booking.provider.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  const filteredBookings = bookings
+  console.log('Filtered bookings:', filteredBookings);
+  // const filteredBookings = bookings.filter(booking =>
+  //   booking.bookingid.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //   booking.bookingtype.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //   (booking.location && booking.location.toLowerCase().includes(searchTerm.toLowerCase())) ||
+  //   (booking.provider && booking.provider.toLowerCase().includes(searchTerm.toLowerCase()))
+  // );
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -336,7 +354,7 @@ export default function MyBooking() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200 dark:bg-[rgb(25,30,36)] dark:divide-brand-gray-700">
-                {filteredBookings.map((booking: Booking) => (
+                {Array.isArray(filteredBookings) && filteredBookings.map((booking: Booking) => (
                   <tr
                     key={booking.bookingid}
                     className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer dark:hover:bg-[rgb(40,47,54)]"
@@ -375,7 +393,7 @@ export default function MyBooking() {
 
           {/* Mobile Card View */}
           <div className="lg:hidden divide-y divide-gray-200 dark:divide-brand-gray-700">
-            {filteredBookings.map((booking: Booking) => (
+           {Array.isArray(filteredBookings) && filteredBookings.map((booking: Booking) => (
               <div
                 key={booking.bookingid}
                 className="p-4 sm:p-6 hover:bg-gray-50 transition-colors duration-150 cursor-pointer dark:hover:bg-[rgb(40,47,54)]"

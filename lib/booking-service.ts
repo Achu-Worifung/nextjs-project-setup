@@ -480,8 +480,7 @@ class BookingService {
     } catch (error) {
       console.error('Error fetching user bookings:', error);
       return {
-        success: false,
-        error: error instanceof Error ? error.message : 'Unknown error occurred',
+        bookings: []
       };
     }
   }

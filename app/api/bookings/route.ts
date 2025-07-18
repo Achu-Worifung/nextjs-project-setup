@@ -24,28 +24,28 @@ interface Bookings {
 export async function GET(req: Request) {
   // Get token from Authorization header
   const authHeader = req.headers.get("authorization");
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return NextResponse.json(
-      { error: "Authorization token required" },
-      { status: 401 }
-    );
-  }
+  // if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  //   return NextResponse.json(
+  //     { error: "Authorization token required" },
+  //     { status: 401 }
+  //   );
+  // }
 
-  const token = authHeader.substring(7);
-  let decoded: DecodedToken;
-  try {
-    decoded = jwt.verify(token, secret);
-  } catch (jwtError) {
-    return NextResponse.json(
-      { error: "Invalid token", jwtError },
-      { status: 401 }
-    );
-  }
+  // const token = authHeader.substring(7);
+  // let decoded: DecodedToken;
+  // try {
+  //   decoded = jwt.verify(token, secret);
+  // } catch (jwtError) {
+  //   return NextResponse.json(
+  //     { error: "Invalid token", jwtError },
+  //     { status: 401 }
+  //   );
+  // }
 
   // Check if token is expired
-  if (Date.now() >= decoded.exp * 1000) {
-    return NextResponse.json({ error: "Token expired" }, { status: 401 });
-  }
+  // if (Date.now() >= decoded.exp * 1000) {
+  //   return NextResponse.json({ error: "Token expired" }, { status: 401 });
+  // }
 
   const client = new pg.Client({
     user: process.env.PGUSER,
