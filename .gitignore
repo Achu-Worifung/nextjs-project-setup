@@ -9,3 +9,4 @@ dist/
 .env
 .env.local
 .next/
+app/api/chatbot/rag-embedder-key.json
