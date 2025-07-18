@@ -3,6 +3,13 @@ import { Button } from "@/components/ui/button";
 import { MapPin, Users, Building2, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import { apiHelpers, API_ENDPOINTS } from '../../lib/api-config';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 
 // Mock location suggestions function (similar to select-vehicle)

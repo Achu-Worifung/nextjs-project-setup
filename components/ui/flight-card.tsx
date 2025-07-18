@@ -28,7 +28,7 @@ const FlightCard = ({ flight, onSelect }: FlightCardProps) => {
 
   return (
     <Card className="hover:shadow-lg dark:hover:shadow-brand-dark-xl transition-shadow duration-200 shadow-md dark:shadow-brand-dark-lg dark:bg-[rgb(25,30,36)]">
-      <CardContent className="p-6 dark:bg-[rgb(25,30,36)]">
+      <CardContent className=" dark:bg-[rgb(25,30,36)] p-1">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
           {/* Flight Info */}
           <div className="md:col-span-2">

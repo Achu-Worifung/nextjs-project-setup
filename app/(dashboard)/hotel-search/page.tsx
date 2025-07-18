@@ -282,26 +282,26 @@ export default function HotelSearchPage() {
   };
   if (loading) {
     return (
-      <div data-testid="hotel-card" className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div data-testid="hotel-card" className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:bg-gradient-to-br dark:from-brand-dark-900 dark:to-brand-dark-800">
         {/* Enhanced Search Form */}
-        <div className="bg-white shadow-lg border-b sticky top-0 z-50">
+        <div className="bg-white dark:bg-[rgb(25,30,36)] shadow-lg border-b border-brand-gray-100 dark:border-brand-gray-700 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto p-6">
             <div className="mb-4">
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                 Find Your Perfect Stay
               </h1>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-brand-gray-300">
                 Search and compare hotels from hundreds of travel sites
               </p>
             </div>
 
-            <Card className="border-2 border-brand-pink-200 bg-blue-50/30">
+            <Card className="border-2 border-brand-pink-200 dark:border-brand-pink-700 bg-blue-100/60 dark:bg-[rgb(40,48,56)]">
               <CardContent className="p-6">
                 <div className="grid gap-4 md:grid-cols-6 items-end">
                   <div className="md:col-span-2">
                     <Label
                       htmlFor="city"
-                      className="text-sm font-semibold text-gray-700"
+                      className="text-sm font-semibold text-gray-700 dark:text-brand-gray-200"
                     >
                       <MapPin className="inline w-4 h-4 mr-1" />
                       Destination
@@ -311,14 +311,14 @@ export default function HotelSearchPage() {
                       value={searchCity}
                       onChange={(e) => setSearchCity(e.target.value)}
                       placeholder="Where are you going?"
-                      className="mt-2 h-12 text-lg border-2 border-brand-gray-200 focus:border-blue-500"
+                      className="mt-2 h-12 text-lg border-2 border-brand-gray-200 dark:border-brand-gray-700 dark:bg-[rgb(25,30,36)] dark:text-white focus:border-blue-500 dark:focus:border-brand-pink-500"
                     />
                   </div>
 
                   <div>
                     <Label
                       htmlFor="checkin"
-                      className="text-sm font-semibold text-gray-700"
+                      className="text-sm font-semibold text-gray-700 dark:text-brand-gray-200"
                     >
                       Check-in
                     </Label>
@@ -327,8 +327,8 @@ export default function HotelSearchPage() {
                         <Button
                           variant="outline"
                           className={cn(
-                            "w-full justify-start text-left font-normal h-12 mt-2 border-2 border-brand-gray-200 hover:border-blue-500",
-                            !checkInDate && "text-muted-foreground"
+                            "w-full justify-start text-left font-normal h-12 mt-2 border-2 border-brand-gray-200 dark:border-brand-gray-700 dark:bg-[rgb(25,30,36)] dark:text-white hover:border-blue-500 dark:hover:border-brand-pink-500",
+                            !checkInDate && "text-muted-foreground dark:text-brand-gray-400"
                           )}
                         >
                           <CalendarDays className="mr-2 h-4 w-4" />
@@ -337,7 +337,7 @@ export default function HotelSearchPage() {
                             : "Select date"}
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
+                      <PopoverContent className="w-auto p-0 dark:bg-[rgb(25,30,36)] dark:text-white" align="start">
                         <Calendar
                           mode="single"
                           selected={checkInDate}
@@ -352,7 +352,7 @@ export default function HotelSearchPage() {
                   <div>
                     <Label
                       htmlFor="checkout"
-                      className="text-sm font-semibold text-gray-700"
+                      className="text-sm font-semibold text-gray-700 dark:text-brand-gray-200"
                     >
                       Check-out
                     </Label>
@@ -361,8 +361,8 @@ export default function HotelSearchPage() {
                         <Button
                           variant="outline"
                           className={cn(
-                            "w-full justify-start text-left font-normal h-12 mt-2 border-2 border-brand-gray-200 hover:border-blue-500",
-                            !checkOutDate && "text-muted-foreground"
+                            "w-full justify-start text-left font-normal h-12 mt-2 border-2 border-brand-gray-200 dark:border-brand-gray-700 dark:bg-[rgb(25,30,36)] dark:text-white hover:border-blue-500 dark:hover:border-brand-pink-500",
+                            !checkOutDate && "text-muted-foreground dark:text-brand-gray-400"
                           )}
                         >
                           <CalendarDays className="mr-2 h-4 w-4" />
@@ -371,7 +371,7 @@ export default function HotelSearchPage() {
                             : "Select date"}
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
+                      <PopoverContent className="w-auto p-0 dark:bg-[rgb(25,30,36)] dark:text-white" align="start">
                         <Calendar
                           mode="single"
                           selected={checkOutDate}
@@ -388,7 +388,7 @@ export default function HotelSearchPage() {
                   <div>
                     <Label
                       htmlFor="guests"
-                      className="text-sm font-semibold text-gray-700"
+                      className="text-sm font-semibold text-gray-700 dark:text-brand-gray-200"
                     >
                       <Users className="inline w-4 h-4 mr-1" />
                       Guests
@@ -400,13 +400,13 @@ export default function HotelSearchPage() {
                       max="10"
                       value={searchGuests}
                       onChange={(e) => setSearchGuests(e.target.value)}
-                      className="mt-2 h-12 border-2 border-brand-gray-200 focus:border-blue-500"
+                      className="mt-2 h-12 border-2 border-brand-gray-200 dark:border-brand-gray-700 dark:bg-[rgb(25,30,36)] dark:text-white focus:border-blue-500 dark:focus:border-brand-pink-500"
                     />
                   </div>
 
                   <Button
                     onClick={handleSearch}
-                    className="h-12 px-8 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200"
+                    className="h-12 px-8 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200 dark:bg-gradient-to-r dark:from-brand-pink-700 dark:to-brand-pink-600 dark:hover:from-brand-pink-800 dark:hover:to-brand-pink-700"
                   >
                     <Search className="mr-2 h-5 w-5" />
                     Search
@@ -417,7 +417,7 @@ export default function HotelSearchPage() {
                   <div className="mt-4 text-center">
                     <Badge
                       variant="secondary"
-                      className="bg-brand-pink-100 text-blue-700 px-3 py-1"
+                      className="bg-brand-pink-100 dark:bg-brand-pink-900 text-blue-700 dark:text-brand-pink-200 px-3 py-1"
                     >
                       {nights} night{nights > 1 ? "s" : ""} • {searchGuests}{" "}
                       guest{parseInt(searchGuests) > 1 ? "s" : ""}
@@ -430,27 +430,27 @@ export default function HotelSearchPage() {
         </div>
 
         {/* Enhanced Loading Content */}
-        <div className="p-6">
+        <div className="p-6 dark:bg-[rgb(25,30,36)]">
           <div className="max-w-7xl mx-auto">
             <div className="text-center py-16">
               <div className="relative">
-                <div className="animate-spin rounded-full h-16 w-16 border-4 border-brand-pink-200 border-t-blue-600 mx-auto mb-6"></div>
-                <div className="absolute inset-0 rounded-full bg-brand-pink-100 animate-pulse mx-auto h-16 w-16 opacity-20"></div>
+                <div className="animate-spin rounded-full h-16 w-16 border-4 border-brand-pink-200 dark:border-brand-pink-700 border-t-blue-600 dark:border-t-brand-pink-500 mx-auto mb-6"></div>
+                <div className="absolute inset-0 rounded-full bg-brand-pink-100 dark:bg-brand-pink-900 animate-pulse mx-auto h-16 w-16 opacity-20"></div>
               </div>
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
                 Generating hotel options...
               </h2>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-600 dark:text-brand-gray-300 mb-4">
                 We&apos;re creating personalized hotel recommendations for you in {searchCity}
               </p>
               <div className="flex justify-center space-x-2">
-                <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"></div>
+                <div className="w-2 h-2 bg-blue-600 dark:bg-brand-pink-500 rounded-full animate-bounce"></div>
                 <div
-                  className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"
+                  className="w-2 h-2 bg-blue-600 dark:bg-brand-pink-500 rounded-full animate-bounce"
                   style={{ animationDelay: "0.1s" }}
                 ></div>
                 <div
-                  className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"
+                  className="w-2 h-2 bg-blue-600 dark:bg-brand-pink-500 rounded-full animate-bounce"
                   style={{ animationDelay: "0.2s" }}
                 ></div>
               </div>
@@ -463,36 +463,37 @@ export default function HotelSearchPage() {
 
   return (
     <div 
-    id="hotel-search" className="min-h-screen bg-gray-50">
+    id="hotel-search" className="min-h-screen bg-gray-50 dark:bg-[rgb(25,30,36)]">
       {/* Search Form */}
-      <div className="bg-white shadow-sm border-b p-6">
+      <div className="bg-white dark:bg-[rgb(25,30,36)] shadow-sm border-b border-brand-gray-100 dark:border-brand-gray-700 p-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid gap-4 md:grid-cols-5 items-end">
             <div>
-              <Label htmlFor="city">Destination</Label>
+              <Label htmlFor="city" className="dark:text-brand-gray-200">Destination</Label>
               <Input
                 id="city"
                 value={searchCity}
                 onChange={(e) => setSearchCity(e.target.value)}
                 placeholder="Enter city name"
+                className="dark:bg-[rgb(25,30,36)] dark:text-white dark:border-brand-gray-700"
               />
             </div>
             <div>
-              <Label htmlFor="checkin">Check-in</Label>
+              <Label htmlFor="checkin" className="dark:text-brand-gray-200">Check-in</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
                     className={cn(
-                      "w-full justify-start text-left font-normal",
-                      !checkInDate && "text-muted-foreground"
+                      "w-full justify-start text-left font-normal dark:bg-[rgb(25,30,36)] dark:text-white dark:border-brand-gray-700",
+                      !checkInDate && "text-muted-foreground dark:text-brand-gray-400"
                     )}
                   >
                     <CalendarDays className="mr-2 h-4 w-4" />
                     {checkInDate ? format(checkInDate, "PPP") : "Select date"}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
+                <PopoverContent className="w-auto p-0 dark:bg-[rgb(25,30,36)] dark:text-white">
                   <Calendar
                     mode="single"
                     selected={checkInDate}
@@ -503,21 +504,21 @@ export default function HotelSearchPage() {
               </Popover>
             </div>
             <div>
-              <Label htmlFor="checkout">Check-out</Label>
+              <Label htmlFor="checkout" className="dark:text-brand-gray-200">Check-out</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
                     className={cn(
-                      "w-full justify-start text-left font-normal",
-                      !checkOutDate && "text-muted-foreground"
+                      "w-full justify-start text-left font-normal dark:bg-[rgb(25,30,36)] dark:text-white dark:border-brand-gray-700",
+                      !checkOutDate && "text-muted-foreground dark:text-brand-gray-400"
                     )}
                   >
                     <CalendarDays className="mr-2 h-4 w-4" />
                     {checkOutDate ? format(checkOutDate, "PPP") : "Select date"}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
+                <PopoverContent className="w-auto p-0 dark:bg-[rgb(25,30,36)] dark:text-white">
                   <Calendar
                     mode="single"
                     selected={checkOutDate}
@@ -528,7 +529,7 @@ export default function HotelSearchPage() {
               </Popover>
             </div>
             <div>
-              <Label htmlFor="guests">Guests</Label>
+              <Label htmlFor="guests" className="dark:text-brand-gray-200">Guests</Label>
               <Input
                 id="guests"
                 type="number"
@@ -536,11 +537,12 @@ export default function HotelSearchPage() {
                 max="10"
                 value={searchGuests}
                 onChange={(e) => setSearchGuests(e.target.value)}
+                className="dark:bg-[rgb(25,30,36)] dark:text-white dark:border-brand-gray-700"
               />
             </div>
             <Button
               onClick={handleSearch}
-              className="bg-blue-600 hover:bg-blue-700"
+              className="bg-blue-600 hover:bg-blue-700 dark:bg-gradient-to-r dark:from-brand-pink-700 dark:to-brand-pink-600 dark:hover:from-brand-pink-800 dark:hover:to-brand-pink-700"
             >
               <Search className="mr-2 h-4 w-4" />
               Search Hotels
@@ -553,15 +555,15 @@ export default function HotelSearchPage() {
       <div 
       id="hotel-card" 
       data-testid="hotel-card"
-      className="p-6">
+      className="p-6 dark:bg-[rgb(25,30,36)]">
         <div className="max-w-7xl mx-auto">
           {/* Results Header */}
           <div className="mb-6 flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                 Hotels in {searchparams?.get("city") || "New York City"}
               </h1>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-brand-gray-300">
                 {filteredHotels?.length || 0} hotel
                 {(filteredHotels?.length || 0) !== 1 ? "s" : ""} found
               </p>
@@ -572,8 +574,8 @@ export default function HotelSearchPage() {
           </div>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-brand-error/30 rounded-lg">
-              <p className="text-red-700">{error}</p>
+            <div className="mb-6 p-4 bg-red-50 dark:bg-brand-error/10 border border-brand-error/30 dark:border-brand-error/40 rounded-lg">
+              <p className="text-red-700 dark:text-brand-error">{error}</p>
             </div>
           )}
 
@@ -609,9 +611,9 @@ export default function HotelSearchPage() {
                 </div>
               ) : (
                 <div className="text-center py-12">
-                  <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-xl text-gray-600 mb-2">No hotels found</p>
-                  <p className="text-gray-500">
+                  <MapPin className="w-12 h-12 text-gray-400 dark:text-brand-gray-600 mx-auto mb-4" />
+                  <p className="text-xl text-gray-600 dark:text-brand-gray-300 mb-2">No hotels found</p>
+                  <p className="text-gray-500 dark:text-brand-gray-400">
                     Try adjusting your search criteria or filters
                   </p>
                 </div>

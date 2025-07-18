@@ -1,19 +1,13 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { MapPin, Calendar as CalendarIcon, Search, ArrowLeftRight } from "lucide-react";
+import { MapPin, Search, ArrowLeftRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import {
-  mockAvailableCars,
   getLocationSuggestions,
   carTypes,
-  type CarData,
 } from "@/fake-data/car-rental-data";
 
 export function SelectVehicle() {
