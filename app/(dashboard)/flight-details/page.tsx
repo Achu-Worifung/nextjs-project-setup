@@ -7,11 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Clock, Plane, Users, Wifi, Coffee, Utensils, MapPin } from "lucide-react";
 import { Flight } from "@/lib/types";
-import { useAuth } from "@/context/AuthContext";
 
 
 const FlightDetailsPage = () => {
-    const { token } = useAuth();
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -20,7 +18,6 @@ const FlightDetailsPage = () => {
   useEffect(() => {
     // Get flight data from URL parameters
     const flightData = searchParams?.get("flight");
-    console.log("Raw flight data from URL:", flightData);
 
     if (flightData) {
       try {
@@ -37,38 +34,7 @@ const FlightDetailsPage = () => {
     }
   }, [searchParams, router]);
 
-const handleBooking = async (flight: Flight, seat: string, tripId?: string) => {
-  if (!token) {
-    console.error("No auth token available.");
-    return;
-  }
-  const bookingPayload = { ...flight, chosenSeat: seat };
-  // Build URL with optional trip_id as query param
-  let url = "http://localhost:8006/flights/book";
-  if (tripId) {
-    url += `?trip_id=${encodeURIComponent(tripId)}`;
-  }
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        "X-Client-ID": "test-client-id",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(bookingPayload),
-    });
 
-    if (!response.ok) {
-      throw new Error("Failed to book flight");
-    }
-
-    const data = await response.json();
-    console.log("Flight booked successfully:", data);
-  } catch (error) {
-    console.error("Error booking flight:", error);
-  }
-};
 
   if (!flight) {
     return (
@@ -268,8 +234,14 @@ const handleBooking = async (flight: Flight, seat: string, tripId?: string) => {
                       </div>
                     </div>
                     <Button
-                      onClick={() => handleBooking(flight, className)}
-                      className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800"
+                      onClick={() => {
+                        const bookingParams = new URLSearchParams({
+                          flight: encodeURIComponent(JSON.stringify(flight)),
+                          class: className,
+                        });
+                        router.push(`/booking?${bookingParams.toString()}`);
+                      }}
+                      className="w-full bg-blue-600 hover:bg-blue-700"
                     >
                       Select {className}
                     </Button>

@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 import { Flight } from "@/lib/types";
 import { tokenManager } from "@/lib/token-manager";
+import { useAuth } from "@/context/AuthContext";
+
 
 class BookingService {
   getAuthHeaders() {
@@ -39,21 +41,31 @@ class BookingService {
     price: number;
     numberOfSeats: number;
     flightDetails?: object;
+    choosenSeat?: string;
   }) {
+    console.log ("Booking data:", bookingData);
+    const choosenSeat = bookingData.choosenSeat;
+    const flight = {... bookingData.flightDetails, choosenSeat: choosenSeat || ""};
     try {
-      const headers = this.getAuthHeaders();
-      
-      const response = await fetch('/api/bookings/flight', {
+      const url = "http://localhost:8006/flights/book";
+
+      const response = await fetch(url, {
         method: 'POST',
-        headers,
-        body: JSON.stringify(bookingData),
+        headers: {
+          'Authorization': `Bearer ${bookingData.token}`,
+          'Content-Type': 'application/json',
+          "X-Client-ID": `${bookingData.token}`,
+        },
+        body: JSON.stringify({
+          flight
+        }),
       });
 
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Booking failed');
-      }
+      console.log('Flight booking response:', data);
+
+
 
       return data;
     } catch (error) {
@@ -69,6 +81,8 @@ class BookingService {
 const bookingService = new BookingService();
 
 const BookingPage = () => {
+  const { token } = useAuth();
+
   const searchParams = useSearchParams();
   const router = useRouter();
   const [flight, setFlight] = useState<Flight | null>(null);
@@ -140,7 +154,6 @@ const BookingPage = () => {
       }
 
       // Get the token
-      const token = tokenManager.get();
       if (!token) {
         throw new Error('Please log in to complete your booking');
       }
@@ -174,7 +187,8 @@ const BookingPage = () => {
       // Call the booking API
       const result = await bookingService.bookFlight(bookingData);
 
-      if (result.success) {
+      // Treat any 2xx response as success (backend does not return 'success' field)
+      if (result && result.message) {
         setBookingComplete(true);
       } else {
         throw new Error(result.error || 'Booking failed');
