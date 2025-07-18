@@ -93,18 +93,22 @@ const handleSignUpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsLoading(true);
     // ---------------------------------------------------------
     try {
-      const res = await fetch("/api/local-sign-up", {
+      const url = 'http://localhost:8004/signup'; // Adjust the URL as needed
+      const res = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+          "X-Client-ID": "test-client-id", 
+        },
         body: JSON.stringify({
+          fname: signUpData.firstName,
+          lname: signUpData.lastName,
+          mname: signUpData.middleName,
           email: signUpData.email,
           password: signUpData.password,
-          firstName: signUpData.firstName,
-          lastName: signUpData.lastName,
-          middleName: signUpData.middleName,
         }),
       });
       const data = await res.json();
+     
       if (res.ok) {
         //successful signed up
         setToken(data.token); 

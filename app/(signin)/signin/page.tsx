@@ -45,9 +45,12 @@ export default function LoginPage() {
     setWarning(false);
     
     try {
-      const res = await fetch("/api/local-log-in", {
+      const url = 'http://localhost:8004/signin'; 
+      const res = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+          "X-Client-ID": "test-client-id"
+         },
         body: JSON.stringify({
           email: signInData.email,
           password: signInData.password,
