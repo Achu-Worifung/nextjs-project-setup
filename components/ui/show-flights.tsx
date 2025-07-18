@@ -29,8 +29,6 @@ import { generateFakeFlights } from "@/lib/flight-generator";
 import { Flight } from "@/lib/types";
 import { FlightCards } from "@/components/ui/flight-cards";
 
-
-
 // Get unique airlines from the flight data
 const getUniqueAirlines = (flights: Flight[]) => {
   const airlines = new Set<string>();
@@ -39,8 +37,6 @@ const getUniqueAirlines = (flights: Flight[]) => {
   });
   return Array.from(airlines);
 };
-
-
 
 const FlightSearchPage = () => {
   const searchParams = useSearchParams();
@@ -66,8 +62,8 @@ const FlightSearchPage = () => {
   const [editReturnDate, setEditReturnDate] = useState<Date | undefined>(
     originalReturnDate ? new Date(originalReturnDate) : undefined
   );
-  const [editTravelers, setEditTravelers] = useState(originalTravelers); 
-  
+  const [editTravelers, setEditTravelers] = useState(originalTravelers);
+
   // Generate flight data based on search parameters
   const [flightData] = useState<Flight[]>(() => {
     const departDate = originalDepartDate || format(new Date(), "yyyy-MM-dd");
@@ -77,14 +73,14 @@ const FlightSearchPage = () => {
     console.log("Number of flights generated:", flights.length);
     return flights;
   });
-  
+
   // Filter states
   const [priceRange, setPriceRange] = useState<number[]>([0, 5000]); // Increased range to show all flights
   const [selectedAirlines, setSelectedAirlines] = useState<string[]>([]);
   const [selectedStops, setSelectedStops] = useState<string[]>([]);
   const [filteredFlights, setFilteredFlights] = useState<Flight[]>(flightData);
   const [sortBy, setSortBy] = useState("price");
-  
+
   // Get unique values for filters
   const airlines = getUniqueAirlines(flightData);
 
@@ -123,13 +119,13 @@ const FlightSearchPage = () => {
     originalDepartDate,
     originalReturnDate,
     originalTravelers,
-  ]); 
-  
+  ]);
+
   // Update your useEffect for filtering
   useEffect(() => {
     // Start with all flights
     let filtered = [...flightData];
-    
+
     // Apply client-side filters
     if (priceRange[0] > 0 || priceRange[1] < 5000) {
       filtered = filtered.filter((flight) => {
@@ -172,11 +168,13 @@ const FlightSearchPage = () => {
               const minutes = parseInt(matches[2]) || 0;
               return hours * 60 + minutes;
             };
-            return getDurationMinutes(a.duration) - getDurationMinutes(b.duration);
+            return (
+              getDurationMinutes(a.duration) - getDurationMinutes(b.duration)
+            );
           });
           break;
         case "departure":
-          sortedFiltered.sort((a, b) => 
+          sortedFiltered.sort((a, b) =>
             a.departureTime.localeCompare(b.departureTime)
           );
           break;
@@ -184,7 +182,7 @@ const FlightSearchPage = () => {
     } catch (error) {
       console.warn("Error sorting flights:", error);
     }
-    
+
     // Debug info
     console.log("Total flights generated:", flightData.length);
     console.log("Flights after filtering:", sortedFiltered.length);
@@ -216,49 +214,62 @@ const FlightSearchPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-brand-gray-50">
-      {" "}
+    <div className="min-h-screen bg-brand-gray-50 dark:bg-[rgb(20,25,30)]">
       {/* Header with Search Summary */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-white shadow-sm border-brand-gray-200 dark:bg-[rgb(25,30,36)] dark:border-brand-gray-700">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-2xl font-bold text-brand-gray-900">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
               Flight Search Results
             </h1>
-            <Badge className="bg-brand-pink-100 text-brand-pink-800">
+            <Badge className="bg-brand-pink-100 text-brand-pink-800 dark:bg-brand-pink-900 dark:text-brand-pink-200">
               {filteredFlights.length} flights found
             </Badge>
           </div>
           {/* Search Form - Compact Single Line Design */}
-          <div className="bg-white rounded-xl shadow-lg border border-brand-gray-200 p-6 mb-6">
+          <div className="bg-white text-gray-900 rounded-xl shadow-lg border border-brand-gray-200 p-6 mb-6 dark:bg-[rgb(25,30,36)] dark:border-brand-gray-700 dark:shadow-xl dark:text-white">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
               {/* Trip Type Dropdown */}
               <div className="lg:col-span-2">
-                <Label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
+                <Label className="flex items-center gap-2 text-sm font-semibold">
                   Trip Type
                 </Label>
                 <select
                   value={editFlightType}
-                  onChange={(e) => setEditFlightType(e.target.value as "one-way" | "round-trip")}
-                  className="w-full px-4 py-3 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12"
+                  onChange={(e) =>
+                    setEditFlightType(
+                      e.target.value as "one-way" | "round-trip"
+                    )
+                  }
+                  className="dark:bg-[rgb(25,30,36)] dark:text-white w-full px-4 py-3 border border-brand-gray-300 rounded-lg focus:ring-1 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12 "
                 >
-                  <option value="one-way">One Way</option>
-                  <option value="round-trip">Round Trip</option>
+                  <option
+                    value="one-way"
+                    className=""
+                  >
+                    One Way
+                  </option>
+                  <option
+                    value="round-trip"
+                    className=""
+                  >
+                    Round Trip
+                  </option>
                 </select>
               </div>
 
               {/* From */}
-              <div className="lg:col-span-2">
-                <Label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
+              <div className="lg:col-span-2 text-gray-900 dark:text-white">
+                <Label className="flex items-center gap-2 text-sm font-semibold mb-2 ">
                   <PlaneTakeoff className="h-4 w-4 text-brand-pink-600" />
                   From
                 </Label>
-                <div className="relative">
+                <div className="relative  text-gray-900 dark:text-white">
                   <input
                     type="text"
                     value={editFrom}
                     onChange={(e) => setEditFrom(e.target.value)}
-                    className="w-full px-4 py-3 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12"
+                    className="w-full px-4 py-3 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12 dark:bg-[rgb(40,47,54)] dark:border-brand-gray-600  dark:hover:shadow-lg dark:focus:ring-brand-pink-400"
                     placeholder="Departure city"
                   />
                 </div>
@@ -272,24 +283,24 @@ const FlightSearchPage = () => {
                   variant="outline"
                   size="sm"
                   onClick={handleSwapLocations}
-                  className="p-3 rounded-full h-12 w-12 border-2 border-brand-pink-200 hover:border-brand-pink-500 hover:bg-brand-pink-50 transition-all duration-200"
+                  className="p-3 rounded-full h-12 w-12 border-2 border-brand-pink-200 hover:border-brand-pink-500 hover:bg-brand-pink-50 transition-all duration-200 dark:border-brand-pink-700 dark:hover:border-brand-pink-400 dark:hover:bg-brand-pink-900 dark:bg-[rgb(40,47,54)]"
                 >
-                  <ArrowLeftRight className="h-5 w-5 text-brand-pink-600" />
+                  <ArrowLeftRight className="h-5 w-5 text-brand-pink-600 dark:text-brand-pink-400" />
                 </Button>
               </div>
 
               {/* To */}
-              <div className="lg:col-span-2">
-                <Label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
+              <div className="lg:col-span-2 text-gray-900 dark:text-white">
+                <Label className="flex items-center gap-2 text-sm font-semibold mb-2 ">
                   <PlaneLanding className="h-4 w-4 text-brand-pink-600" />
                   To
                 </Label>
-                <div className="relative">
+                <div className="relative text-gray-900 dark:text-white">
                   <input
                     type="text"
                     value={editTo}
                     onChange={(e) => setEditTo(e.target.value)}
-                    className="w-full px-4 py-3 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12"
+                    className="w-full px-4 py-3 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12 dark:bg-[rgb(40,47,54)] dark:border-brand-gray-600  dark:hover:shadow-lg dark:focus:ring-brand-pink-400"
                     placeholder="Destination city"
                   />
                 </div>
@@ -297,43 +308,58 @@ const FlightSearchPage = () => {
 
               {/* Date Range Picker */}
               <div className="lg:col-span-2">
-                <Label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
+                <Label className="flex items-center gap-2 text-sm font-semibold mb-2 ">
                   <CalendarDays className="h-4 w-4 text-brand-pink-600" />
-                  {editFlightType === "round-trip" ? "Departure & Return" : "Departure"}
+                  {editFlightType === "round-trip"
+                    ? "Departure & Return"
+                    : "Departure"}
                 </Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-full justify-start text-left font-medium text-sm h-12 px-4 shadow-sm hover:shadow-md transition-all duration-200",
-                        !editDepartDate && "text-muted-foreground"
+                        "w-full justify-start text-left font-medium text-sm h-12 px-4 shadow-sm hover:shadow-md transition-all duration-200 bg-white border-brand-gray-300 text-gray-900 hover:bg-gray-50 dark:bg-[rgb(40,47,54)] dark:border-brand-gray-600  dark:hover:bg-[rgb(50,58,66)] dark:text-white",
+                        !editDepartDate && "text-gray-900 dark:text-white"
                       )}
                     >
-                      <CalendarDays className="mr-2 h-4 w-4 text-brand-pink-600" />
-                      {editDepartDate && editFlightType === "round-trip" && editReturnDate
-                        ? `${format(editDepartDate, "MMM dd")} - ${format(editReturnDate, "MMM dd")}`
+                      <CalendarDays className="mr-2 h-4 w-4 text-brand-pink-600 dark:text-brand-pink-400" />
+                      {editDepartDate &&
+                      editFlightType === "round-trip" &&
+                      editReturnDate
+                        ? `${format(editDepartDate, "MMM dd")} - ${format(
+                            editReturnDate,
+                            "MMM dd"
+                          )}`
                         : editDepartDate
                         ? format(editDepartDate, "MMM dd, yyyy")
                         : "Select date"}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent
+                    className="w-auto p-0 bg-white border-brand-gray-200 dark:bg-[rgb(25,30,36)] dark:border-brand-gray-700"
+                    align="start"
+                  >
                     <div className="p-4">
                       {editFlightType === "round-trip" ? (
                         <div className="flex flex-col lg:flex-row gap-4">
                           <div>
-                            <Label className="text-sm font-medium mb-2 block">Departure Date</Label>
+                            <Label className="text-sm font-medium mb-2 block !text-black dark:text-brand-gray-200">
+                              Departure Date
+                            </Label>
                             <Calendar
                               mode="single"
                               selected={editDepartDate}
                               onSelect={setEditDepartDate}
                               disabled={(date) => date < new Date()}
                               initialFocus
+                              className="bg-white text-gray-900 dark:bg-[rgb(25,30,36)] dark:text-brand-gray-200"
                             />
                           </div>
                           <div>
-                            <Label className="text-sm font-medium mb-2 block">Return Date</Label>
+                            <Label className="text-sm font-medium mb-2 block text-gray-900 dark:text-brand-gray-200">
+                              Return Date
+                            </Label>
                             <Calendar
                               mode="single"
                               selected={editReturnDate}
@@ -341,18 +367,22 @@ const FlightSearchPage = () => {
                               disabled={(date) =>
                                 date < (editDepartDate || new Date())
                               }
+                              className="bg-white text-gray-900 dark:bg-[rgb(25,30,36)] dark:text-brand-gray-200"
                             />
                           </div>
                         </div>
                       ) : (
                         <div>
-                          <Label className="text-sm font-medium mb-2 block">Departure Date</Label>
+                          <Label className="text-sm font-medium mb-2 block text-gray-900 dark:text-white">
+                            Departure Date
+                          </Label>
                           <Calendar
                             mode="single"
                             selected={editDepartDate}
                             onSelect={setEditDepartDate}
                             disabled={(date) => date < new Date()}
                             initialFocus
+                            className="bg-white text-gray-900 dark:bg-[rgb(25,30,36)] dark:text-white"
                           />
                         </div>
                       )}
@@ -363,14 +393,14 @@ const FlightSearchPage = () => {
 
               {/* Travelers */}
               <div className="lg:col-span-2">
-                <Label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
-                  <Users className="h-4 w-4 text-brand-pink-600" />
+                <Label className="flex items-center gap-2 text-sm font-semibold text-gray-900 mb-2 dark:text-white">
+                  <Users className="h-4 w-4 text-brand-pink-600 dark:text-white" />
                   Travelers & Class
                 </Label>
                 <select
                   value={editTravelers}
                   onChange={(e) => setEditTravelers(e.target.value)}
-                  className="w-full px-4 py-3 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12"
+                  className="text-gray-900 w-full px-4 py-3 border border-brand-gray-300 rounded-lg focus:ring-2 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12 dark:bg-[rgb(40,47,54)] dark:border-brand-gray-600 dark:text-white dark:hover:shadow-lg dark:focus:ring-brand-pink-400"
                 >
                   <option value="1 adult, Economy">1 Adult, Economy</option>
                   <option value="1 adult, Business">1 Adult, Business</option>
@@ -386,7 +416,7 @@ const FlightSearchPage = () => {
                 <div className="mb-2 h-5"></div>
                 <Button
                   onClick={handleNewSearch}
-                  className="w-full bg-gradient-to-r from-brand-pink-600 to-brand-pink-700 hover:from-brand-pink-700 hover:to-brand-pink-800 text-white h-12 px-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                  className="bg-pink-600 w-full hover:from-brand-pink-700 hover:to-brand-pink-800 text-white h-12 px-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 dark:from-brand-pink-500 dark:to-brand-pink-600 dark:hover:from-brand-pink-600 dark:hover:to-brand-pink-700"
                 >
                   <Search className="h-5 w-5" />
                 </Button>
@@ -399,9 +429,9 @@ const FlightSearchPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Filters Sidebar */}
           <div className="lg:col-span-1">
-            <Card>
+            <Card className="bg-white border-brand-gray-200 dark:bg-[rgb(25,30,36)] dark:border-brand-gray-700">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
                   <Filter className="w-5 h-5" />
                   Filters
                 </CardTitle>
@@ -409,24 +439,28 @@ const FlightSearchPage = () => {
               <CardContent className="space-y-6">
                 {/* Price Range */}
                 <div>
-                  <h3 className="font-medium mb-3">Price Range</h3>{" "}
+                  <h3 className="font-medium mb-3 text-gray-900 dark:text-white">
+                    Price Range
+                  </h3>
                   <Slider
                     value={priceRange}
                     onValueChange={setPriceRange}
                     max={5000}
                     min={0}
                     step={50}
-                    className="mb-2"
+                    className="mb-2 [&>span:first-child]:bg-brand-pink-500 dark:[&>span:first-child]:bg-brand-pink-400"
                   />
-                  <div className="flex justify-between text-sm text-brand-gray-600">
+                  <div className="flex justify-between text-sm text-gray-900 dark:text-brand-gray-300">
                     <span>${priceRange[0]}</span>
                     <span>${priceRange[1]}</span>
                   </div>
                 </div>
 
                 {/* Airlines */}
-                <div>
-                  <h3 className="font-medium mb-3">Airlines</h3>{" "}
+                <div className="text-gray-900 dark:text-white">
+                  <h3 className="font-medium mb-3 text-gray-900 dark:text-white">
+                    Airlines
+                  </h3>
                   <div className="space-y-2">
                     {airlines.map((airline) => (
                       <div
@@ -439,12 +473,13 @@ const FlightSearchPage = () => {
                           onCheckedChange={(checked: boolean) =>
                             handleAirlineChange(airline, checked)
                           }
+                          className="data-[state=checked]:bg-brand-pink-500 data-[state=checked]:border-brand-pink-500 dark:data-[state=checked]:bg-brand-pink-400 dark:data-[state=checked]:border-brand-pink-400"
                         />
                         <label
                           htmlFor={airline}
-                          className="flex items-center gap-2 text-sm cursor-pointer"
+                          className="flex items-center gap-2 text-sm cursor-pointer "
                         >
-                          <span className="w-5 h-5 bg-brand-pink-100 rounded text-xs flex items-center justify-center">
+                          <span className="w-5 h-5 bg-brand-pink-100 rounded text-xs flex items-center justify-center ">
                             {airline.substring(0, 2)}
                           </span>
                           {airline}
@@ -466,8 +501,9 @@ const FlightSearchPage = () => {
                           onCheckedChange={(checked: boolean) =>
                             handleStopsChange(stops, checked)
                           }
+                          className="data-[state=checked]:bg-brand-pink-500 data-[state=checked]:border-brand-pink-500 dark:data-[state=checked]:bg-brand-pink-400 dark:data-[state=checked]:border-brand-pink-400"
                         />
-                        <label htmlFor={`stops-${stops}`} className="text-sm">
+                        <label htmlFor={`stops-${stops}`} className="text-sm ">
                           {stops === "0"
                             ? "Non-stop"
                             : `${stops} stop${stops === "1" ? "" : "s"}`}
@@ -483,13 +519,13 @@ const FlightSearchPage = () => {
           {/* Flight Results */}
           <div className="lg:col-span-3">
             {/* Sort Options */}
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-4 bg-white text-gray-900 dark:bg-[rgb(40,47,54)] dark:text-white">
               <div className="flex items-center gap-2">
-                <label className="text-sm font-medium">Sort by:</label>
+                <label className="text-sm font-medium ">Sort by:</label>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="px-3 py-1 border rounded-md text-sm"
+                  className="px-3 py-1 border rounded-sm  text-sm dark:bg-[rgb(40,47,54)] dark:text-white"
                 >
                   <option value="price">Price (Low to High)</option>
                   <option value="duration">Duration</option>
@@ -497,11 +533,11 @@ const FlightSearchPage = () => {
                   <option value="departure">Departure Time</option>
                 </select>
               </div>
-            </div>{" "}
+            </div>
             {/* Flight Cards */}
             <div className="space-y-6">
               {filteredFlights.map((flight) => (
-                <div 
+                <div
                   key={`${flight.airline}-${flight.flightNumber}`}
                   onClick={() => handleFlightSelect(flight)}
                   className="cursor-pointer transition-transform hover:scale-[1.02] hover:shadow-lg"
@@ -512,15 +548,15 @@ const FlightSearchPage = () => {
             </div>
             {/* No Results */}
             {filteredFlights.length === 0 && (
-              <Card className="text-center py-12">
+              <Card className="text-center py-12 bg-white border-brand-gray-200 dark:bg-[rgb(25,30,36)] dark:border-brand-gray-700">
                 <CardContent>
-                  <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-brand-gray-900 mb-2">
+                  <Search className="w-12 h-12 text-gray-400 mx-auto mb-4 dark:text-gray-500" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2 dark:text-white">
                     No flights found
                   </h3>
-                  <p className="text-brand-gray-600 mb-4">
+                  <p className="text-gray-900 mb-4 dark:text-brand-gray-300">
                     Try adjusting your filters or search criteria
-                  </p>{" "}
+                  </p>
                   <Button
                     variant="outline"
                     onClick={() => {
@@ -528,6 +564,7 @@ const FlightSearchPage = () => {
                       setSelectedAirlines([]);
                       setSelectedStops([]);
                     }}
+                    className="bg-white text-gray-900 border-gray-300 hover:bg-gray-50 dark:bg-[rgb(40,47,54)] dark:text-brand-gray-200 dark:border-brand-gray-600 dark:hover:bg-[rgb(50,58,66)]"
                   >
                     Clear All Filters
                   </Button>
@@ -542,5 +579,3 @@ const FlightSearchPage = () => {
 };
 
 export default FlightSearchPage;
-
-
