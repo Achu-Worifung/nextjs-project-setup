@@ -2,8 +2,6 @@
 
 import React, { useState, useTransition, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { format } from "date-fns";
-import airports from "@/public/airports.json";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -33,6 +31,222 @@ type Airport = {
   icao: string;
 };
 type Leg = { from: string; to: string; date?: Date };
+
+// Major International Airports Database
+const airports: Airport[] = [
+  // United States
+  { name: "John F. Kennedy International Airport", city: "New York", country: "United States", iata: "JFK", icao: "KJFK" },
+  { name: "Los Angeles International Airport", city: "Los Angeles", country: "United States", iata: "LAX", icao: "KLAX" },
+  { name: "Chicago O'Hare International Airport", city: "Chicago", country: "United States", iata: "ORD", icao: "KORD" },
+  { name: "Miami International Airport", city: "Miami", country: "United States", iata: "MIA", icao: "KMIA" },
+  { name: "San Francisco International Airport", city: "San Francisco", country: "United States", iata: "SFO", icao: "KSFO" },
+  { name: "Seattle-Tacoma International Airport", city: "Seattle", country: "United States", iata: "SEA", icao: "KSEA" },
+  { name: "Denver International Airport", city: "Denver", country: "United States", iata: "DEN", icao: "KDEN" },
+  { name: "Dallas/Fort Worth International Airport", city: "Dallas", country: "United States", iata: "DFW", icao: "KDFW" },
+  { name: "Atlanta Hartsfield-Jackson International Airport", city: "Atlanta", country: "United States", iata: "ATL", icao: "KATL" },
+  { name: "Boston Logan International Airport", city: "Boston", country: "United States", iata: "BOS", icao: "KBOS" },
+  { name: "Newark Liberty International Airport", city: "Newark", country: "United States", iata: "EWR", icao: "KEWR" },
+  { name: "Washington Dulles International Airport", city: "Washington", country: "United States", iata: "IAD", icao: "KIAD" },
+  { name: "LaGuardia Airport", city: "New York", country: "United States", iata: "LGA", icao: "KLGA" },
+  { name: "Phoenix Sky Harbor International Airport", city: "Phoenix", country: "United States", iata: "PHX", icao: "KPHX" },
+  { name: "Las Vegas McCarran International Airport", city: "Las Vegas", country: "United States", iata: "LAS", icao: "KLAS" },
+  
+  // United Kingdom
+  { name: "London Heathrow Airport", city: "London", country: "United Kingdom", iata: "LHR", icao: "EGLL" },
+  { name: "London Gatwick Airport", city: "London", country: "United Kingdom", iata: "LGW", icao: "EGKK" },
+  { name: "London Stansted Airport", city: "London", country: "United Kingdom", iata: "STN", icao: "EGSS" },
+  { name: "Manchester Airport", city: "Manchester", country: "United Kingdom", iata: "MAN", icao: "EGCC" },
+  { name: "Edinburgh Airport", city: "Edinburgh", country: "United Kingdom", iata: "EDI", icao: "EGPH" },
+  { name: "Birmingham Airport", city: "Birmingham", country: "United Kingdom", iata: "BHX", icao: "EGBB" },
+  
+  // Canada
+  { name: "Toronto Pearson International Airport", city: "Toronto", country: "Canada", iata: "YYZ", icao: "CYYZ" },
+  { name: "Vancouver International Airport", city: "Vancouver", country: "Canada", iata: "YVR", icao: "CYVR" },
+  { name: "Montreal-Pierre Elliott Trudeau International Airport", city: "Montreal", country: "Canada", iata: "YUL", icao: "CYUL" },
+  { name: "Calgary International Airport", city: "Calgary", country: "Canada", iata: "YYC", icao: "CYYC" },
+  
+  // Germany
+  { name: "Frankfurt Airport", city: "Frankfurt", country: "Germany", iata: "FRA", icao: "EDDF" },
+  { name: "Munich Airport", city: "Munich", country: "Germany", iata: "MUC", icao: "EDDM" },
+  { name: "Berlin Brandenburg Airport", city: "Berlin", country: "Germany", iata: "BER", icao: "EDDB" },
+  { name: "Hamburg Airport", city: "Hamburg", country: "Germany", iata: "HAM", icao: "EDDH" },
+  { name: "Düsseldorf Airport", city: "Düsseldorf", country: "Germany", iata: "DUS", icao: "EDDL" },
+  
+  // France
+  { name: "Charles de Gaulle Airport", city: "Paris", country: "France", iata: "CDG", icao: "LFPG" },
+  { name: "Orly Airport", city: "Paris", country: "France", iata: "ORY", icao: "LFPO" },
+  { name: "Nice Côte d'Azur Airport", city: "Nice", country: "France", iata: "NCE", icao: "LFMN" },
+  { name: "Lyon-Saint Exupéry Airport", city: "Lyon", country: "France", iata: "LYS", icao: "LFLL" },
+  
+  // Spain
+  { name: "Madrid-Barajas Airport", city: "Madrid", country: "Spain", iata: "MAD", icao: "LEMD" },
+  { name: "Barcelona-El Prat Airport", city: "Barcelona", country: "Spain", iata: "BCN", icao: "LEBL" },
+  { name: "Palma de Mallorca Airport", city: "Palma", country: "Spain", iata: "PMI", icao: "LESB" },
+  { name: "Málaga Airport", city: "Málaga", country: "Spain", iata: "AGP", icao: "LEMG" },
+  
+  // Italy
+  { name: "Rome Fiumicino Airport", city: "Rome", country: "Italy", iata: "FCO", icao: "LIRF" },
+  { name: "Milan Malpensa Airport", city: "Milan", country: "Italy", iata: "MXP", icao: "LIMC" },
+  { name: "Venice Marco Polo Airport", city: "Venice", country: "Italy", iata: "VCE", icao: "LIPZ" },
+  { name: "Naples International Airport", city: "Naples", country: "Italy", iata: "NAP", icao: "LIRN" },
+  
+  // Netherlands
+  { name: "Amsterdam Airport Schiphol", city: "Amsterdam", country: "Netherlands", iata: "AMS", icao: "EHAM" },
+  
+  // Switzerland
+  { name: "Zurich Airport", city: "Zurich", country: "Switzerland", iata: "ZUR", icao: "LSZH" },
+  { name: "Geneva Airport", city: "Geneva", country: "Switzerland", iata: "GVA", icao: "LSGG" },
+  
+  // Austria
+  { name: "Vienna International Airport", city: "Vienna", country: "Austria", iata: "VIE", icao: "LOWW" },
+  
+  // Belgium
+  { name: "Brussels Airport", city: "Brussels", country: "Belgium", iata: "BRU", icao: "EBBR" },
+  
+  // Japan
+  { name: "Tokyo Haneda Airport", city: "Tokyo", country: "Japan", iata: "HND", icao: "RJTT" },
+  { name: "Tokyo Narita International Airport", city: "Tokyo", country: "Japan", iata: "NRT", icao: "RJAA" },
+  { name: "Osaka Kansai International Airport", city: "Osaka", country: "Japan", iata: "KIX", icao: "RJBB" },
+  { name: "Nagoya Chubu Centrair International Airport", city: "Nagoya", country: "Japan", iata: "NGO", icao: "RJGG" },
+  
+  // China
+  { name: "Beijing Capital International Airport", city: "Beijing", country: "China", iata: "PEK", icao: "ZBAA" },
+  { name: "Shanghai Pudong International Airport", city: "Shanghai", country: "China", iata: "PVG", icao: "ZSPD" },
+  { name: "Guangzhou Baiyun International Airport", city: "Guangzhou", country: "China", iata: "CAN", icao: "ZGGG" },
+  { name: "Shenzhen Bao'an International Airport", city: "Shenzhen", country: "China", iata: "SZX", icao: "ZGSZ" },
+  
+  // Hong Kong
+  { name: "Hong Kong International Airport", city: "Hong Kong", country: "Hong Kong", iata: "HKG", icao: "VHHH" },
+  
+  // Singapore
+  { name: "Singapore Changi Airport", city: "Singapore", country: "Singapore", iata: "SIN", icao: "WSSS" },
+  
+  // South Korea
+  { name: "Seoul Incheon International Airport", city: "Seoul", country: "South Korea", iata: "ICN", icao: "RKSI" },
+  { name: "Seoul Gimpo International Airport", city: "Seoul", country: "South Korea", iata: "GMP", icao: "RKSS" },
+  
+  // India
+  { name: "Delhi Indira Gandhi International Airport", city: "Delhi", country: "India", iata: "DEL", icao: "VIDP" },
+  { name: "Mumbai Chhatrapati Shivaji International Airport", city: "Mumbai", country: "India", iata: "BOM", icao: "VABB" },
+  { name: "Bangalore Kempegowda International Airport", city: "Bangalore", country: "India", iata: "BLR", icao: "VOBL" },
+  { name: "Chennai International Airport", city: "Chennai", country: "India", iata: "MAA", icao: "VOMM" },
+  
+  // Australia
+  { name: "Sydney Kingsford Smith Airport", city: "Sydney", country: "Australia", iata: "SYD", icao: "YSSY" },
+  { name: "Melbourne Airport", city: "Melbourne", country: "Australia", iata: "MEL", icao: "YMML" },
+  { name: "Brisbane Airport", city: "Brisbane", country: "Australia", iata: "BNE", icao: "YBBN" },
+  { name: "Perth Airport", city: "Perth", country: "Australia", iata: "PER", icao: "YPPH" },
+  
+  // New Zealand
+  { name: "Auckland Airport", city: "Auckland", country: "New Zealand", iata: "AKL", icao: "NZAA" },
+  { name: "Christchurch Airport", city: "Christchurch", country: "New Zealand", iata: "CHC", icao: "NZCH" },
+  
+  // Middle East
+  { name: "Dubai International Airport", city: "Dubai", country: "United Arab Emirates", iata: "DXB", icao: "OMDB" },
+  { name: "Abu Dhabi International Airport", city: "Abu Dhabi", country: "United Arab Emirates", iata: "AUH", icao: "OMAA" },
+  { name: "Doha Hamad International Airport", city: "Doha", country: "Qatar", iata: "DOH", icao: "OTHH" },
+  { name: "Kuwait International Airport", city: "Kuwait City", country: "Kuwait", iata: "KWI", icao: "OKKK" },
+  { name: "King Abdulaziz International Airport", city: "Jeddah", country: "Saudi Arabia", iata: "JED", icao: "OEJN" },
+  { name: "King Khalid International Airport", city: "Riyadh", country: "Saudi Arabia", iata: "RUH", icao: "OERK" },
+  { name: "Tel Aviv Ben Gurion Airport", city: "Tel Aviv", country: "Israel", iata: "TLV", icao: "LLBG" },
+  
+  // Turkey
+  { name: "Istanbul Airport", city: "Istanbul", country: "Turkey", iata: "IST", icao: "LTFM" },
+  { name: "Sabiha Gökçen International Airport", city: "Istanbul", country: "Turkey", iata: "SAW", icao: "LTFJ" },
+  { name: "Ankara Esenboğa Airport", city: "Ankara", country: "Turkey", iata: "ESB", icao: "LTAC" },
+  
+  // Russia
+  { name: "Moscow Sheremetyevo International Airport", city: "Moscow", country: "Russia", iata: "SVO", icao: "UUEE" },
+  { name: "Moscow Domodedovo Airport", city: "Moscow", country: "Russia", iata: "DME", icao: "UUDD" },
+  { name: "St. Petersburg Pulkovo Airport", city: "St. Petersburg", country: "Russia", iata: "LED", icao: "ULLI" },
+  
+  // Brazil
+  { name: "São Paulo-Guarulhos International Airport", city: "São Paulo", country: "Brazil", iata: "GRU", icao: "SBGR" },
+  { name: "Rio de Janeiro-Galeão International Airport", city: "Rio de Janeiro", country: "Brazil", iata: "GIG", icao: "SBGL" },
+  { name: "Brasília International Airport", city: "Brasília", country: "Brazil", iata: "BSB", icao: "SBBR" },
+  
+  // Mexico
+  { name: "Mexico City International Airport", city: "Mexico City", country: "Mexico", iata: "MEX", icao: "MMMX" },
+  { name: "Cancún International Airport", city: "Cancún", country: "Mexico", iata: "CUN", icao: "MMUN" },
+  { name: "Guadalajara International Airport", city: "Guadalajara", country: "Mexico", iata: "GDL", icao: "MMGL" },
+  
+  // South Africa
+  { name: "Cape Town International Airport", city: "Cape Town", country: "South Africa", iata: "CPT", icao: "FACT" },
+  { name: "Johannesburg OR Tambo International Airport", city: "Johannesburg", country: "South Africa", iata: "JNB", icao: "FAJS" },
+  
+  // Egypt
+  { name: "Cairo International Airport", city: "Cairo", country: "Egypt", iata: "CAI", icao: "HECA" },
+  
+  // Thailand
+  { name: "Bangkok Suvarnabhumi Airport", city: "Bangkok", country: "Thailand", iata: "BKK", icao: "VTBS" },
+  { name: "Bangkok Don Mueang International Airport", city: "Bangkok", country: "Thailand", iata: "DMK", icao: "VTBD" },
+  { name: "Phuket International Airport", city: "Phuket", country: "Thailand", iata: "HKT", icao: "VTSP" },
+  
+  // Malaysia
+  { name: "Kuala Lumpur International Airport", city: "Kuala Lumpur", country: "Malaysia", iata: "KUL", icao: "WMKK" },
+  
+  // Indonesia
+  { name: "Jakarta Soekarno-Hatta International Airport", city: "Jakarta", country: "Indonesia", iata: "CGK", icao: "WIII" },
+  { name: "Bali Ngurah Rai International Airport", city: "Denpasar", country: "Indonesia", iata: "DPS", icao: "WADD" },
+  
+  // Philippines
+  { name: "Manila Ninoy Aquino International Airport", city: "Manila", country: "Philippines", iata: "MNL", icao: "RPLL" },
+  { name: "Cebu Mactan-Cebu International Airport", city: "Cebu", country: "Philippines", iata: "CEB", icao: "RPVM" },
+  
+  // Vietnam
+  { name: "Ho Chi Minh City Tan Son Nhat International Airport", city: "Ho Chi Minh City", country: "Vietnam", iata: "SGN", icao: "VVTS" },
+  { name: "Hanoi Noi Bai International Airport", city: "Hanoi", country: "Vietnam", iata: "HAN", icao: "VVNB" },
+  
+  // Norway
+  { name: "Oslo Gardermoen Airport", city: "Oslo", country: "Norway", iata: "OSL", icao: "ENGM" },
+  
+  // Sweden
+  { name: "Stockholm Arlanda Airport", city: "Stockholm", country: "Sweden", iata: "ARN", icao: "ESSA" },
+  
+  // Denmark
+  { name: "Copenhagen Airport", city: "Copenhagen", country: "Denmark", iata: "CPH", icao: "EKCH" },
+  
+  // Finland
+  { name: "Helsinki-Vantaa Airport", city: "Helsinki", country: "Finland", iata: "HEL", icao: "EFHK" },
+  
+  // Poland
+  { name: "Warsaw Chopin Airport", city: "Warsaw", country: "Poland", iata: "WAW", icao: "EPWA" },
+  { name: "Krakow John Paul II International Airport", city: "Krakow", country: "Poland", iata: "KRK", icao: "EPKK" },
+  
+  // Czech Republic
+  { name: "Prague Václav Havel Airport", city: "Prague", country: "Czech Republic", iata: "PRG", icao: "LKPR" },
+  
+  // Hungary
+  { name: "Budapest Ferenc Liszt International Airport", city: "Budapest", country: "Hungary", iata: "BUD", icao: "LHBP" },
+  
+  // Greece
+  { name: "Athens Eleftherios Venizelos International Airport", city: "Athens", country: "Greece", iata: "ATH", icao: "LGAV" },
+  
+  // Portugal
+  { name: "Lisbon Portela Airport", city: "Lisbon", country: "Portugal", iata: "LIS", icao: "LPPT" },
+  { name: "Porto Airport", city: "Porto", country: "Portugal", iata: "OPO", icao: "LPPR" },
+  
+  // Argentina
+  { name: "Buenos Aires Ezeiza International Airport", city: "Buenos Aires", country: "Argentina", iata: "EZE", icao: "SAEZ" },
+  
+  // Chile
+  { name: "Santiago Arturo Merino Benítez International Airport", city: "Santiago", country: "Chile", iata: "SCL", icao: "SCEL" },
+  
+  // Colombia
+  { name: "Bogotá El Dorado International Airport", city: "Bogotá", country: "Colombia", iata: "BOG", icao: "SKBO" },
+  
+  // Peru
+  { name: "Lima Jorge Chávez International Airport", city: "Lima", country: "Peru", iata: "LIM", icao: "SPJC" },
+  
+  // Kenya
+  { name: "Nairobi Jomo Kenyatta International Airport", city: "Nairobi", country: "Kenya", iata: "NBO", icao: "HKJK" },
+  
+  // Nigeria
+  { name: "Lagos Murtala Muhammed International Airport", city: "Lagos", country: "Nigeria", iata: "LOS", icao: "DNMM" },
+  
+  // Morocco
+  { name: "Casablanca Mohammed V International Airport", city: "Casablanca", country: "Morocco", iata: "CMN", icao: "GMMN" },
+];
 
 export function FlightSelection() {
   const router = useRouter();
@@ -134,19 +348,7 @@ export function FlightSelection() {
     };
   }, []);
 
-  // Debounced search function to prevent excessive calls
-  const debouncedSearch = useCallback((
-    searchFunction: (query: string) => void,
-    delay: number = 300
-  ) => {
-    let timeoutId: NodeJS.Timeout;
-    return (query: string) => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => searchFunction(query), delay);
-    };
-  }, []);
-
-  // Single-leg handlers - optimized with transitions and debouncing
+  // Single-leg handlers - optimized with transitions
   const onFromChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const v = e.target.value;
     setFrom(v);
@@ -262,58 +464,155 @@ export function FlightSelection() {
 
   // search
   const handleSearch = () => {
-    // Validate inputs
-    if(!from) {
+    // Helper function to validate if an airport input matches our database
+    const validateAirport = (input: string, suggestions: Airport[]): Airport | null => {
+      if (!input.trim()) return null;
+      
+      // Check if the input matches any suggestion exactly
+      const exactMatch = suggestions.find(airport => 
+        `${airport.name}, ${airport.city}` === input ||
+        `${airport.city}, ${airport.iata}` === input ||
+        airport.iata === input.toUpperCase() ||
+        airport.icao === input.toUpperCase()
+      );
+      
+      if (exactMatch) return exactMatch;
+      
+      // Check if the input matches any airport in our database
+      const dbMatch = airports.find(airport => 
+        airport.iata.toLowerCase() === input.toLowerCase() ||
+        airport.icao.toLowerCase() === input.toLowerCase() ||
+        airport.name.toLowerCase() === input.toLowerCase() ||
+        airport.city.toLowerCase() === input.toLowerCase() ||
+        `${airport.city}, ${airport.iata}`.toLowerCase() === input.toLowerCase() ||
+        `${airport.name}, ${airport.city}`.toLowerCase() === input.toLowerCase()
+      );
+      
+      return dbMatch || null;
+    };
+
+    // Reset all errors
+    setFromError({ isError: false, message: "" });
+    setToError({ isError: false, message: "" });
+    setDepartDateError({ isError: false, message: "" });
+    setReturnDateError({ isError: false, message: "" });
+
+    // Validate departure airport
+    if (!from) {
       setFromError({ isError: true, message: "Please enter a departure city." });
       return;
     }
-    if(airportSuggestions.length === 0) {
-      setFromError({ isError: true, message: "Please enter a valid city." });
+    
+    const fromAirport = validateAirport(from, airportSuggestions);
+    if (!fromAirport) {
+      setFromError({ isError: true, message: "Please enter a valid departure city." });
       return;
     }
-    setFrom(airportSuggestions[0].city + ", " + airportSuggestions[0].iata);
 
+    // Validate destination airport
     if (!to) {
       setToError({ isError: true, message: "Please enter a destination city." });
       return;
     }
-    if (toAirportSuggestions.length === 0) {
-      setToError({ isError: true, message: "Please enter a valid city." });
+    
+    const toAirport = validateAirport(to, toAirportSuggestions);
+    if (!toAirport) {
+      setToError({ isError: true, message: "Please enter a valid destination city." });
       return;
     }
-    setTo(toAirportSuggestions[0].city + ", " + toAirportSuggestions[0].iata);
-    
-    if(!departDate) {
+
+    // Check if departure and destination are the same
+    if (fromAirport.iata === toAirport.iata) {
+      setToError({ isError: true, message: "Departure and destination cannot be the same." });
+      return;
+    }
+
+    // Validate departure date
+    if (!departDate) {
       setDepartDateError({ isError: true, message: "Please select a departure date." });
       return;
     }
-    //for round trips
-    if (flightType == 'round-trip') {
-      setReturnDateError({ isError: true, message: "Please select a return date." });
-      return;
-    }
-    if (flightType === 'multi-city')
-    {
 
+    // Validate return date for round trips
+    if (flightType === 'round-trip') {
+      if (!returnDate) {
+        setReturnDateError({ isError: true, message: "Please select a return date." });
+        return;
+      }
+      
+      // Check if return date is after departure date
+      if (returnDate <= departDate) {
+        setReturnDateError({ isError: true, message: "Return date must be after departure date." });
+        return;
+      }
     }
-    //going to the search page
-    
-    //formating the date
+
+    // Validate multi-city legs
+    if (flightType === 'multi-city') {
+      for (let i = 0; i < legs.length; i++) {
+        const leg = legs[i];
+        
+        if (!leg.from) {
+          // Focus on the specific leg with error
+          setFromError({ isError: true, message: `Please enter departure city for flight ${i + 1}.` });
+          return;
+        }
+        
+        if (!leg.to) {
+          setToError({ isError: true, message: `Please enter destination city for flight ${i + 1}.` });
+          return;
+        }
+        
+        if (!leg.date) {
+          setDepartDateError({ isError: true, message: `Please select date for flight ${i + 1}.` });
+          return;
+        }
+        
+        // Validate that leg airports exist in our database
+        const legFromAirport = validateAirport(leg.from, legFromSuggestions[i] || []);
+        const legToAirport = validateAirport(leg.to, legToSuggestions[i] || []);
+        
+        if (!legFromAirport) {
+          setFromError({ isError: true, message: `Invalid departure city for flight ${i + 1}.` });
+          return;
+        }
+        
+        if (!legToAirport) {
+          setToError({ isError: true, message: `Invalid destination city for flight ${i + 1}.` });
+          return;
+        }
+        
+        if (legFromAirport.iata === legToAirport.iata) {
+          setToError({ isError: true, message: `Departure and destination cannot be the same for flight ${i + 1}.` });
+          return;
+        }
+      }
+    }
+
+    // Format standardized airport names for URL
+    const standardizedFrom = `${fromAirport.city}, ${fromAirport.iata}`;
+    const standardizedTo = `${toAirport.city}, ${toAirport.iata}`;
+
+    // Update the form fields with standardized values
+    setFrom(standardizedFrom);
+    setTo(standardizedTo);
+
+    // Format the dates
     const ddate = departDate ? departDate.toISOString().split('T')[0] : "";
     const rdate = returnDate ? returnDate.toISOString().split('T')[0] : "";
+    
     const params = new URLSearchParams({
       flightType,
-      from,
-      to,
+      from: standardizedFrom,
+      to: standardizedTo,
       departDate: ddate,
       returnDate: rdate,
       travelers: `${counts.adults} Adult${counts.adults > 1 ? "s" : ""}`,
       classType,
       legs: flightType === "multi-city" ? JSON.stringify(legs) : "",
-    })
+    });
+    
     router.push(`/flight-search?${params.toString()}`);
-
-   
   };
 
   return (
@@ -368,8 +667,8 @@ export function FlightSelection() {
           aria-label="Adult passengers"
           className="mb-2 min-w-0"
         >
-          <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 items-center justify-center sm:justify-start space-x-4 pt-10">
-            <Users className="h-4 w-4 text-pink-500 " /> Adults
+          <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 justify-center sm:justify-start pt-10">
+            <Users className="h-4 w-4 text-pink-500" /> Adults
           </Label>
           <div className="flex items-center justify-center sm:justify-start space-x-4">
             <span className="sr-only">Adults</span>
@@ -409,7 +708,7 @@ export function FlightSelection() {
           aria-label="Child passengers"
           className="mb-2 min-w-0"
         >
-          <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 items-center justify-center sm:justify-start space-x-4">
+          <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 justify-center sm:justify-start">
             <Users className="h-4 w-4 text-pink-500" /> Children
           </Label>
           <div className="flex items-center justify-center sm:justify-start space-x-4">

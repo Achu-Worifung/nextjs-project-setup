@@ -1,6 +1,6 @@
 "use client";
 import { HotelData } from "@/lib/types";
-import { Star, MapPin, Heart } from "lucide-react";
+import { Star, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface HotelCardProps {
@@ -57,15 +57,6 @@ export function HotelCard({ hotel, onHotelClick }: HotelCardProps) {
         {/* Simple overlay on hover */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300" />
         
-        {/* Heart button */}
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="absolute top-4 right-4 h-10 w-10 bg-white/95 hover:bg-white backdrop-blur-sm rounded-full shadow-lg border border-white/20"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <Heart className="h-4 w-4 text-gray-600 hover:text-red-500 transition-colors" />
-        </Button>
 
         {/* Savings badge */}
         {hasOriginalPrice && (

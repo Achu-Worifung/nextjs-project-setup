@@ -3,23 +3,21 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import EditProfileForm from "@/components/ui/editProfileForm";
-import NotificationForm from "@/components/ui/notificationForm";
 import SecurityForm from "@/components/ui/securityform";
-import AppearanceForm from "@/components/ui/appearanceForm";
-import HelpForm from "@/components/ui/helpForm";
+import PaymentMethodsForm from "@/components/ui/payment-form";
+
+
+import { UserLock, Pencil , CreditCard  } from 'lucide-react';
 
 const sidebarOptions = [
-  { key: "edit", label: "Edit profile", icon: "/pen.svg" },
-  { key: "notification", label: "Notification", icon: "/noti-bell.svg" },
-  { key: "security", label: "Security", icon: "/lock.svg" },
-  { key: "appearance", label: "Appearance", icon: "/setting-gear.svg" },
-  { key: "help", label: "Help", icon: "/help.svg" },
+  { key: "edit", label: "Edit profile", icon: <Pencil className="size-5"/> },
+  { key: "payment", label: "Payment", icon: <CreditCard className="size-5"/> },
+  { key: "security", label: "Security", icon: <UserLock className="size-5"/> },
 ];
 
 export default function ProfileSettingPage() {
   const [activeTab, setActiveTab] = useState("edit");
-
-  const activeOption = sidebarOptions.find(option => option.key === activeTab);
+  // const activeOption = sidebarOptions.find(option => option.key === activeTab);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
@@ -34,29 +32,19 @@ export default function ProfileSettingPage() {
           </div>
           
           {/* Mobile Horizontal Scrollable Tabs */}
-          <div className="px-4 pb-4 bg-white">
-            <div className="flex space-x-2 overflow-x-auto scrollbar-hide pb-2">
+          <div className="px-4 pb-4 ">
+            <div className="flex space-x-2 overflow-x-auto scrollbar-hide pb-2 justify-center">
               {sidebarOptions.map((option) => (
                 <button
                   key={option.key}
-                  className={`flex-shrink-0 flex flex-col items-center gap-2 px-4 py-3 rounded-xl transition-all duration-200 min-w-[80px]
+                  className={`pt-2 flex-shrink-0 flex flex-col items-center gap-2 px-4 py-3 rounded-xl transition-all duration-200 min-w-[80px]
                     ${activeTab === option.key
                       ? "bg-blue-50 text-blue-700 border-2 border-blue-200 shadow-sm"
                       : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 border-2 border-transparent"}
                   `}
                   onClick={() => setActiveTab(option.key)}
                 >
-                  <div className={`p-2 rounded-lg transition-colors ${
-                    activeTab === option.key 
-                      ? "bg-blue-100" 
-                      : "bg-gray-100"
-                  }`}>
-                    <img 
-                      src={option.icon} 
-                      alt={option.label} 
-                      className="w-5 h-5"
-                    />
-                  </div>
+
                   <span className="font-medium text-xs text-center leading-tight">{option.label}</span>
                 </button>
               ))}
@@ -65,7 +53,7 @@ export default function ProfileSettingPage() {
         </div>
 
         {/* Desktop Sidebar */}
-        <aside className="hidden lg:flex w-80 bg-white shadow-lg rounded-r-2xl flex-col min-h-screen">
+        <aside className="hidden lg:flex w-80  flex-col min-h-screen">
           {/* Header */}
           <div className="p-8 border-b border-gray-200">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Settings</h2>
@@ -78,7 +66,7 @@ export default function ProfileSettingPage() {
               {sidebarOptions.map((option) => (
                 <li key={option.key} className="relative">
                   <button
-                    className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group
+                    className={`w-full flex items-center gap-4 px-4 py-1 rounded-xl transition-all duration-200 group
                       ${activeTab === option.key
                         ? "bg-blue-50 text-blue-700 shadow-sm border border-blue-200"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"}
@@ -90,11 +78,7 @@ export default function ProfileSettingPage() {
                         ? "bg-blue-100" 
                         : "bg-gray-100 group-hover:bg-gray-200"
                     }`}>
-                      <img 
-                        src={option.icon} 
-                        alt={option.label} 
-                        className="w-5 h-5"
-                      />
+                      {option.icon}
                     </div>
                     <span className="font-medium">{option.label}</span>
                   </button>
@@ -112,17 +96,13 @@ export default function ProfileSettingPage() {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8">
-          <div className="bg-white rounded-lg lg:rounded-2xl shadow-lg min-h-[400px] lg:min-h-[600px]">
-            <div className="p-4 sm:p-6 lg:p-8">
+        <div className="flex-1 p-1 sm:p-6 lg:p-8 min-h-[400px] lg:min-h-[600px]" >
+            <div className="p-2 sm:p-6 lg:p-8"> 
               {activeTab === "edit" && <EditProfileForm />}
-              {activeTab === "notification" && <NotificationForm />}
               {activeTab === "security" && <SecurityForm />}
-              {activeTab === "appearance" && <AppearanceForm />}
-              {activeTab === "help" && <HelpForm />}
-            </div>
+              {activeTab === "payment" && <PaymentMethodsForm />}
           </div>
-        </main>
+        </div>
       </div>
     </div>
   );
