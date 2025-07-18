@@ -65,24 +65,44 @@ const FlightSearchPage = () => {
   const [editTravelers, setEditTravelers] = useState(originalTravelers);
 
   // Generate flight data based on search parameters
-  const [flightData] = useState<Flight[]>(() => {
-    const departDate = originalDepartDate || format(new Date(), "yyyy-MM-dd");
-    console.log("Generating flights for date:", departDate);
-    const flights = generateFakeFlights(departDate, 10);
-    console.log("Generated flights:", flights);
-    console.log("Number of flights generated:", flights.length);
-    return flights;
-  });
+  const [flightData, setFlightData] = useState<Flight[] | null>(null);
+
+  //getting the flight data from the microservice
+  useEffect(() => {
+    const fetchFlightData = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8000/flights?departure_date=" +
+            format(originalDepartDate, "yyyy-MM-dd") +
+            "&count=20",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Client-ID": "test-client-id",
+            },
+          }
+        );
+        const data = await response.json();
+        console.log("Flight data:", data);
+        setFlightData(data);
+      } catch (error) {
+        console.error("Error fetching flight data:", error);
+      }
+    };
+
+    fetchFlightData();
+  }, []);
 
   // Filter states
   const [priceRange, setPriceRange] = useState<number[]>([0, 5000]); // Increased range to show all flights
   const [selectedAirlines, setSelectedAirlines] = useState<string[]>([]);
   const [selectedStops, setSelectedStops] = useState<string[]>([]);
-  const [filteredFlights, setFilteredFlights] = useState<Flight[]>(flightData);
+  const [filteredFlights, setFilteredFlights] = useState<Flight[]>([]);
   const [sortBy, setSortBy] = useState("price");
 
   // Get unique values for filters
-  const airlines = getUniqueAirlines(flightData);
+  const airlines = getUniqueAirlines(flightData ?? []);
 
   // Handle search with new parameters
   const handleNewSearch = () => {
@@ -123,6 +143,7 @@ const FlightSearchPage = () => {
 
   // Update your useEffect for filtering
   useEffect(() => {
+    if (!flightData) return;
     // Start with all flights
     let filtered = [...flightData];
 
@@ -130,7 +151,9 @@ const FlightSearchPage = () => {
     if (priceRange[0] > 0 || priceRange[1] < 5000) {
       filtered = filtered.filter((flight) => {
         // Get the lowest price from all classes
-        const lowestPrice = Math.min(...Object.values(flight.prices));
+        const lowestPrice = Math.min(
+          ...Object.values(flight.prices as Record<string, number>)
+        );
         return lowestPrice >= priceRange[0] && lowestPrice <= priceRange[1];
       });
     }
@@ -153,8 +176,12 @@ const FlightSearchPage = () => {
       switch (sortBy) {
         case "price":
           sortedFiltered.sort((a, b) => {
-            const priceA = Math.min(...Object.values(a.prices));
-            const priceB = Math.min(...Object.values(b.prices));
+            const priceA = Math.min(
+              ...Object.values(a.prices as Record<string, number>)
+            );
+            const priceB = Math.min(
+              ...Object.values(b.prices as Record<string, number>)
+            );
             return priceA - priceB;
           });
           break;
@@ -213,10 +240,11 @@ const FlightSearchPage = () => {
     router.push(`/flight-details?${flightParams.toString()}`);
   };
 
+  if (!flightData) return null;
   return (
     <div className="min-h-screen bg-brand-gray-50 dark:bg-[rgb(20,25,30)]">
       {/* Header with Search Summary */}
-      <div className="bg-white shadow-sm border-brand-gray-200 dark:bg-[rgb(25,30,36)] dark:border-brand-gray-700">
+      <div className="bg-white shadow-sm border-gray-200 dark:bg-[rgb(25,30,36)] dark:border-brand-gray-700">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -243,16 +271,10 @@ const FlightSearchPage = () => {
                   }
                   className="dark:bg-[rgb(25,30,36)] dark:text-white w-full px-4 py-3 border border-brand-gray-300 rounded-lg focus:ring-1 focus:ring-brand-pink-500 focus:border-brand-pink-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12 "
                 >
-                  <option
-                    value="one-way"
-                    className=""
-                  >
+                  <option value="one-way" className="">
                     One Way
                   </option>
-                  <option
-                    value="round-trip"
-                    className=""
-                  >
+                  <option value="round-trip" className="">
                     Round Trip
                   </option>
                 </select>
