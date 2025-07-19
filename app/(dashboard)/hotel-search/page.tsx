@@ -282,7 +282,7 @@ export default function HotelSearchPage() {
   };
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div data-testid="hotel-card" className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
         {/* Enhanced Search Form */}
         <div className="bg-white shadow-lg border-b sticky top-0 z-50">
           <div className="max-w-7xl mx-auto p-6">
@@ -549,7 +549,10 @@ export default function HotelSearchPage() {
       </div>
 
       {/* Main Content */}
-      <div className="p-6">
+      <div 
+      id="hotel-card" 
+      data-testid="hotel-card"
+      className="p-6">
         <div className="max-w-7xl mx-auto">
           {/* Results Header */}
           <div className="mb-6 flex justify-between items-center">
@@ -580,7 +583,10 @@ export default function HotelSearchPage() {
             </div>
 
             {/* Hotels List */}
-            <div className="flex-1">
+            <div
+            id="hotel-card" 
+            data-testid="hotel-card"
+            className="flex-1">
               {filteredHotels && filteredHotels.length > 0 ? (
                 <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                   {filteredHotels.map((hotel, idx) => (

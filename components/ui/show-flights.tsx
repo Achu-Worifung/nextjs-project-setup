@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Popover,
   PopoverContent,
@@ -230,166 +229,148 @@ const FlightSearchPage = () => {
               {filteredFlights.length} flights found
             </Badge>
           </div>
-          {/* Search Form - Always Visible - Single Row */}
-          <div className="p-4 bg-gray-50 rounded-lg mb-4">
-            <div className="flex flex-wrap gap-3 items-end">
-              {/* Flight Type */}
-              <div className="flex-shrink-0">
-                <Label className="text-sm font-medium text-gray-700 mb-2 block">
-                  Flight Type
+          {/* Search Form - Compact Single Line Design */}
+          <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
+              {/* Trip Type Dropdown */}
+              <div className="lg:col-span-2">
+                <Label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
+                  Trip Type
                 </Label>
-                <div className="flex gap-2">
-                  <RadioGroup
-                    value={editFlightType}
-                    onValueChange={setEditFlightType}
-                    className="flex gap-4"
-                  >
-                    <div className="flex items-center space-x-1">
-                      <RadioGroupItem value="one-way" id="edit-one-way" />
-                      <Label
-                        htmlFor="edit-one-way"
-                        className="text-xs whitespace-nowrap"
-                      >
-                        One Way
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <RadioGroupItem value="round-trip" id="edit-round-trip" />
-                      <Label
-                        htmlFor="edit-round-trip"
-                        className="text-xs whitespace-nowrap"
-                      >
-                        Round Trip
-                      </Label>
-                    </div>
-                  </RadioGroup>
-                </div>
+                <select
+                  value={editFlightType}
+                  onChange={(e) => setEditFlightType(e.target.value as "one-way" | "round-trip")}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12"
+                >
+                  <option value="one-way">One Way</option>
+                  <option value="round-trip">Round Trip</option>
+                </select>
               </div>
 
               {/* From */}
-              <div className="flex-shrink-0 min-w-[140px]">
-                <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
-                  <PlaneTakeoff className="h-3 w-3 text-blue-500" />
+              <div className="lg:col-span-2">
+                <Label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
+                  <PlaneTakeoff className="h-4 w-4 text-blue-600" />
                   From
                 </Label>
-                <input
-                  type="text"
-                  value={editFrom}
-                  onChange={(e) => setEditFrom(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm h-10"
-                  placeholder="Departure city"
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={editFrom}
+                    onChange={(e) => setEditFrom(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12"
+                    placeholder="Departure city"
+                  />
+                </div>
               </div>
 
               {/* Swap Button */}
-              <div className="flex-shrink-0">
-                <div className="mb-2 h-5"></div> {/* Spacer for alignment */}
+              <div className="lg:col-span-1 flex justify-center">
+                <div className="mb-2 h-5"></div>
                 <Button
                   type="button"
                   variant="outline"
                   size="sm"
                   onClick={handleSwapLocations}
-                  className="p-2 rounded-full h-10 w-10"
+                  className="p-3 rounded-full h-12 w-12 border-2 border-blue-200 hover:border-blue-500 hover:bg-blue-50 transition-all duration-200"
                 >
-                  <ArrowLeftRight className="h-4 w-4" />
+                  <ArrowLeftRight className="h-5 w-5 text-blue-600" />
                 </Button>
               </div>
 
               {/* To */}
-              <div className="flex-shrink-0 min-w-[140px]">
-                <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
-                  <PlaneLanding className="h-3 w-3 text-blue-500" />
+              <div className="lg:col-span-2">
+                <Label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
+                  <PlaneLanding className="h-4 w-4 text-blue-600" />
                   To
                 </Label>
-                <input
-                  type="text"
-                  value={editTo}
-                  onChange={(e) => setEditTo(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm h-10"
-                  placeholder="Destination city"
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={editTo}
+                    onChange={(e) => setEditTo(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12"
+                    placeholder="Destination city"
+                  />
+                </div>
               </div>
 
-              {/* Depart Date */}
-              <div className="flex-shrink-0 min-w-[140px]">
-                <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
-                  <CalendarDays className="h-3 w-3 text-blue-500" />
-                  Depart
+              {/* Date Range Picker */}
+              <div className="lg:col-span-2">
+                <Label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
+                  <CalendarDays className="h-4 w-4 text-blue-600" />
+                  {editFlightType === "round-trip" ? "Departure & Return" : "Departure"}
                 </Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-full justify-start text-left font-normal text-xs h-10",
+                        "w-full justify-start text-left font-medium text-sm h-12 px-4 shadow-sm hover:shadow-md transition-all duration-200",
                         !editDepartDate && "text-muted-foreground"
                       )}
                     >
-                      <CalendarDays className="mr-2 h-3 w-3" />
-                      {editDepartDate
-                        ? format(editDepartDate, "MMM dd")
+                      <CalendarDays className="mr-2 h-4 w-4 text-blue-600" />
+                      {editDepartDate && editFlightType === "round-trip" && editReturnDate
+                        ? `${format(editDepartDate, "MMM dd")} - ${format(editReturnDate, "MMM dd")}`
+                        : editDepartDate
+                        ? format(editDepartDate, "MMM dd, yyyy")
                         : "Select date"}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={editDepartDate}
-                      onSelect={setEditDepartDate}
-                      disabled={(date) => date < new Date()}
-                      initialFocus
-                    />
+                    <div className="p-4">
+                      {editFlightType === "round-trip" ? (
+                        <div className="flex flex-col lg:flex-row gap-4">
+                          <div>
+                            <Label className="text-sm font-medium mb-2 block">Departure Date</Label>
+                            <Calendar
+                              mode="single"
+                              selected={editDepartDate}
+                              onSelect={setEditDepartDate}
+                              disabled={(date) => date < new Date()}
+                              initialFocus
+                            />
+                          </div>
+                          <div>
+                            <Label className="text-sm font-medium mb-2 block">Return Date</Label>
+                            <Calendar
+                              mode="single"
+                              selected={editReturnDate}
+                              onSelect={setEditReturnDate}
+                              disabled={(date) =>
+                                date < (editDepartDate || new Date())
+                              }
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        <div>
+                          <Label className="text-sm font-medium mb-2 block">Departure Date</Label>
+                          <Calendar
+                            mode="single"
+                            selected={editDepartDate}
+                            onSelect={setEditDepartDate}
+                            disabled={(date) => date < new Date()}
+                            initialFocus
+                          />
+                        </div>
+                      )}
+                    </div>
                   </PopoverContent>
                 </Popover>
               </div>
 
-              {/* Return Date (if round-trip) */}
-              {editFlightType === "round-trip" && (
-                <div className="flex-shrink-0 min-w-[140px]">
-                  <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
-                    <CalendarDays className="h-3 w-3 text-blue-500" />
-                    Return
-                  </Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className={cn(
-                          "w-full justify-start text-left font-normal text-xs h-10",
-                          !editReturnDate && "text-muted-foreground"
-                        )}
-                      >
-                        <CalendarDays className="mr-2 h-3 w-3" />
-                        {editReturnDate
-                          ? format(editReturnDate, "MMM dd")
-                          : "Select date"}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={editReturnDate}
-                        onSelect={setEditReturnDate}
-                        disabled={(date) =>
-                          date < (editDepartDate || new Date())
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-              )}
-
               {/* Travelers */}
-              <div className="flex-shrink-0 min-w-[140px]">
-                <Label className="flex items-center gap-1 text-sm font-medium text-gray-700 mb-2">
-                  <Users className="h-3 w-3 text-blue-500" />
-                  Travelers
+              <div className="lg:col-span-2">
+                <Label className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
+                  <Users className="h-4 w-4 text-blue-600" />
+                  Travelers & Class
                 </Label>
                 <select
                   value={editTravelers}
                   onChange={(e) => setEditTravelers(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm h-10"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium shadow-sm transition-all duration-200 hover:shadow-md h-12"
                 >
                   <option value="1 adult, Economy">1 Adult, Economy</option>
                   <option value="1 adult, Business">1 Adult, Business</option>
@@ -401,14 +382,13 @@ const FlightSearchPage = () => {
               </div>
 
               {/* Search Button */}
-              <div className="flex-shrink-0">
-                <div className="mb-2 h-5"></div> {/* Spacer for alignment */}
+              <div className="lg:col-span-1">
+                <div className="mb-2 h-5"></div>
                 <Button
                   onClick={handleNewSearch}
-                  className="bg-blue-600 hover:bg-blue-700 text-white h-10 px-6"
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white h-12 px-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
                 >
-                  <Search className="h-4 w-4 mr-2" />
-                  Search
+                  <Search className="h-5 w-5" />
                 </Button>
               </div>
             </div>

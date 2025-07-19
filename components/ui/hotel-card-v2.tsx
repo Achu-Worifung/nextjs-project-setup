@@ -38,7 +38,7 @@ export function HotelCard({ hotel }: { hotel: hotel_type }) {
   };
 
   return (
-    <div 
+    <div data-testid="hotel-card"
       className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer overflow-hidden hover:border-gray-200"
       onClick={handleClick}
     >

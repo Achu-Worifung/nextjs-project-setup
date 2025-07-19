@@ -22,13 +22,32 @@ export function DestinationCard({
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
-    <div className="group relative flex flex-col rounded-xl overflow-hidden shadow-lg bg-white hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 h-[414px] w-[264px] cursor-pointer">
+    // Removed hover:scale-[1.02] and hover:-translate-y-3 from the main div
+    <div className="group relative flex flex-col bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-in-out h-[450px] w-[300px] cursor-pointer overflow-hidden border border-gray-100">
+      {/* Favorite Button */}
+        <button
+          onClick={() => setIsLiked(!isLiked)}
+          className="absolute top-3 right-3 p-2 z-50 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-200 shadow-lg"
+        >
+          <Heart
+            className={`w-4 h-4 transition-colors ${
+              isLiked ? 'fill-red-500 text-red-500' : 'text-gray-600'
+            }`}
+          />
+        </button>
+
+        {/* Price Badge */}
+        <div className="absolute top-3 left-3 px-3 py-1 z-50 bg-pink-500 text-white rounded-full text-sm font-semibold shadow-lg">
+          ${price}k
+        </div>
+      
       {/* Image Container */}
       <div className="relative w-full h-[70%] overflow-hidden">
         <Image
           src={image}
           alt={title}
           fill
+          // The image itself will scale on group hover
           className={`object-cover transition-all duration-300 group-hover:scale-105 ${
             imageLoaded ? 'opacity-100' : 'opacity-0'
           }`}
@@ -39,23 +58,6 @@ export function DestinationCard({
             <div className="w-12 h-12 bg-gray-400 rounded-full opacity-50" />
           </div>
         )}
-        
-        {/* Favorite Button */}
-        <button
-          onClick={() => setIsLiked(!isLiked)}
-          className="absolute top-3 right-3 p-2 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-200 shadow-lg"
-        >
-          <Heart
-            className={`w-4 h-4 transition-colors ${
-              isLiked ? 'fill-red-500 text-red-500' : 'text-gray-600'
-            }`}
-          />
-        </button>
-
-        {/* Price Badge */}
-        <div className="absolute top-3 left-3 px-3 py-1 bg-pink-500 text-white rounded-full text-sm font-semibold shadow-lg">
-          ${price}k
-        </div>
       </div>
 
       {/* Content */}

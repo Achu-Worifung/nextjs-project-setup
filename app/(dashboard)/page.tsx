@@ -7,6 +7,7 @@ import { TopHotels } from "@/components/ui/top-hotels";
 import { InfiniteScroll } from "@/components/ui/infinite-scroll";
 import { TravelPoint } from "@/components/ui/travel-point";
 import { Footer } from "@/components/ui/footer";
+import { apiHelpers, API_ENDPOINTS } from '../../lib/api-config';
 
 import { CarouselDemo } from "@/components/ui/search-carousel";
 export default function Home() {

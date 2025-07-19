@@ -17,7 +17,6 @@ import {
   NavigationMenuTrigger,
   //  NavigationMenuContent,
   // NavigationMenuLink,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu"
 import {ModeToggle} from '@/components/mode-to-toggle'
 import { useTheme } from "next-themes";
@@ -32,8 +31,7 @@ export default function Navbar() {
 
   const router = useRouter();
 
-  // // TODO: Replace this with your actual authentication logic
-  // const isSignedIn = false;
+
 
   const changeNav = (route: string) =>
   {
@@ -171,22 +169,11 @@ export default function Navbar() {
     >
       {label}
     </Link>
-  ) : label === "Cars" ? (
-    <Link
-      key={label}
-      href="/carBooking"
-      className={`px-2 py-1 hover:bg-black/10 rounded ${
-        theme === "dark" ? "text-white" : "text-gray-900"
-      }`}
-      onClick={() => setMobileOpen(false)}
-    >
-      {label}
-    </Link>
   ) : (
     <div
       key={label}
       onClick={() => {
-        changeNav(label);
+        changeNav(label === "Cars" ? "Vehicles" : label);
         setMobileOpen(false);
       }}
       className={`px-2 py-1 hover:bg-black/10 rounded cursor-pointer ${
@@ -206,19 +193,7 @@ export default function Navbar() {
         Sign In
       </Link>
     )}
-    {isSignedIn && (
-      <div className="mt-4">
-        <Link href="/profileSetting" onClick={() => setMobileOpen(false)}>
-          <button className="p-0 bg-transparent border-none">
-            <ProfileBubble
-              name="Alan Rivera"
-              avatarUrl="/demoprofile.jpg"
-              size={50}
-            />
-          </button>
-        </Link>
-      </div>
-    )}
+    {isSignedIn && token && renderAuthButton()}
   </div>
 )}
 

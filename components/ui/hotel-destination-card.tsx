@@ -1,9 +1,7 @@
 import { MapPinHouse, User, MoveRight, Star, Wifi, Car, Coffee } from 'lucide-react';
-import Image from 'next/image';
-
 
 export function HotelDestinationCard({
-  image,
+  image, 
   title,
   price,
   description,
@@ -19,27 +17,29 @@ export function HotelDestinationCard({
   key?: string | number;
   location: string;
   capacity: number;
-}) {  return (
-    <div className="group relative flex flex-col bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-in-out h-[450px] w-[300px] cursor-pointer overflow-hidden border border-gray-100 hover:-translate-y-3 hover:scale-[1.02]">
+}) {
+  return (
+    <div className="group relative flex flex-col bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-in-out h-[450px] w-[300px] cursor-pointer overflow-hidden border border-gray-100">
       {/* Image Section with Overlay */}
       <div className="relative h-[50%] overflow-hidden rounded-t-2xl">
-        <Image 
-          src={image} 
-          alt={title}
-          width={300}
-          height={225}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
+        {/* This div is now the one that scales */}
+        <div className="w-full h-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
+          <div className="text-center text-blue-600">
+            <div className="text-4xl mb-2">🏨</div>
+            <p className="text-sm font-medium px-4">{title}</p>
+          </div>
+        </div>
+        {/* Overlay is a sibling of the scaling image, so it won't scale itself, but its opacity changes */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        
-        {/* Rating Badge */}
-        <div className="absolute top-4 left-4 bg-white/90 rounded-full px-3 py-1 flex items-center gap-1 backdrop-blur-sm">
+
+        {/* Rating Badge - Remains static relative to the card */}
+        <div className="absolute top-4 left-4 bg-white/90 rounded-full px-3 py-1 flex items-center gap-1 backdrop-blur-sm z-10">
           <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
           <span className="text-xs font-semibold">4.8</span>
         </div>
         
-        {/* Amenities */}
-        <div className="absolute top-4 right-4 flex gap-2">
+        {/* Amenities - Remain static relative to the card */}
+        <div className="absolute top-4 right-4 flex gap-2 z-10">
           <div className="bg-white/90 rounded-full p-1.5 backdrop-blur-sm">
             <Wifi className="h-3 w-3 text-gray-600" />
           </div>
@@ -51,8 +51,8 @@ export function HotelDestinationCard({
           </div>
         </div>
         
-        {/* Days Badge */}
-        <div className="absolute bottom-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-medium">
+        {/* Days Badge - Remains static relative to the card */}
+        <div className="absolute bottom-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-medium z-10">
           {days}
         </div>
       </div>
