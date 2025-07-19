@@ -393,3 +393,50 @@ export interface HotelData {
   finePrint: string;
   faqs: { question: string; answer: string }[];
 }
+
+
+export interface FlightBookingResponse {
+  message: string;
+  flight_details: FlightDetails;
+}
+
+export interface FlightDetails {
+  flightbookingid: string;
+  userid: string;
+  inventoryid: string;
+  numberseats: number;
+  seatprice: number;
+  flightdetails: FlightInfo;
+  tripid: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface FlightInfo {
+  gate: string;
+  meal: boolean;
+  stops: any[]; // You can define a Stop interface if needed
+  prices: {
+    First: number;
+    Economy: number;
+    Business: number;
+  };
+  status: string;
+  airline: string;
+  aircraft: string;
+  duration: string;
+  terminal: string;
+  bookingUrl: string;
+  arrivalTime: string;
+  choosenSeat: string;
+  flightNumber: string;
+  departureTime: string;
+  numberOfStops: number;
+  availableSeats: {
+    First: number;
+    Economy: number;
+    Business: number;
+  };
+  departureAirport: string;
+  destinationAirport: string;
+}
