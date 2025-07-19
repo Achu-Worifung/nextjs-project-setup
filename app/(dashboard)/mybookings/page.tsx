@@ -8,10 +8,13 @@ import { bookingService } from '@/lib/booking-service';
 import { useRouter } from 'next/navigation';
 import { Fragment } from 'react';
 interface Booking {
+  bookingId: string;
+  createdAt: string;
+  totalamount: number;
   bookingid: string;
   paymentId: string;
   userId: string;
-  bookingtype: string;
+  serviceType: string;
   totalpaid: number;
   bookingStatus: string;
   location?: string;
@@ -71,16 +74,29 @@ export default function MyBooking() {
         if (res.status !== 200) {
           console.error('Failed to fetch bookings:', res.statusText);
         setError('Failed to load bookings. Please try again.');
+        return;
         }
         console.log('Fetching all bookings for user');
         const bookingsData = await res.json();
-        const allBookings: Booking[] = bookingsData.bookings || [];
-
-
-        console.log('Fetched all bookings:', allBookings);
-
+        // Map backend fields to frontend Booking interface
+        const allBookings: Booking[] = (bookingsData.bookings || []).map((b: Record<string, any>) => ({
+          bookingid: b.bookingid,
+          bookingId: b.bookingid, // for key usage
+          booking_reference: b.booking_reference,
+          paymentId: b.paymentid,
+          userId: b.userid,
+          serviceType: b.bookingtype,
+          totalamount: b.totalamount,
+          totalpaid: b.totalamount, // for display
+          bookingStatus: b.bookingstatus || 'Confirmed', // fallback if not present
+          createdAt: b.created_at,
+          updatedAt: b.updated_at,
+          location: b.location,
+          provider: b.provider_id,
+          tripId: b.trip_id,
+        }));
+        console.log('Fetched bookings:', allBookings);
         setBookings(allBookings);
-
         if (!allBookings || allBookings.length === 0) {
           console.log('No bookings found for user');
         }
@@ -93,26 +109,26 @@ export default function MyBooking() {
     };
 
     fetchBookings();
-  }, [isSignedIn, router]);
+  }, [isSignedIn, router, token]);
 
   // Check if cancellation is allowed (booking time hasn't passed)
   const isCancellationAllowed = (booking: Booking): boolean => {
     const now = new Date();
 
     // For flights, check departure time
-    if (booking.bookingtype === 'Flight' && booking.departureTime) {
+    if (booking.serviceType === 'Flight' && booking.departureTime) {
       const departureTime = new Date(booking.departureTime);
       return departureTime > now;
     }
 
     // For hotels, check check-in date
-    if (booking.bookingtype === 'Hotel' && booking.checkInDate) {
+    if (booking.serviceType === 'Hotel' && booking.checkInDate) {
       const checkInDate = new Date(booking.checkInDate);
       return checkInDate > now;
     }
 
     // For cars, check pickup date
-    if (booking.bookingtype === 'Car' && booking.pickupDate) {
+    if (booking.serviceType === 'Car' && booking.pickupDate) {
       const pickupDate = new Date(booking.pickupDate);
       return pickupDate > now;
     }
@@ -130,7 +146,7 @@ export default function MyBooking() {
       setDetailsLoading(true);
 
       // Fetch detailed booking information
-      const detailsResult = await bookingService.getBookingDetails(booking.bookingid, booking.bookingtype);
+      const detailsResult = await bookingService.getBookingDetails(booking.bookingid, booking.serviceType);
 
       if (detailsResult.success && detailsResult.booking) {
         // Update selectedBooking with detailed information
@@ -159,7 +175,7 @@ export default function MyBooking() {
 
     try {
       setCancelLoading(true);
-      const result = await bookingService.cancelBooking(selectedBooking.bookingid, selectedBooking.bookingtype);
+      const result = await bookingService.cancelBooking(selectedBooking.bookingid, selectedBooking.serviceType);
 
       if (result.success) {
         // Update the booking status in the local state
@@ -354,9 +370,9 @@ export default function MyBooking() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200 dark:bg-[rgb(25,30,36)] dark:divide-brand-gray-700">
-                {Array.isArray(filteredBookings) && filteredBookings.map((booking: Booking) => (
+                { filteredBookings.map((booking: Booking) => (
                   <tr
-                    key={booking.bookingid}
+                    key={booking.bookingId}
                     className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer dark:hover:bg-[rgb(40,47,54)]"
                     onClick={() => handleBookingClick(booking)}
                   >
@@ -364,17 +380,17 @@ export default function MyBooking() {
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
                           <div className="h-10 w-10 rounded-full bg-brand-pink-100 flex items-center justify-center dark:bg-brand-pink-900">
-                            <span className="text-lg">{getTypeIcon(booking.bookingtype)}</span>
+                            <span className="text-lg">{getTypeIcon(booking.serviceType)}</span>
                           </div>
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium text-gray-900 dark:text-white">{booking.bookingid}</div>
-                          <div className="text-sm text-gray-500 dark:text-brand-gray-400">{booking.bookingtype}</div>
+                          <div className="text-sm text-gray-500 dark:text-brand-gray-400">{booking.serviceType}</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-brand-gray-200">
-                      {booking.bookingDateTime ? new Date(booking.bookingDateTime).toISOString().split('T')[0] : 'N/A'}
+                      {booking.createdAt ? new Date(booking.createdAt).toISOString().split('T')[0] : 'N/A'}
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-900 max-w-xs truncate dark:text-brand-gray-200">
                       {booking.location || 'N/A'}
@@ -383,26 +399,26 @@ export default function MyBooking() {
                       {booking.provider || 'N/A'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                      ${booking.totalpaid || '0.00'}
+                      ${booking.totalamount || '0.00'}
                     </td>
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table>  
           </div>
 
           {/* Mobile Card View */}
           <div className="lg:hidden divide-y divide-gray-200 dark:divide-brand-gray-700">
-           {Array.isArray(filteredBookings) && filteredBookings.map((booking: Booking) => (
+           {filteredBookings.map((booking: Booking) => (
               <div
-                key={booking.bookingid}
+                key={booking.bookingId}
                 className="p-4 sm:p-6 hover:bg-gray-50 transition-colors duration-150 cursor-pointer dark:hover:bg-[rgb(40,47,54)]"
                 onClick={() => handleBookingClick(booking)}
               >
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0">
                     <div className="h-12 w-12 rounded-full bg-brand-pink-100 flex items-center justify-center dark:bg-brand-pink-900">
-                      <span className="text-xl">{getTypeIcon(booking.bookingtype)}</span>
+                      <span className="text-xl">{getTypeIcon(booking.serviceType)}</span>
                     </div>
                   </div>
                   <div className="flex-1 min-w-0">
@@ -417,12 +433,12 @@ export default function MyBooking() {
                     <div className="space-y-1">
                       <div className="flex items-center justify-between">
                         <p className="text-sm text-gray-500 dark:text-brand-gray-400">Type:</p>
-                        <p className="text-sm font-medium text-gray-900 dark:text-white">{booking.bookingtype}</p>
+                        <p className="text-sm font-medium text-gray-900 dark:text-white">{booking.serviceType}</p>
                       </div>
                       <div className="flex items-center justify-between">
                         <p className="text-sm text-gray-500 dark:text-brand-gray-400">Date:</p>
                         <p className="text-sm text-gray-900 dark:text-white">
-                          {booking.bookingDateTime ? new Date(booking.bookingDateTime).toISOString().split('T')[0] : 'N/A'}
+                          {booking.createdAt ? new Date(booking.createdAt).toISOString().split('T')[0] : 'N/A'}
                         </p>
                       </div>
                       <div className="flex items-center justify-between">
@@ -514,12 +530,12 @@ export default function MyBooking() {
                             <div className="flex items-center space-x-3">
                               <div className="w-10 sm:w-12 h-10 sm:h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
                                 <span className="text-xl sm:text-2xl text-white">
-                                  {getTypeIcon(selectedBooking.bookingtype)}
+                                  {getTypeIcon(selectedBooking.serviceType)}
                                 </span>
                               </div>
                               <div className="min-w-0">
                                 <Dialog.Title className="text-lg sm:text-xl font-semibold text-white truncate">
-                                  {selectedBooking.bookingtype} Booking Details
+                                  {selectedBooking.serviceType} Booking Details
                                 </Dialog.Title>
                                 <p className="text-blue-100 text-xs sm:text-sm truncate">
                                   Booking ID: {selectedBooking.bookingid}
@@ -552,7 +568,7 @@ export default function MyBooking() {
                                   Service Details
                                 </h3>
                                 <div className="space-y-2">
-                                  {selectedBooking.bookingtype === 'Flight' && (
+                                  {selectedBooking.serviceType === 'Flight' && (
                                     <>
                                       <div className="flex justify-between">
                                         <span className="text-gray-600 text-sm dark:text-brand-gray-300">Flight Number:</span>
@@ -564,7 +580,7 @@ export default function MyBooking() {
                                       </div>
                                     </>
                                   )}
-                                  {selectedBooking.bookingtype === 'Hotel' && (
+                                  {selectedBooking.serviceType === 'Hotel' && (
                                     <>
                                       <div className="flex justify-between">
                                         <span className="text-gray-600 text-sm dark:text-brand-gray-300">Hotel Name:</span>
@@ -584,7 +600,7 @@ export default function MyBooking() {
                                       </div>
                                     </>
                                   )}
-                                  {selectedBooking.bookingtype === 'Car' && (
+                                  {selectedBooking.serviceType === 'Car' && (
                                     <>
                                       <div className="flex justify-between">
                                         <span className="text-gray-600 text-sm dark:text-brand-gray-300">Vehicle:</span>
@@ -627,7 +643,7 @@ export default function MyBooking() {
                                   Schedule
                                 </h3>
                                 <div className="space-y-2">
-                                  {selectedBooking.bookingtype === 'Flight' && (
+                                  {selectedBooking.serviceType === 'Flight' && (
                                     <>
                                       <div className="flex flex-col sm:flex-row sm:justify-between">
                                         <span className="text-gray-600 text-sm dark:text-brand-gray-300">Departure:</span>
@@ -649,7 +665,7 @@ export default function MyBooking() {
                                       </div>
                                     </>
                                   )}
-                                  {selectedBooking.bookingtype === 'Hotel' && (
+                                  {selectedBooking.serviceType === 'Hotel' && (
                                     <>
                                       <div className="flex justify-between">
                                         <span className="text-gray-600 text-sm dark:text-brand-gray-300">Check-in:</span>
@@ -671,7 +687,7 @@ export default function MyBooking() {
                                       </div>
                                     </>
                                   )}
-                                  {selectedBooking.bookingtype === 'Car' && (
+                                  {selectedBooking.serviceType === 'Car' && (
                                     <>
                                       <div className="flex justify-between">
                                         <span className="text-gray-600 text-sm dark:text-brand-gray-300">Pickup:</span>
