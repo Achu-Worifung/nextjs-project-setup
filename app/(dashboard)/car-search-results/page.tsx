@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { CarData, mockAvailableCars, carTypes } from "@/data/car-rental-data";
+import { CarData, fetchAvailableCars, carTypes } from "@/data/car-rental-data";
 import { Label } from "@/components/ui/label";
 import { MapPin, Calendar, Filter, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { AuthModal } from "@/components/ui/auth-modal";
-import {useAuth} from "@/context/AuthContext"
-
+import { useAuth } from "@/context/AuthContext";
 
 export default function CarSearchResults() {
   const router = useRouter();
@@ -16,13 +15,39 @@ export default function CarSearchResults() {
   const [availableCars, setAvailableCars] = useState<CarData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const {token, isSignedIn} = useAuth()
+  const { token, isSignedIn } = useAuth();
+
+  // Debug: log available car IDs after state is set
+  useEffect(() => {
+    if (!isLoading && availableCars.length > 0) {
+      console.log(
+        "DEBUG: CarSearchResults availableCars:",
+        availableCars.map((car) => car.id)
+      );
+    }
+  }, [isLoading, availableCars]);
+
+  // Debug: log available car IDs after state is set
+  useEffect(() => {
+    if (!isLoading && availableCars.length > 0) {
+      console.log(
+        "DEBUG: CarSearchResults availableCars:",
+        availableCars.map((car) => car.id)
+      );
+    }
+  }, [isLoading, availableCars]);
 
   // Filter states
-  const [minSeats, setMinSeats] = useState(searchParams ? Number(searchParams.get("minSeats") || 0) : 0);
-  const [maxPrice, setMaxPrice] = useState(searchParams ? Number(searchParams.get("maxPrice") || 100) : 100);
-  const [selectedType, setSelectedType] = useState(searchParams ? searchParams.get("vehicleType") || "All" : "All");
-  
+  const [minSeats, setMinSeats] = useState(
+    searchParams ? Number(searchParams.get("minSeats") || 0) : 0
+  );
+  const [maxPrice, setMaxPrice] = useState(
+    searchParams ? Number(searchParams.get("maxPrice") || 100) : 100
+  );
+  const [selectedType, setSelectedType] = useState(
+    searchParams ? searchParams.get("vehicleType") || "All" : "All"
+  );
+
   // Location info
   const pickupLocation = searchParams ? searchParams.get("pickup") || "" : "";
   const dropoffLocation = searchParams ? searchParams.get("dropoff") || "" : "";
@@ -41,56 +66,86 @@ export default function CarSearchResults() {
   `;
 
   // Filter function
-  const filterCars = () => {
+  const filterCars = async () => {
     setIsLoading(true);
-    
-    // Simulate API call delay
-    setTimeout(() => {
-      const filtered = mockAvailableCars.filter((car) => {
+    try {
+      // Only allow valid car types
+      const validTypes = [
+        "Sports",
+        "Luxury",
+        "Sedan",
+        "SUV",
+        "Truck",
+        "Economy",
+        "Van",
+        "Hybrid",
+        "Electric",
+        "Coupe",
+        "Minivan",
+      ];
+      if (selectedType !== "All" && !validTypes.includes(selectedType)) {
+        setAvailableCars([]);
+        setIsLoading(false);
+        alert(
+          `Car type '${selectedType}' is not available. Please select a valid type.`
+        );
+        return;
+      }
+      const cars = await fetchAvailableCars();
+      const filtered = cars.filter((car) => {
         const matchesSeats = car.seats >= minSeats;
         const matchesPrice = car.pricePerDay <= maxPrice;
         const matchesType = selectedType === "All" || car.type === selectedType;
-        
         return matchesSeats && matchesPrice && matchesType;
       });
-      
       setAvailableCars(filtered);
-      setIsLoading(false);
-    }, 500);
+    } catch (err) {
+      setAvailableCars([]);
+      const errorMsg =
+        err instanceof Error ? err.message : "Error fetching car data.";
+      alert(errorMsg);
+    }
+    setIsLoading(false);
   };
-  
-   const handleSignIn = () => {
+
+  const handleSignIn = () => {
     setShowAuthModal(false);
     // Navigate to sign in page
-    router.push('/signin');
+    router.push("/signin");
   };
 
   const handleSignUp = () => {
     setShowAuthModal(false);
-    // Navigate to sign up page  
-    router.push('/signup');
+    // Navigate to sign up page
+    router.push("/signup");
   };
 
   const handleAuthModalClose = () => {
     setShowAuthModal(false);
   };
 
-  const handleCarSelection = (carId:number) =>
-  {
+  const handleCarSelection = (carId: number) => {
     if (!isSignedIn) {
       setShowAuthModal(true);
       return;
     }
-    
+
+    // Find the selected car object
+    const selectedCar = availableCars.find(car => car.id === carId);
+    // Pass filter params and car object in query string
     const queryParams = new URLSearchParams({
       pickup: pickupLocation,
       dropoff: dropoffLocation,
       ...(pickupDate && { pickupDate }),
       ...(dropoffDate && { dropoffDate }),
+      minSeats: String(minSeats),
+      maxPrice: String(maxPrice),
+      vehicleType: selectedType,
+      ...(selectedCar && { carData: encodeURIComponent(JSON.stringify(selectedCar)) }),
     }).toString();
 
     router.push(`/car-booking/${carId}?${queryParams}`);
-  }
+  };
   // Function to build car booking URL (used for debugging if needed)
   const getBookingUrl = (carId: number): string => {
     const queryParams = new URLSearchParams();
@@ -98,33 +153,40 @@ export default function CarSearchResults() {
     if (dropoffLocation) queryParams.set("dropoff", dropoffLocation);
     if (pickupDate) queryParams.set("pickupDate", pickupDate);
     if (dropoffDate) queryParams.set("dropoffDate", dropoffDate);
-    
+    queryParams.set("minSeats", String(minSeats));
+    queryParams.set("maxPrice", String(maxPrice));
+    queryParams.set("vehicleType", selectedType);
+
     const queryString = queryParams.toString();
-    return `/car-booking/${carId}${queryString ? `?${queryString}` : ''}`;
+    return `/car-booking/${carId}${queryString ? `?${queryString}` : ""}`;
   };
 
   // Load cars based on search params
   useEffect(() => {
     filterCars();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="w-full mx-auto p-6 bg-white my-5" id="car-search-results">
       <style dangerouslySetInnerHTML={{ __html: animationStyles }} />
-      
+
       {/* Header with back button */}
       <div className="mb-6">
-        <Link href="/car-rental" className="flex items-center text-gray-600 hover:text-pink-600 mb-4 transition-colors">
+        <Link
+          href="/car-rental"
+          className="flex items-center text-gray-600 hover:text-pink-600 mb-4 transition-colors"
+        >
           <ArrowLeft className="h-4 w-4 mr-2" />
           <span>Back to search</span>
         </Link>
-        
+
         <h1 className="text-2xl font-bold text-gray-900">Car Rental Results</h1>
         <p className="text-gray-600">
           {availableCars.length} vehicles found matching your criteria
         </p>
       </div>
-      
+
       {/* Journey details card */}
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -135,15 +197,17 @@ export default function CarSearchResults() {
               <p className="font-medium">{pickupLocation}</p>
             </div>
           </div>
-          
+
           <div>
-            <p className="text-sm font-medium text-gray-600">Dropoff Location</p>
+            <p className="text-sm font-medium text-gray-600">
+              Dropoff Location
+            </p>
             <div className="flex items-center mt-1">
               <MapPin className="h-4 w-4 text-pink-500 mr-2" />
               <p className="font-medium">{dropoffLocation}</p>
             </div>
           </div>
-          
+
           <div>
             <p className="text-sm font-medium text-gray-600">Pickup Date</p>
             <div className="flex items-center mt-1">
@@ -151,7 +215,7 @@ export default function CarSearchResults() {
               <p className="font-medium">{pickupDate || "Not specified"}</p>
             </div>
           </div>
-          
+
           <div>
             <p className="text-sm font-medium text-gray-600">Dropoff Date</p>
             <div className="flex items-center mt-1">
@@ -161,7 +225,7 @@ export default function CarSearchResults() {
           </div>
         </div>
       </div>
-      
+
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Filters sidebar */}
         <div className="w-full lg:w-1/4">
@@ -170,11 +234,14 @@ export default function CarSearchResults() {
               <Filter className="h-5 w-5 mr-2 text-gray-700" />
               <h2 className="text-lg font-semibold">Filters</h2>
             </div>
-            
+
             <div className="space-y-6">
               {/* Vehicle Type Filter */}
               <div>
-                <Label htmlFor="vehicleType" className="text-sm font-medium text-gray-700 mb-2 block">
+                <Label
+                  htmlFor="vehicleType"
+                  className="text-sm font-medium text-gray-700 mb-2 block"
+                >
                   Vehicle Type
                 </Label>
                 <select
@@ -184,17 +251,22 @@ export default function CarSearchResults() {
                   className="block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2"
                 >
                   <option value="All">All Types</option>
-                  {carTypes.filter(type => type !== "All").map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
+                  {carTypes
+                    .filter((type) => type !== "All")
+                    .map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
                 </select>
               </div>
-              
+
               {/* Price Range Filter */}
               <div>
-                <Label htmlFor="maxPrice" className="text-sm font-medium text-gray-700 mb-2 block">
+                <Label
+                  htmlFor="maxPrice"
+                  className="text-sm font-medium text-gray-700 mb-2 block"
+                >
                   Max Price (Per Day)
                 </Label>
                 <div className="flex items-center">
@@ -208,13 +280,18 @@ export default function CarSearchResults() {
                     onChange={(e) => setMaxPrice(parseInt(e.target.value))}
                     className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                   />
-                  <span className="ml-2 text-gray-600 font-medium">${maxPrice}</span>
+                  <span className="ml-2 text-gray-600 font-medium">
+                    ${maxPrice}
+                  </span>
                 </div>
               </div>
-              
+
               {/* Seats Filter */}
               <div>
-                <Label htmlFor="minSeats" className="text-sm font-medium text-gray-700 mb-2 block">
+                <Label
+                  htmlFor="minSeats"
+                  className="text-sm font-medium text-gray-700 mb-2 block"
+                >
                   Minimum Seats
                 </Label>
                 <select
@@ -230,7 +307,7 @@ export default function CarSearchResults() {
                   <option value={8}>8+</option>
                 </select>
               </div>
-              
+
               {/* Filter Button */}
               <button
                 onClick={filterCars}
@@ -241,13 +318,16 @@ export default function CarSearchResults() {
             </div>
           </div>
         </div>
-        
+
         {/* Results */}
         <div className="w-full lg:w-3/4">
           {isLoading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="border border-gray-200 rounded-lg overflow-hidden">
+                <div
+                  key={`loading-${i}`}
+                  className="border border-gray-200 rounded-lg overflow-hidden"
+                >
                   <div className="h-55 bg-gray-300 animate-pulse"></div>
                   <div className="p-4 space-y-3">
                     <div className="h-6 bg-gray-300 rounded animate-pulse w-3/4"></div>
@@ -269,51 +349,68 @@ export default function CarSearchResults() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {availableCars.map((car) => (
                 <div
-                  key={car.id}
+                  key={car.id ? `car-${car.id}` : Math.random().toString(36)}
                   className="border border-gray-200 rounded-lg overflow-hidden shadow hover:shadow-lg transition animate-fadeIn"
                 >
                   <div className="relative">
-                    <img
-                      src={car.imageUrl}
-                      alt={`${car.year} ${car.make} ${car.model}`}
-                      className="w-full h-70 object-cover"
-                    />
+                    {/* Use car.imageUrl if available, else show a placeholder */}
+                    <div className="flex items-center justify-center w-full h-70 bg-gray-100 text-6xl">
+                      <span role="img" aria-label="car">
+                        🚗
+                      </span>
+                    </div>
                     <div className="absolute top-2 right-2 bg-white px-2 py-1 rounded text-xs font-bold text-gray-700">
-                      {car.type}
+                      {car.type || "Unknown"}
                     </div>
                   </div>
                   <div className="p-4">
                     <div className="flex justify-between items-start">
                       <div>
                         <h4 className="font-semibold text-gray-900 text-lg">
-                          {car.year} {car.make} {car.model}
+                          {car.year || "Year"} {car.make || "Make"}{" "}
+                          {car.model || "Model"}
                         </h4>
                         <p className="text-sm text-gray-500 mb-1">
-                          {car.type}
+                          {car.type || "Type"}
                         </p>
                       </div>
                       <div className="flex items-center">
                         <span className="text-yellow-500 mr-1">★</span>
-                        <span className="text-sm font-medium">{car.rating}</span>
+                        <span className="text-sm font-medium">
+                          {car.rating !== undefined ? car.rating : "N/A"}
+                        </span>
                       </div>
                     </div>
 
                     <div className="flex items-center my-2 text-xs text-gray-600">
                       <span className="mr-3 border border-gray-200 rounded-full px-2 py-1">
-                        {car.transmission}
+                        {car.transmission || "Transmission"}
                       </span>
                       <span className="mr-3 border border-gray-200 rounded-full px-2 py-1">
-                        {car.fuelType}
+                        {car.fuelType || "Fuel"}
                       </span>
                       <span className="border border-gray-200 rounded-full px-2 py-1">
-                        {car.seats} seats
+                        {car.seats !== undefined ? car.seats : "Seats"} seats
                       </span>
                     </div>
 
-                    <p className="text-xs text-gray-600 mb-3">{car.features}</p>
+                    <p className="text-xs text-gray-600 mb-3">
+                      {car.features || "Features not available"}
+                    </p>
 
                     <div className="flex justify-between items-center pt-2 border-t border-gray-100">
-                      <p className="text-xl font-bold text-pink-500">${car.pricePerDay}<span className="text-sm font-normal text-gray-500">/day</span></p>
+                      <span className="text-xs text-gray-400">
+                        DEBUG: car.id = {car.id}
+                      </span>
+                      <p className="text-xl font-bold text-pink-500">
+                        $
+                        {car.pricePerDay !== undefined
+                          ? car.pricePerDay
+                          : "N/A"}
+                        <span className="text-sm font-normal text-gray-500">
+                          /day
+                        </span>
+                      </p>
                       <button
                         onClick={() => handleCarSelection(car.id)}
                         className="bg-pink-500 hover:bg-pink-600 text-white py-2 px-4 rounded text-sm font-medium transition-colors cursor-pointer inline-block"
@@ -330,9 +427,12 @@ export default function CarSearchResults() {
               <div className="rounded-full bg-gray-200 p-6 mb-4">
                 <Filter className="h-8 w-8 text-gray-400" />
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-1">No vehicles found</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-1">
+                No vehicles found
+              </h3>
               <p className="text-gray-600 text-center mb-6 max-w-md">
-                We couldn't find any vehicles matching your current filters. Try adjusting your filters or try a different location.
+                We couldn't find any vehicles matching your current filters. Try
+                adjusting your filters or try a different location.
               </p>
               <button
                 onClick={() => {
@@ -349,8 +449,8 @@ export default function CarSearchResults() {
           )}
         </div>
       </div>
-      <AuthModal 
-        isOpen={showAuthModal} 
+      <AuthModal
+        isOpen={showAuthModal}
         onClose={handleAuthModalClose}
         onSignIn={handleSignIn}
         onSignUp={handleSignUp}
