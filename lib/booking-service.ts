@@ -434,11 +434,9 @@ class BookingService {
   async createTrip(trip: any, token: string)
   {
     // Debug: log the payload being sent
-    const payload = trip.trip ? trip.trip : trip;
-    console.log('Trip payload being sent to backend:', payload);
+    console.log('Trip payload being sent to backend:', trip.trip);
     try {
       const url = 'http://localhost:8012/trips/create';
-      // If trip is wrapped in a 'trip' key, unwrap it
       const res = await fetch(url, {
         method: 'POST',
         headers: {
@@ -446,7 +444,7 @@ class BookingService {
           'Authorization': `Bearer ${token}`,
           'X-Client-ID': `${token}`
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(trip.trip)
       });
       const data = await res.json();
       if (res.status !== 201) {

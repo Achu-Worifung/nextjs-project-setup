@@ -510,10 +510,7 @@ export function FlightSelection() {
     const ddate = departDate ? departDate.toISOString().split('T')[0] : "";
     const rdate = returnDate ? returnDate.toISOString().split('T')[0] : "";
 
-    // Assuming 'legs' is defined elsewhere or not used in this context for search params
-    // If 'legs' is meant to be passed, ensure it's defined and has a meaningful structure
-    // For now, I'll remove it from the params to avoid an error. If you need it, add it back
-    // and ensure it's properly constructed before calling handleSearch.
+   
     const params = new URLSearchParams({
       flightType,
       from: standardizedFrom,
@@ -529,7 +526,7 @@ export function FlightSelection() {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto bg-white dark:bg-[rgb(25,30,36)] transition-all duration-300 p-0 sm:p-6">
+    <div className="w-full max-w-7xl mx-auto bg-white dark:bg-[rgb(25,30,36)] transition-all duration-300 p-0 sm:p-6 ">
       {/* Header */}
       <div className="text-center px-4 sm:px-0">
         <h2 className="text-2xl sm:text-3xl font-bold text-brand-gray-900 dark:text-white">
@@ -575,7 +572,9 @@ export function FlightSelection() {
       {/* Use a <form> tag to wrap your search inputs for better semantics */}
       <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }} className="rounded-xl p-2 sm:p-6 mx-2 sm:mx-0 transition-all duration-300">
         {/* Switch to flex layout for horizontal row */}
-        <div className="flex flex-row flex-wrap gap-2 sm:gap-4 items-center w-full transition-all duration-500">
+        <div 
+        className="flex flex-row flex-wrap gap-2 sm:gap-4 items-center w-full transition-all duration-500"
+        >
           {/* From */}
           <div className="flex-1 min-w-[120px] relative transition-all duration-300" ref={fromDropdownRef}>
             <Label htmlFor="from-airport" className="sr-only">Departure Airport</Label> {/* Screen reader only label */}
@@ -813,25 +812,25 @@ export function FlightSelection() {
           {/* Remove search button from round-trip inline position */}
         </div>
 
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-end space-y-4 sm:space-y-0 sm:space-x-4 w-full">
+        <div className="flex flex-wrap justify-center gap-4 px-4 sm:px-0 items-baseline">
           {/* Adults */}
           <div
             data-testid="passenger-adults"
             role="group"
             aria-label="Adult passengers"
-            className="flex-1 min-w-0"
+            className="flex flex-col items-center rounded-lg px-4 py-2 "
           >
             <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 justify-center sm:justify-start pt-10">
               <Users className="h-4 w-4 text-pink-500" aria-hidden="true" /> Adults
             </Label>
-            <div className="flex items-center justify-center sm:justify-start space-x-4">
+            <div className="flex items-center rounded-lg px-4 py-2 ">
               {/* <span className="sr-only">Adults</span> Removed as the Label already provides context */}
               <button
                 type="button"
                 data-testid="adults-decrement"
                 disabled={counts.adults <= 1}
                 onClick={() => dec("adults")}
-                className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+                className="size-8 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] text-brand-gray-700 dark:text-brand-gray-300 transition-all duration-200 shadow-sm dark:shadow-brand-dark"
                 aria-label="Decrease adult count"
               >
                 −
@@ -848,7 +847,7 @@ export function FlightSelection() {
                 type="button"
                 data-testid="adults-increment"
                 onClick={() => inc("adults")}
-                className="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
+                className="size-8 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] text-brand-gray-700 dark:text-brand-gray-300 transition-all duration-200 shadow-sm dark:shadow-brand-dark"
                 aria-label="Increase adult count"
               >
                 +
@@ -862,7 +861,7 @@ export function FlightSelection() {
             data-testid="passenger-children"
             role="group"
             aria-label="Child passengers"
-            className="flex-1 min-w-0"
+            className="flex items-center rounded-lg px-4 py-2 flex-col"
           >
             <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2 justify-center sm:justify-start">
               <Users className="h-4 w-4 text-pink-500" aria-hidden="true" /> Children
@@ -872,7 +871,7 @@ export function FlightSelection() {
               <button
                 onClick={() => dec("children")} // Should be dec("children")
                 disabled={counts.children <= 0} // Children can be 0
-                className="w-6 h-6 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] disabled:opacity-50 text-brand-gray-700 dark:text-brand-gray-300 transition-all duration-200 shadow-sm dark:shadow-brand-dark"
+                className="size-8 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] disabled:opacity-50 text-brand-gray-700 dark:text-brand-gray-300 transition-all duration-200 shadow-sm dark:shadow-brand-dark"
                 aria-label="Decrease child count"
               >
                 −
@@ -886,7 +885,7 @@ export function FlightSelection() {
               </span>
               <button
                 onClick={() => inc("children")} // Should be inc("children")
-                className="w-6 h-6 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] text-brand-gray-700 dark:text-brand-gray-300 transition-all duration-200 shadow-sm dark:shadow-brand-dark"
+                className="size-8 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] text-brand-gray-700 dark:text-brand-gray-300 transition-all duration-200 shadow-sm dark:shadow-brand-dark"
                 aria-label="Increase child count"
               >
                 +
@@ -896,8 +895,8 @@ export function FlightSelection() {
           </div>
 
           {/* Class */}
-          <div className="flex items-center rounded-lg px-4 py-2">
-            <Label htmlFor="class-type" className="text-sm font-medium mr-3 text-brand-gray-700 dark:text-brand-gray-300">
+          <div className="flex items-center rounded-lg px-4 py-2 flex-col">
+            <Label htmlFor="class-type" className="text-sm font-medium mr-3 text-brand-gray-700 dark:text-brand-gray-300 sm:self-start">
               Class:
             </Label>
             <div className="relative">

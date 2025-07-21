@@ -320,21 +320,23 @@ export function SelectHotel() {
       {/* Guests & Rooms Selection */}
       <div className="flex flex-wrap justify-center gap-4 px-4 sm:px-0">
         {/* Guests */}
-        <div className="flex items-center rounded-lg px-4 py-2 ">
-          <Users className="h-4 w-4 text-pink-500 mr-2" />
-          <span className="text-sm font-medium mr-3 dark:text-white">Guests:</span>
+        <div className="flex items-center rounded-lg px-4 py-2 flex-col">
+          <span className="text-sm font-medium mr-3 dark:text-white flex items-center ">
+            <Users className="h-4 w-4 text-pink-500 mr-2" />
+            Guests:
+          </span>
           <div className="flex items-center space-x-2">
             <button
               onClick={() => dec("guests")}
               disabled={counts.guests <= 1}
-              className="w-6 h-6 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] disabled:opacity-50 dark:text-white transition-colors"
+                className="size-8 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] text-brand-gray-700 dark:text-brand-gray-300 transition-all duration-200 shadow-sm dark:shadow-brand-dark"
             >
               −
             </button>
             <span className="text-sm font-medium px-2 dark:text-white">{counts.guests}</span>
             <button
               onClick={() => inc("guests")}
-              className="w-6 h-6 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] dark:text-white transition-colors"
+                className="size-8 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] text-brand-gray-700 dark:text-brand-gray-300 transition-all duration-200 shadow-sm dark:shadow-brand-dark"
             >
               +
             </button>
@@ -342,21 +344,23 @@ export function SelectHotel() {
         </div>
 
         {/* Rooms */}
-        <div className="flex items-center rounded-lg px-4 py-2 ">
-          <Building2 className="h-4 w-4 text-pink-500 mr-2" />
-          <span className="text-sm font-medium mr-3 dark:text-white">Rooms:</span>
+        <div className="flex items-center flex-col rounded-lg px-4 py-2 ">
+          <span className="text-sm font-medium mr-3 dark:text-white flex flex-row ">
+            <Building2 className="h-4 w-4 text-pink-500 mr-2" />
+            Rooms:
+          </span>
           <div className="flex items-center space-x-2">
             <button
               onClick={() => dec("rooms")}
               disabled={counts.rooms <= 1}
-              className="w-6 h-6 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] disabled:opacity-50 dark:text-white transition-colors"
+                className="size-8 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] text-brand-gray-700 dark:text-brand-gray-300 transition-all duration-200 shadow-sm dark:shadow-brand-dark"
             >
               −
             </button>
             <span className="text-sm font-medium px-2 dark:text-white">{counts.rooms}</span>
             <button
               onClick={() => inc("rooms")}
-              className="w-6 h-6 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] dark:text-white transition-colors"
+                className="size-8 rounded-full bg-white dark:bg-[rgb(25,30,36)] border border-brand-gray-300 dark:border-brand-gray-600 flex items-center justify-center text-xs hover:bg-brand-gray-100 dark:hover:bg-[rgb(35,42,49)] text-brand-gray-700 dark:text-brand-gray-300 transition-all duration-200 shadow-sm dark:shadow-brand-dark"
             >
               +
             </button>

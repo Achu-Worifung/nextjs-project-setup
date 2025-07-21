@@ -178,12 +178,12 @@ export function SelectVehicle() {
       </div>
 
       {/* Main Search Form - Horizontal Layout */}
-      <div className=" rounded-xl p-2 sm:p-6 mx-2 sm:mx-0  transition-all duration-300">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+      <div className="rounded-xl p-2 sm:p-6 mx-2 sm:mx-0 transition-all duration-300">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end">
           
           {/* Pickup Location */}
           <div className="lg:col-span-3 relative" ref={pickupRef}>
-            <div className="relative">
+            <div className="relative flex-1 min-w-[120px] transition-all duration-300">
               <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10">
                 <MapPin className="h-4 w-4 text-pink-500" />
               </div>
@@ -227,7 +227,6 @@ export function SelectVehicle() {
             <button
               onClick={handleSwap}
               className="p-2 bg-white dark:bg-[rgb(25,30,36)] rounded-full shadow-sm hover:shadow-md dark:shadow-brand-dark dark:hover:shadow-brand-dark-lg transition-all duration-200 hover:scale-105 border border-brand-gray-200 dark:border-brand-gray-600 dark:glow-brand-pink"
-              style={{ margin: '0 2px' }}
               >
               <ArrowLeftRight className="h-4 w-4 text-pink-500" />
             </button>
@@ -346,7 +345,7 @@ export function SelectVehicle() {
           </div>
 
           {/* Search Button - Desktop Only */}
-          <div className="hidden lg:block lg:col-span-2">
+          <div className="hidden lg:block lg:col-span-2 self-end">
             <Button
               onClick={handleSearch}
               className="w-full bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-semibold py-4 rounded-lg shadow-lg hover:shadow-xl dark:hover:shadow-brand-dark-xl transition-all"
@@ -362,7 +361,7 @@ export function SelectVehicle() {
       {/* Filter Controls */}
       <div className="flex flex-wrap justify-center gap-4 px-4 sm:px-0">
         {/* Min Seats */}
-        <div className="flex items-center rounded-lg px-4 py-2 ">
+        <div className="flex sm:flex-col items-center rounded-lg px-4 py-2 ">
           <span className="text-sm font-medium mr-3 text-brand-gray-700 dark:text-brand-gray-300">Min Seats:</span>
           <div className="relative">
             <select
@@ -386,7 +385,7 @@ export function SelectVehicle() {
         </div>
 
         {/* Max Price */}
-        <div className="flex items-center rounded-lg px-4 py-2 ">
+        <div className="flex sm:flex-col items-center rounded-lg px-4 py-2 ">
           <span className="text-sm font-medium mr-3 text-brand-gray-700 dark:text-brand-gray-300">Max Price:</span>
           <div className="relative">
             <select

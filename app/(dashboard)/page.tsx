@@ -96,6 +96,7 @@ export default function Home() {
 
       {/* Booking Component */}
       <div className="w-full mb-12">
+
         {renderBookingComponent()}
       </div>
 
