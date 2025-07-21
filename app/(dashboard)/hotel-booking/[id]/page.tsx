@@ -81,12 +81,15 @@ export default function HotelBookingPage() {
         // it from the search results or fetch all hotels and find the one we need
         const city = searchParams?.get("city") || "New York";
         const state = searchParams?.get("state") || "NY";
-        
-        const res = await fetch(`${MICROSERVICES_CONFIG.HOTEL_SERVICE}/hotels?count=20&city=${city}&state=${state}`, {
-          headers: {
-            'X-Client-ID': 'nextjs-app'
+
+        const res = await fetch(
+          `${MICROSERVICES_CONFIG.HOTEL_SERVICE}/hotels?count=20&city=${city}&state=${state}`,
+          {
+            headers: {
+              "X-Client-ID": "nextjs-app",
+            },
           }
-        });
+        );
         if (!res.ok) {
           setHotel(null);
           setIsLoading(false);
@@ -94,7 +97,7 @@ export default function HotelBookingPage() {
         }
         const hotels = await res.json();
         const selectedHotel = hotels.find((h: Hotel) => h.id === hotelId);
-        
+
         if (selectedHotel) {
           setHotel(selectedHotel);
           // Set initial price from most popular room
@@ -112,7 +115,7 @@ export default function HotelBookingPage() {
           setHotel(null);
         }
       } catch (e) {
-        console.error('Error fetching hotel:', e);
+        console.error("Error fetching hotel:", e);
         setHotel(null);
       }
       setIsLoading(false);
@@ -179,15 +182,18 @@ export default function HotelBookingPage() {
       };
       try {
         // Use your microservice for hotel booking
-        const res = await fetch(`${MICROSERVICES_CONFIG.HOTEL_SERVICE}/hotel/book`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-            "X-Client-ID": "nextjs-app"
-          },
-          body: JSON.stringify(requestData),
-        });
+        const res = await fetch(
+          `${MICROSERVICES_CONFIG.HOTEL_SERVICE}/hotel/book`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+              "X-Client-ID": "nextjs-app",
+            },
+            body: JSON.stringify(requestData),
+          }
+        );
         // Handle rate limiting (HTTP 429)
         if (res.status === 429) {
           alert("Too many requests. Please wait a moment and try again.");

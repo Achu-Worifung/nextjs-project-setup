@@ -49,14 +49,14 @@ export default function HotelSearchResults() {
           `${MICROSERVICES_CONFIG.HOTEL_SERVICE}/hotels?count=${count}&city=${city}&state=${state}`,
           {
             headers: {
-              'X-Client-ID': 'nextjs-app'
-            }
+              "X-Client-ID": "nextjs-app",
+            },
           }
         );
         const data = await res.json();
         setHotels(data);
       } catch (err) {
-        console.error('Error fetching hotels:', err);
+        console.error("Error fetching hotels:", err);
         setHotels([]);
       }
       setIsLoading(false);

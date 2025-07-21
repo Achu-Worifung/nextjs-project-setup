@@ -1,8 +1,11 @@
 // Test page to verify hotel microservice connectivity
 "use client";
 
-import { useState } from 'react';
-import { testHotelService, testHotelServiceHealth } from '@/lib/test-hotel-service';
+import { useState } from "react";
+import {
+  testHotelService,
+  testHotelServiceHealth,
+} from "@/lib/test-hotel-service";
 
 export default function TestHotelService() {
   const [testResult, setTestResult] = useState<any>(null);
@@ -11,36 +14,36 @@ export default function TestHotelService() {
   const runHealthCheck = async () => {
     setIsLoading(true);
     const result = await testHotelServiceHealth();
-    setTestResult({ type: 'health', ...result });
+    setTestResult({ type: "health", ...result });
     setIsLoading(false);
   };
 
   const runHotelSearch = async () => {
     setIsLoading(true);
     const result = await testHotelService();
-    setTestResult({ type: 'search', ...result });
+    setTestResult({ type: "search", ...result });
     setIsLoading(false);
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-6">Hotel Microservice Test</h1>
-      
+
       <div className="space-y-4 mb-6">
         <button
           onClick={runHealthCheck}
           disabled={isLoading}
           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mr-4"
         >
-          {isLoading ? 'Testing...' : 'Test Health Check'}
+          {isLoading ? "Testing..." : "Test Health Check"}
         </button>
-        
+
         <button
           onClick={runHotelSearch}
           disabled={isLoading}
           className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
         >
-          {isLoading ? 'Testing...' : 'Test Hotel Search'}
+          {isLoading ? "Testing..." : "Test Hotel Search"}
         </button>
       </div>
 
@@ -49,9 +52,17 @@ export default function TestHotelService() {
           <h2 className="text-lg font-semibold mb-2">
             Test Result ({testResult.type}):
           </h2>
-          <div className={`p-4 rounded ${testResult.success ? 'bg-green-100' : 'bg-red-100'}`}>
-            <p className={`font-medium ${testResult.success ? 'text-green-800' : 'text-red-800'}`}>
-              {testResult.success ? '✅ Success' : '❌ Failed'}
+          <div
+            className={`p-4 rounded ${
+              testResult.success ? "bg-green-100" : "bg-red-100"
+            }`}
+          >
+            <p
+              className={`font-medium ${
+                testResult.success ? "text-green-800" : "text-red-800"
+              }`}
+            >
+              {testResult.success ? "✅ Success" : "❌ Failed"}
             </p>
             {testResult.error && (
               <p className="text-red-600 mt-2">Error: {testResult.error}</p>
