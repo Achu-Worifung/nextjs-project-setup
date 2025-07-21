@@ -1,15 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
 import {
-  PlusIcon,
   MapPinIcon,
   CalendarDaysIcon,
-  XMarkIcon,
-  PencilIcon,
-  EyeIcon,
-  TrashIcon,
   ArrowLeftIcon, // Added for consistency with the component
   CheckIcon, // Added for consistency with the component
   UserGroupIcon, // Added for consistency with the component
@@ -17,9 +11,6 @@ import {
 } from '@heroicons/react/24/solid';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { Fragment } from 'react';
-import { getCurrentUser } from '@/lib/auth-utils';
-import { bookingService } from '@/lib/booking-service';
 import { Tab } from '@headlessui/react'; // Added for consistency with the component
 import { generateHotels } from "@/lib/hotel-generator"; // Added for consistency with the component
 import { generateFakeFlights } from "@/lib/flight-generator"; // Added for consistency with the component
@@ -82,7 +73,7 @@ function classNames(...classes: string[]) {
 export default function TripPlanning() {
   const params = useParams();
   const router = useRouter();
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, token } = useAuth();
   const [trip, setTrip] = useState<Trip | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -175,8 +166,6 @@ export default function TripPlanning() {
     if (!trip) return;
 
     try {
-      // Get token from localStorage or your auth context
-      const token = localStorage.getItem('token');
       if (!token) {
         setModalState({
           isOpen: true,
@@ -188,35 +177,46 @@ export default function TripPlanning() {
         return;
       }
 
+      // Prepare booking data as expected by backend
       const bookingData = {
-        tripId: trip.id,
-        flight: selectedFlight,
-        hotel: selectedHotel,
-        car: selectedCar
+        flight: selectedFlight || undefined,
+        hotel: selectedHotel || undefined,
+        car: selectedCar || undefined,
+        total_amount: getTotalEstimate(),
       };
-
-      const response = await fetch('/api/bookings', {
+      const url = `http://localhost:8012/trips/book/${trip.id}`;
+      const res = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'X-Client-ID': `${token}`,
+          'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify(bookingData)
+        body: JSON.stringify({
+          tripid: trip.id,
+          booking_request: bookingData
+        }),
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        setModalState({
-          isOpen: true,
-          type: 'success',
-          title: 'Booking Confirmed! 🎉',
-          message: 'Your selections have been successfully saved and confirmed.',
-          details: result.data
-        });
-      } else {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to save booking');
+      // Check for HTTP error
+      if ( res.status !== 201) {
+        let errorMsg = 'Failed to save booking';
+        try {
+          const errorData = await res.json();
+          errorMsg = errorData.detail || errorData.error || errorMsg;
+        } catch {}
+        throw new Error(errorMsg);
       }
+
+      // Parse success response
+      const result = await res.json();
+      setModalState({
+        isOpen: true,
+        type: 'success',
+        title: 'Booking Confirmed! 🎉',
+        message: 'Your selections have been successfully saved and confirmed.',
+        details: result,
+      });
     } catch (error) {
       console.error('Error saving booking:', error);
       setModalState({
@@ -224,7 +224,7 @@ export default function TripPlanning() {
         type: 'error',
         title: 'Booking Failed',
         message: 'We encountered an issue while saving your booking.',
-        details: error instanceof Error ? error.message : String(error)
+        details: error instanceof Error ? error.message : String(error),
       });
     }
   };

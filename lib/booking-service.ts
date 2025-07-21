@@ -223,31 +223,7 @@ class BookingService {
     };
   }
 
-  async bookFlight(bookingData: FlightBookingRequest): Promise<BookingResponse> {
-    try {
-      const headers = this.getAuthHeaders();
-      
-      const response = await fetch('/api/bookings/flight', {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(bookingData),
-      });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Booking failed');
-      }
-
-      return data;
-    } catch (error) {
-      console.error('Flight booking error:', error);
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : 'Unknown error occurred',
-      };
-    }
-  }
 
   async getUserFlightBookings(): Promise<FlightBookingsListResponse> {
     try {
@@ -417,66 +393,34 @@ class BookingService {
     }
   }
 
-  async cancelBooking(bookingId: string, bookingType: string): Promise<BookingResponse> {
+
+
+
+  //get user bookings by token 
+  async getUserBookings(token: string){
     try {
-      const headers = this.getAuthHeaders();
-      
-      // Determine the endpoint based on booking type
-      let endpoint = '';
-      switch (bookingType.toLowerCase()) {
-        case 'flight':
-          endpoint = `/api/bookings/flight/${bookingId}`;
-          break;
-        case 'hotel':
-          endpoint = `/api/bookings/hotel/${bookingId}`;
-          break;
-        case 'car':
-          endpoint = `/api/bookings/car/${bookingId}`;
-          break;
-        default:
-          throw new Error('Invalid booking type');
-      }
-      
-      const response = await fetch(endpoint, {
-        method: 'DELETE',
-        headers,
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Cancellation failed');
-      }
-
-      return data;
-    } catch (error) {
-      console.error('Booking cancellation error:', error);
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : 'Unknown error occurred',
-      };
-    }
-  }
-
-  async getUserBookings(){
-    try 
-    {
-      const headers = this.getAuthHeaders();
-
-      const response = await fetch(`/api/bookings`, {
+      const url = 'http://localhost:8004/bookings';
+      const res = await fetch(url, {
         method: 'GET',
-        headers,
+        headers:
+        {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+          'X-Client-ID': `${token}`
+        }
       });
 
-      const data = await response.json();
-
-      console.log('User bookings data:', data);
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to fetch user bookings');
+      if (res.status !== 200) {
+        return {
+          error: 'Error fetching user bookings',
+          msg: res.statusText,
+          bookings: []
+        }
       }
-
+      const data = await res.json();
+      console.log('User bookings fetched successfully:', data);
       return data;
+
     } catch (error) {
       console.error('Error fetching user bookings:', error);
       return {
@@ -485,8 +429,187 @@ class BookingService {
     }
   }
 
-  
 
+  // Create a new trip
+  async createTrip(trip: any, token: string)
+  {
+    // Debug: log the payload being sent
+    const payload = trip.trip ? trip.trip : trip;
+    console.log('Trip payload being sent to backend:', payload);
+    try {
+      const url = 'http://localhost:8012/trips/create';
+      // If trip is wrapped in a 'trip' key, unwrap it
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+          'X-Client-ID': `${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (res.status !== 201) {
+        // Log backend error for diagnosis
+        console.error('Backend returned error:', data);
+        return {
+          success: false,
+          error: 'Error creating trip: ' + (data.error || res.statusText)
+        };
+      }
+      console.log('Trip created successfully:', data);
+      return {
+        success: true,
+        trip: data
+      };
+    } catch (error) {
+      console.error('Error creating trip:', error);
+      return {
+        success: false,
+        error: 'Error creating trip: ' + error
+      };
+    }
+}
+
+//fetch users trips
+async fetchTrips(token: string){
+  try {
+    const url = 'http://localhost:8012/trips';
+    const res = await fetch(url, {
+      method: 'GET',
+      headers:
+      {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'X-Client-ID': `${token}`
+      }
+    });
+    const data = await res.json();
+    if (res.status !== 200) {
+      return {
+        success: false,
+        error: 'Error fetching trips: ' + data.error || res.statusText
+      };
+    }
+    console.log('Trips fetched successfully:', data);
+    return {
+      success: true,
+      trips: data
+    };
+  } catch (error) {
+    console.error('Error fetching trips:', error);
+    return {
+      success: false,
+      error: 'Error fetching trips: ' + error
+    };
+  }
+}
+
+//delete a trip
+async deleteTrip(tripId: string, token: string) {
+  try {
+    const url = `http://localhost:8012/trips/${tripId}`;
+    // Fire-and-forget: do not await fetch or .json
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'X-Client-ID': `${token}`
+      }
+    }).catch((error) => {
+      console.error('Error deleting trip:', error);
+    });
+    // Return success immediately
+    return {
+      success: true
+    };
+  } catch (error) {
+    console.error('Error deleting trip:', error);
+    return {
+      success: false,
+      error: 'Error deleting trip: ' + error
+    };
+  }
+}
+
+//book a flight 
+async bookFlight(flight: any, token: string) 
+{
+  try {
+      const url = "http://localhost:8006/flights/book";
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          "X-Client-ID": `${token}`,
+        },
+        body: JSON.stringify({
+          flight
+        }),
+      });
+
+      const data = await response.json();
+
+      console.log('Flight booking response:', data);
+
+
+
+      return data;
+    } catch (error) {
+      console.error('Flight booking error:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred',
+      };
+    }
+  
+}
+
+//cancel booking 
+async cancelBooking(bookingId: string, token: string, bookingType: string)
+{
+  let url;
+  switch (bookingType.toLowerCase()) {
+    case 'flight':
+      url = `http://localhost:8006/flights/delete/${bookingId}`;
+      break;
+    case 'hotel':
+      url = `http://localhost:8002/hotels/delete/${bookingId}`;
+      break;
+    case 'car':
+      url = `http://localhost:8001/cars/delete/${bookingId}`;
+      break;
+    default:
+      throw new Error('Invalid booking type');
+  }
+
+  try {
+    // Fire-and-forget: do not await fetch or .json
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'X-Client-ID': `${token}`
+      }
+    }).catch((error) => {
+      console.error('Error canceling booking:', error);
+    });
+    // Return success immediately
+    return {
+      success: true
+    };
+  } catch (error) {
+    console.error('Error canceling booking:', error);
+    return {
+      success: false,
+      error: 'Error canceling booking: ' + error
+    };
+  }
+}
   // Get current user info from token
   getCurrentUser() {
     const token = tokenManager.get();

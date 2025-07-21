@@ -232,31 +232,9 @@ export default function MyBooking() {
   const handleCancelBooking = async () => {
     if (!selectedBooking) return;
     setCancelLoading(true);
-
-    let url;
-    switch (selectedBooking.serviceType.toLowerCase()) {
-      case "flight":
-        url = `http://localhost:8006/flights/delete/${selectedBooking.bookingid}`;
-        break;
-      case "hotel":
-        url = `http://localhost:8002/hotels/delete/${selectedBooking.bookingid}`;
-        break;
-      case "car":
-        url = `http://localhost:8001/cars/delete/${selectedBooking.bookingid}`;
-        break;
-      default:
-        console.error("Unknown service type:", selectedBooking.serviceType);
-        return;
-    }
     try {
-      fetch(url, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Client-ID": `${token}`,
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      bookingService.cancelBooking(selectedBooking.bookingid, token || '', selectedBooking.serviceType);
+     
       setIsModalOpen(false);
       setSelectedBooking(null);
     } catch (error) {

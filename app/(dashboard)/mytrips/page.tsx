@@ -76,7 +76,7 @@ export default function MyTrips() {
     totalSpent: 0,
     bookedTrips: 0,
   });
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, token } = useAuth();
   const router = useRouter();
 
   // Form state for creating new trips
@@ -96,7 +96,7 @@ export default function MyTrips() {
   // Load trips from database
   useEffect(() => {
     const loadTrips = async () => {
-      if (!isSignedIn) {
+      if (!isSignedIn && !token) {
         router.push('/signin');
         return;
       }
@@ -105,28 +105,14 @@ export default function MyTrips() {
         setLoading(true);
         setError(null);
 
-        // Get user ID from auth context
-        const { userId, isAuthenticated } = getCurrentUser();
-
-        if (!isAuthenticated || !userId) {
-          setError('User not found. Please sign in again.');
-          router.push('/signin');
-          return;
-        }
-
-        // Fetch trips
-        const response = await fetch(`/api/trips?userId=${userId}`);
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch trips');
-        }
-
-        const data = await response.json();
-        setTrips(data.trips || []);
+        // Fetch trips from trip-service
+        const data = await bookingService.fetchTrips(token || '');
+        console.log('Fetched trips:', data.trips.trips);
+        setTrips(data.trips.trips || []);
 
         // Fetch actual booking data
         try {
-          const allBookings = await bookingService.getUserBookings();
+          const allBookings = await bookingService.getUserBookings(token || '');
 
           // Debug: log the structure of the first booking to understand the data format
           if (allBookings && Array.isArray(allBookings) && allBookings.length > 0) {
@@ -177,7 +163,7 @@ export default function MyTrips() {
     };
 
     loadTrips();
-  }, [isSignedIn, router]);
+  }, [isSignedIn, router,token]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -238,36 +224,31 @@ export default function MyTrips() {
     e.preventDefault();
 
     try {
-      const { userId, isAuthenticated } = getCurrentUser();
 
-      if (!isAuthenticated || !userId) {
-        setError('User not found. Please sign in again.');
+      if (!token) {
+        console.error('User is not authenticated or userId is missing.');
         return;
       }
-
-      const response = await fetch('/api/trips', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          ...newTripForm
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create trip');
+      console.log("creating trip", newTripForm);
+      const tripdata = {
+        tripname: newTripForm.name,
+        destination: newTripForm.destination,
+        startDate: newTripForm.startDate,
+        endDate: newTripForm.endDate,
+        travelers: newTripForm.travelers,
+        budget: newTripForm.budget,
+        description: newTripForm.description
       }
-
-      const data = await response.json();
+      const data = await bookingService.createTrip({
+        trip: tripdata,
+      }, token || '');
 
       // Add the new trip to the list
       setTrips(prevTrips => [data.trip, ...prevTrips]);
 
       // Refresh booking data after adding a new trip
       try {
-        const allBookings = await bookingService.getUserBookings();
+        const allBookings = await bookingService.getUserBookings(token || '');
         if (allBookings && Array.isArray(allBookings)) {
           const flightBookings = allBookings.filter(b => b.bookingtype === 'Flight' || b.BookingType === 'Flight');
           const hotelBookings = allBookings.filter(b => b.bookingtype === 'Hotel' || b.BookingType === 'Hotel');
@@ -340,72 +321,46 @@ export default function MyTrips() {
   const confirmDeleteTrip = async () => {
     if (!tripToDelete) return;
 
-    try {
-      setIsDeleting(true);
+    // Immediately update UI and fire off delete request (fire-and-forget)
+    setTrips(prevTrips => prevTrips.filter(trip => trip.id !== tripToDelete.id));
+    setIsDeleteModalOpen(false);
+    setTripToDelete(null);
+    setIsDeleting(false);
 
-      const { userId, isAuthenticated } = getCurrentUser();
+    // Fire-and-forget delete request (no await)
+   bookingService.deleteTrip(tripToDelete.id, token || '')
 
-      if (!isAuthenticated || !userId) {
-        setError('User not found. Please sign in again.');
-        return;
-      }
+    // Optionally refresh booking data in background (not blocking UI)
+    bookingService.getUserBookings(token || '').then(allBookings => {
+      if (allBookings && Array.isArray(allBookings)) {
+        const flightBookings = allBookings.filter(b => b.bookingtype === 'Flight' || b.BookingType === 'Flight');
+        const hotelBookings = allBookings.filter(b => b.bookingtype === 'Hotel' || b.BookingType === 'Hotel');
+        const carBookings = allBookings.filter(b => b.bookingtype === 'Car' || b.BookingType === 'Car');
 
-      const response = await fetch(`/api/trips/${tripToDelete.id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId }),
-      });
+        const totalSpent = allBookings.reduce((sum, booking) => {
+          const amount = booking.totalpaid || booking.TotalPaid || booking.total_paid || booking.totalAmount || 0;
+          return sum + Number(amount);
+        }, 0);
 
-      if (!response.ok) {
-        throw new Error('Failed to delete trip');
-      }
-
-      // Remove the trip from the local state
-      setTrips(prevTrips => prevTrips.filter(trip => trip.id !== tripToDelete.id));
-
-      // Refresh booking data after deleting a trip
-      try {
-        const allBookings = await bookingService.getUserBookings();
-        if (allBookings && Array.isArray(allBookings)) {
-          const flightBookings = allBookings.filter(b => b.bookingtype === 'Flight' || b.BookingType === 'Flight');
-          const hotelBookings = allBookings.filter(b => b.bookingtype === 'Hotel' || b.BookingType === 'Hotel');
-          const carBookings = allBookings.filter(b => b.bookingtype === 'Car' || b.BookingType === 'Car');
-
-          const totalSpent = allBookings.reduce((sum, booking) => {
-            const amount = booking.totalpaid || booking.TotalPaid || booking.total_paid || booking.totalAmount || 0;
-            return sum + Number(amount);
-          }, 0);
-
-          // Update trip count after deletion
-          const updatedTrips = trips.filter(trip => trip.id !== tripToDelete.id);
+        // Update trip count after deletion
+        // Use the new trips state (after deletion)
+        setBookingsData(prev => {
+          const updatedTrips = (prevTrips => prevTrips.filter(trip => trip.id !== tripToDelete.id))(trips);
           const tripsWithBookings = updatedTrips.filter((trip: Trip) =>
             trip.flight?.bookingId || trip.hotel?.bookingId || trip.car?.bookingId
           ).length;
-
-          setBookingsData({
+          return {
             totalFlights: flightBookings.length,
             totalHotels: hotelBookings.length,
             totalCars: carBookings.length,
             totalSpent,
             bookedTrips: tripsWithBookings,
-          });
-        }
-      } catch (bookingError) {
-        console.warn('Could not refresh booking data:', bookingError);
+          };
+        });
       }
-
-      // Close modal and reset state
-      setIsDeleteModalOpen(false);
-      setTripToDelete(null);
-
-    } catch (error) {
-      console.error('Error deleting trip:', error);
-      setError('Failed to delete trip. Please try again.');
-    } finally {
-      setIsDeleting(false);
-    }
+    }).catch((bookingError) => {
+      console.warn('Could not refresh booking data:', bookingError);
+    });
   };
 
   const closeModals = () => {
@@ -475,7 +430,7 @@ export default function MyTrips() {
               <div className="ml-4">
                 <p className="text-sm text-gray-500 dark:text-brand-gray-400">Planning Phase</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {trips.filter(t => t.status === 'Planning').length}
+                  {/* {trips.length > 0 && trips.filter(t => t.status === 'Planning').length} */}
                 </p>
               </div>
             </div>
@@ -527,7 +482,7 @@ export default function MyTrips() {
         {/* Trips Grid */}
         {!loading && !error && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {trips.map((trip) => (
+            {trips.length > 0 && trips.map((trip) => (
               <div key={trip.id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow dark:bg-[rgb(25,30,36)] dark:shadow-xl dark:hover:shadow-2xl">
                 {/* Trip Header */}
                 <div className="bg-blue-600 p-6 text-white dark:bg-blue-800">
