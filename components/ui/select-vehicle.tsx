@@ -2,11 +2,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Label } from "@/components/ui/label";
-import { MapPin, Calendar } from "lucide-react";
+import { MapPin, Calendar, Users, Car, DollarSign } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { apiHelpers, API_ENDPOINTS } from '../../lib/api-config';
 import {
-  mockAvailableCars,
   getLocationSuggestions,
   carTypes,
   type CarData,
@@ -231,8 +230,7 @@ export function SelectVehicle() {
             htmlFor="pickup-location"
             className="flex items-center text-sm font-medium text-gray-700"
           >
-            <MapPin className="mr-2 h-4 w-4 text-pink-500" />
-            Pickup Location
+            <MapPin className="mr-2 h-4 w-4 text-pink-500" /> Pickup Location
           </Label>
           <div className="relative flex flex-col">
             <TooltipProvider>
@@ -397,14 +395,16 @@ export function SelectVehicle() {
       </div>
 
       {/* Filter Controls */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-6 ">
-        <div>
-          <Label htmlFor="minSeats">Minimum Seats</Label>
+<div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4 justify-items-center mb-6 ">
+  <div className="w-79">
+
+          <Label htmlFor="minSeats">
+            <Users className="h-4 w-4 text-pink-500" /> Minimum Seats</Label>
           <select
             id="minSeats"
             value={minSeats}
             onChange={(e) => setMinSeats(parseInt(e.target.value))}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2"
+            className="mt-1 block w-79 border border-gray-300 rounded-md shadow-sm px-3 py-2 text-center"
           >
             <option value={0}>Any</option>
             <option value={2}>2+</option>
@@ -415,12 +415,13 @@ export function SelectVehicle() {
         </div>
 
         <div>
-          <Label htmlFor="vehicleType">Vehicle Type</Label>
+          <Label htmlFor="vehicleType">
+            <Car className="h-4 w-4 text-pink-500" /> Vehicle Type</Label>
           <select
             id="vehicleType"
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2"
+            className="mt-1 block w-85 border border-gray-300 rounded-md shadow-sm px-3 py-2 text-center"
           >
             <option value="All">All Types</option>
             {carTypes
@@ -434,7 +435,8 @@ export function SelectVehicle() {
         </div>
 
         <div>
-          <Label htmlFor="maxPrice">Max Price (Per Day)</Label>
+          <Label htmlFor="maxPrice">
+            <DollarSign className="h-4 w-4 text-pink-500" /> Max Price (Per Day)</Label>
           <TooltipProvider>
             <Tooltip open={maxPriceError.isError}>
               <TooltipTrigger asChild>
@@ -448,7 +450,7 @@ export function SelectVehicle() {
 				  onFocus={() => {
 					setMaxPriceError({ message: "", isError: false });
 				  }}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2"
+                  className="mt-1 block w-79 border border-gray-300 rounded-md shadow-sm px-3 py-2 text-center"
                 />
               </TooltipTrigger>
               <TooltipContent side="bottom">
@@ -462,7 +464,7 @@ export function SelectVehicle() {
       </div>
 
       {/* Search Button */}
-      <div className="flex justify-center mb-8">
+      <div className="flex justify-center mb-5">
         <button
           id="search-vehicles-button"
           onClick={handleSearch}

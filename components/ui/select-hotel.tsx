@@ -1,6 +1,6 @@
 "use client";
 import { Label } from "@/components/ui/label";
-import { MapPin, Calendar, Users, Building2 } from "lucide-react";
+import { Search, MapPin, Calendar, Users, Building2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { apiHelpers, API_ENDPOINTS } from '../../lib/api-config';
@@ -511,7 +511,7 @@ export function SelectHotel() {
             handleClick();
           }}
         >
-          Search Hotels
+          Search Available Hotels
         </button>
       </div>
     </div>

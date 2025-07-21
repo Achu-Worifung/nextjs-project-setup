@@ -21,6 +21,7 @@ import {
   PlaneLanding,
   ArrowLeftRight,
   MapPin,
+  TicketsPlane,
 } from "lucide-react";
 
 type Airport = {
@@ -744,7 +745,7 @@ export function FlightSelection() {
         {/* Class */}
         <div className="mb-2 min-w-0 justify-center sm:min-w-[250px]">
           <Label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-            Class
+            <TicketsPlane className="h-4 w-4 text-pink-500" /> Class
           </Label>
           <select
             value={classType}
@@ -1315,14 +1316,19 @@ export function FlightSelection() {
 )}
 
 {/* Search button */}
-<div className="mt-6">
-  <Button
-    onClick={handleSearch}
-    className="w-full bg-gradient-to-r from-pink-500 to-pink-600 text-white font-semibold shadow-lg hover:scale-105 transition"
-  >
-    <Search className="h-5 w-5 mr-2" /> Search
-  </Button>
-</div>
-</div>
-);
+      <div 
+      id="search-hotels-button"
+      className="flex justify-center mt-8">
+        <button
+        id="search-hotels-button"
+          className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+          onClick={() => {
+            handleSearch();
+          }}
+        >
+          Search Available Flights
+        </button>
+      </div>
+    </div>
+  );
 }
