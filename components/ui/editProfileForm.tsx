@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { jwtDecode } from "jwt-decode";
@@ -219,45 +221,45 @@ export default function EditProfileForm() {
 
 
   return (
-    <div className="min-h-screen  py-6  sm:py-12">
+    <div className="min-h-screen py-6 sm:py-12  bg-gray-50 dark:bg-[rgb(25,30,36)] text-gray-800 dark:text-white">
       <div className="max-w-4xl mx-auto">
-        <div className="   overflow-hidden ">
-          <h1 className="text-2xl sm:text-3xl font-bold text-black mb-2">
+        <div className="overflow-hidden">
+          <h1 className="text-2xl sm:text-3xl font-bold bg-gray-50 dark:bg-[rgb(25,30,36)] text-gray-800 dark:text-white mb-2">
             Edit Your Profile
           </h1>
-          <p className="text-black text-sm sm:text-base">
+          <p className=" text-sm sm:text-base  bg-gray-50 dark:bg-[rgb(25,30,36)] text-gray-900 dark:text-white">
             Update your personal information and preferences
           </p>
-          <p className="py-1">
+          <p className="py-1  bg-gray-50 dark:bg-[rgb(25,30,36)] text-gray-900 dark:text-white">
             signed in as {decodedToken?.email}
           </p>
-          
+
         </div>
-        <hr className="my-6 text-black h-0.5 border border-black" />
+        <hr className="my-6 text-black h-0.5 border border-black dark:border-brand-gray-700 dark:text-white dark:border-white" />
 
         <form onSubmit={handleSubmit} className="">
 
-          <div className="grid grid-cols-1 ">
+          <div className="grid grid-cols-1">
             {/* Personal Information */}
-            <div className=" rounded-xl mt-4">
+            <div className="rounded-xl mt-4">
               <div className="flex items-center mb-6">
-                <div className="bg-brand-pink-100 rounded-lg p-2 mr-3">
-                  <User className="w-5 h-5 text-brand-pink-600" />
+                <div className="bg-brand-pink-100 rounded-lg p-2 mr-3 dark:bg-brand-pink-900">
+                  <User className="w-5 h-5 text-brand-pink-600 dark:text-brand-pink-400" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-800">
+                <h3 className="text-lg font-semibold  bg-gray-50 dark:bg-[rgb(25,30,36)] text-gray-900 dark:text-white">
                   Personal Information
                 </h3>
               </div>
 
               <div className="space-y-5">
                 <div className="group">
-                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
+                  <label className="block text-sm font-medium  mb-2  bg-gray-50 dark:bg-[rgb(25,30,36)] text-gray-900 dark:text-white">
                     First Name
                   </label>
                   <div className="relative">
                     <input
                       type="text"
-                      className="w-full pl-1 pr-1 py-3   focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white"
+                      className="w-full pl-1 pr-1 py-3 focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white dark:bg-[rgb(40,47,54)] dark:text-gray-100 dark:hover:bg-[rgb(50,58,66)] dark:focus:bg-[rgb(50,58,66)] dark:border-gray-200 dark:focus:ring-brand-pink-400"
                       value={decodedToken?.firstName || decodedToken?.fname || ""}
                       onChange={(e) =>
                         setUserData({ ...userData, firstName: e.target.value })
@@ -268,13 +270,13 @@ export default function EditProfileForm() {
                 </div>
 
                 <div className="group">
-                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
+                  <label className="block text-sm font-medium  mb-2 ">
                     Last Name
                   </label>
                   <div className="relative">
                     <input
                       type="text"
-                      className="w-full pl-1 pr-1 py-3 focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md cursor-text  "
+                      className="w-full pl-1 pr-1 py-3 focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white dark:bg-[rgb(40,47,54)] dark:text-gray-100 dark:hover:bg-[rgb(50,58,66)] dark:focus:bg-[rgb(50,58,66)] dark:border-gray-200 dark:focus:ring-brand-pink-400"
                       value={decodedToken?.lastName || decodedToken?.lname || ""}
                       onChange={(e) =>
                         setUserData({ ...userData, lastName: e.target.value })
@@ -285,13 +287,13 @@ export default function EditProfileForm() {
                 </div>
 
                 <div className="group">
-                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
+                  <label className="block text-sm font-medium  mb-2 ">
                     Email Address
                   </label>
                   <div className="relative">
                     <input
                       type="email"
-                      className="w-full pl-1 pr-1 py-3 focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white"
+                      className="w-full pl-1 pr-1 py-3 focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white dark:bg-[rgb(40,47,54)] dark:text-gray-100 dark:hover:bg-[rgb(50,58,66)] dark:focus:bg-[rgb(50,58,66)] dark:border-gray-200 dark:focus:ring-brand-pink-400"
                       value={decodedToken?.email || decodedToken?.email || ""}
                       onChange={(e) =>
                         setUserData({ ...userData, email: e.target.value })
@@ -302,141 +304,93 @@ export default function EditProfileForm() {
                 </div>
               </div>
             </div>
-            
-            <hr className="my-6 text-black h-0.5 border border-black" />
+
+            <hr className="my-6 text-black h-0.5 border border-black dark:border-brand-gray-700" />
 
 
             {/* Location Information */}
             <div className="">
               <div className="flex items-center mb-6">
-                <div className="bg-purple-100 rounded-lg p-2 mr-3">
-                  <MapPin className="w-5 h-5 text-purple-600" />
+                <div className="bg-purple-100 rounded-lg p-2 mr-3 dark:bg-purple-900">
+                  <MapPin className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-800">
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
                   Location Details
                 </h3>
               </div>
 
               <div className="space-y-5">
                 <div className="group">
-                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
+                  <label className="block text-sm font-medium  mb-2 ">
                     Country
                   </label>
                   <div className="relative">
-                    <Globe className="absolute left-3 top-3 w-5 h-5 text-gray-400 group-focus-within:text-purple-500 transition-colors" />
                     <select
-                      className="w-full pl-2 pr-8 py-3 rounded-lg border border-brand-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-sm sm:text-base bg-white/50 backdrop-blur-sm hover:bg-white focus:bg-white appearance-none"
+                      className="w-full pl-1 pr-1 py-3 focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white dark:bg-[rgb(40,47,54)] dark:text-gray-100 dark:hover:bg-[rgb(50,58,66)] dark:focus:bg-[rgb(50,58,66)] dark:border-gray-200 dark:focus:ring-brand-pink-400"
                       value={selectedCountry}
                       onChange={(e) => setSelectedCountry(e.target.value)}
                     >
-                      <option value="">Select your country</option>
+                      <option value="" className="dark:bg-[rgb(40,47,54)]">Select your country</option>
                       {countries.map((country) => (
-                        <option key={country} value={country}>
+                        <option key={country} value={country} className="dark:bg-[rgb(40,47,54)]">
                           {country}
                         </option>
                       ))}
                     </select>
-                    <div className="absolute right-3 top-3 pointer-events-none">
-                      <svg
-                        className="w-5 h-5 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                 </div>
 
                 <div className="group">
-                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
+                  <label className="block text-sm font-medium  mb-2 ">
                     State/Province
                   </label>
                   <div className="relative">
-                    <Building2 className="absolute left-3 top-3 w-5 h-5 text-gray-400 group-focus-within:text-purple-500 transition-colors" />
                     <select
-                      className="w-full pl-2 pr-8 py-3 rounded-lg border border-brand-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-sm sm:text-base bg-white/50 backdrop-blur-sm hover:bg-white focus:bg-white appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="disabled:cursor-not-allowed w-full pl-1 pr-1 py-3 focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white dark:bg-[rgb(40,47,54)] dark:text-gray-100 dark:hover:bg-[rgb(50,58,66)] dark:focus:bg-[rgb(50,58,66)] dark:border-gray-200 dark:focus:ring-brand-pink-400"
                       value={selectedState}
                       onChange={(e) => setSelectedState(e.target.value)}
                       disabled={!selectedCountry}
                     >
-                      <option value="">Select your state/province</option>
+                      <option value="" className="dark:bg-[rgb(40,47,54)]">Select your state/province</option>
                       {states.map((state) => (
-                        <option key={state} value={state}>
+                        <option key={state} value={state} className="dark:bg-[rgb(40,47,54)]">
                           {state}
                         </option>
                       ))}
                     </select>
-                    <div className="absolute right-3 top-3 pointer-events-none">
-                      <svg
-                        className="w-5 h-5 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                 </div>
 
                 <div className="group">
-                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
+                  <label className="block text-sm font-medium  mb-2 ">
                     City
                   </label>
                   <div className="relative">
-                    <HomeIcon className="absolute left-3 top-3 w-5 h-5 text-gray-400 group-focus-within:text-purple-500 transition-colors" />
                     <select
-                      className="w-full pl-2 pr-8 py-3 rounded-lg border border-brand-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-sm sm:text-base bg-white/50 backdrop-blur-sm hover:bg-white focus:bg-white appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="disabled:cursor-not-allowed w-full pl-1 pr-1 py-3 focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white dark:bg-[rgb(40,47,54)] dark:text-gray-100 dark:hover:bg-[rgb(50,58,66)] dark:focus:bg-[rgb(50,58,66)] dark:border-gray-200 dark:focus:ring-brand-pink-400"
                       value={selectedCity}
                       onChange={(e) => setSelectedCity(e.target.value)}
                       disabled={!selectedState}
                     >
-                      <option value="">Select your city</option>
+                      <option value="" className="dark:bg-[rgb(40,47,54)]">Select your city</option>
                       {cities.map((city) => (
-                        <option key={city} value={city}>
+                        <option key={city} value={city} className="dark:bg-[rgb(40,47,54)]">
                           {city}
                         </option>
                       ))}
                     </select>
-                    <div className="absolute right-3 top-3 pointer-events-none">
-                      <svg
-                        className="w-5 h-5 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                 </div>
 
                 {/* Street Input */}
                 <div className="group">
-                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
+                  <label className="block text-sm font-medium  mb-2 ">
                     Street
                   </label>
                   <div className="relative">
                     <input
                       type="text"
-                      className="w-full pl-1 disabled:cursor-not-allowed pr-1 py-3 focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white"
+                      className="disabled:cursor-not-allowed w-full pl-1 pr-1 py-3 focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white dark:bg-[rgb(40,47,54)] dark:text-gray-100 dark:hover:bg-[rgb(50,58,66)] dark:focus:bg-[rgb(50,58,66)] dark:border-gray-200 dark:focus:ring-brand-pink-400"
                       value={street || ""}
                       onChange={e => setStreet(e.target.value)}
                       placeholder="Enter your street address"
@@ -448,13 +402,13 @@ export default function EditProfileForm() {
 
                 {/* Zip Code Input */}
                 <div className="group">
-                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
+                  <label className="block text-sm font-medium  mb-2 ">
                     Zip Code
                   </label>
                   <div className="relative">
                     <input
                       type="text"
-                      className="w-full pl-1 disabled:cursor-not-allowed pr-1 py-3 focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white"
+                      className=" disabled:cursor-not-allowedw-full pl-1 pr-1 py-3 focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white dark:bg-[rgb(40,47,54)] dark:text-gray-100 dark:hover:bg-[rgb(50,58,66)] dark:focus:bg-[rgb(50,58,66)] dark:border-gray-200 dark:focus:ring-brand-pink-400"
                       value={zipCode || ""}
                       onChange={e => setZipCode(e.target.value)}
                       placeholder="Enter your zip code"
@@ -473,7 +427,7 @@ export default function EditProfileForm() {
             <Button
               type="submit"
               variant="default"
-              className="w-full sm:w-auto px-6 py-2 rounded-lg bg-indigo-500 text-white hover:bg-indigo-600 transition-colors"
+              className="w-full sm:w-auto px-6 py-2 rounded-lg bg-indigo-500 text-white hover:bg-indigo-600 transition-colors dark:bg-indigo-700 dark:hover:bg-indigo-800"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
@@ -510,5 +464,3 @@ export default function EditProfileForm() {
     </div>
   );
 }
-
-
