@@ -608,7 +608,119 @@ async cancelBooking(bookingId: string, token: string, bookingType: string)
     };
   }
 }
-  // Get current user info from token
+
+async saveAddress({country, state, city, street, zipCode, token}: {country: string, state: string, city: string, street: string, zipCode: string, token: string}) {
+  try {
+    // console.log('Saving address:', {country, state, city, street, zipCode});
+    const url = 'http://localhost:8004/address';
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'X-Client-ID': `${token}`
+      },
+      body: JSON.stringify({country, state, city, street, zipCode})
+    });
+    const data = await res.json();
+    if (res.status !== 200) {
+      return {
+        success: false,
+        error: 'Error saving address: ' + data.error || res.statusText
+      };
+    }
+  } catch (error) {
+    console.error('Error saving address:', error);
+    return {
+      success: false,
+      error: 'Error saving address: ' + error
+    };
+  }
+}
+
+async getAddress(token: string) {
+  try {
+    const url = 'http://localhost:8004/get_address';
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'X-Client-ID': `${token}`
+      }
+    });
+    const data = await res.json();
+    if (res.status !== 200) {
+      return {
+        success: false,
+        error: 'Error getting address: ' + data.error || res.statusText
+      };
+    }
+    return data;
+  } catch (error) {
+    console.error('Error getting address:', error);
+    return {
+      success: false,
+      error: 'Error getting address: ' + error
+    };
+  }
+}
+
+async savePaymentDetails({ cardNumber, expiryDate, cvv, cardHolderName, isDefault, token }: { cardNumber: string; expiryDate: string; cvv: string; cardHolderName: string; isDefault: boolean; token: string }) {
+  try {
+    const url = 'http://localhost:8004/payment';
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'X-Client-ID': `${token}`
+      },
+      body: JSON.stringify({ cardNumber, expiryDate, cvv, cardHolderName, isDefault })
+    });
+    const data = await res.json();
+    if (res.status !== 200) {
+      return {
+        success: false,
+        error: 'Error saving payment details: ' + data.error || res.statusText
+      };
+    }
+  } catch (error) {
+    console.error('Error saving payment details:', error);
+    return {
+      success: false,
+      error: 'Error saving payment details: ' + error
+    };
+  }
+}
+async getPaymentDetails(token: string) {
+  try {
+    const url = 'http://localhost:8004/get_payment';
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'X-Client-ID': `${token}`
+      }
+    });
+    const data = await res.json();
+    if (res.status !== 200) {
+      return {
+        success: false,
+        error: 'Error getting payment details: ' + data.error || res.statusText
+      };
+    }
+    return data;
+  } catch (error) {
+    console.error('Error getting payment details:', error);
+    return {
+      success: false,
+      error: 'Error getting payment details: ' + error
+    };
+  }
+}
+// Get current user info from token
   getCurrentUser() {
     const token = tokenManager.get();
     if (!token) {
@@ -628,6 +740,7 @@ async cancelBooking(bookingId: string, token: string, bookingType: string)
       lastName: decode.lastName,
     };
   }
+
 }
 
 export const bookingService = new BookingService();

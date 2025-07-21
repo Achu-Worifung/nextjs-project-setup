@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { MapPin, User, Globe, Building2, HomeIcon } from "lucide-react";
 import {useAuth} from "@/context/AuthContext"
 import { JwtPayload } from 'jsonwebtoken';
+import { bookingService } from "@/lib/booking-service";
 
 interface UserData {
   userId: string;
@@ -42,19 +43,60 @@ export default function EditProfileForm() {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
+  const [street, setStreet] = useState<string>("");
+  const [zipCode, setZipCode] = useState<string>("");
   const {token, isSignedIn} = useAuth();
   const [decodedToken, setDecodedToken] = useState<JwtPayload | null>(null);
 
+
+  // Prefill address fields from localStorage or fetch from DB
   useEffect(() => {
-    if (token  && isSignedIn) {
+    if (token && isSignedIn) {
       try {
         const decoded = jwtDecode(token);
         setDecodedToken(decoded);
       } catch (error) {
         console.error("Error decoding token:", error);
       }
+
+      // Try to load address from localStorage first
+      const cached = localStorage.getItem("user_address");
+      if (cached) {
+        try {
+          const addr = JSON.parse(cached);
+          setSelectedCountry(addr.country || "");
+          setSelectedState(addr.state || "");
+          setSelectedCity(addr.city || "");
+          setStreet(addr.street || "");
+          setZipCode(addr.zipCode || "");
+          return;
+        } catch (e) {
+          // Ignore parse error, fall through to fetch
+        }
+      }
+
+      // If not in localStorage, fetch from DB
+      (async () => {
+        const res = await bookingService.getAddress(token);
+        if (res && res.addresses && res.addresses.length > 0) {
+          const addr = res.addresses[0];
+          setSelectedCountry(addr.country || "");
+          setSelectedState(addr.state || "");
+          setSelectedCity(addr.city || "");
+          setStreet(addr.street || "");
+          setZipCode(addr.zipcode || addr.zipCode || "");
+          // Store in localStorage for future use
+          localStorage.setItem("user_address", JSON.stringify({
+            country: addr.country || "",
+            state: addr.state || "",
+            city: addr.city || "",
+            street: addr.street || "",
+            zipCode: addr.zipcode || addr.zipCode || ""
+          }));
+        }
+      })();
     }
-  }, [token]);
+  }, [token, isSignedIn]);
 
 
 
@@ -153,19 +195,25 @@ export default function EditProfileForm() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate API call delay
-    setTimeout(() => {
-      console.log("Profile updated successfully (mock):", {
-        userId: userData.userId,
-        firstName: userData.firstName,
-        lastName: userData.lastName,
-        email: userData.email,
-        country: selectedCountry,
-        state: selectedState,
-        city: selectedCity,
-      });
-      setIsSubmitting(false);
-    }, 1000);
+    await bookingService.saveAddress({
+      country: selectedCountry,
+      state: selectedState,
+      city: selectedCity,
+      street: street,
+      zipCode: zipCode,
+      token: token || "",
+    });
+
+    // Store in localStorage for future use
+    localStorage.setItem("user_address", JSON.stringify({
+      country: selectedCountry,
+      state: selectedState,
+      city: selectedCity,
+      street: street,
+      zipCode: zipCode
+    }));
+
+    setIsSubmitting(false);
   };
 
 
@@ -379,19 +427,49 @@ export default function EditProfileForm() {
                     </div>
                   </div>
                 </div>
+
+                {/* Street Input */}
+                <div className="group">
+                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
+                    Street
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      className="w-full pl-1 disabled:cursor-not-allowed pr-1 py-3 focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white"
+                      value={street || ""}
+                      onChange={e => setStreet(e.target.value)}
+                      placeholder="Enter your street address"
+                      required
+                      disabled={!selectedCity && !selectedState && !selectedCountry}
+                    />
+                  </div>
+                </div>
+
+                {/* Zip Code Input */}
+                <div className="group">
+                  <label className="block text-sm font-medium text-brand-gray-700 mb-2">
+                    Zip Code
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      className="w-full pl-1 disabled:cursor-not-allowed pr-1 py-3 focus:ring-2 focus:ring-brand-pink-500 focus:border-transparent transition-all text-sm sm:text-base rounded-md hover:bg-white focus:bg-white"
+                      value={zipCode || ""}
+                      onChange={e => setZipCode(e.target.value)}
+                      placeholder="Enter your zip code"
+                      required
+                      disabled={!selectedCity && !selectedState && !selectedCountry}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Form Actions */}
           <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4">
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full sm:w-auto px-6 py-2 rounded-lg border border-brand-gray-300 hover:bg-brand-gray-50 transition-colors"
-            >
-              Cancel
-            </Button>
+
             <Button
               type="submit"
               variant="default"
