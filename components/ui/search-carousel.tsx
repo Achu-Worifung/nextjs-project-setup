@@ -12,7 +12,7 @@ import { FlightSelection } from "@/components/ui/flight-selection";
 
 export function CarouselDemo() {
   return (
-    <Carousel className="w-full  pt-5">
+    <Carousel className="w-full pt-5">
       <CarouselContent>
       <CarouselItem id="Flights">
         <FlightSelection />
