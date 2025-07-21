@@ -5,6 +5,7 @@ import { useParams, useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { MapPin, Star, ArrowLeft, Check } from "lucide-react";
+import { MICROSERVICES_CONFIG } from "@/lib/api-config";
 
 interface Hotel {
   id: string;
@@ -75,32 +76,49 @@ export default function HotelBookingPage() {
     setIsLoading(true);
     const fetchHotel = async () => {
       try {
-        const res = await fetch(`/api/hotels/${hotelId}`);
+        // Since your microservice doesn't have a single hotel endpoint,
+        // we'll need to get hotel data differently. For now, let's try to get
+        // it from the search results or fetch all hotels and find the one we need
+        const city = searchParams?.get("city") || "New York";
+        const state = searchParams?.get("state") || "NY";
+        
+        const res = await fetch(`${MICROSERVICES_CONFIG.HOTEL_SERVICE}/hotels?count=20&city=${city}&state=${state}`, {
+          headers: {
+            'X-Client-ID': 'nextjs-app'
+          }
+        });
         if (!res.ok) {
           setHotel(null);
           setIsLoading(false);
           return;
         }
-        const selectedHotel = await res.json();
-        setHotel(selectedHotel);
-        // Set initial price from most popular room
-        if (
-          selectedHotel &&
-          selectedHotel.roomDetails &&
-          selectedHotel.roomDetails.length > 0
-        ) {
-          const popularRoom =
-            selectedHotel.roomDetails.find((r: any) => r.mostPopular) ||
-            selectedHotel.roomDetails[0];
-          setTotalPrice(popularRoom.pricePerNight);
+        const hotels = await res.json();
+        const selectedHotel = hotels.find((h: Hotel) => h.id === hotelId);
+        
+        if (selectedHotel) {
+          setHotel(selectedHotel);
+          // Set initial price from most popular room
+          if (
+            selectedHotel &&
+            selectedHotel.roomDetails &&
+            selectedHotel.roomDetails.length > 0
+          ) {
+            const popularRoom =
+              selectedHotel.roomDetails.find((r: any) => r.mostPopular) ||
+              selectedHotel.roomDetails[0];
+            setTotalPrice(popularRoom.pricePerNight);
+          }
+        } else {
+          setHotel(null);
         }
       } catch (e) {
+        console.error('Error fetching hotel:', e);
         setHotel(null);
       }
       setIsLoading(false);
     };
     fetchHotel();
-  }, [hotelId]);
+  }, [hotelId, searchParams]);
 
   // Handle form field changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -160,11 +178,13 @@ export default function HotelBookingPage() {
         total: totalPrice,
       };
       try {
-        const res = await fetch("/api/hotel-booking", {
+        // Use your microservice for hotel booking
+        const res = await fetch(`${MICROSERVICES_CONFIG.HOTEL_SERVICE}/hotel/book`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
+            "X-Client-ID": "nextjs-app"
           },
           body: JSON.stringify(requestData),
         });

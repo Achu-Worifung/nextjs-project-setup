@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { MapPin, Star, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { MICROSERVICES_CONFIG } from "@/lib/api-config";
 
 interface Hotel {
   id: string;
@@ -43,12 +44,19 @@ export default function HotelSearchResults() {
     const fetchHotels = async () => {
       setIsLoading(true);
       try {
+        // Call your microservice instead of the local API
         const res = await fetch(
-          `/api/hotels?count=${count}&city=${city}&state=${state}`
+          `${MICROSERVICES_CONFIG.HOTEL_SERVICE}/hotels?count=${count}&city=${city}&state=${state}`,
+          {
+            headers: {
+              'X-Client-ID': 'nextjs-app'
+            }
+          }
         );
         const data = await res.json();
         setHotels(data);
       } catch (err) {
+        console.error('Error fetching hotels:', err);
         setHotels([]);
       }
       setIsLoading(false);

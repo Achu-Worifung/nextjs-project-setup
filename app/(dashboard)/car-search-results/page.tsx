@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { CarData, fetchAvailableCars, carTypes } from "@/data/car-rental-data";
+import {
+  CarData,
+  fetchAvailableCars,
+  carTypes,
+} from "@/fake-data/car-rental-data";
 import { Label } from "@/components/ui/label";
 import { MapPin, Calendar, Filter, ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -131,7 +135,7 @@ export default function CarSearchResults() {
     }
 
     // Find the selected car object
-    const selectedCar = availableCars.find(car => car.id === carId);
+    const selectedCar = availableCars.find((car) => car.id === carId);
     // Pass filter params and car object in query string
     const queryParams = new URLSearchParams({
       pickup: pickupLocation,
@@ -141,7 +145,9 @@ export default function CarSearchResults() {
       minSeats: String(minSeats),
       maxPrice: String(maxPrice),
       vehicleType: selectedType,
-      ...(selectedCar && { carData: encodeURIComponent(JSON.stringify(selectedCar)) }),
+      ...(selectedCar && {
+        carData: encodeURIComponent(JSON.stringify(selectedCar)),
+      }),
     }).toString();
 
     router.push(`/car-booking/${carId}?${queryParams}`);

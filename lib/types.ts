@@ -380,6 +380,7 @@ export interface HotelData {
   address: string;
   description: string;
   rooms: RoomDetails[];
+  roomDetails?: RoomDetails[]; // For compatibility with booking page
   attractionsNearby: Attraction[];
   accessibilityLabel: string;
   reviewSummary: {

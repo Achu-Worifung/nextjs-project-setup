@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
-import { CarData, fetchAvailableCars } from "@/data/car-rental-data";
+import { CarData, fetchAvailableCars } from "@/fake-data/car-rental-data";
 import {
   Calendar,
   MapPin,
@@ -553,7 +553,6 @@ export default function CarBookingPage() {
             >
               Return to Homepage
             </button>
-           
           </div>
         );
       default:
