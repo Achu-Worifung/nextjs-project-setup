@@ -63,16 +63,16 @@ export default function ChatInput({ onSend }: { onSend: (message: string) => voi
         onClick={handleMicClick}
         className={`p-2 rounded-md border ${
           recording
-            ? "bg-red-100 border-red-400"
-            : "bg-white border-gray-300"
+            ? "bg-red-100 dark:bg-red-900 border-red-400 dark:border-red-600"
+            : "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
         }`}
         title={recording ? "Stop recording" : "Speak"}
       >
-        {recording ? <X /> : <Mic />}
+        {recording ? <X className="text-red-600 dark:text-red-400" /> : <Mic className="text-gray-600 dark:text-gray-300" />}
       </button>
       <textarea
         ref={textareaRef}
-        className="flex-1 border border-pink-300 rounded-md px-4 py-2 text-base leading-normal focus:outline-none focus:border-pink-500 resize-none overflow-hidden"
+        className="flex-1 border border-pink-300 dark:border-pink-600 rounded-md px-4 py-2 text-base leading-normal bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-pink-500 dark:focus:border-pink-500 resize-none overflow-hidden"
         placeholder="Type or speak"
         rows={2}
         value={input}
@@ -85,8 +85,7 @@ export default function ChatInput({ onSend }: { onSend: (message: string) => voi
         }}
       />
       <Button
-        className="bg-pink-500 text-white hover:bg-pink-600"
-        onClick={handleSend}
+        className="bg-pink-500 dark:bg-pink-600 text-white hover:bg-pink-600 dark:hover:bg-pink-700"
       >
         Send
       </Button>
